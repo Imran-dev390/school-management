@@ -1,0 +1,64 @@
+const mongoose = require("mongoose");
+
+const studentSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    minLength:3,
+    required: true
+  },
+  gender: {
+    type: String,
+    enum: ['Male', 'Female'],
+  },
+  dob: {
+    type: String,
+    required:true,
+  },
+  phone:{
+    type:String,
+    minLength:11,
+    required:true,
+    unique:true,
+  },
+  email: {
+      minLength:11,
+      type: String,
+      required: true,
+      unique:true,
+  },
+  password:{
+    type:String,
+    minLength:8,
+    required:true,
+  },
+  feesPaid: {
+    type: Number,
+    default:null,
+  },
+  parent:{
+    type:String,
+    required:true,
+  },
+  adress:{
+     type:String,
+     required:true,
+  },
+  Classs: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'class',
+      required:true,
+  },
+  profile:{
+    type: String,
+    default: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+  },
+  role:{
+    type:String,
+    default:"Student"
+  }
+},{ timestamps: true });
+
+const Student = mongoose.model('Student', studentSchema);
+
+module.exports = Student;
+

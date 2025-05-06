@@ -1,0 +1,262 @@
+//  import React, { useContext, useState, useEffect } from 'react';
+//  import {
+//    FaUserGraduate,
+//    FaChalkboardTeacher,
+//    FaSchool,
+//    FaHistory,
+//    FaMoon,
+//    FaSun,
+//  } from 'react-icons/fa';
+//  import { Link } from 'react-router-dom';
+//  import { userDataContext } from '../Context-Api/UserContext';
+//  import { adminDataContext } from '../Context-Api/AdminContext';
+//  import {Sidebar} from './Sidebar'; // ✅ Make sure it's default export
+//  export default function AdminDashboard({recentActivity,setRecentActivity}) {
+//    const { userData } = useContext(userDataContext);
+//    const { adminData, loading, fetchAdminData } = useContext(adminDataContext);
+//    const [darkMode, setDarkMode] = useState(false);
+//    const [count, setCount] = useState(0);
+//    useEffect(() => {
+//      const timer = setInterval(() => {
+//        setCount((prev) => prev + 1);
+//      }, 1000);
+//      if (!adminData && !loading) {
+//        fetchAdminData();
+//      }
+//      return () => clearInterval(timer);
+//    }, [adminData, loading, fetchAdminData]);
+//    if (loading) return <p>Loading admin data...</p>;
+//    if (!adminData) return <p>Failed to load admin data.</p>;
+//    const { teachers = [],sessions = [], students = [], classes = [], name } = adminData.admin || {};
+//    const toggleDark = () => setDarkMode(!darkMode);
+//    return (
+//      <div className={`flex min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'}`}>
+//        {/* Sidebar */}
+//        <Sidebar />
+//        {/* Main Content */}
+//        <div className="flex-1 ml-0 md:ml-64 p-6 transition-all duration-300">
+//          {/* Header */}
+//          <div className="flex justify-between items-center mb-6">
+//            <h1 className="text-3xl font-bold">🏫 School Admin {name} Dashboard</h1>
+//            <button
+//              onClick={toggleDark}
+//              className="flex items-center bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700"
+//            >
+//              {darkMode ? <FaSun className="mr-2" /> : <FaMoon className="mr-2" />}
+//              {darkMode ? 'Light Mode' : 'Dark Mode'}
+//            </button>
+//          </div>
+//          {/* Stats Overview */}
+//          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+//            {[
+//              { icon: <FaUserGraduate />, label: 'Total Students', count: students.length },
+//              { icon: <FaChalkboardTeacher />, label: 'Teachers', count: teachers.length },
+//              { icon: <FaSchool />, label: 'Classes', count: classes.length },
+//              { icon: <FaHistory />, label: 'Sessions', count: sessions.length },
+//            ].map(({ icon, label, count }) => (
+//              <div key={label} className="bg-white text-black dark:bg-gray-800 shadow-lg rounded-lg p-6 flex items-center space-x-4">
+//                <div className="text-3xl text-blue-500">{icon}</div>
+//                <div>
+//                  <h4 className="text-lg font-semibold">{label}</h4>
+//                  <p className="text-xl font-bold">{count}</p>
+//                </div>
+//              </div>
+//            ))}
+//          </div>
+//          {/* Actions Panel */}
+//          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+//            <div className="bg-white dark:bg-gray-800 shadow p-6 rounded-lg">
+//              <h2 className="text-xl  text-black font-bold mb-4">Quick Actions</h2>
+//              <ul className="space-y-4">
+//                <Link to="/admin/add-student" className="block p-3 bg-blue-100 dark:bg-blue-700 text-black rounded hover:bg-blue-200 transition">
+//                  ➕ Add New Students
+//                </Link>
+//                <Link to="/admin/add-class" className="block p-3 bg-blue-100 dark:bg-blue-700 text-black rounded hover:bg-blue-200 transition">
+//                  ➕ Add New Class
+//                </Link>
+//                <Link to="/admin/add-teacher" className="block p-3 bg-blue-100 dark:bg-blue-700 text-black rounded hover:bg-blue-200 transition">
+//                  ➕ Register New Teacher
+//                </Link>
+//                <Link to="/admin/add-subjects" className="block p-3 bg-blue-100 dark:bg-blue-700 text-black rounded hover:bg-blue-200 transition">
+//                  ➕ Add New Subjects
+//                </Link>
+//                <Link to="/admin/add-session" className="block p-3 bg-blue-100 dark:bg-blue-50  text-black rounded hover:bg-blue-200 transition">
+//                  ➕ Add New Session
+//                </Link>
+//              </ul>
+//            </div>
+//            <div className="bg-white text-blackshadow text-black p-6 rounded-lg">
+//              <h2 className="text-xl font-bold mb-4">Recent Activity</h2>
+//              <ul className="space-y-2">
+//                <li>✅ {recentActivity.studentCreated} 4 Students Created</li>
+//                <li>📆 {recentActivity.SessionStarted} New Session Started</li>
+//                <li>👩‍🏫 {recentActivity.teacherCreated} Teacher Created for Grade 8</li>
+//                <li>📚 {recentActivity.classesCreated} Class grade 2 Created </li>
+//                <li>✅ {recentActivity.studentUpdated} Student Updated Now</li>
+//                <li>✅ {recentActivity.teacherUpdated} Teacher Updated</li>
+//                <li>✅ {recentActivity.subjectAdded} Subject Added Successfully</li>
+//              </ul>
+//            </div>
+//          </div>
+//          {/* Footer */}
+//          <div className="mt-12 text-center">
+//            <p className="text-sm text-gray-500 dark:text-gray-400">
+//              Logged in as: <strong>admin@school.edu</strong> • Role: <strong>Super Admin</strong>
+//            </p>
+//          </div>
+//        </div>
+//      </div>
+//  )}
+import React, { useContext, useState, useEffect } from 'react';
+import {
+  FaUserGraduate,
+  FaChalkboardTeacher,
+  FaSchool,
+  FaHistory,
+  FaMoon,
+  FaSun,
+  FaBars,
+  FaTimes,
+} from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { userDataContext } from '../Context-Api/UserContext';
+import { adminDataContext } from '../Context-Api/AdminContext';
+import { Sidebar } from './Sidebar';
+
+export default function AdminDashboard({ recentActivity, setRecentActivity }) {
+  const { userData } = useContext(userDataContext);
+  const { adminData, loading, fetchAdminData } = useContext(adminDataContext);
+  const [darkMode, setDarkMode] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false);
+
+  useEffect(() => {
+    if (!adminData && !loading) {
+      fetchAdminData();
+    }
+  }, [adminData, loading, fetchAdminData]);
+
+  if (loading) return <p>Loading admin data...</p>;
+  if (!adminData) return <p>Failed to load admin data.</p>;
+
+  const { teachers = [], sessions = [], students = [], classes = [], name } = adminData.admin || {};
+  const toggleDark = () => setDarkMode(!darkMode);
+  const toggleSidebar = () => setShowSidebar(!showSidebar);
+
+  return (
+    <div className={`flex min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'}`}>
+      {/* Sidebar */}
+      <div className={`fixed top-0 left-0 z-40 h-full w-64 bg-white dark:bg-gray-800 shadow transform transition-transform duration-300 ${showSidebar ? 'translate-x-0' : '-translate-x-full'}`}>
+  <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+</div>
+
+
+
+      {/* Toggle Button */}
+      <button
+  onClick={toggleSidebar}
+  className="fixed top-4  left-4 z-50 bg-slate-400 text-black p-2 rounded"
+>
+  {showSidebar ? <FaTimes /> : <FaBars />}
+</button>
+
+      {/* <button
+        onClick={toggleSidebar}
+        className="md:hidden fixed top-4 left-4 z-50 bg-slate-400 text-black p-2 rounded"
+      >
+        {showSidebar ? <FaTimes /> : <FaBars />}
+      </button> */}
+
+      {/* Main Content */}
+      {/* <div className="flex-1 ml-0 md:ml-64 p-6 transition-all duration-300"> */}
+      <div className={`flex-1 p-6 transition-all duration-300 ${showSidebar ? 'ml-64' : 'ml-0'}`}>
+
+        {/* Header
+        <div className="flex justify-center gap-8 items-center mb-6">
+          <h1 className="sm:text-3xl text-center font-bold">🏫 School Admin {name} Dashboard</h1>
+          <button
+            onClick={toggleDark}
+            className="flex items-center bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700"
+          >
+            {darkMode ? <FaSun className="mr-2" /> : <FaMoon className="mr-2" />}
+            {darkMode ? 'Light Mode' : 'Dark Mode'}
+          </button>
+        </div> */}
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-8 mb-6 text-center sm:text-left">
+  <h1 className="text-2xl ml-8 sm:text-3xl font-bold">
+    🏫 School Admin {name} Dashboard
+  </h1>
+  <button
+    onClick={toggleDark}
+    className="flex items-center bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700"
+  >
+    {darkMode ? <FaSun className="mr-2" /> : <FaMoon className="mr-2" />}
+    {darkMode ? 'Light Mode' : 'Dark Mode'}
+  </button>
+</div>
+
+
+        {/* Stats */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+          {[
+            { icon: <FaUserGraduate />, label: 'Total Students', count: students.length },
+            { icon: <FaChalkboardTeacher />, label: 'Teachers', count: teachers.length },
+            { icon: <FaSchool />, label: 'Classes', count: classes.length },
+            { icon: <FaHistory />, label: 'Sessions', count: sessions.length },
+          ].map(({ icon, label, count }) => (
+            <div key={label} className="bg-white text-black dark:bg-gray-800 shadow-lg rounded-lg p-6 flex items-center space-x-4">
+              <div className="text-3xl text-blue-500">{icon}</div>
+              <div>
+                <h4 className="text-lg font-semibold">{label}</h4>
+                <p className="text-xl font-bold">{count}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Actions */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-white dark:bg-gray-800 shadow p-6 rounded-lg">
+            <h2 className="text-xl text-black dark:text-black font-bold mb-4">Quick Actions</h2>
+            <ul className="space-y-4">
+              <Link to="/admin/add-student" className="block p-3  text-black bg-blue-100 dark:bg-blue-700 rounded hover:bg-blue-200 transition">
+                ➕ Add New Students
+              </Link>
+              <Link to="/admin/add-class" className="block p-3 text-black  bg-blue-100 dark:bg-blue-700 rounded hover:bg-blue-200 transition">
+                ➕ Add New Class
+              </Link>
+              <Link to="/admin/add-teacher" className="block p-3  text-black bg-blue-100 dark:bg-blue-700 rounded hover:bg-blue-200 transition">
+                ➕ Register New Teacher
+              </Link>
+              <Link to="/admin/add-subjects" className="block p-3  text-black bg-blue-100 dark:bg-blue-700 rounded hover:bg-blue-200 transition">
+                ➕ Add New Subjects
+              </Link>
+              <Link to="/admin/add-session" className="block p-3  text-black bg-blue-100 dark:bg-blue-700 rounded hover:bg-blue-200 transition">
+                ➕ Add New Session
+              </Link>
+            </ul>
+          </div>
+
+          <div className="bg-white dark:bg-gray-800  text-black shadow p-6 rounded-lg">
+            <h2 className="text-xl font-bold mb-4">Recent Activity</h2>
+            <ul className="space-y-2">
+              <li>✅ {recentActivity.studentCreated} 4 Students Created</li>
+              <li>📆 {recentActivity.SessionStarted} New Session Started</li>
+              <li>👩‍🏫 {recentActivity.teacherCreated} Teacher Created for Grade 8</li>
+              <li>📚 {recentActivity.classesCreated} Class grade 2 Created </li>
+              <li>✅ {recentActivity.studentUpdated} Student Updated Now</li>
+              <li>✅ {recentActivity.teacherUpdated} Teacher Updated</li>
+              <li>✅ {recentActivity.subjectAdded} Subject Added Successfully</li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="mt-12 text-center">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            Logged in as: <strong>admin@school.edu</strong> • Role: <strong>Super Admin</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
