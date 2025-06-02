@@ -2,7 +2,9 @@ const Admin = require("../models/admin.model");
 const Student = require("../models/student.model");
 const Teacher = require("../models/teacher.model");
 const Class = require("../models/class.model");
-const Subject = require("../models/Subjects.model")
+const Staff  = require("../models/addStaff.model");
+const Subject = require("../models/Subjects.model");
+const ExamSchedule = require("../models/examSchedule.model");
 //const Subjects = require("../models/Subjects.model");
 // ✅ Get Admin Profile
 /*const getAdminProfile = async (req, res) => {
@@ -96,7 +98,7 @@ const Subject = require("../models/Subjects.model")
 const getAdminProfile = async (req, res) => {
   try {
     // STEP 1: Get the admin
-    const admin = await Admin.findOne({_id: req.userId}).populate("sessions") // Replace with dynamic `req.user.email` or `req.userId`
+    const admin = await Admin.findOne({_id: req.userId}).populate("sessions").populate("staff") // Replace with dynamic `req.user.email` or `req.userId`
       .lean(); // use lean() to make the doc plain JS object
 
     if (!admin) {
@@ -113,7 +115,7 @@ const getAdminProfile = async (req, res) => {
       .populate("teachSubject")
       .populate("assignedClass")
       .lean();
-
+console.log("teachers at admin",populatedTeachers)
     // STEP 4: Populate classes and subjects
     const populatedClasses = await Class.find({ _id: { $in: admin.classes } })
   .populate("subjects")
@@ -124,7 +126,7 @@ const getAdminProfile = async (req, res) => {
     const populatedSubjects = await Subject.find({ _id: { $in: admin.subjects } })
     .populate("")
     .lean();
-
+//const populatedStaff = await Staff.find({_id:{ $in: admin.staff}});
     // STEP 5: Assemble final admin object with all populated fields
     const fullAdminProfile = {
       ...admin,
@@ -132,6 +134,7 @@ const getAdminProfile = async (req, res) => {
       teachers: populatedTeachers,
       classes: populatedClasses,
       subjects: populatedSubjects,
+  //    staff:populatedStaff,
     };
 
     res.status(200).json({ admin: fullAdminProfile });
@@ -141,7 +144,6 @@ const getAdminProfile = async (req, res) => {
     res.status(500).json({ message: "Server error while fetching admin data" });
   }
 };
-
 
 
 
@@ -248,7 +250,45 @@ const DeleteTeacher = async (req, res) => {
 
 
 
+// Add Exam Time Table;
 
+// Create Exam Schedule
+const ExamTimetable =  async (req, res) => {
+  try {
+    const { class: className, subjects } = req.body;
+
+    // Find class by name
+    const classDoc = await Class.findOne({ name: className });
+    if (!classDoc) return res.status(400).json({ error: 'Class not found' });
+
+    // Convert subjects to use IDs
+    const subjectsWithIds = await Promise.all(subjects.map(async (item) => {
+      const subjectDoc = await Subject.findOne({ name: item.subject });
+      if (!subjectDoc) throw new Error(`Subject "${item.subject}" not found`);
+
+      return {
+        subject: subjectDoc._id,
+        date: item.date,
+        startTime: item.startTime,
+        endTime: item.endTime,
+        venue: item.venue,
+      };
+    }));
+
+    // Create exam schedule
+    const examSchedule = new ExamSchedule({
+      class: classDoc._id,
+      subjects: subjectsWithIds,
+    });
+    await examSchedule.save();
+    classDoc.examSchedule.push(examSchedule);
+    await classDoc.save();
+    res.status(201).json(examSchedule);
+  } catch (err) {
+    console.log("erron on backend examSchedule",err.message)
+    res.status(400).json({ error: err.message });
+  }
+}
 
 
 
@@ -367,6 +407,7 @@ const UpdateTeacher = async (req, res) => {
 
 
 module.exports = {
+  ExamTimetable,
   UpdateStudent,
   DeleteStudent,
   UpdateTeacher,

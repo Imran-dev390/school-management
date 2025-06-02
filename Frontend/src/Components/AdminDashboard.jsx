@@ -227,11 +227,20 @@ export default function AdminDashboard({ recentActivity, setRecentActivity }) {
               <Link to="/admin/add-teacher" className="block p-3  text-black bg-blue-100 dark:bg-blue-700 rounded hover:bg-blue-200 transition">
                 ➕ Register New Teacher
               </Link>
+              <Link to="/admin/add-staff" className="block p-3  text-black bg-blue-100 dark:bg-blue-700 rounded hover:bg-blue-200 transition">
+                ➕ Register New Staff
+              </Link>
               <Link to="/admin/add-subjects" className="block p-3  text-black bg-blue-100 dark:bg-blue-700 rounded hover:bg-blue-200 transition">
                 ➕ Add New Subjects
               </Link>
               <Link to="/admin/add-session" className="block p-3  text-black bg-blue-100 dark:bg-blue-700 rounded hover:bg-blue-200 transition">
                 ➕ Add New Session
+              </Link>
+               <Link to="/Add/Class/Timetable" className="block p-3  text-black bg-blue-100 dark:bg-blue-700 rounded hover:bg-blue-200 transition">
+                ➕ Add Class TimeTable
+              </Link>
+               <Link to="/Add/Fee/Voucher" className="block p-3  text-black bg-blue-100 dark:bg-blue-700 rounded hover:bg-blue-200 transition">
+                ➕ Add Fee Voucher
               </Link>
             </ul>
           </div>

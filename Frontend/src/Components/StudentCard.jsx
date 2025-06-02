@@ -104,9 +104,9 @@ console.log("totalStudents",totalStudents);
 
   return (
     <div className="flex min-h-screen bg-gray-100 text-gray-800">
-        <div className={`fixed top-0 left-0 z-40 h-full w-64 bg-white dark:bg-gray-800 shadow transform transition-transform duration-300 ${showSidebar ? 'translate-x-0' : '-translate-x-full'}`}>
-        <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-      </div>
+       <Sidebar/>
+        {/* <div className={`fixed top-0 left-0 z-40 h-full w-64 bg-white dark:bg-gray-800 shadow transform transition-transform duration-300 ${showSidebar ? 'translate-x-0' : '-translate-x-full'}`}>
+      </div> */}
       <main className="flex-1 ml-0 md:ml-64 p-8">
         <h2 className="text-3xl font-bold mb-6 text-center">🎓 Student Profiles</h2>
         <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} theme="colored" />

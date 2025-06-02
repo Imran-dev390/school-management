@@ -5,7 +5,8 @@ const Teacher = require("../models/teacher.model");
 const Class = require("../models/class.model");
 //const User = require("../models/student.model");
 const Session = require("../models/Session.model");
-
+const Staff = require("../models/addStaff.model");
+const Timetable = require('../models/timetable.model');
 const Admin = require("../models/admin.model");
 const updateClassGenderCount = require("../utils/updateClassGenderCount");
 const Subjects = require("../models/Subjects.model");
@@ -750,9 +751,128 @@ const AddSession = async (req, res) => {
 
 
 
-
-
 const AddTeacher = async (req, res) => {
+   try {
+   let {
+  name,
+  email,
+  password,
+  phone,
+  salary,
+  dob,
+  gender,
+  qualifications,
+  teachSubject,
+  assignedClass,
+  incharge  // ✅ <-- you missed this!
+} = req.body;
+
+     // 🔒 Input Sanitization
+     email = email.trim().toLowerCase();
+     name = name.trim();
+     teachSubject = teachSubject.trim();
+     // ✅ Class Name to ObjectId
+     const classDoc = await Class.findOne({_id: assignedClass });
+     if (!classDoc) {
+       return res.status(400).json({ message: "Class not found with name: " + assignedClass });
+     }
+     assignedClass = classDoc._id;  // Now it's valid for MongoDB
+     // ✅ Check if teacher already exists by email or class
+     const existingTeacher = await Teacher.findOne({ email });
+     if (existingTeacher) {
+       return res.status(400).json({ message: "Teacher already registered with this email" });
+     }
+ //const newSubject = await Subject.findOne({name});
+ const subjectDoc = await Subject.findById(teachSubject); 
+ //const subjectDoc = await Subject.findOne({ name: teachSubject });
+    if (!subjectDoc) {
+      return res.status(400).json({ message: "Subject not found: " + teachSubject });
+    }
+     const existingTeacherClass = await Teacher.findOne({ assignedClass });
+     /*if (existingTeacherClass) {
+       return res.status(400).json({ message: "Class already assigned to another teacher" });
+     }*/
+     // ✅ Field Validations
+     if (name.length < 3) {
+       return res.status(400).json({ message: "Name must be at least 3 characters" });
+     }
+     if (email.length < 11 || !email.includes("@gmail.com")) {
+       return res.status(400).json({ message: "Email must be valid and at least 11 characters" });
+     }
+     if (password.length < 8) {
+       return res.status(400).json({ message: "Password must be at least 8 characters" });
+     }
+     if (!/^\d{11}$/.test(phone)) {
+       return res.status(400).json({ message: "Phone number must be exactly 11 digits" });
+     }
+     if (teachSubject.length < 4) {
+       return res.status(400).json({ message: "Subject must be at least 4 characters" });
+     }
+     // ✅ Check Admin Exists
+     const admin = await Admin.findById(req.userId);
+     if (!admin) {
+       return res.status(404).json({ message: "Admin not found" });
+     }
+     // 🔐 Hash Password
+     const hashedPassword = await bcrypt.hash(password, 10);
+     // ✅ Create New Teacher
+    //  const newTeacher = await Teacher.create({
+    //    name,
+    //    email,
+    //    password: hashedPassword,
+    //    phone,
+    //    salary,
+    //    dob,
+    //    gender,
+    //    qualifications,
+    //    teachSubject:subjectDoc._id,
+    //    assignedClass
+    //  });
+    const newTeacher = await Teacher.create({
+  name,
+  email,
+  password: hashedPassword,
+  phone,
+  salary,
+  dob,
+  gender,
+  qualifications,
+  teachSubject: subjectDoc._id,
+  assignedClass: [
+    {
+      class: assignedClass,
+      incharge:incharge || false,
+    }
+  ]
+});
+
+     // ✅ Attach teacher to admin
+     newTeacher.populate("assignedClass");
+     newTeacher.populate("teachSubject");
+     //newTeacher.populate("teachSubject");
+     await newTeacher.save();
+     classDoc.teacher.push(newTeacher._id);
+     await classDoc.save();
+     admin.teachers.push(newTeacher._id);
+     await admin.save();
+    //  // ✅ Populate the assigned class
+    //  await newTeacher.populate({
+    //    path: 'assignedClass', // Populate the class details from the assignedClass field
+    //    select: 'name grade'   // You can select only the fields you need, like 'name' and 'grade'
+    //  });
+     return res.status(201).json({
+       message: "Teacher registered successfully",
+       teacher: newTeacher
+     });
+   } catch (err) {
+     console.error("Signup error:", err);
+     return res.status(500).json({ message: "Server error on signup", error: err.message });
+   }
+ };
+
+
+
+/*const AddTeacher = async (req, res) => {
   try {
     let {
       name,
@@ -773,43 +893,30 @@ const AddTeacher = async (req, res) => {
     teachSubject = teachSubject.trim();
 
     // ✅ Class Name to ObjectId
-    const classDoc = await Class.findOne({_id: assignedClass });
+    const classDoc = await Class.findOne({ name: assignedClass });
     if (!classDoc) {
       return res.status(400).json({ message: "Class not found with name: " + assignedClass });
     }
-    assignedClass = classDoc._id;  // Now it's valid for MongoDB
+    assignedClass = classDoc._id;
 
-    // ✅ Check if teacher already exists by email or class
+    // ✅ Check if teacher already exists by email
     const existingTeacher = await Teacher.findOne({ email });
     if (existingTeacher) {
       return res.status(400).json({ message: "Teacher already registered with this email" });
     }
 
-    const existingTeacherClass = await Teacher.findOne({ assignedClass });
-    /*if (existingTeacherClass) {
-      return res.status(400).json({ message: "Class already assigned to another teacher" });
-    }*/
+    // ✅ Check if subject exists
+    const subjectDoc = await Subject.findOne({ name: teachSubject });
+    if (!subjectDoc) {
+      return res.status(400).json({ message: "Subject not found: " + teachSubject });
+    }
 
     // ✅ Field Validations
-    if (name.length < 3) {
-      return res.status(400).json({ message: "Name must be at least 3 characters" });
-    }
-
-    if (email.length < 11 || !email.includes("@gmail.com")) {
-      return res.status(400).json({ message: "Email must be valid and at least 11 characters" });
-    }
-
-    if (password.length < 8) {
-      return res.status(400).json({ message: "Password must be at least 8 characters" });
-    }
-
-    if (!/^\d{11}$/.test(phone)) {
-      return res.status(400).json({ message: "Phone number must be exactly 11 digits" });
-    }
-
-    if (teachSubject.length < 4) {
-      return res.status(400).json({ message: "Subject must be at least 4 characters" });
-    }
+    if (name.length < 3) return res.status(400).json({ message: "Name must be at least 3 characters" });
+    if (email.length < 11 || !email.includes("@gmail.com")) return res.status(400).json({ message: "Email must be valid and at least 11 characters" });
+    if (password.length < 8) return res.status(400).json({ message: "Password must be at least 8 characters" });
+    if (!/^\d{11}$/.test(phone)) return res.status(400).json({ message: "Phone number must be exactly 11 digits" });
+    if (teachSubject.length < 4) return res.status(400).json({ message: "Subject must be at least 4 characters" });
 
     // ✅ Check Admin Exists
     const admin = await Admin.findById(req.userId);
@@ -830,23 +937,21 @@ const AddTeacher = async (req, res) => {
       dob,
       gender,
       qualifications,
-      teachSubject,
+      teachSubject: subjectDoc._id,
       assignedClass
     });
 
-    // ✅ Attach teacher to admin
-    newTeacher.populate("assignedClass");
-    await newTeacher.save();
+    // ✅ Attach teacher to class and admin
+    if (!Array.isArray(classDoc.teacher)) classDoc.teacher = [];
     classDoc.teacher.push(newTeacher._id);
     await classDoc.save();
+
     admin.teachers.push(newTeacher._id);
     await admin.save();
 
-    // ✅ Populate the assigned class
-    await newTeacher.populate({
-      path: 'assignedClass', // Populate the class details from the assignedClass field
-      select: 'name grade'   // You can select only the fields you need, like 'name' and 'grade'
-    });
+    // ✅ Populate the fields
+    await newTeacher.populate("assignedClass", "name grade");
+    await newTeacher.populate("teachSubject", "name");
 
     return res.status(201).json({
       message: "Teacher registered successfully",
@@ -857,10 +962,7 @@ const AddTeacher = async (req, res) => {
     console.error("Signup error:", err);
     return res.status(500).json({ message: "Server error on signup", error: err.message });
   }
-};
-
-
-
+};*/
 
 const SignupAdmin = async (req, res) => {
   const { name, email, password} = req.body;
@@ -904,7 +1006,7 @@ const SignupAdmin = async (req, res) => {
   }
 };
 
-const AdminSignIn = async (req, res, next) => {
+/*const AdminSignIn = async (req, res, next) => {
   const { email, password } = req.body;
 
   try {
@@ -942,7 +1044,171 @@ const AdminSignIn = async (req, res, next) => {
     console.error(err);
     return res.status(500).json({ message: "Server error during sign-in" });
   }
+};*/
+
+
+
+
+
+
+const AdminSignIn = async (req, res, next) => {
+  const { email, password } = req.body;
+
+  try {
+    let user = await Admin.findOne({ email });
+    let role = "admin";
+
+    if (!user) {
+      user = await Student.findOne({ email });
+      role = "student";
+    }
+
+    if (!user) {
+      user = await Teacher.findOne({ email });
+      role = "teacher";
+    }
+
+    /*if (!user) {
+      user = await Staff.findOne({ email }); // <-- Added Accountant check
+      role = "Accountant";
+    }*/
+
+ if (!user) {
+      const staff = await Staff.findOne({ email }); // Check for staff
+      if (staff && staff.role === "Accountant") {
+        user = staff;
+        role = "Accountant";
+      }
+    }
+
+
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found with this email" });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Incorrect password" });
+    }
+
+    const token = Jwt.sign(
+      { id: user._id.toString(), email: user.email, role },
+      process.env.JWT_KEY,
+      { expiresIn: "1d" }
+    );
+
+    res.cookie("token", token, { httpOnly: true, maxAge: 86400000 });
+    return res.status(200).json({ message: `Successfully logged in as ${role}`, token });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Server error during sign-in" });
+  }
 };
+
+
+
+
+
+
+
+
+const AddStaff  = async (req,res)=>{
+   try {
+    const { name, role, email, password, phone,address } = req.body;
+    const file = req.file;
+
+    // Validate required fields
+    if (!name || !role) {
+      return res.status(400).json({ message: 'Name and role are required.' });
+    }
+
+    // Build base staff object
+    const staffData = {
+      name,
+      role,
+      phone,
+      address,
+    };
+const admin = await Admin.findById(req.userId);
+    // Add login fields only for Accountant
+    if(!admin){
+      return res.status(404).json({message:"You are Not Allowed This can only Do Admin..."})
+    }
+    if (role === 'Accountant') {
+      if (!email || !password) {
+        return res.status(400).json({ message: 'Email and password are required for Accountants.' });
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+      staffData.email = email;
+      staffData.password = hashedPassword;
+    }
+
+    // Add profile image if provided
+    if (file) {
+      staffData.profileImage = {
+        data: file.buffer,
+        contentType: file.mimetype,
+      };
+    }
+
+    const newStaff = new Staff(staffData);
+    await newStaff.save();
+    admin.staff.push(newStaff._id);
+    await admin.save();
+    res.status(201).json({ message: 'Staff registered successfully', staff: newStaff });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error registering staff', error });
+  }
+};
+const AddTimeTable = async (req, res) => {
+  try {
+    const { className, day, periods } = req.body;
+
+    // Find the class by ID (since you're passing _id in frontend)
+    const classDoc = await Class.findById(className);
+    if (!classDoc) {
+      return res.status(404).json({ message: 'Class not found' });
+    }
+
+    // Optional: Validate that each subject exists (useful but not required for MVP)
+    const validPeriods = await Promise.all(
+      periods.map(async (p,i) => {
+        const subjectDoc = await Subject.findById(p.subject);
+        if (!subjectDoc) {
+          throw new Error(`Subject with ID ${p.subject} not found`);
+        }
+        return {
+          periodNumber: i + 1,
+          subject: subjectDoc._id, // or full doc if needed
+          time: p.time,
+        };
+      })
+    );
+
+    // Save new timetable
+    const timetable = new Timetable({
+      className: classDoc._id,
+      day,
+      periods: validPeriods,
+    });
+
+    await timetable.save();
+
+    // Link timetable to class
+    classDoc.timeTable.push(timetable._id);
+    await classDoc.save();
+
+    res.status(201).json({ message: 'Timetable saved successfully' });
+
+  } catch (error) {
+    console.error('Timetable creation error:', error.message);
+    res.status(500).json({ error: error.message || 'Error saving timetable' });
+  }
+};
+
 
 const SignOut = async function (req, res, next) {
     try {
@@ -955,6 +1221,8 @@ const SignOut = async function (req, res, next) {
 };
 
 module.exports = {
+    AddTimeTable,
+    AddStaff,
     AddSession,
     AddSubjects,
     AddTeacher,

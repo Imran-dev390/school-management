@@ -1,12 +1,15 @@
-const mongoose = require( "mongoose");
+const mongoose = require("mongoose");
+
 const classSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
+    trim: true
   },
-  section:{
-    type:String,
-    required:true,
+  section: {
+    type: String,
+    required: true,
+    trim: true
   },
   year: {
     type: Number,
@@ -16,14 +19,6 @@ const classSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Teacher'
   }],
-  // currentCapacity: {
-  //   type: Number, 
-  //   default: 0 
-  // },
-  // maxCapacity: {
-  //   type: Number,
-  //   required: true
-  // },
   students: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Student'
@@ -36,17 +31,37 @@ const classSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
-  active:{
-    type:Boolean,
-    default:false,
+  timeTable: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Timetable"
+  }],
+  active: {
+    type: Boolean,
+    default: true
   },
-  subjects:[{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:"Subject"
+  announcements: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Announcement"
+  }],
+  attendance: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Attendance"
+  }],
+  subjects: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Subject"
+  }],
+  examSchedule: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "ExamSchedule"
   }]
-},{timestamps:true})
+}, {
+  timestamps: true
+});
 
-// Composite unique index to allow same name but different sections
-classSchema.index({ name: 1, section: 1 }, { unique: true })
-  const Class = mongoose.model("class",classSchema);
-  module.exports =  Class;
+// Prevent same class name + section duplication in the same year
+classSchema.index({ name: 1, section: 1, year: 1 }, { unique: true });
+
+const Class = mongoose.model("class", classSchema);
+
+module.exports = Class;

@@ -7,7 +7,7 @@ import {
 
 export function Sidebar({ showSidebar, toggleSidebar }) {
   return (
-    <div className={`w-64 min-h-screen bg-gray-800 text-white fixed top-0 left-0 z-40 transform transition-transform duration-300 ${showSidebar ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
+    <div className={`w-64 min-h-screen  bg-gray-800 text-white fixed top-0 left-0 z-40 transform transition-transform duration-300 ${showSidebar ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
       {/* Close button on mobile */}
       <div className="md:hidden flex justify-end p-4">
         
@@ -22,6 +22,8 @@ export function Sidebar({ showSidebar, toggleSidebar }) {
           <Link to="/admin/students" className="hover:bg-gray-700 p-2 rounded">Students</Link>
           <Link to="/admin/teachers" className="hover:bg-gray-700 p-2 rounded">Teachers</Link>
           <Link to="/admin/classes" className="hover:bg-gray-700 p-2 rounded">Classes</Link>
+          <Link to="/admin/staff" className="hover:bg-gray-700 p-2 rounded">Staff</Link>
+          <Link to="/logout" className="hover:bg-red-500 p-2 rounded">Logout</Link>
         </nav>
 
         {/* Track Process Button */}

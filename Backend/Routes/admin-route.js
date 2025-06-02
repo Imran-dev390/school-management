@@ -1,18 +1,24 @@
 const expess = require("express");
-const { AddStudent, AddTeacher, AddClass, AddSubjects, AddSession } = require("../Controllers/auth.controller");
+const { AddStudent, AddTeacher, AddClass, AddSubjects, AddSession, AddStaff, AddTimeTable } = require("../Controllers/auth.controller");
 const isAuth = require("../middlewares/isAuth");
-const {getAdminProfile,DeleteStudent, UpdateStudent, UpdateTeacher, DeleteTeacher} = require("../Controllers/admin.controller");
+const {getAdminProfile,DeleteStudent, UpdateStudent, UpdateTeacher, DeleteTeacher, ExamTimetable} = require("../Controllers/admin.controller");
 const getCurrentUser = require("../Controllers/user.controller");
+const upload = require('../middlewares/upload') // multer middleware
 const router =  expess.Router();
 
 router.get("/",isAuth, getAdminProfile);
 router.post("/Add/subjects",isAuth,AddSubjects);
+
+// Route to add staff with image upload and auth
+router.post('/Add/staff', isAuth, upload.single('profileImage'), AddStaff);
+router.post("/Add/timetable",isAuth,AddTimeTable);
 router.post("/Add/session",isAuth,AddSession);
 router.put("/student/:id",UpdateStudent);
 router.put("/teacher/:id",UpdateTeacher);
 router.delete("/teacher/:id",DeleteTeacher);
 router.delete('/students/:id',DeleteStudent);
 router.post("/Add/Student",isAuth,AddStudent);
+router.post("/Add/ExamSchedule",isAuth,ExamTimetable);
 router.post("/Add/Teacher",isAuth,AddTeacher);
 router.post("/Add/Class",isAuth,AddClass);
 module.exports = router;

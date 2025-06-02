@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const connectDB = async function () {
     try {
         // Get MongoDB URI from environment variable or fallback to localhost
-        const dbURI = process.env.DB_URI || 'mongodb://localhost:27017/schoolMangeMentSystem';
+        const dbURI = process.env.MONGO_URI;
         // Connect to MongoDB with options to avoid deprecation warnings
         await mongoose.connect(dbURI, {
             useNewUrlParser: true,   // For MongoDB URI parsing

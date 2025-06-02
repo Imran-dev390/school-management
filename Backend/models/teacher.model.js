@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Attendance = require("./attendance.model");
 const TeacherSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -46,14 +47,29 @@ const TeacherSchema = new mongoose.Schema({
     type: String,
     default: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
   },
-  teachSubject:{
-    type:String,
-    required:true,
-  },
-  assignedClass: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'class',
-  },
+// In Teacher model
+teachSubject: [{
+  type: mongoose.Schema.Types.ObjectId,
+  ref: 'Subject'
+}],
+studentleave:[{
+  type:mongoose.Schema.Types.ObjectId,
+  ref:"Leave"
+}],
+assignedClass: [{
+  class:[{type: mongoose.Schema.Types.ObjectId, ref: 'class' }],
+  incharge: { type: Boolean, default: false }
+}],
+
+announcements:[
+  {
+  type:mongoose.Schema.Types.ObjectId,
+  ref:"Announcement",
+}],
+  attendance:[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Attendance",
+  }],
   role:{
     type:String,
     default:"Teacher",

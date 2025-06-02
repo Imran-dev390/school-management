@@ -40,6 +40,14 @@ const adminSchema = new mongoose.Schema({
       ref: "Student"
     }
   ],
+  announcements:[{
+type:mongoose.Schema.Types.ObjectId,
+ref:"Announcement"
+  }],
+  staff:[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Staff"
+  }],
   classes: [
     {
       type: mongoose.Schema.Types.ObjectId,

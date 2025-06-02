@@ -15,6 +15,8 @@ function Login() {
    const [loading,setLoading] = useState(false);
   const {serverUrl} = useContext(authDataContext);
   const {userData,setUserData} = useContext(userDataContext);
+  const {fetchAdminData} = useContext(adminDataContext);
+  const {getCurrentUser}  = useContext(userDataContext);
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -31,6 +33,8 @@ const navigate = useNavigate();
       },{withCredentials:true});
       console.log(response.data);
       setUserData(response.data);
+      await getCurrentUser();
+      await fetchAdminData(); 
       setLoading(false);
       toast.success("Logged in Succussfull");
      navigate("/");

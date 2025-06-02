@@ -43,6 +43,10 @@ const studentSchema = new mongoose.Schema({
      type:String,
      required:true,
   },
+  leave:[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Leave",
+  }],
   Classs: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'class',
