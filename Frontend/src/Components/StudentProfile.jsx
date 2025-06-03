@@ -2,6 +2,8 @@ import React, { useContext, useState } from 'react';
 import { userDataContext } from '../Context-Api/UserContext';
 import { Link } from 'react-router-dom';
 import { FiMenu } from 'react-icons/fi';
+import { Sidebar } from './Sidebar';
+import StudentSidebar from './StudentSidebar';
 
 const StudentProfile = () => {
   const { userData } = useContext(userDataContext);
@@ -21,13 +23,20 @@ const StudentProfile = () => {
       </div>
 
       {/* Sidebar */}
-      <aside className={`bg-black w-full md:w-64 shadow-md p-6 text-white space-y-4 font-medium ${isOpen ? 'block' : 'hidden'} md:block`}>
+      {/* <aside className={`bg-black w-full md:w-64 shadow-md p-6 text-white space-y-4 font-medium ${isOpen ? 'block' : 'hidden'} md:block`}>
         <Link className="hover:text-blue-400 block" to="/student/dash">Dashboard</Link>
         <Link className="hover:text-blue-400 block" to="#">Profile</Link>
         <Link className="hover:text-blue-400 block" to="#">Assignments</Link>
         <Link className="hover:text-blue-400 block" to="#">Grades</Link>
         <Link className="hover:text-blue-400 block" to="/logout">Logout</Link>
-      </aside>
+        <Link
+              to={`/${userData.role}/${userData.name}/update/password`}
+              className="text-sm lg:text-base font-medium text-blue-600 hover:underline"
+            >
+              Reset Password
+            </Link>
+      </aside> */}
+      <StudentSidebar/>
 
       {/* Profile Content */}
       <main className="flex-1 p-6">

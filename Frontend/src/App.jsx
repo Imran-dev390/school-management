@@ -59,8 +59,8 @@ const isHomePage = location.pathname === "/";
 //  },[recentActivity])
  const role = userData?.role;
 // console.log(userData)
- console.log("userData:", userData);
-console.log("role:", role);
+// console.log("userData:", userData);
+//console.log("role:", role);
 // useEffect(()=>{
 //   if (!isHomePage) return; // Prevent reruns
 //   //ranOnce.current = true;

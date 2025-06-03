@@ -28,8 +28,8 @@ const TeacherDashboard = () => {
  const assignedClass = userData?.assignedClass?.flatMap(ac => ac.class) || [];
 const allStudents = assignedClass.flatMap(cls => cls.students || []);
 // const allStudents = assignedClass.flatMap(cls => cls.students || []);
-  console.log("assginecLASS", assignedClass);
-   console.log("all students",allStudents)
+ // console.log("assginecLASS", assignedClass);
+   //console.log("all students",allStudents)
   const notifications = ["Meeting at 3PM", "Grade submissions due", "New resources uploaded"];
 
   const handlePublishMarks = (cls) => {
@@ -102,7 +102,7 @@ const allStudents = assignedClass.flatMap(cls => cls.students || []);
   };
 useEffect(()=>{
  if(userData){
-  console.log("userData in useEffect",userData)
+ // console.log("userData in useEffect",userData)
 //  alert("User data is ready to user")
  }
 },[userData])

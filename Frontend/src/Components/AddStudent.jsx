@@ -11,7 +11,7 @@ export default function AddStudent() {
   const { fetchAdminData } = useContext(adminDataContext);
   const {adminData} = useContext(adminDataContext);
   const { classes = [] } = adminData?.admin;
-  console.log("classes",classes)
+  //console.log("classes",classes)
   const {serverUrl}  = useContext(authDataContext);
 //  const {userData} = useContext(userDataContext);
   const [formData, setFormData] = useState({
@@ -49,15 +49,15 @@ export default function AddStudent() {
       adress:formData.Adress,
       Classs:formData.Class,
     },{withCredentials:true})
-    console.log("formData",result); // Replace with Axios POST
+   // console.log("formData",result); // Replace with Axios POST
     toast.success("Sucessfully Student Registered");
     await fetchAdminData();
     navigate("/admin/dash")
     setSubmitted(true);
 }catch(err){
-  console.log("formData",formData.Class);
+ // console.log("formData",formData.Class);
   toast.error(err?.response?.data.message);
-  console.log(err);
+ // console.log(err);
 }
   }
 

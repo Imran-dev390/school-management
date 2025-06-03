@@ -18,9 +18,9 @@ const socket = io(serverUrl);
   //console.log("userData",userData)
 const {Classs} = userData;
 const {teacher} = Classs;
-console.log("teacher",teacher);
+//console.log("teacher",teacher);
 const announcement = userData?.Classs?.teacher?.announcements || [];
-const {teachSubject} = teacher;
+//const {teachSubject} = teacher;
 const [leaveData,setLeaveData] = useState({
   leave:"",
   date:"",
@@ -109,7 +109,6 @@ useEffect(() => {
       alert("Not Getting Percentage. Why: " + error?.response?.data?.message);
     }
   };
-
   gettingPercentageAttendance();
 }, []);
 

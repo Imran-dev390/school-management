@@ -10,6 +10,12 @@ const StudentSidebar = () => {
                 <li className="hover:text-blue-500"><a href="#">Assignments</a></li>
                 <li className="hover:text-blue-500"><a href="#">Grades</a></li>
                 <li className="hover:text-blue-500"><a href="#">Attendance</a></li>
+                <Link
+                      to={`/${userData.role}/${userData.name}/update/password`}
+                      className="text-sm lg:text-base font-medium text-blue-600 hover:underline"
+                    >
+                      Reset Password
+                    </Link>
                 <Link to="/student/profile" className="hover:text-blue-500">Profile </Link>
               </ul>
             </aside>

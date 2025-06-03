@@ -32,7 +32,7 @@ const {fetchAdminData} = useContext(adminDataContext);
       );
   
       if (api.status === 200 || api.status === 201) {
-        console.log("Session created:", api.data);
+    //    console.log("Session created:", api.data);
         setRecentActivity(prev => ({
           ...prev,
           SessionStarted: "Session Added Successfully"
@@ -44,10 +44,10 @@ const {fetchAdminData} = useContext(adminDataContext);
         // Optionally fetch admin data in the background
         fetchAdminData();
       } else {
-        console.error("Unexpected response:", api);
+       // console.error("Unexpected response:", api);
       }
     } catch (error) {
-      console.log("Backend error:", error?.response?.data?.message);
+     // console.log("Backend error:", error?.response?.data?.message);
     }
   };
   

@@ -7,26 +7,29 @@ import { userDataContext } from "../Context-Api/UserContext";
 import { ToastContainer, toast } from 'react-toastify';
 import { adminDataContext } from "../Context-Api/AdminContext";
 import gsap from "gsap";
+
 const Home = () => {
   const [user,setUser] = useState("");
+   const [menuOpen, setMenuOpen] = useState(false);
     const img = "https://educloud.app/lms/src/erp/smp_i3.png";
    const {serverUrl} = useContext(authDataContext);
    const imgRef = useRef(null);
    const {userData,setUserData} = useContext(userDataContext);
    const [username,setUsername] = useState(null);
   const {name,role} = userData;
-  console.log("the current user Role is",typeof role);
-  console.log("check its true",role === "Accountant");
+//  console.log("the current user Role is",typeof role);
+  //console.log("check its true",role === "Accountant");
 const {fetchAdminData} = useContext(adminDataContext);
    const navigate = useNavigate();
-   console.log("userData at home",userData);
+  // console.log("userData at home",userData);
    const handleLogout = async ()=>{
      try{
          let result = await axios.get(serverUrl+"/auth/signout",{withCredentials:true});
         await setUserData(result.data);
          navigate("/login");
      } catch(err){
-       console.log(err.message);
+      alert("something went wrong")
+     //  console.log(err.message);
      }
    }
    
@@ -54,16 +57,16 @@ gsap.to(imgRef.current,{
 },[])
   return (
       <>
-      <header className="bg-white  text-black shadow-2xl border-b-slate-300 border-[1px]">
-        <div  className="max-w-7xl main  mx-auto px-4 py-4 flex justify-between items-center">
+       <header className="bg-white  text-black shadow-2xl border-b-slate-300 border-[1px]">
+        <div  className="max-w-7xl main responsive  mx-auto px-4 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-blue-600">MeriTaleem</h1>
           <nav className="space-x-6">
             <a href="#home" className="text-gray-700 hover:text-blue-500">Home</a>
             <a href="#feat" className="text-gray-700 hover:text-blue-500">Features</a>
             {userData ? "" : 
  <Link to="/login" className="text-gray-700 hover:text-blue-500">Login</Link>
-            }
- {/* <a onClick={handleLogout} href="" className="text-red-700 cursor-pointer hover:text-blue-500">Logout</a> 
+            } 
+  <a onClick={handleLogout} href="" className="text-red-700 cursor-pointer hover:text-blue-500">Logout</a> 
  {userData && (
   <Link
     to={
@@ -77,32 +80,9 @@ gsap.to(imgRef.current,{
   >
     Dashboard
   </Link>
-)} */}
+)} 
 
-<a onClick={handleLogout} href="" className="text-red-700 cursor-pointer hover:text-blue-500">
-  Logout
-</a>
-
-{/*{userData && (
-  <Link
-    to={
-      role === "Admin"
-        ? "/admin/dash"
-        : role === "Student"
-        ? "/student/dash"
-        : role === "Accountant"
-        ? "/accountant/dash"
-        : "/teacher/dash"
-    }
-    className="text-gray-700 hover:text-blue-500"
-  >
-    Dashboard
-  </Link>
-)}*/}
-
-
-
-{userData && (
+{/* {userData && (
   <Link
     to={
       role === "Admin"
@@ -118,16 +98,29 @@ gsap.to(imgRef.current,{
     Dashboard
   </Link>
 )}
-
-
-
+ {userData && (
+  <Link
+    to={
+      role === "Admin"
+        ? "/admin/dash"
+        : role === "Student"
+        ? "/student/dash"
+        : role === "Accountant"
+        ? "/accountant/dash"
+        : "/teacher/dash"
+    }
+    className="text-gray-700 hover:text-blue-500"
+  >
+    Dashboard
+  </Link>
+)}  */}
           </nav>
         </div>
-      </header>
+      </header> 
       <section  id="home" className="bg-white  py-20">
         <div className="max-w-7xl mx-auto px-4 flex flex-col-reverse md:flex-row items-center">
           <div className="md:w-1/2 mt-10 md:mt-0">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">
+            <h2 className="text-4xl  text-res text-pretty font-bold text-gray-800 mb-3">
               Welcome {role} {name} to Meritaleem School Management System
             </h2>
             <p className="text-gray-600 mb-6 text-xl">
@@ -182,3 +175,198 @@ gsap.to(imgRef.current,{
 };
 
 export default Home;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

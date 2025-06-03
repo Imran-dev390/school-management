@@ -22,16 +22,16 @@ const navigate = useNavigate();
               phone,
               password
               },{withCredentials:true})
-              console.log(result);
+           //   console.log(result);
               setUserData(result.data);
               setUserData(result.data);
               setLoading(false);
               if(result.status === 200){
-                console.log(result.data)
+              //  console.log(result.data)
                     navigate("/");
               }
        } catch(err){
-           console.log(err.message)
+           //console.log(err.message)
        }
  }
  

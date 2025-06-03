@@ -56,7 +56,7 @@ const MarkAttendance = () => {
    };*/
 
    const handleStatusChange = (classId, studentId, status) => {
-  console.log(`Updating status of ${studentId} in class ${classId} to ${status}`);
+  //console.log(`Updating status of ${studentId} in class ${classId} to ${status}`);
   setAttendanceData((prev) => ({
     ...prev,
     [classId]: prev[classId].map((student) =>
@@ -88,10 +88,10 @@ const MarkAttendance = () => {
         { attendance: finalAttendance },
         { withCredentials: true }
       );
-      console.log('Backend response:', response.data);
+    //  console.log('Backend response:', response.data);
       alert('Attendance submitted successfully!');
     } catch (error) {
-      console.error('Error submitting attendance:', error);
+      //console.error('Error submitting attendance:', error);
       alert(
         error.response?.data?.error ||
         'Failed to submit attendance. Check server or network.'

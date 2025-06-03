@@ -32,7 +32,7 @@ const ClassRegistrationForm = ({recentActivity,setRecentAcitviy}) => {
         year:formData.year,
         section:formData.section,
     },{withCredentials:true});
-    console.log("api",api);
+   // console.log("api",api);
     toast.success("Successfully Created Class ...")
     await fetchAdminData();
     setRecentAcitviy(prev => ({
@@ -40,10 +40,10 @@ const ClassRegistrationForm = ({recentActivity,setRecentAcitviy}) => {
      classesCreated:"class created succussfully"
     }));
     navigate("/admin/dash");
-    console.log('Form submitted:', formData);
+   // console.log('Form submitted:', formData);
 } catch(err){
     toast.error(err?.response?.data.message);
-    console.log(err);
+   // console.log(err);
 }
   };
 

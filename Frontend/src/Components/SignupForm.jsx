@@ -29,7 +29,7 @@ const navigate = useNavigate();
        email:form.email,
        password:form.password,
       },{withCredentials:true});
-      console.log(response.data);
+    //  console.log(response.data);
       setUserData(response.data);
       setLoading(false);
       toast.success("Logged IN SuccessFully.")
@@ -39,7 +39,7 @@ const navigate = useNavigate();
         //setError(err.response.data.message
         //);
         toast.error(err.response?.data?.message || 'Signup Failed');
-        console.log(err);
+      //  console.log(err);
       //alert(err.response?.data?.message || 'Signup failed');
     }
   };

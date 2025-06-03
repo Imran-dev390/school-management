@@ -682,7 +682,7 @@ const ClassTimeTable = () => {
       }
     ]})
     } catch (error) {
-      console.error('Submit error:', error);
+     // console.error('Submit error:', error);
       alert(error?.response?.data.message);
     }
   };

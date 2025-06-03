@@ -31,7 +31,7 @@ const navigate = useNavigate();
        email:form.email,
        password:form.password,
       },{withCredentials:true});
-      console.log(response.data);
+    //  console.log(response.data);
       setUserData(response.data);
       await getCurrentUser();
       await fetchAdminData(); 
@@ -43,7 +43,7 @@ const navigate = useNavigate();
    // setError(err?.response?.data.message);
     let message = err.response?.data?.message || "Login Failed";
     toast.error(message);
-        console.log(err);
+     //   console.log(err);
       //alert(err.response?.data?.message || 'Signup failed');
     }
   };
