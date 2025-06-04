@@ -54,7 +54,7 @@ const UserContext = ({ children }) => {
   const getCurrentUser = async () => {
     try {
       const result = await axios.get(`${serverUrl}/user/home`, { withCredentials: true });
-      console.log(result.data);
+     // console.log(result.data);
       setUserData(result.data);
     } catch (err) {
 //      console.error('Failed to fetch user:', err.message);

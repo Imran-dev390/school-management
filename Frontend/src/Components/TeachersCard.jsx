@@ -137,10 +137,8 @@
          className="w-32 h-32 object-cover rounded-full mx-auto border-4 border-blue-500 shadow"
        />
        <div className="text-center mt-4">
-        
-
          <h3 className="text-xl font-semibold text-gray-800">{teacher.name}</h3>
-         {teacher.assignedClass.class.map((item,idx)=>{
+         {teacher.assignedClass.map((item,idx)=>{
           return (
             <>
           <p key={idx}><strong>Class:</strong> {item.name || "N/A"}</p>
