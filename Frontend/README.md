@@ -1,5 +1,10 @@
 # React + Vite
 
+twillio recovery_code = 9MLNC4EL8FAQC841JCKHMLQG
+
+
+
+https://github.com/Imran-dev390/school-management.git
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:

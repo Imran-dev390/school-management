@@ -162,7 +162,7 @@ gsap.to(imgRef.current,{
 
       <footer className="bg-blue-600 text-white py-6 mt-10">
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
-          <p>&copy; 2025 SmartSchool. All rights reserved.</p>
+          <p>&copy;  2025 SmartSchool. All rights reserved.</p>
           <div className="space-x-4">
             <a href="#" className="hover:underline">Contact</a>
             <a href="#" className="hover:underline">Privacy</a>
