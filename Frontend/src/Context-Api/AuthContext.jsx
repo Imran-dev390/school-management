@@ -4,7 +4,7 @@ import React, { createContext } from 'react'
 export const authDataContext = createContext();
 
 function AuthContext({children}) { 
-   let serverUrl = process.env.REACT_APP_SERVER;; // Backend Url
+   let serverUrl = import.meta.env.VITE_SERVER;; // Backend Url
    let value = {
     serverUrl
    }

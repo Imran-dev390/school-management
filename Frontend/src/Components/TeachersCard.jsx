@@ -140,7 +140,7 @@
         
 
          <h3 className="text-xl font-semibold text-gray-800">{teacher.name}</h3>
-         {teacher.assignedClass.map((item,idx)=>{
+         {teacher.assignedClass.class.map((item,idx)=>{
           return (
             <>
           <p key={idx}><strong>Class:</strong> {item.name || "N/A"}</p>
