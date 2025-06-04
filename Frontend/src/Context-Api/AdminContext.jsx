@@ -111,7 +111,7 @@ export const AdminProvider = ({ children }) => {
       setAdminData(res.data);
     } catch (err) {
       setAdminData(null);
-      console.error("Failed to fetch admin data:", err.message);
+     // console.error("Failed to fetch admin data:", err.message);
     } finally {
       setLoading(false);
     }

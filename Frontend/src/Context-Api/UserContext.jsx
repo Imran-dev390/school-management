@@ -57,7 +57,7 @@ const UserContext = ({ children }) => {
       console.log(result.data);
       setUserData(result.data);
     } catch (err) {
-      console.error('Failed to fetch user:', err.message);
+//      console.error('Failed to fetch user:', err.message);
       setUserData(null);
     }
   };

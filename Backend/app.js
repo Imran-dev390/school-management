@@ -128,7 +128,7 @@ const server = http.createServer(app);
 // Initialize Socket.IO
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173", // adjust to match your frontend
+    origin: "http://localhost:5173", // adjust to match your frontend check it 
     credentials: true,
   },
 });
