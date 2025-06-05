@@ -83,8 +83,8 @@ app.use(
 app.use("/auth", authRouter);
 app.use("/admin", adminRouter);
 app.use("/user", userRouter);
-app.use("/teacher", teacherRouter);
-app.use("/student", studentRouter);
+app/*-.use("/teacher", teacherRouter);
+]\7app.use("/student", studentRouter);
 
 // ✅ Socket connection (optional logging)
 io.on("connection", (socket) => {
@@ -101,7 +101,7 @@ server.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });*/
 
-
+*/
 
 
 const express = require("express");
@@ -125,12 +125,34 @@ dotenv.config();
 const app = express();
 const server = http.createServer(app);
 
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'https://erp.meritaleempk.com',
+  'https://erp.meritaleempk.com',
+  'https://erp.meritaleempk.com',
+  'https://erp.meritaleempk.com'
+];
+
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true
+};
+
 // Initialize Socket.IO
 const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:5173", // adjust to match your frontend check it 
-    credentials: true,
-  },
+  cors: corsOptions,
+  pingTimeout: 60000,
+  pingInterval: 25000,
+  transports: ['websocket', 'polling'],
+  allowUpgrades: true,
+  cookie: false
 });
 
 // Track connected users: Map userId -> socket.id
@@ -148,10 +170,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
-  cors({
-    origin: "http://localhost:5173", // your frontend origin
-    credentials: true,
-  })
+  cors(corsOptions)
 );
 
 // Attach io and socketMap to each request
@@ -167,6 +186,7 @@ app.use("/admin", adminRouter);
 app.use("/user", userRouter);
 app.use("/teacher", teacherRouter);
 app.use("/student", studentRouter);
+
 
 // Socket.IO connection
 io.on("connection", (socket) => {
@@ -193,6 +213,6 @@ io.on("connection", (socket) => {
 
 // Start server
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
+server.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
