@@ -77,7 +77,7 @@ const allStudents = assignedClass.flatMap(cls => cls.students || []);
 
   const handleSubmitAnnouncement = async () => {
     try {
-      const res = await axios.post(`${serverUrl}/teacher/Add/Announcement`, {
+      const res = await axios.post(`${serverUrl}/api/teacher/Add/Announcement`, {
         title: announcement.title,
         message: announcement.message,
         classes: announcement.classes,
