@@ -27,7 +27,7 @@ const navigate = useNavigate();
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post(serverUrl+'/auth/signin',{
+      const response = await axios.post(serverUrl+'/api/auth/signin',{
        email:form.email,
        password:form.password,
       },{withCredentials:true});

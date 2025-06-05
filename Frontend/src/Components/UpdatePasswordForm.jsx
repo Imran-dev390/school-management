@@ -248,7 +248,7 @@ const UpdatePasswordForm = () => {
 
     try {
  const api = await axios.put(
-  `${serverUrl}/user/${role.toLowerCase()}/update-password`,
+  `${serverUrl}/api/user/${role.toLowerCase()}/update-password`,
   {
     userId: userData._id,
     currentPassword: form.currentPassword,

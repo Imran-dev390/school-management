@@ -16,15 +16,15 @@ const StudentCard = ({showSidebar,setShowSidebar}) => {
   //console.log(totalStudents.Classs.name)
   useEffect(() => {
     if (students && students.length > 0) {
-      console.log("students",students);
+   //   console.log("students",students);
       setTotalStudents(students);
     }
   }, [students]);
-console.log("totalStudents",totalStudents);
+//console.log("totalStudents",totalStudents);
   const handleDelete = async (index) => {
     const studentToDelete = totalStudents[index];
     if (!studentToDelete?._id) {
-      console.log("No Valid student id found!");
+  //    console.log("No Valid student id found!");
       return;
     }
 
@@ -38,14 +38,15 @@ console.log("totalStudents",totalStudents);
         toast.success("Successfully Deleted Student...")
         const updatedStudents = totalStudents.filter(s => s._id !== studentToDelete._id);
         setTotalStudents(updatedStudents);
-        console.log(`Deleted student: ${studentToDelete.name}`);
+    //    console.log(`Deleted student: ${studentToDelete.name}`);
       }
       setShowModal(false);
     } catch (err) {
       toast.error(err?.response?.data.message)
-      console.error("Error deleting student:", err);
+      //console.error("Error deleting student:", err);
     }
   };
+
 
   const handleUpdate = (index) => {
     const student = totalStudents[index];
@@ -62,7 +63,7 @@ console.log("totalStudents",totalStudents);
   
     try {
       const response = await axios.put(
-        `${serverUrl}/admin/student/${editData._id}`,
+        `${serverUrl}/api/admin/student/${editData._id}`,
         {
           name: editData.name,
           parent: editData.parent,
@@ -76,7 +77,7 @@ console.log("totalStudents",totalStudents);
           withCredentials: true,
         }
       );
-      console.log(response);
+      //console.log(response);
   
       if (response.status === 200) {
         await fetchAdminData();
@@ -90,13 +91,13 @@ console.log("totalStudents",totalStudents);
         );
   
         toast.success("Successfully updated the student...");
-        console.log("Student updated:", updatedStudent);
+        //console.log("Student updated:", updatedStudent);
   
         setTimeout(() => setShowModal(false), 200); // Give toast time to render
       }
     } catch (err) {
       toast.error(err?.response?.data?.message || "Update failed.");
-      console.error("Update failed:", err);
+      //console.error("Update failed:", err);
     }
   };
   

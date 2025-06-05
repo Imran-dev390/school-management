@@ -27,7 +27,7 @@ const ClassRegistrationForm = ({recentActivity,setRecentAcitviy}) => {
     e.preventDefault();
     // Handle form submission logic here
   try {  
-    const api = await axios.post(serverUrl+"/admin/Add/Class",{
+    const api = await axios.post(serverUrl+"/api/admin/Add/Class",{
         name:formData.name,
         year:formData.year,
         section:formData.section,

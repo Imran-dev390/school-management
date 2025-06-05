@@ -45,7 +45,7 @@ export default function AddTeacher() {
     e.preventDefault();
     try {
       let result = await axios.post(
-        `${serverUrl}/admin/Add/Teacher`,
+        `${serverUrl}/api/admin/Add/Teacher`,
         {
           ...formData,
         },

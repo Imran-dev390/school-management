@@ -58,7 +58,7 @@ const AddSubject = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(serverUrl+'/admin/Add/subjects',{
+      const response = await axios.post(serverUrl+'/api/admin/Add/subjects',{
          name:subjectData.name,
          code:subjectData.code,
          classes:subjectData.classes,

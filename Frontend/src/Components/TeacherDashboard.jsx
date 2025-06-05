@@ -51,7 +51,7 @@ const allStudents = assignedClass.flatMap(cls => cls.students || []);
 
   const submitMarks = async () => {
     try {
-      const res = await axios.post(`${serverUrl}/teacher/publishMarks`, {
+      const res = await axios.post(`${serverUrl}/api/teacher/publishMarks`, {
         classId: selectedClassForMarks._id,
         marks: studentMarks
       }, { withCredentials: true });

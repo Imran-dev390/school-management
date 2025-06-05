@@ -147,7 +147,7 @@ const latestMonthData = [...attendanceData.monthlyAttendance]
 
 const handleSubmitLeave = async ()=>{
   try{
-       const api = await axios.post(serverUrl+"/student/Add/Leave",{
+       const api = await axios.post(serverUrl+"/api/student/Add/Leave",{
         leave:leaveData.leave,
         date:leaveData.date,
        },{withCredentials:true})

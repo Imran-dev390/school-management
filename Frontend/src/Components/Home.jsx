@@ -24,7 +24,7 @@ const {fetchAdminData} = useContext(adminDataContext);
   // console.log("userData at home",userData);
    const handleLogout = async ()=>{
      try{
-         let result = await axios.get(serverUrl+"/auth/signout",{withCredentials:true});
+         let result = await axios.get(serverUrl+"/api/auth/signout",{withCredentials:true});
         await setUserData(result.data);
          navigate("/login");
      } catch(err){

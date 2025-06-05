@@ -84,7 +84,7 @@ const MarkAttendance = () => {
 
     try {
       const response = await axios.post(
-        `${serverUrl}/teacher/Mark/Attendance`,
+        `${serverUrl}/api/teacher/Mark/Attendance`,
         { attendance: finalAttendance },
         { withCredentials: true }
       );

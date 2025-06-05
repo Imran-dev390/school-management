@@ -670,7 +670,7 @@ const ClassTimeTable = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${serverUrl}/admin/Add/timetable`, formData,{withCredentials:true});
+      const res = await axios.post(`${serverUrl}/api/admin/Add/timetable`, formData,{withCredentials:true});
       alert(res?.data?.message || 'Timetable created');
       setFormData({ className: '',
     day: '',

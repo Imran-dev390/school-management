@@ -22,7 +22,7 @@ const {fetchAdminData} = useContext(adminDataContext);
     e.preventDefault();
     try {
       const api = await axios.post(
-        serverUrl + "/admin/Add/session",
+        serverUrl + "/api/admin/Add/session",
         {
           name: formData.name,
           startDate: formData.startDate,

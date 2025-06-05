@@ -38,7 +38,7 @@ export default function AddStudent() {
   const handleSubmit = async (e) => {
     e.preventDefault();
   try  {  
-      const result = await axios.post(serverUrl+"/admin/Add/Student",{
+      const result = await axios.post(serverUrl+"/api/admin/Add/Student",{
       name:formData.name,
       email:formData.email,
       phone:formData.phone,

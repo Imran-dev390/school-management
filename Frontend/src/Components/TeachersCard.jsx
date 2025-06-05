@@ -30,7 +30,7 @@
      }
 
      try {
-       const response = await axios.delete(`${serverUrl}/admin/teacher/${studentToDelete._id}`, {
+       const response = await axios.delete(`${serverUrl}/api/admin/teacher/${studentToDelete._id}`, {
          withCredentials: true,
        });
 

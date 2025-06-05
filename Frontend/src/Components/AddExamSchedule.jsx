@@ -454,7 +454,7 @@ const AddExamSchedule = () => {
 
     try {
       await axios.post(
-        `${serverUrl}/admin/Add/ExamSchedule`,
+        `${serverUrl}/api/admin/Add/ExamSchedule`,
         {
           class: selectedClass,
           subjects: subjects.map(sub => ({

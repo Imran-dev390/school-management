@@ -8,7 +8,7 @@ const TeacherSidebar = () => {
   useEffect(()=>{
      if(userData.role === "Teacher" && userData.assignedClass[0].incharge === true){
       setIncharge(true);
-      console.log("userData teacher incharge is true in if condition",userData.assignedClass[0].incharge);
+      //console.log("userData teacher incharge is true in if condition",userData.assignedClass[0].incharge);
      }
   },[userData])
   return (

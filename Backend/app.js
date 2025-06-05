@@ -123,11 +123,11 @@ app.use((req, res, next) => {
 });
 
 // Routes
-app.use("/auth", authRouter);
-app.use("/admin", adminRouter);
-app.use("/user", userRouter);
-app.use("/teacher", teacherRouter);
-app.use("/student", studentRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/admin", adminRouter);
+app.use("/api/user", userRouter);
+app.use("/api/teacher", teacherRouter);
+app.use("/api/student", studentRouter);
 
 
 // Socket.IO connection

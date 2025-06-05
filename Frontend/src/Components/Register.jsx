@@ -16,7 +16,7 @@ const navigate = useNavigate();
        e.preventDefault();
        setLoading(true);
        try{
-              let result = await axios.post(serverUrl+"/auth/signup",{
+              let result = await axios.post(serverUrl+"/api/auth/signup",{
               username,
               email,
               phone,

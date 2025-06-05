@@ -73,7 +73,7 @@ const handleSubmit = async (e) => {
 
   try {
     const api = await axios.post(
-      `${serverUrl}/admin/Add/staff`,
+      `${serverUrl}/api/admin/Add/staff`,
       data,
       {
         withCredentials: true,
