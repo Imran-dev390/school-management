@@ -102,7 +102,7 @@ useEffect(() => {
    <Routes>
       <Route path="/" element={userData ? <Home/> : <Navigate to="/login"/>}/>
     <Route path="/login" element={userData ? <Navigate to="/"/> :<Login/>}/>
-    <Route path="/register" element={adminData && adminData.length > 0 ? <Navigate to="/login" /> : <SignupForm />} />
+    <Route path="/register" element={userData ? <Navigate to="/login" /> : <SignupForm />} /> 
 
     {/* <Route path="/register" element={userData && role === "Admin" && userData.length > 0 ? <Navigate to="/"/>:<SignupForm/>}/> */}
     <Route path="/logout" element={userData ? <Logout/>:<Navigate to= "/register"/>}/>

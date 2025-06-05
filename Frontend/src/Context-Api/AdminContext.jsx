@@ -105,7 +105,7 @@ export const AdminProvider = ({ children }) => {
   const fetchAdminData = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`${serverUrl}/admin/`, {
+      const res = await axios.get(`${serverUrl}/api/admin/`, {
         withCredentials: true,
       });
       setAdminData(res.data);
