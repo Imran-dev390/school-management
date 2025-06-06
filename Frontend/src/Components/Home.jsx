@@ -25,7 +25,7 @@ const {fetchAdminData} = useContext(adminDataContext);
    const handleLogout = async ()=>{
      try{
          let result = await axios.get(serverUrl+"/api/auth/signout",{withCredentials:true});
-        await setUserData(result.data);
+         setUserData(result.data);
          navigate("/login");
      } catch(err){
       alert("something went wrong")
@@ -78,7 +78,7 @@ gsap.to(imgRef.current,{
     }
     className="text-gray-700 hover:text-blue-500"
   >
-    Dashboard
+    Dashboarddooo
   </Link>
 )} 
 
