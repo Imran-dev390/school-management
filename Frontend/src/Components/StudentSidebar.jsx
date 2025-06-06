@@ -21,10 +21,9 @@ if(loading) return <p>Loading ...</p>
                 <li className="hover:text-blue-500"><a href="#">Dashboard</a></li>
                 <li className="hover:text-blue-500"><a href="#">Assignments</a></li>
                 <li className="hover:text-blue-500"><a href="#">Grades</a></li>
-                <li className="hover:text-blue-500"><a href="#">Attendance</a></li>
                 <Link
                       to={`/${userData.role}/${userData.name}/update/password`}
-                      className="text-sm lg:text-base font-medium text-blue-600 hover:underline"
+                      className="text-sm lg:text-base font-medium block text-blue-600 hover:underline"
                     >
                       Reset Password
                     </Link>

@@ -105,7 +105,7 @@ useEffect(() => {
     <Route path="/register" element={userData ? <Navigate to="/login" /> : <SignupForm />} /> 
 
     {/* <Route path="/register" element={userData && role === "Admin" && userData.length > 0 ? <Navigate to="/"/>:<SignupForm/>}/> */}
-    <Route path="/logout" element={userData ? <Logout/>:<Navigate to= "/register"/>}/>
+    <Route path="/logout" element={userData ? <Login/>:<Navigate to= "/register"/>}/>
         {/* Student Dashboard Route */}
  
  
