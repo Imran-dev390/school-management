@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Register from "./Components/Register";
-import Login from "./Components/SignIn";
+import Login from "./Components/SignIIn";
 import Admin from "./Components/Admin";
 import Logout from "./Components/Logout";
 //import Student from "./Components/student";
