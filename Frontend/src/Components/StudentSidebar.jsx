@@ -1,7 +1,19 @@
 import React from 'react'
+import { useContext } from 'react'
 import { Link } from 'react-router-dom'
+import { userDataContext } from '../Context-Api/UserContext'
+import { useState } from 'react'
+import { useEffect } from 'react'
 
 const StudentSidebar = () => {
+  const {userData} = useContext(userDataContext);
+  const [loading,setLoading] = useState(true);
+  useEffect(()=>{
+if(userData){
+  setLoading(false);
+}
+  },[userData])
+if(loading) return <p>Loading ...</p>
   return (
             <aside className="bg-white shadow-md w-full md:w-64 p-5 space-y-4">
               <h2 className="text-2xl font-bold text-blue-600">Student Panel</h2>

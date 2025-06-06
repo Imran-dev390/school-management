@@ -93,7 +93,7 @@ const [attendanceData, setAttendanceData] = useState({
 useEffect(() => {
   const gettingPercentageAttendance = async () => {
     try {
-      const api = await axios.get(`${serverUrl}/student/percentage`, {
+      const api = await axios.get(`${serverUrl}/api/student/percentage`, {
         withCredentials: true,
       });
 
@@ -106,7 +106,8 @@ useEffect(() => {
         });
       }
     } catch (error) {
-      alert("Not Getting Percentage. Why: " + error?.response?.data?.message);
+      setAttendanceData(null);
+    //alert("Not Getting Percentage. Why: " + error?.response?.data?.message);
     }
   };
   gettingPercentageAttendance();
@@ -228,12 +229,12 @@ if(loading) return <p>Loading Data...</p>
         {/* Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           <Card title="Grades" value="A+" color="bg-green-500" />
-         {/* <Card 
+       {/*   <Card 
   title="Attendance" 
-  value={attendanceData.monthlyAttendance.length > 0 ? +"%" : "Calculating..."}
+  value="40%"
   color="bg-blue-500" 
-/> */}
-<Card 
+/>  */}
+ <Card 
   title="Attendance" 
   value={
     latestMonthData 
@@ -241,7 +242,7 @@ if(loading) return <p>Loading Data...</p>
       : "Calculating..."
   }
   color="bg-blue-500" 
-/>
+/> 
 
 
 
