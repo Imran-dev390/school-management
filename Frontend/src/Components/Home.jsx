@@ -78,7 +78,7 @@ gsap.to(imgRef.current,{
     }
     className="text-gray-700 hover:text-blue-500"
   >
-    Dashboarddooo
+    Dashboard
   </Link>
 )} 
 
