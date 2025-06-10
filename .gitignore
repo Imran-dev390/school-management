@@ -1,4 +1,5 @@
 node_modules
 Admin.jsx
 dist
+.env
 teachDashboardData.md
