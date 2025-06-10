@@ -22,16 +22,34 @@ const Home = () => {
 const {fetchAdminData} = useContext(adminDataContext);
    const navigate = useNavigate();
   // console.log("userData at home",userData);
-   const handleLogout = async ()=>{
-     try{
-         let result = await axios.get(serverUrl+"/api/auth/signout",{withCredentials:true});
-         setUserData(result.data);
-         navigate("/login");
-     } catch(err){
-      alert("something went wrong")
-     //  console.log(err.message);
-     }
-   }
+  //  const handleLogout = async ()=>{
+  //    try{
+  //        let result = await axios.get(serverUrl+"/api/auth/signout",{withCredentials:true});
+  //        setUserData(result.data);
+  //        navigate("/login");
+  //    } catch(err){
+  //     alert("something went wrong")
+  //    //  console.log(err.message);
+  //    }
+  //  }
+
+  const handleLogout = async () => {
+  try {
+    await axios.get(serverUrl + "/api/auth/signout", { withCredentials: true });
+    
+    // Clear user data
+    setUserData(null);
+
+    // Optional: clear other global contexts if needed
+    // fetchAdminData(null); 
+    toast.success("Logged out successfully");
+    navigate("/login");
+  } catch (err) {
+    console.error(err);
+    toast.error("Logout failed");
+  }
+};
+
    
   //  useEffect(()=>{
   //   fetchAdminData();
