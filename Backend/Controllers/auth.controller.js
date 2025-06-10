@@ -529,59 +529,117 @@ console.log("classes",classes);
 
 
 
-    const AddSubjects = async (req, res) => {
-      const { name, code, classes, department } = req.body;
+    // const AddSubjects = async (req, res) => {
+    //   const { name, code, classes, department } = req.body;
     
-      try {
-        console.log("REQUEST COMING FROM FRONTEND");
+    //   try {
+    //     console.log("REQUEST COMING FROM FRONTEND");
     
-        // Find the class document
-        const classDoc = await Class.findById(classes);
-        if (!classDoc) {
-          return res.status(404).json({ message: "Class not found" });
-        }
+    //     // Find the class document
+    //     const classDoc = await Class.findById(classes);
+    //     if (!classDoc) {
+    //       return res.status(404).json({ message: "Class not found" });
+    //     }
     
-        // Check if subject already exists for this class
-        const existSubject = await Subject.findOne({ name, code, department, classes });
-        if (existSubject) {
-          return res.status(409).json({ message: "Subject already exists for this class" });
-        }
+    //     // Check if subject already exists for this class
+    //     const existSubject = await Subject.findOne({ name, code, department, classes });
+    //     if (existSubject) {
+    //       return res.status(409).json({ message: "Subject already exists for this class" });
+    //     }
     
-        // Create new subject
-        const newSubject = new Subject({
-          name,
-          code,
-          classes,
-          department
-        });
+    //     // Create new subject
+    //     const newSubject = new Subject({
+    //       name,
+    //       code,
+    //       classes,
+    //       department
+    //     });
 
-        await newSubject.save();
+    //     await newSubject.save();
     
-        // Associate with class
-        classDoc.populate("subjects");
-        classDoc.subjects.push(newSubject._id);
-        await classDoc.save();
+    //     // Associate with class
+    //     classDoc.populate("subjects");
+    //     classDoc.subjects.push(newSubject._id);
+    //     await classDoc.save();
 
-        // Associate with admin
-        const admin = await Admin.findById(req.userId);
-        if (admin) {
-          admin.subjects.push(newSubject._id);
-          await admin.save();
-        }
+    //     // Associate with admin
+    //     const admin = await Admin.findById(req.userId);
+    //     if (admin) {
+    //       admin.subjects.push(newSubject._id);
+    //       await admin.save();
+    //     }
     
-        res.status(201).json({
-          message: 'Subject added successfully!',
-          subject: newSubject
-        });
+    //     res.status(201).json({
+    //       message: 'Subject added successfully!',
+    //       subject: newSubject
+    //     });
     
-      } catch (err) {
-        console.error('Error adding subject:', err);
-        res.status(500).json({ message: 'Server error while adding subject' });
-      }
-    };
+    //   } catch (err) {
+    //     console.error('Error adding subject:', err);
+    //     res.status(500).json({ message: 'Server error while adding subject' });
+    //   }
+    // };
     
 
 
+const AddSubjects = async (req, res) => {
+  const { name, code, classes, department } = req.body; // `classes` is an array
+
+  try {
+    console.log("REQUEST COMING FROM FRONTEND");
+
+    // 1. Validate all class IDs exist
+    const classDocs = await Class.find({ _id: { $in: classes } });
+    if (classDocs.length !== classes.length) {
+      return res.status(404).json({ message: "One or more classes not found" });
+    }
+
+    // 2. Check if subject already exists with same name/code/department and assigned to any of these classes
+    const existingSubject = await Subject.findOne({
+      name,
+      code,
+      department,
+      classes: { $in: classes }, // checks if any of the given classes already have this subject
+    });
+
+    if (existingSubject) {
+      return res.status(409).json({ message: "Subject already exists for one or more selected classes" });
+    }
+
+    // 3. Create the new subject
+    const newSubject = new Subject({
+      name,
+      code,
+      department,
+      classes, // store array of class IDs
+    });
+
+    await newSubject.save();
+
+    // 4. Add subject to each class document
+    await Promise.all(
+      classDocs.map(async (cls) => {
+        cls.subjects.push(newSubject._id);
+        await cls.save();
+      })
+    );
+
+    // 5. Associate with admin
+    const admin = await Admin.findById(req.userId);
+    if (admin) {
+      admin.subjects.push(newSubject._id);
+      await admin.save();
+    }
+
+    res.status(201).json({
+      message: "Subject added successfully!",
+      subject: newSubject,
+    });
+  } catch (err) {
+    console.error("Error adding subject:", err);
+    res.status(500).json({ message: "Server error while adding subject" });
+  }
+};
 
 
 

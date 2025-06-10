@@ -84,7 +84,14 @@ gsap.to(imgRef.current,{
             {userData ? "" : 
  <Link to="/login" className="text-gray-700 hover:text-blue-500">Login</Link>
             } 
-  <a onClick={handleLogout} href="" className="text-red-700 cursor-pointer hover:text-blue-500">Logout</a> 
+            <button
+  onClick={handleLogout}
+  className="text-red-700 cursor-pointer hover:text-blue-500 bg-transparent border-none p-0"
+>
+  Logout
+</button>
+
+  {/* <a onClick={handleLogout} href="" className="text-red-700 cursor-pointer hover:text-blue-500">Logout</a>  */}
  {userData && (
   <Link
     to={

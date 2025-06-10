@@ -46,8 +46,7 @@ const isHomePage = location.pathname === "/";
     teacherUpdated:"",
     studentCreated:"",
     studentUpdated:"",
-    SessionStarted:"",
-    
+    SessionStarted:"", 
   }]);
   const [issignup,SetSignUp] = useState(true);
   const  {fetchAdminData,adminData} = useContext(adminDataContext); 
@@ -105,7 +104,7 @@ useEffect(() => {
     <Route path="/register" element={userData ? <Navigate to="/login" /> : <SignupForm />} /> 
 
     {/* <Route path="/register" element={userData && role === "Admin" && userData.length > 0 ? <Navigate to="/"/>:<SignupForm/>}/> */}
-    <Route path="/logout" element={userData ? <Login/>:<Navigate to= "/register"/>}/>
+    {/* <Route path="/logout" element={userData ? <Login/>:<Navigate to= "/register"/>}/> */}
         {/* Student Dashboard Route */}
  
  

@@ -703,7 +703,7 @@ if(isLoading) return <p>Admin Data is Loading...</p>
         <option value="">-- Select Class --</option>
         {adminData?.admin?.classes?.map((cls) => (
           <option key={cls._id} value={cls._id}>
-            {cls.name}
+            {cls.name}{cls.section}
           </option>
         ))}
       </select>
