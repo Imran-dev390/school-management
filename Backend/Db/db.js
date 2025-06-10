@@ -77,7 +77,6 @@
      try {
          let dbURI;
          const env = process.env.NODE_ENV || "development";
-
           if (env === 'production') {
               dbURI = process.env.MONGO_URI2;
               console.log('✅ Connecting to MongoDB for Production...');
@@ -87,19 +86,16 @@
           } else {
               throw new Error('❌ Unknown NODE_ENV value. Please set NODE_ENV to "production" or "development".');
           }
-
           await mongoose.connect(dbURI, {
               useNewUrlParser: true,
               useUnifiedTopology: true,
           });
- 
           console.log('✅ MongoDB connection successful!');
       } catch (err) {
           console.error('❌ Error connecting to MongoDB:', err.message);
           process.exit(1);
       }
   };
- 
   module.exports = connectDB;
  
 
