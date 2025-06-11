@@ -342,7 +342,7 @@ if(loading) return <p>Loading Data...</p>
     const time = period.time || "N/A";
 
     // Find the teacher who teaches this subject
-    let teacherName = "No Teacher";
+    let teacherName = "Searching...";
     for (let teacher of Classs.teacher || []) {
       if (teacher.teachSubject?.some(sub => sub.name === subjectName)) {
         teacherName = teacher.name;
@@ -354,7 +354,7 @@ if(loading) return <p>Loading Data...</p>
       <tr key={`${dIndex}-${pIndex}`} className="border-t">
         <td className="py-2">{subjectName}</td>
         <td className="py-2">{time}</td>
-        <td className="py-2">{teacherName}</td>
+        <td className="py-2">{teacherName.name}</td>
       </tr>
     );
   })
