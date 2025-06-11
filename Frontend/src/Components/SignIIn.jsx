@@ -1014,7 +1014,7 @@ function Login() {
   </div>
 
   {/* Background image for smaller screens - behind content */}
-  <div className="absolute inset-0 lg:hidden opacity-20 pointer-events-none z-770">
+  <div className="absolute inset-0 lg:hidden opacity-20 pointer-events-none z-0">
     <img
       src="https://static.vecteezy.com/system/resources/thumbnails/000/448/394/small_2x/63q3_ug56_180116.jpg"
       alt="Background Visual"
@@ -1031,8 +1031,8 @@ function Login() {
       {/* Logo + Heading */}
       <div className="text-center space-y-2">
         <img src={logoImg} alt="Logo" className="w-96 sm:w-4/6 mx-auto h-24 object-cover" />
-        <h2 className="text-2xl sm:text-xl font-bold text-black">The School Digital Partner</h2>
-        <p className='sm:text-md'>Please login on the ultimate School ERP System</p>
+        <h2 className="text-lg md:text-2xl lg:text-2xl font-bold text-black">The School Digital Partner</h2>
+        <p className='text-sm md:text-lg lg:text-lg'>Please login on the ultimate School ERP System</p>
       </div>
 
       {/* Form */}
