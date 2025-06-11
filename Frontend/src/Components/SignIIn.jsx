@@ -1027,7 +1027,7 @@ function Login() {
 
   {/* <div className="flex w-full items-center justify-center sm:shadow-xl bg-white p-4 sm:p-6 lg:p-8 lg:w-1/2 relative z-10"> */}
 
-    <div className="w-full max-w-md space-y-6 md:shadow-xl p-8 lg:shadow-none ">
+    <div className="w-full max-w-md space-y-6 shadow-xl p-8 lg:shadow-none ">
       {/* Logo + Heading */}
       <div className="text-center space-y-2">
         <img src={logoImg} alt="Logo" className="w-96 mx-auto h-24 object-cover" />
@@ -1046,7 +1046,7 @@ function Login() {
             value={form.email}
             onChange={handleChange}
             required
-            className="w-full mt-1 px-2 bg-slate-300 py-3 border rounded-full shadow-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+            className="w-full mt-1 px-2 bg-slate-300 py-3 border rounded-xl shadow-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none"
             placeholder="Enter your email"
           />
         </div>
@@ -1061,7 +1061,7 @@ function Login() {
               value={form.password}
               onChange={handleChange}
               required
-              className="w-full mt-1 px-2 py-3 border rounded-full bg-slate-300 shadow-sm pr-10 focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+              className="w-full mt-1 px-2 py-3 border rounded-xl bg-slate-300 shadow-sm pr-10 focus:ring-2 focus:ring-indigo-400 focus:outline-none"
               placeholder="Enter your password"
             />
             <span
