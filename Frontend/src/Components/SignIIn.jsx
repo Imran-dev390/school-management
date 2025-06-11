@@ -1030,9 +1030,9 @@ function Login() {
     <div className="w-full max-w-md space-y-6 shadow-xl p-8 lg:shadow-none ">
       {/* Logo + Heading */}
       <div className="text-center space-y-2">
-        <img src={logoImg} alt="Logo" className="w-96 mx-auto h-24 object-cover" />
-        <h2 className="text-2xl font-bold text-black">The School Digital Partner</h2>
-        <p>Please login on the ultimate School ERP System</p>
+        <img src={logoImg} alt="Logo" className="w-96 sm:w-4/6 mx-auto h-24 object-cover" />
+        <h2 className="text-2xl sm:text-xl font-bold text-black">The School Digital Partner</h2>
+        <p className='sm:text-md'>Please login on the ultimate School ERP System</p>
       </div>
 
       {/* Form */}
