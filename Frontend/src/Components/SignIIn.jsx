@@ -1079,7 +1079,7 @@ function Login() {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 rounded-lg transition duration-200"
+          className="w-full bg-[rgb(1,1,57)] hover:bg-yellow-500 text-white font-medium py-2 rounded-lg transition duration-200"
           disabled={loading}
         >
           {loading ? 'Signing in...' : 'Sign In'}
@@ -1095,7 +1095,6 @@ function Login() {
           Sale: <FiPhone className="text-green-600" /> <span className="font-bold">0326-8808826</span>
         </p>
       </div>
-
       {/* Role Cards */}
       <div className="grid grid-cols-2 gap-4 mt-6">
         {[
@@ -1115,7 +1114,6 @@ function Login() {
       </div>
     </div>
   </div>
-
   {/* Toast */}
   <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} theme="colored" />
 
