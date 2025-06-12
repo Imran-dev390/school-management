@@ -1,11 +1,33 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   FaTimes,
   FaRegDotCircle,
 } from 'react-icons/fa';
+import { userDataContext } from '../Context-Api/UserContext';
+import axios from 'axios';
+import { authDataContext } from '../Context-Api/AuthContext';
 
 export function Sidebar({ showSidebar, toggleSidebar }) {
+  const {userData,setUserData} = useContext(userDataContext);
+  const {serverUrl} = useContext(authDataContext);
+  const navigate = useNavigate();
+      const handleLogout = async () => {
+      try {
+        await axios.get(serverUrl + "/api/auth/signout", { withCredentials: true });
+        
+        // Clear user data
+        setUserData(null);
+    
+        // Optional: clear other global contexts if needed
+        // fetchAdminData(null); 
+        toast.success("Logged out successfully");
+        navigate("/login");
+      } catch (err) {
+        console.error(err);
+        toast.error("Logout failed");
+      }
+    };
   return (
     <div className={`w-64 min-h-screen  bg-gray-800 text-white fixed top-0 left-0 z-40 transform transition-transform duration-300 ${showSidebar ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
       {/* Close button on mobile */}
@@ -23,7 +45,7 @@ export function Sidebar({ showSidebar, toggleSidebar }) {
           <Link to="/admin/teachers" className="hover:bg-gray-700 p-2 rounded">Teachers</Link>
           <Link to="/admin/classes" className="hover:bg-gray-700 p-2 rounded">Classes</Link>
           <Link to="/admin/staff" className="hover:bg-gray-700 p-2 rounded">Staff</Link>
-          <Link to="/logout" className="hover:bg-red-500 p-2 rounded">Logout</Link>
+          <button className="hover:bg-red-500 p-2 rounded" onClick={handleLogout}>Logout</button>
         </nav>
 
         {/* Track Process Button */}

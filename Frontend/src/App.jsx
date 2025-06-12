@@ -5,7 +5,7 @@ import Admin from "./Components/Admin";
 import Logout from "./Components/Logout";
 //import Student from "./Components/student";
 import Home from "./Components/Home";
-import { Routes,Route, Navigate, useLocation } from "react-router-dom";
+import { Routes,Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 import  { userDataContext } from "./Context-Api/UserContext";
 import SignupForm from "./Components/SignupForm";
 import StudentDashboard from "./Components/StudentDashboard";
@@ -33,7 +33,11 @@ import AddFeeVoucher from "./Components/Feevoucher";
 import MarkAttendance from "./Components/MarkAttendance";
 import TeacherProfile from "./Components/TeacherProfile";
 import UpdatePasswordForm from "./Components/UpdatePasswordForm";
+import axios from "axios";
+import { authDataContext } from "./Context-Api/AuthContext";
 function App() {
+  //const navigate = useNavigate();
+  const {serverUrl} = useContext(authDataContext);
     const mainRef  = useRef(null);
     const ranOnce = useRef(false);
     const location = useLocation();
@@ -48,9 +52,9 @@ const isHomePage = location.pathname === "/";
     studentUpdated:"",
     SessionStarted:"", 
   }]);
+   const {userData,setUserData} = useContext(userDataContext);
   const [issignup,SetSignUp] = useState(true);
   const  {fetchAdminData,adminData} = useContext(adminDataContext); 
-  const {userData} = useContext(userDataContext);
   //const {role} =   userData;
  // console.log(userData.avatar)
 //  useEffect(()=>{

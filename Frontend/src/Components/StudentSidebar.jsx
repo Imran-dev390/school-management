@@ -1,13 +1,31 @@
 import React from 'react'
 import { useContext } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { userDataContext } from '../Context-Api/UserContext'
 import { useState } from 'react'
 import { useEffect } from 'react'
-
+import { authDataContext } from '../Context-Api/AuthContext'
 const StudentSidebar = () => {
-  const {userData} = useContext(userDataContext);
+  const {serverUrl} = useContext(authDataContext);
+  const {userData,setUserData} = useContext(userDataContext);
   const [loading,setLoading] = useState(true);
+  const navigate = useNavigate();
+      const handleLogout = async () => {
+      try {
+        await axios.get(serverUrl + "/api/auth/signout", { withCredentials: true });
+        
+        // Clear user data
+        setUserData(null);
+    
+        // Optional: clear other global contexts if needed
+        // fetchAdminData(null); 
+        //toast.success("Logged out successfully");
+        navigate("/login");
+      } catch (err) {
+        console.error(err);
+        //toast.error("Logout failed");
+      }
+    };
   useEffect(()=>{
 if(userData){
   setLoading(false);
@@ -28,6 +46,12 @@ if(loading) return <p>Loading ...</p>
                       Reset Password
                     </Link>
                 <Link to="/student/profile" className="hover:text-blue-500">Profile </Link>
+                   <button
+  onClick={handleLogout}
+  className="text-red-700 cursor-pointer hover:text-blue-500 bg-transparent border-none p-0"
+>
+  Logout
+</button>
               </ul>
             </aside>
   )
