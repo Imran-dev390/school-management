@@ -1005,13 +1005,33 @@ function Login() {
 <div className="relative min-h-screen bg-gradient-to-br  sm:bg-slate-300 from-slate-100 via-purple-100 to-slate-200 flex flex-col lg:flex-row">
 
   {/* Left Image - visible only on desktop (lg and up) */}
-  <div className="hidden lg:flex lg:w-1/2 min-h-screen">
-    <img
-      src="https://static.vecteezy.com/system/resources/thumbnails/000/448/394/small_2x/63q3_ug56_180116.jpg"
+   {/* <div className="hidden lg:flex lg:w-1/2 min-h-screen" style={"background-image: url(&quot;https://erp.simsin.com.pk/assets/web_new/img/slide-2.png&quot;); width: 0px;"}>
+    {/* <img
+    src='background-image: url(&quot;https://erp.simsin.com.pk/assets/web_new/img/slide-2.png&quot;); width: 0px;'
+      // src="https://static.vecteezy.com/system/resources/thumbnails/000/448/394/small_2x/63q3_ug56_180116.jpg"
       alt="Login Visual"
       className="w-full h-full object-cover"
-    />
-  </div>
+    /> */}
+  {/*</div>  */}
+
+{/* <div className="hidden bg-[rgb(24,96,170)] lg:flex lg:w-4/5 min-h-screen justify-center items-start">
+  <img
+    src="https://erp.simsin.com.pk/assets/web_new/img/slide-2.png"
+    alt="Login Visual"
+    className="w-4/5 h-full object-cover"
+  />
+</div> */}
+
+<div className="hidden bg-[rgb(24,96,170)]  lg:flex lg:w-4/5 min-h-screen justify-center items-start">
+  <img
+    src="https://erp.simsin.com.pk/assets/web_new/img/slide-2.png"
+    alt="Login Visual"
+    className="w-4/5 h-full object-contain absolute -top-24 px-32"
+  />
+</div>
+
+
+
 
   {/* Background image for smaller screens - behind content */}
   <div className="absolute inset-0 lg:hidden opacity-20 pointer-events-none z-0">
@@ -1031,7 +1051,7 @@ function Login() {
       {/* Logo + Heading */}
       <div className="text-center space-y-0">
         <img src={logoImg} alt="Logo" className="w-96 sm:w-full mx-auto h-24 object-cover" />
-        <h2 className="text-lg md:text-2xl lg:text-2xl font-bold text-black">Smarter Today, Brighter Tommorow</h2>
+        <h2 className="text-lg md:text-xl lg:text-xl font-bold text-black">Smarter Today, Brighter Tommorow</h2>
         <p className=' sm:mt-3 inline-block  md:text-lg lg:text-lg'>Please login on the ultimate School ERP System</p>
       </div>
 

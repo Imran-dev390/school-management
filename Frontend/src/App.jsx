@@ -99,7 +99,27 @@ useEffect(() => {
     <>
     <div className="main min-h-screen w-full  bg-zinc-800s" ref={mainRef}>
    <Routes>
-      <Route path="/" element={userData ? <Home/> : <Navigate to="/login"/>}/>
+      {/* <Route path="/" element={userData ? <Home/> : <Navigate to="/login"/>}/> */}
+      <Route
+  path="/"
+  element={
+    userData ? (
+      userData.role === "Admin" ? (
+        <Navigate to="/admin/dash" />
+      ) : userData.role === "Teacher" ? (
+        <Navigate to="/teacher/dash" />
+      ) : userData.role === "Student" ? (
+        <Navigate to="/student/dash" />
+      ) : userData.role === "Accountant" ? (
+        <Navigate to="/accountant/dash" />
+      ) : (
+        <Navigate to="/login" />
+      )
+    ) : (
+      <Navigate to="/login" />
+    )
+  }
+/>
     <Route path="/login" element={userData ? <Navigate to="/"/> :<Login/>}/>
     <Route path="/register" element={userData ? <Navigate to="/login" /> : <SignupForm />} /> 
 
