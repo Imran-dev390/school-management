@@ -1099,8 +1099,8 @@ function Login() {
       <div className="grid grid-cols-2 gap-4 mt-6">
         {[
           { label: 'Admin', icon: <FaUserShield size={28} />, color: 'bg-red-100' },
+            { label: 'Teacher', icon: <FaChalkboardTeacher size={28} />, color: 'bg-green-100' },
           { label: 'Accountant', icon: <FaUserTie size={28} />, color: 'bg-yellow-100' },
-          { label: 'Teacher', icon: <FaChalkboardTeacher size={28} />, color: 'bg-green-100' },
           { label: 'Student', icon: <FaUserGraduate size={28} />, color: 'bg-blue-100' },
         ].map(({ label, icon, color }) => (
           <div
