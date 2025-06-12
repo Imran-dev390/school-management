@@ -1079,7 +1079,7 @@ function Login() {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-[rgb(1,1,57)] hover:bg-yellow-500 text-white font-medium py-2 rounded-lg transition duration-200"
+          className="w-full bg-[rgb(1,1,57)] hover:bg-[rgb(193,151,5)] text-white font-medium py-2 rounded-lg transition duration-200"
           disabled={loading}
         >
           {loading ? 'Signing in...' : 'Sign In'}
