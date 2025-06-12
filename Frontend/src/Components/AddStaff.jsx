@@ -84,6 +84,7 @@ const handleSubmit = async (e) => {
     );
 
     if (api.status === 201) {
+      alert(`registered Successfully...`)
       navigate("/admin/dash");
     }
   } catch (err) {

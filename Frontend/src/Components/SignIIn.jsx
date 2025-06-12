@@ -1031,7 +1031,7 @@ function Login() {
       {/* Logo + Heading */}
       <div className="text-center space-y-0">
         <img src={logoImg} alt="Logo" className="w-96 sm:w-full mx-auto h-24 object-cover" />
-        <h2 className="text-lg md:text-2xl lg:text-2xl font-bold text-black">The School Digital Partner</h2>
+        <h2 className="text-lg md:text-2xl lg:text-2xl font-bold text-black">Smarter Today, Brighter Tommorow</h2>
         <p className=' sm:mt-3 inline-block  md:text-lg lg:text-lg'>Please login on the ultimate School ERP System</p>
       </div>
 
@@ -1089,10 +1089,10 @@ function Login() {
       {/* Contact Info */}
       <div className="text-center text-md space-y-1">
         <p className="font-semibold flex items-center justify-center gap-2">
-          CS Help: <FiPhone className="text-indigo-600" /> <span className="font-bold">04440-232323</span>
+          CS Help: <FiPhone className="text-indigo-600" /> <span className="font-bold">0326-8808826</span>
         </p>
         <p className="font-semibold flex items-center justify-center gap-2">
-          Sale: <FiPhone className="text-green-600" /> <span className="font-bold">03243-243334</span>
+          Sale: <FiPhone className="text-green-600" /> <span className="font-bold">0326-8808826</span>
         </p>
       </div>
 
