@@ -362,7 +362,7 @@ const StaffCard = () => {
                     )}
                     <p className="text-sm text-gray-700"><strong>Phone:</strong> {phone}</p>
                     <p className="text-sm text-gray-700"><strong>Address:</strong> {address}</p>
-                    <button onClick={()=>handleDelete()} className='bg-red-500 p-2 rounded-lg'>Delete</button>
+                    <button onClick={()=>handleDelete()} className='bg-red-500 p-2 text-white rounded'>Delete</button>
                   </div>
                 </div>
               );

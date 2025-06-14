@@ -45,9 +45,8 @@ export function Sidebar({ showSidebar, toggleSidebar }) {
           <Link to="/admin/teachers" className="hover:bg-gray-700 p-2 rounded">Teachers</Link>
           <Link to="/admin/classes" className="hover:bg-gray-700 p-2 rounded">Classes</Link>
           <Link to="/admin/staff" className="hover:bg-gray-700 p-2 rounded">Staff</Link>
-          <button className="hover:bg-red-500 p-2 rounded" onClick={handleLogout}>Logout</button>
+          <button className="bg-red-500 p-2  rounded" onClick={handleLogout}>Logout</button>
         </nav>
-
         {/* Track Process Button */}
         <div className="mt-8">
           <button

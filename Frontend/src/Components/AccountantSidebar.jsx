@@ -44,7 +44,7 @@ const AccountantSidebar = () => {
                   <FaChartBar />
                   <span>Reports</span>
                 </a>
-                 <button className="hover:bg-red-500 p-2 rounded" onClick={handleLogout}>Logout</button>
+                 <button className="bg-red-500 p-2 rounded" onClick={handleLogout}>Logout</button>
               </nav>
             </div>
     </div>

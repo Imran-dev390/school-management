@@ -84,26 +84,13 @@ const isHomePage = location.pathname === "/";
 // },[isHomePage])
 useEffect(() => {
   fetchAdminData(); // Always fetch to stay updated
-
   if (!isHomePage) return;
-
-  gsap.fromTo(
-    mainRef.current,
-    { scale: 0.3, opacity: 1, duration: 3.6 },
-    {
-      scale: 1,
-      opacity: 1,
-      duration: 3.6,
-      ease: "power3.out",
-    }
-  );
 }, [isHomePage, fetchAdminData]);
 
   return (
     <>
-    <div className="main min-h-screen w-full  bg-zinc-800s" ref={mainRef}>
+    <div className="main min-h-screen w-full  bg-zinc-800">
    <Routes>
-      {/* <Route path="/" element={userData ? <Home/> : <Navigate to="/login"/>}/> */}
       <Route
   path="/"
   element={
