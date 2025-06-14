@@ -9,9 +9,9 @@ import axios from 'axios';
 import { authDataContext } from '../Context-Api/AuthContext';
 
 export function Sidebar({ showSidebar, toggleSidebar }) {
+   const logoImg = "/logo.jpg";
   const {userData,setUserData} = useContext(userDataContext);
   const {serverUrl} = useContext(authDataContext);
-  const logoImg = "logo.jpg";
   const navigate = useNavigate();
       const handleLogout = async () => {
       try {
@@ -36,7 +36,7 @@ export function Sidebar({ showSidebar, toggleSidebar }) {
 
       <div className="px-4 py-4">
         {/* <h2 className="text-2xl font-bold mb-6">🏫 Admin Panel</h2> */}
-        <img src={logoImg} alt="" className='w-44 h-fit bg-cover'/>
+       <img src={logoImg} alt="Logo" className="w-96 sm:w-full  h-24 object-cover" />
 
         {/* Navigation */}
         <nav className="flex flex-col space-y-4">
