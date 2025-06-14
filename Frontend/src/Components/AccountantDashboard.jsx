@@ -1,6 +1,6 @@
 // App.jsx or AccountantDashboard.jsx
-import React, { useContext } from "react";
-import { FaMoneyBillWave, FaFileInvoice, FaUserTie, FaChartBar } from "react-icons/fa";
+import React, { useContext, useEffect, useState } from "react";
+
 import {
   BarChart,
   Bar,
@@ -27,6 +27,13 @@ export default function AccountantDashboard() {
     { name: "Mar", Income: 20000, Expense: 9800 },
     { name: "Apr", Income: 50000, Expense: 25000 },
   ];
+  const [loading,setLoading] = useState(true);
+  useEffect(()=>{
+    if(userData){
+      setLoading(false);
+    }
+  },[userData])
+  if(loading) return <p>Loading Data...</p>
   return (
     <div className="flex min-h-screen font-sans bg-gray-100">
       {/* Sidebar */}
