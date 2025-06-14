@@ -16,18 +16,25 @@ import { Sidebar } from './Sidebar';
 
 export default function AdminDashboard({ recentActivity, setRecentActivity }) {
   const { userData } = useContext(userDataContext);
-  const { adminData, loading, fetchAdminData } = useContext(adminDataContext);
+  const { adminData, loading,fetchAdminData } = useContext(adminDataContext);
   const [darkMode, setDarkMode] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
 
   useEffect(() => {
-    if (!adminData && !loading) {
-      fetchAdminData();
-    }
-  }, [adminData, loading, fetchAdminData]);
-
-  if (loading) return <p>Loading admin data...</p>;
-  if (!adminData) return <p>Failed to load admin data.</p>;
+  if (!adminData) {
+    fetchAdminData();
+  }
+}, [adminData, fetchAdminData]);
+if (loading) {
+  return (
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="text-center">
+        <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4 mx-auto"></div>
+        <p className="text-lg font-semibold">Loading dashboard...</p>
+      </div>
+    </div>
+  );
+}
 
   const { teachers = [], sessions = [], students = [], classes = [], name } = adminData.admin || {};
   const toggleDark = () => setDarkMode(!darkMode);
