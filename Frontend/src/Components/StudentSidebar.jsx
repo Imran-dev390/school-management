@@ -33,22 +33,24 @@ if(userData){
   },[userData])
 if(loading) return <p>Loading ...</p>
   return (
-            <aside className="bg-white shadow-md w-full md:w-64 p-5 space-y-4">
-              <h2 className="text-2xl font-bold text-blue-600">Student Panel</h2>
-              <ul className="space-y-2 text-gray-700 font-medium">
-                <li className="hover:text-blue-500"><a href="#">Dashboard</a></li>
-                <li className="hover:text-blue-500"><a href="#">Assignments</a></li>
-                <li className="hover:text-blue-500"><a href="#">Grades</a></li>
+            <aside className="bg-[rgb(1,1,93)] shadow-md w-full md:w-64 p-5 space-y-4">
+              <div className="logoImg px-4 py-4 bg-white">
+<img src="/logo.jpg" alt="" className='w-4/5 h-8 object-cover'/>
+              </div>
+              <ul className="space-y-2 text-white font-medium">
+                <li className="hover:text-black"><a href="#">Dashboard</a></li>
+                <li className="hover:text-black"><a href="#">Assignments</a></li>
+                <li className="hover:text-black"><a href="#">Grades</a></li>
                 <Link
                       to={`/${userData.role}/${userData.name}/update/password`}
-                      className="text-sm lg:text-base font-medium block text-blue-600 hover:underline"
+                      className="text-sm lg:text-base font-medium block  hover:text-black"
                     >
                       Reset Password
                     </Link>
-                <Link to="/student/profile" className="hover:text-blue-500">Profile </Link>
+                <Link to="/student/profile" className="">Profile </Link>
                    <button
   onClick={handleLogout}
-  className="text-red-700 cursor-pointer hover:text-blue-500 bg-transparent border-none p-0"
+  className="text-red-700 cursor-pointer hover:text-black bg-transparent border-none p-0"
 >
   Logout
 </button>

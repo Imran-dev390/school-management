@@ -162,7 +162,7 @@ const handleSubmitLeave = async ()=>{
 }
 if(loading) return <p>Loading Data...</p>
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
+    <div className="flex flex-col md:flex-row min-h-screen bg-grey-100">
     {/* Sidebar*/}
     <StudentSidebar/>
       {/* Main Content */}
@@ -354,7 +354,7 @@ if(loading) return <p>Loading Data...</p>
       <tr key={`${dIndex}-${pIndex}`} className="border-t">
         <td className="py-2">{subjectName}</td>
         <td className="py-2">{time}</td>
-        <td className="py-2">{teacherName.name}</td>
+        <td className="py-2">{teacherName}</td>
       </tr>
     );
   })

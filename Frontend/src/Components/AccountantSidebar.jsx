@@ -25,22 +25,24 @@ const AccountantSidebar = () => {
         };
   return (
     <div>
-       <div className="bg-zinc-800 text-white w-64 min-h-screen p-5 fixed">
-              <h1 className="text-2xl font-bold mb-10">Accountant Panel</h1>
+       <div className=" text-white bg-[rgb(1,1,93)] w-64 min-h-screen p-5 fixed">
+         <div className="logoImg px-4 py-4">
+              <img src="/logo.jpg" alt="" className='w-4/5 h-8 object-cover'/>
+             </div>
               <nav className="flex flex-col space-y-4 text-lg">
-                <a href="#" className="hover:bg-blue-600 p-2 rounded flex items-center space-x-2">
+                <a href="#" className="hover:bg-black p-2 rounded flex items-center space-x-2">
                   <FaMoneyBillWave />
                   <span>Fees</span>
                 </a>
-                <a href="#" className="hover:bg-blue-600 p-2 rounded flex items-center space-x-2">
+                <a href="#" className="hover:bg-black p-2 rounded flex items-center space-x-2">
                   <FaFileInvoice />
                   <span>Expenses</span>
                 </a>
-                <a href="#" className="hover:bg-blue-600 p-2 rounded flex items-center space-x-2">
+                <a href="#" className="hover:bg-black p-2 rounded flex items-center space-x-2">
                   <FaUserTie />
                   <span>Salaries</span>
                 </a>
-                <a href="#" className="hover:bg-blue-600 p-2 rounded flex items-center space-x-2">
+                <a href="#" className="hover:bg-black p-2 rounded flex items-center space-x-2">
                   <FaChartBar />
                   <span>Reports</span>
                 </a>

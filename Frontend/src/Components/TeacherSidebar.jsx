@@ -33,23 +33,25 @@ const TeacherSidebar = () => {
       }
     };
   return (
-       <aside className="bg-white w-full md:w-64 shadow-lg p-5">
-              <h2 className="text-2xl font-bold text-blue-600 mb-6">Teacher Panel</h2>
-              <ul className="space-y-4 flex  flex-col  text-gray-700 font-medium">
-                <Link to="/teacher/dash" className='hover:text-blue-500 cursor-pointer'>Dashboard</Link>
+       <aside className="bg-[rgb(1,1,93)] w-full md:w-64 shadow-lg p-5">
+             <div className="logoImg px-4 py-4">
+              <img src="/logo.jpg" alt="" className='w-4/5 h-8 object-cover'/>
+             </div>
+              <ul className="space-y-4 flex  flex-col  text-white font-medium">
+                <Link to="/teacher/dash" className='hover:text-black cursor-pointer'>Dashboard</Link>
                {Incharge &&
-                <Link to="/Mark/Attendance" className="hover:text-blue-500 cursor-pointer">
+                <Link to="/Mark/Attendance" className="hover:text-black cursor-pointer">
                 Mark Attendance
                 </Link>
 }
-                <Link className="hover:text-blue-500 cursor-pointer">My Classes</Link>
-                <Link className="hover:text-blue-500 cursor-pointer">Assignments</Link>
-                <Link className="hover:text-blue-500 cursor-pointer">Students</Link>
+                <Link className="hover:text-black cursor-pointer">My Classes</Link>
+                <Link className="hover:text-black cursor-pointer">Assignments</Link>
+                <Link className="hover:text-black cursor-pointer">Students</Link>
                  <Link to="/teacher/announcements">Announcements</Link>
-                <Link to="/teacher/profile" className="hover:text-blue-500 cursor-pointer">Profile</Link>
+                <Link to="/teacher/profile" className="hover:text-black cursor-pointer">Profile</Link>
                 <button
   onClick={handleLogout}
-  className="text-red-700 cursor-pointer hover:text-blue-500 bg-transparent border-none p-0"
+  className="text-red-700 cursor-pointer hover:text-black bg-transparent border-none p-0"
 >
   Logout
 </button>
