@@ -18,8 +18,8 @@ export default function AdminDashboard({ recentActivity, setRecentActivity }) {
   const { userData } = useContext(userDataContext);
   const { adminData, loading, fetchAdminData } = useContext(adminDataContext);
   const [darkMode, setDarkMode] = useState(false);
+  const logoImg = "/logo.jpg";
   const [showSidebar, setShowSidebar] = useState(false);
-
   useEffect(() => {
     if (!adminData && !loading) {
       fetchAdminData();
@@ -73,9 +73,7 @@ export default function AdminDashboard({ recentActivity, setRecentActivity }) {
           </button>
         </div> */}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-8 mb-6 text-center sm:text-left">
-  <h1 className="text-2xl ml-8 sm:text-3xl font-bold">
-    🏫 School Admin {name} Dashboard
-  </h1>
+   <img src={logoImg} alt="Logo" className="w-full h-8 object-cover" />
   <button
     onClick={toggleDark}
     className="flex items-center bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700"
