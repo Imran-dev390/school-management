@@ -11,6 +11,7 @@ import { authDataContext } from '../Context-Api/AuthContext';
 export function Sidebar({ showSidebar, toggleSidebar }) {
   const {userData,setUserData} = useContext(userDataContext);
   const {serverUrl} = useContext(authDataContext);
+  const logo = "logo.jpg";
   const navigate = useNavigate();
       const handleLogout = async () => {
       try {
@@ -27,14 +28,15 @@ export function Sidebar({ showSidebar, toggleSidebar }) {
       }
     };
   return (
-    <div className={`w-64 min-h-screen  bg-gray-800 text-white fixed top-0 left-0 z-40 transform transition-transform duration-300 ${showSidebar ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
+    <div className={`w-64 min-h-screen  bg-[rgb(1,1,93)] text-white fixed top-0 left-0 z-40 transform transition-transform duration-300 ${showSidebar ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
       {/* Close button on mobile */}
       <div className="md:hidden flex justify-end p-4">
         
       </div>
 
       <div className="px-4 py-4">
-        <h2 className="text-2xl font-bold mb-6">🏫 Admin Panel</h2>
+        {/* <h2 className="text-2xl font-bold mb-6">🏫 Admin Panel</h2> */}
+        <img src={logo} alt="" className='w-44 h-12 bg-cover'/>
 
         {/* Navigation */}
         <nav className="flex flex-col space-y-4">
