@@ -35,6 +35,37 @@ import TeacherProfile from "./Components/TeacherProfile";
 import UpdatePasswordForm from "./Components/UpdatePasswordForm";
 import axios from "axios";
 import { authDataContext } from "./Context-Api/AuthContext";
+
+// In App.js or separate file
+const RoleRedirect = () => {
+  const { userData } = useContext(userDataContext);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!userData) {
+      navigate("/login");
+    } else {
+      switch (userData.role) {
+        case "Admin":
+          navigate("/admin/dash");
+          break;
+        case "Teacher":
+          navigate("/teacher/dash");
+          break;
+        case "Student":
+          navigate("/student/dash");
+          break;
+        case "Accountant":
+          navigate("/accountant/dash");
+          break;
+        default:
+          navigate("/login");
+      }
+    }
+  }, [userData, navigate]);
+
+  return <p>Loading...</p>; // Or a loading spinner while redirecting
+};
+
 function App() {
   //const navigate = useNavigate();
   const {serverUrl} = useContext(authDataContext);
@@ -89,8 +120,8 @@ useEffect(() => {
 
   return (
     <>
-    <div className="main min-h-screen w-full  bg-zinc-800">
-   <Routes>
+    <div className="main min-h-screen w-full  bg-zinc-800s">
+   {/* <Routes>
       <Route
   path="/"
   element={
@@ -110,7 +141,9 @@ useEffect(() => {
       <Navigate to="/login" />
     )
   }
-/>
+/> */}
+<Route path="/" element={<RoleRedirect />} />
+
     <Route path="/login" element={userData ? <Navigate to="/"/> :<Login/>}/>
     <Route path="/register" element={userData ? <Navigate to="/login" /> : <SignupForm />} /> 
 

@@ -15,17 +15,15 @@ export function Sidebar({ showSidebar, toggleSidebar }) {
       const handleLogout = async () => {
       try {
         await axios.get(serverUrl + "/api/auth/signout", { withCredentials: true });
-        
         // Clear user data
         setUserData(null);
-    
         // Optional: clear other global contexts if needed
         // fetchAdminData(null); 
-        toast.success("Logged out successfully");
+        //toast.success("Logged out successfully");
         navigate("/login");
       } catch (err) {
         console.error(err);
-        toast.error("Logout failed");
+        //toast.error("Logout failed");
       }
     };
   return (
