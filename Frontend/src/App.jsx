@@ -69,8 +69,6 @@ const RoleRedirect = () => {
 function App() {
   //const navigate = useNavigate();
   const {serverUrl} = useContext(authDataContext);
-    const mainRef  = useRef(null);
-    const ranOnce = useRef(false);
     const location = useLocation();
 const isHomePage = location.pathname === "/";
   const [recentActivity,setRecentActivity] = useState([{
@@ -120,7 +118,7 @@ useEffect(() => {
 
   return (
     <>
-    <div className="main min-h-screen w-full  bg-zinc-800s">
+    <div className="main min-h-screen w-full">
    {/* <Routes>
       <Route
   path="/"
@@ -142,7 +140,7 @@ useEffect(() => {
     )
   }
 /> */}
-<Route path="/" element={<RoleRedirect />} />
+<Route path="/" element={<RoleRedirect/>} />
 
     <Route path="/login" element={userData ? <Navigate to="/"/> :<Login/>}/>
     <Route path="/register" element={userData ? <Navigate to="/login" /> : <SignupForm />} /> 
