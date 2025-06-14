@@ -33,12 +33,12 @@ export function Sidebar({ showSidebar, toggleSidebar }) {
       <div className="md:hidden flex justify-end p-4">
         
       </div>
-
+ {/* Logo with white background */}
+  <div className="bg-white px-4 py-4">
+    <img src={logoImg} alt="Logo" className="w-full h-24 object-cover" />
+  </div>
       <div className="px-4 py-4">
         {/* <h2 className="text-2xl font-bold mb-6">🏫 Admin Panel</h2> */}
-        <div className="logoContainer bg-white w-auto">
-       <img src={logoImg} alt="Logo" className="w-96 sm:w-full  h-24 object-cover" />
-</div>
         {/* Navigation */}
         <nav className="flex flex-col space-y-4">
           <Link to="/admin/dash" className="hover:bg-gray-700 p-2 rounded">Dashboard</Link>
