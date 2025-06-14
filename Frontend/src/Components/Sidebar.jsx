@@ -28,7 +28,7 @@ export function Sidebar({ showSidebar, toggleSidebar }) {
       }
     };
   return (
-    <div className={`w-64 min-h-screen  bg-[rgb(1,1,93)] text-white fixed top-0 left-0 z-40 transform transition-transform duration-300 ${showSidebar ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
+    <div  className={`w-64 min-h-screen  bg-[rgb(1,1,93)] text-white fixed top-0 left-0 z-40 transform transition-transform duration-300 ${showSidebar ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
       {/* Close button on mobile */}
       <div className="md:hidden flex justify-end p-4">
         
@@ -36,8 +36,9 @@ export function Sidebar({ showSidebar, toggleSidebar }) {
 
       <div className="px-4 py-4">
         {/* <h2 className="text-2xl font-bold mb-6">🏫 Admin Panel</h2> */}
+        <div className="logoContainer bg-white w-auto">
        <img src={logoImg} alt="Logo" className="w-96 sm:w-full  h-24 object-cover" />
-
+</div>
         {/* Navigation */}
         <nav className="flex flex-col space-y-4">
           <Link to="/admin/dash" className="hover:bg-gray-700 p-2 rounded">Dashboard</Link>
