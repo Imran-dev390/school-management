@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { userDataContext } from "../Context-Api/UserContext";
+import AccountantSidebar from "./AccountantSidebar";
 
 export default function AccountantDashboard() {
     const {userData} = useContext(userDataContext);
@@ -26,32 +27,10 @@ export default function AccountantDashboard() {
     { name: "Mar", Income: 20000, Expense: 9800 },
     { name: "Apr", Income: 50000, Expense: 25000 },
   ];
-
   return (
     <div className="flex min-h-screen font-sans bg-gray-100">
       {/* Sidebar */}
-      <div className="bg-zinc-800 text-white w-64 min-h-screen p-5 fixed">
-        <h1 className="text-2xl font-bold mb-10">Accountant Panel</h1>
-        <nav className="flex flex-col space-y-4 text-lg">
-          <a href="#" className="hover:bg-blue-600 p-2 rounded flex items-center space-x-2">
-            <FaMoneyBillWave />
-            <span>Fees</span>
-          </a>
-          <a href="#" className="hover:bg-blue-600 p-2 rounded flex items-center space-x-2">
-            <FaFileInvoice />
-            <span>Expenses</span>
-          </a>
-          <a href="#" className="hover:bg-blue-600 p-2 rounded flex items-center space-x-2">
-            <FaUserTie />
-            <span>Salaries</span>
-          </a>
-          <a href="#" className="hover:bg-blue-600 p-2 rounded flex items-center space-x-2">
-            <FaChartBar />
-            <span>Reports</span>
-          </a>
-        </nav>
-      </div>
-
+<AccountantSidebar/>
       {/* Main Dashboard Area */}
       <div className="ml-64 flex-1 p-6">
         <h1 className="text-3xl font-bold mb-6">Welcome {userData.name} to Dashboard</h1>

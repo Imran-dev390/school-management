@@ -299,6 +299,9 @@ const StaffCard = () => {
       setStaffLists(staff);
     }
   }, [staff]);
+  const handleDelete = ()=>{
+    
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-zinc-900 to-zinc-800 text-white flex flex-col md:flex-row relative">
@@ -359,6 +362,7 @@ const StaffCard = () => {
                     )}
                     <p className="text-sm text-gray-700"><strong>Phone:</strong> {phone}</p>
                     <p className="text-sm text-gray-700"><strong>Address:</strong> {address}</p>
+                    <button onClick={()=>handleDelete()} className='bg-red-500 p-2 rounded-lg'>Delete</button>
                   </div>
                 </div>
               );

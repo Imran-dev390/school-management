@@ -1,0 +1,54 @@
+import React, { useContext } from 'react'
+import { authDataContext } from '../Context-Api/AuthContext';
+import axios from 'axios';
+import { userDataContext } from '../Context-Api/UserContext';
+import { useNavigate } from 'react-router-dom';
+
+const AccountantSidebar = () => {
+    const {serverUrl} = useContext(authDataContext);
+    const {userData,setUserData} = useContext(userDataContext);
+    const navigate = useNavigate();
+     const handleLogout = async () => {
+          try {
+            await axios.get(serverUrl + "/api/auth/signout", { withCredentials: true });
+            
+            // Clear user data
+            setUserData(null);
+            // Optional: clear other global contexts if needed
+            // fetchAdminData(null); 
+            //toast.success("Logged out successfully");
+            navigate("/login");
+          } catch (err) {
+            console.error(err);
+            //toast.error("Logout failed");
+          }
+        };
+  return (
+    <div>
+       <div className="bg-zinc-800 text-white w-64 min-h-screen p-5 fixed">
+              <h1 className="text-2xl font-bold mb-10">Accountant Panel</h1>
+              <nav className="flex flex-col space-y-4 text-lg">
+                <a href="#" className="hover:bg-blue-600 p-2 rounded flex items-center space-x-2">
+                  <FaMoneyBillWave />
+                  <span>Fees</span>
+                </a>
+                <a href="#" className="hover:bg-blue-600 p-2 rounded flex items-center space-x-2">
+                  <FaFileInvoice />
+                  <span>Expenses</span>
+                </a>
+                <a href="#" className="hover:bg-blue-600 p-2 rounded flex items-center space-x-2">
+                  <FaUserTie />
+                  <span>Salaries</span>
+                </a>
+                <a href="#" className="hover:bg-blue-600 p-2 rounded flex items-center space-x-2">
+                  <FaChartBar />
+                  <span>Reports</span>
+                </a>
+                 <button className="hover:bg-red-500 p-2 rounded" onClick={handleLogout}>Logout</button>
+              </nav>
+            </div>
+    </div>
+  )
+}
+
+export default AccountantSidebar
