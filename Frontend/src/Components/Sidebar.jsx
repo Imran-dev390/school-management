@@ -35,7 +35,7 @@ export function Sidebar({ showSidebar, toggleSidebar }) {
       </div>
  {/* Logo with white background */}
   <div className="bg-white px-4 py-4">
-    <img src={logoImg} alt="Logo" className="w-full h-24 object-cover" />
+    <img src={logoImg} alt="Logo" className="w-full h-8 object-cover" />
   </div>
       <div className="px-4 py-4">
         {/* <h2 className="text-2xl font-bold mb-6">🏫 Admin Panel</h2> */}
