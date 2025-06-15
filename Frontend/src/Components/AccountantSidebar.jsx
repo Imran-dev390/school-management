@@ -46,7 +46,7 @@ const AccountantSidebar = () => {
                   <FaChartBar />
                   <span>Reports</span>
                 </a>
-                 <button className="bg-red-500 p-2 rounded flex items-center space-x-2"" onClick={handleLogout}>Logout</button>
+                 <button className="bg-red-500 p-2 rounded flex items-center space-x-2" onClick={handleLogout}>Logout</button>
               </nav>
             </div>
     </div>
