@@ -37,7 +37,7 @@ if(loading) return <p>Loading ...</p>
               <div className="logoImg px-4 py-4 bg-white">
 <img src="/logo.jpg" alt="" className='w-full h-8 object-cover'/>
               </div>
-              <ul className="space-y-2 flex flex-col items-center text-white font-medium">
+              <ul className="space-y-2 flex flex-col justify-start items-center text-white font-medium">
                 <li className="hover:text-black"><a href="#">Dashboard</a></li>
                 <li className="hover:text-black"><a href="#">Assignments</a></li>
                 <li className="hover:text-black"><a href="#">Grades</a></li>

@@ -39,7 +39,7 @@ export function Sidebar({ showSidebar, toggleSidebar }) {
   </div>
       <div className="px-4 py-4">
         {/* Navigation */}
-        <nav className="flex flex-col items-center space-y-4">
+        <nav className="flex flex-col justify-start items-center space-y-4">
           <Link to="/admin/dash" className="hover:bg-gray-700 p-2 rounded">Dashboard</Link>
           <Link to="/admin/students" className="hover:bg-gray-700 p-2 rounded">Students</Link>
           <Link to="/admin/teachers" className="hover:bg-gray-700 p-2 rounded">Teachers</Link>

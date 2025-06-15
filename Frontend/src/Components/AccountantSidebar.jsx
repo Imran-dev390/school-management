@@ -29,7 +29,7 @@ const AccountantSidebar = () => {
          <div className="logoImg px-4 py-4">
               <img src="/logo.jpg" alt="" className='w-full h-8 object-cover'/>
              </div>
-              <nav className="flex flex-col items-center space-y-4 text-lg">
+              <nav className="flex flex-col justify-start items-center space-y-4 text-lg">
                 <a href="#" className="hover:bg-black p-2 rounded flex items-center space-x-2">
                   <FaMoneyBillWave />
                   <span>Fees</span>

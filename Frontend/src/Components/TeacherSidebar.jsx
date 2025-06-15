@@ -37,7 +37,7 @@ const TeacherSidebar = () => {
              <div className="logoImg px-4 py-4">
               <img src="/logo.jpg" alt="" className='w-full h-8 object-cover'/>
              </div>
-              <ul className="space-y-4 flex  flex-col items-center  text-white font-medium">
+              <ul className="space-y-4 flex justify-start  flex-col items-center  text-white font-medium">
                 <Link to="/teacher/dash" className='hover:text-black cursor-pointer'>Dashboard</Link>
                {Incharge &&
                 <Link to="/Mark/Attendance" className="hover:text-black cursor-pointer">

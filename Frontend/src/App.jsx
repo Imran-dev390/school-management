@@ -478,8 +478,7 @@ const RoleRedirect = () => {
       }
     }
   }, [userData, navigate]);
-
-  return <p>Loading...</p>;
+  return null;
 };
 
 function App() {
