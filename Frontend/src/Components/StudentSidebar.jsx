@@ -35,9 +35,9 @@ if(loading) return <p>Loading ...</p>
   return (
             <aside className="bg-[rgb(1,1,93)] shadow-md w-full md:w-64 p-5 space-y-4">
               <div className="logoImg px-4 py-4 bg-white">
-<img src="/logo.jpg" alt="" className='w-4/5 h-8 object-cover'/>
+<img src="/logo.jpg" alt="" className='w-full h-8 object-cover'/>
               </div>
-              <ul className="space-y-2 text-white font-medium">
+              <ul className="space-y-2 flex flex-col items-center text-white font-medium">
                 <li className="hover:text-black"><a href="#">Dashboard</a></li>
                 <li className="hover:text-black"><a href="#">Assignments</a></li>
                 <li className="hover:text-black"><a href="#">Grades</a></li>

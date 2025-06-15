@@ -35,9 +35,9 @@ const TeacherSidebar = () => {
   return (
        <aside className="bg-[rgb(1,1,93)] w-full md:w-64 shadow-lg p-5">
              <div className="logoImg px-4 py-4">
-              <img src="/logo.jpg" alt="" className='w-4/5 h-8 object-cover'/>
+              <img src="/logo.jpg" alt="" className='w-full h-8 object-cover'/>
              </div>
-              <ul className="space-y-4 flex  flex-col  text-white font-medium">
+              <ul className="space-y-4 flex  flex-col items-center  text-white font-medium">
                 <Link to="/teacher/dash" className='hover:text-black cursor-pointer'>Dashboard</Link>
                {Incharge &&
                 <Link to="/Mark/Attendance" className="hover:text-black cursor-pointer">
