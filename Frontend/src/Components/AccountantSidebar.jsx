@@ -24,7 +24,6 @@ const AccountantSidebar = () => {
           }
         };
   return (
-    <div>
        <div className=" text-white bg-[rgb(1,1,93)] w-64 min-h-screen p-5 fixed">
          <div className="logoImg px-4 py-4">
               <img src="/logo.jpg" alt="" className='w-full h-8 object-cover'/>
@@ -49,7 +48,6 @@ const AccountantSidebar = () => {
                  <button className="bg-red-500 p-2 rounded flex items-center space-x-2" onClick={handleLogout}>Logout</button>
               </nav>
             </div>
-    </div>
   )
 }
 
