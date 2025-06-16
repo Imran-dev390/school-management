@@ -62,7 +62,7 @@ if (loading) {
   <h1 className="text-2xl ml-8 sm:text-3xl font-bold">
     🏫 School Admin {name} Dashboard
   </h1>
-<div className="profileShowSchoolName w-fit flex items-center gap-3 p-4">
+<div className="profileShowSchoolName w-fit flex items-center gap-1 p-4">
   <div className="w-14 h-14 rounded-full flex items-center justify-center bg-transparent">
     <FaUserCircle className="text-4xl" />
   </div>
