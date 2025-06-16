@@ -215,7 +215,6 @@ import { FaUserCircle } from 'react-icons/fa'; // Import profile icon
 export default function AdminDashboard({ recentActivity, setRecentActivity }) {
   const { userData } = useContext(userDataContext);
   const { adminData, loading, fetchAdminData } = useContext(adminDataContext);
-  const [darkMode, setDarkMode] = useState(false);
   const [showSidebar, setShowSidebar] = useState(false);
 
   useEffect(() => {
@@ -236,33 +235,32 @@ export default function AdminDashboard({ recentActivity, setRecentActivity }) {
   }
 
   const { teachers = [], sessions = [], students = [], classes = [], name } = adminData.admin || {};
-  const toggleSidebar = () => setShowSidebar(!showSidebar);
+ 
 
   return (
-    <div className={`flex min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'}`}>
+    <div className='flex min-h-screen bg-gray-100 text-gray-900'>
 
       {/* ✅ Mobile-only hamburger button */}
-       <button
+       {/* <button
         onClick={toggleSidebar}
         className="md:hidden fixed top-4 left-4 z-50 bg-slate-400 text-black p-2"
       >
         {showSidebar ? <FaTimes className="text-xl" /> : <FaBars className="text-xl" />}
-      </button> 
-
+      </button>  */}
       {/* ✅ Sidebar with overlay */}
-      {showSidebar && (
+      {/* {showSidebar && (
         <div
           className={`fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden`}
           onClick={toggleSidebar}
         ></div>
-      )}
-      <div
+      )} */}
+       <Sidebar showSidebar={showSidebar} />
+      {/* <div
         className={`fixed top-0 left-0 z-40 h-full w-64 bg-white dark:bg-gray-800 shadow transform transition-transform duration-300 ${
           showSidebar ? 'translate-x-0' : '-translate-x-full'
         } md:translate-x-0`}
-      >
-        <Sidebar showSidebar={showSidebar} toggleSidebar={toggleSidebar} />
-      </div>
+      > 
+      </div> */}
 
       {/* ✅ Main Content */}
       <div className={`flex-1 p-6 transition-all duration-300 md:ml-64`}>
