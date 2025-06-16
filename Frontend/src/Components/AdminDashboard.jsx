@@ -219,8 +219,8 @@ import {
   FaHistory,
 //  FaMoon,
 //  FaSun,
-//  FaBars,
- // FaTimes,
+  FaBars,
+  FaTimes,
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { userDataContext } from '../Context-Api/UserContext';
