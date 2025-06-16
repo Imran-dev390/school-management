@@ -46,9 +46,6 @@ if (loading) {
       <div className={`fixed top-0 left-0 z-40 h-full w-64 bg-white dark:bg-gray-800 shadow transform transition-transform duration-300 ${showSidebar ? 'translate-x-0' : '-translate-x-full'}`}>
   <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
 </div>
-
-
-
       {/* Toggle Button */}
       <button
   onClick={toggleSidebar}
@@ -56,40 +53,25 @@ if (loading) {
 >
   {showSidebar ? <FaTimes /> : <FaBars />}
 </button>
-
-      {/* <button
-        onClick={toggleSidebar}
-        className="md:hidden fixed top-4 left-4 z-50 bg-slate-400 text-black p-2 rounded"
-      >
-        {showSidebar ? <FaTimes /> : <FaBars />}
-      </button> */}
-
       {/* Main Content */}
       {/* <div className="flex-1 ml-0 md:ml-64 p-6 transition-all duration-300"> */}
       <div className={`flex-1 p-6 transition-all duration-300 ${showSidebar ? 'ml-64' : 'ml-0'}`}>
-
-        {/* Header
-        <div className="flex justify-center gap-8 items-center mb-6">
-          <h1 className="sm:text-3xl text-center font-bold">🏫 School Admin {name} Dashboard</h1>
-          <button
-            onClick={toggleDark}
-            className="flex items-center bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700"
-          >
-            {darkMode ? <FaSun className="mr-2" /> : <FaMoon className="mr-2" />}
-            {darkMode ? 'Light Mode' : 'Dark Mode'}
-          </button>
-        </div> */}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-8 mb-6 text-center sm:text-left">
   <h1 className="text-2xl ml-8 sm:text-3xl font-bold">
     🏫 School Admin {name} Dashboard
   </h1>
-  <button
+  {/* <button
     onClick={toggleDark}
     className="flex items-center bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700"
   >
     {darkMode ? <FaSun className="mr-2" /> : <FaMoon className="mr-2" />}
     {darkMode ? 'Light Mode' : 'Dark Mode'}
-  </button>
+  </button> */}
+  <div className="profileShowSchoolName flex gap-3">
+    <div className="bg bg-white w-32 h-32 rounded-full">
+    </div>
+    <h1>Bright Future</h1>
+  </div>
 </div>
 
 
