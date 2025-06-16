@@ -476,7 +476,7 @@ import { FaRegDotCircle } from "react-icons/fa";
 import { authDataContext } from "../Context-Api/AuthContext";
 import { userDataContext } from "../Context-Api/UserContext";
 //import { authDataContext, userDataContext } from "../context"; // adjust path if needed
-export default function AdminSidebar() {
+export default function Sidebar() {
   const { userData, setUserData } = useContext(userDataContext);
   const { serverUrl } = useContext(authDataContext);
   const [isOpen, setIsOpen] = useState(false);

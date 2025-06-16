@@ -215,8 +215,7 @@ import { FaUserCircle } from 'react-icons/fa'; // Import profile icon
 export default function AdminDashboard({ recentActivity, setRecentActivity }) {
   const { userData } = useContext(userDataContext);
   const { adminData, loading, fetchAdminData } = useContext(adminDataContext);
-  const [showSidebar, setShowSidebar] = useState(false);
-
+//  const [showSidebar, setShowSidebar] = useState(false);
   useEffect(() => {
     if (!adminData) {
       fetchAdminData();
@@ -254,7 +253,7 @@ export default function AdminDashboard({ recentActivity, setRecentActivity }) {
           onClick={toggleSidebar}
         ></div>
       )} */}
-       <Sidebar showSidebar={showSidebar} />
+       <Sidebar/>
       {/* <div
         className={`fixed top-0 left-0 z-40 h-full w-64 bg-white dark:bg-gray-800 shadow transform transition-transform duration-300 ${
           showSidebar ? 'translate-x-0' : '-translate-x-full'
