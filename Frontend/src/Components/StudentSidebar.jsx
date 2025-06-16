@@ -209,7 +209,7 @@ const StudentSidebar = () => {
     <>
       {/* Hamburger Button (Mobile Only) */}
       <div className="md:hidden flex items-center justify-between p-4 bg-white shadow">
-        <img src="/logo.jpg" alt="Logo" className="w-4/5 h-8 object-cover" />
+        {/* <img src="/logo.jpg" alt="Logo" className="w-4/5 h-8 object-cover" /> */}
         <button onClick={() => setIsOpen(!isOpen)} aria-label="Toggle Sidebar">
           <svg
             className="w-6 h-6 text-blue-900"
