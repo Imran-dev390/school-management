@@ -43,11 +43,29 @@ if (loading) {
   const toggleSidebar = () => setShowSidebar(!showSidebar);
 
   return (
-    <div className={`flex min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'}`}>
-      {/* Sidebar */}
-      <div className={`fixed top-0 left-0 z-40 h-full w-64 bg-white dark:bg-gray-800 shadow transform transition-transform duration-300 ${showSidebar ? 'translate-x-0' : '-translate-x-full'}`}>
-  <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-</div>
+//     <div className={`flex min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'}`}>
+//       {/* Sidebar */}
+//       <div className={`fixed top-0 left-0 z-40 h-full w-64 bg-white dark:bg-gray-800 shadow transform transition-transform duration-300 ${showSidebar ? 'translate-x-0' : '-translate-x-full'}`}>
+//   <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+// </div>
+  <div className={`flex min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'}`}>
+
+    {/* ✅ Hamburger Toggle Button — Mobile Only */}
+    <button
+      onClick={toggleSidebar}
+      className="md:hidden fixed top-4 left-4 z-50 bg-slate-400 text-black p-2"
+    >
+      <FaBars className="text-xl" />
+    </button>
+
+    {/* ✅ Sidebar */}
+    <div
+      className={`fixed top-0 left-0 z-40 h-full w-64 bg-white dark:bg-gray-800 shadow transform transition-transform duration-300 ${
+        showSidebar ? 'translate-x-0' : '-translate-x-full'
+      } md:translate-x-0`}
+    >
+      <Sidebar showSidebar={showSidebar} toggleSidebar={toggleSidebar} />
+    </div>
       {/* Toggle Button */}
       <button
   onClick={toggleSidebar}
