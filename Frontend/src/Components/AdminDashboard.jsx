@@ -68,7 +68,7 @@ if (loading) {
     {darkMode ? 'Light Mode' : 'Dark Mode'}
   </button> */}
   <div className="profileShowSchoolName flex gap-3">
-    <div className="bg bg-white w-32 h-32 rounded-full">
+    <div className="bg bg-white w-12 h-8 rounded-full">
     </div>
     <h1>Bright Future</h1>
   </div>
