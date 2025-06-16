@@ -607,7 +607,7 @@ import { userDataContext } from "../Context-Api/UserContext";
 
 
 
-export default function Sidebar({ isOpen, setIsOpen }) {
+export  function Sidebar({ isOpen, setIsOpen }) {
   const { userData, setUserData } = useContext(userDataContext);
   const { serverUrl } = useContext(authDataContext);
   const navigate = useNavigate();
