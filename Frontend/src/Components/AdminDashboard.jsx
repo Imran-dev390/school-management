@@ -211,7 +211,7 @@
 
 
 
-import React, { useContext,  useEffect } from 'react';
+import React, { useContext,  useEffect, useState } from 'react';
 import {
   FaUserGraduate,
   FaChalkboardTeacher,
@@ -231,6 +231,7 @@ export default function AdminDashboard({ recentActivity, setRecentActivity }) {
   const { userData } = useContext(userDataContext);
   const { adminData, loading, fetchAdminData } = useContext(adminDataContext);
 //  const [showSidebar, setShowSidebar] = useState(false);
+ const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   useEffect(() => {
     if (!adminData) {
       fetchAdminData();
@@ -259,6 +260,14 @@ export default function AdminDashboard({ recentActivity, setRecentActivity }) {
       >
         {showSidebar ? <FaTimes className="text-xl" /> : <FaBars className="text-xl" />}
       </button>  */}
+       {/* Mobile hamburger menu */}
+      <button
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        className="md:hidden fixed top-4 left-4 z-50 bg-white border p-2 shadow"
+        aria-label="Toggle Sidebar"
+      >
+        <FaBars className="text-xl text-blue-900" />
+      </button>
       {/* ✅ Sidebar with overlay */}
       {/* {showSidebar && (
         <div
@@ -266,13 +275,15 @@ export default function AdminDashboard({ recentActivity, setRecentActivity }) {
           onClick={toggleSidebar}
         ></div>
       )} */}
-       <div
+       {/* Sidebar */}
+      <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+       {/* <div
         className={`fixed top-0 left-0 z-40 h-full w-64 bg-white dark:bg-gray-800 shadow transform transition-transform duration-300 ${
           showSidebar ? 'translate-x-0' : '-translate-x-full'
         } md:translate-x-0`}
       > 
         <Sidebar/>
-      </div> 
+      </div>  */}
 
       {/* ✅ Main Content */}
       <div className={`flex-1 p-6 transition-all duration-300 md:ml-64`}>
