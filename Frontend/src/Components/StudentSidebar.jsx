@@ -246,7 +246,9 @@ const StudentSidebar = () => {
         </div>
         <ul className="p-4 space-y-3 font-medium">
           <li className="hover:text-gray-300">
-            <a href="#">📊 Dashboard</a>
+          <Link to='/student/dash'>
+           📊 Dashboard
+          </Link>
           </li>
           <li className="hover:text-gray-300">
             <a href="#">📝 Assignments</a>
