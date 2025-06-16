@@ -266,13 +266,13 @@ export default function AdminDashboard({ recentActivity, setRecentActivity }) {
           onClick={toggleSidebar}
         ></div>
       )} */}
-       <Sidebar/>
-      {/* <div
+       <div
         className={`fixed top-0 left-0 z-40 h-full w-64 bg-white dark:bg-gray-800 shadow transform transition-transform duration-300 ${
           showSidebar ? 'translate-x-0' : '-translate-x-full'
         } md:translate-x-0`}
       > 
-      </div> */}
+        <Sidebar/>
+      </div> 
 
       {/* ✅ Main Content */}
       <div className={`flex-1 p-6 transition-all duration-300 md:ml-64`}>
