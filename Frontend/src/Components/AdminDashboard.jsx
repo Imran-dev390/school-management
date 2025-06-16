@@ -225,9 +225,8 @@ import {
 import { Link } from 'react-router-dom';
 import { userDataContext } from '../Context-Api/UserContext';
 import { adminDataContext } from '../Context-Api/AdminContext';
-//import { Sidebar } from './Sidebar';
 import { FaUserCircle } from 'react-icons/fa';
-import Sidebar from './Sidebar';
+import { Sidebar } from './Sidebar';
 export default function AdminDashboard({ recentActivity, setRecentActivity }) {
   const { userData } = useContext(userDataContext);
   const { adminData, loading, fetchAdminData } = useContext(adminDataContext);

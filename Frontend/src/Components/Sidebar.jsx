@@ -467,7 +467,6 @@
 
 
 
-// AdminSidebar.jsx
 import { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -476,7 +475,7 @@ import { FaRegDotCircle } from "react-icons/fa";
 import { authDataContext } from "../Context-Api/AuthContext";
 import { userDataContext } from "../Context-Api/UserContext";
 //import { authDataContext, userDataContext } from "../context"; // adjust path if needed
-export default function Sidebar() {
+export  function Sidebar() {
   const { userData, setUserData } = useContext(userDataContext);
   const { serverUrl } = useContext(authDataContext);
   const [isOpen, setIsOpen] = useState(false);
