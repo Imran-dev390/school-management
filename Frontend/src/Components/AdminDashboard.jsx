@@ -67,8 +67,8 @@ if (loading) {
     {darkMode ? <FaSun className="mr-2" /> : <FaMoon className="mr-2" />}
     {darkMode ? 'Light Mode' : 'Dark Mode'}
   </button> */}
-  <div className="profileShowSchoolName flex gap-3">
-    <div className="bg bg-white w-12 h-8 rounded-full">
+  <div className="profileShowSchoolName w-fit  flex gap-3">
+    <div className="bg bg-white w-12 h-12 rounded-full">
     </div>
     <h1>Bright Future</h1>
   </div>
