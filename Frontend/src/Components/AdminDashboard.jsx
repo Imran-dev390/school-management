@@ -261,6 +261,7 @@ export default function AdminDashboard({ recentActivity, setRecentActivity }) {
         {showSidebar ? <FaTimes className="text-xl" /> : <FaBars className="text-xl" />}
       </button>  */}
        {/* Mobile hamburger menu */}
+      {!isSidebarOpen &&
       <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         className="md:hidden fixed top-4 left-4 z-50 bg-white border p-2 shadow"
@@ -268,6 +269,7 @@ export default function AdminDashboard({ recentActivity, setRecentActivity }) {
       >
         <FaBars className="text-xl text-blue-900" />
       </button>
+}
       {/* ✅ Sidebar with overlay */}
       {/* {showSidebar && (
         <div
