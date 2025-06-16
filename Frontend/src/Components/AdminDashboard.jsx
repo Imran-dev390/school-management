@@ -13,6 +13,8 @@ import { Link } from 'react-router-dom';
 import { userDataContext } from '../Context-Api/UserContext';
 import { adminDataContext } from '../Context-Api/AdminContext';
 import { Sidebar } from './Sidebar';
+import { FaUserCircle } from 'react-icons/fa'; // Import profile icon
+
 
 export default function AdminDashboard({ recentActivity, setRecentActivity }) {
   const { userData } = useContext(userDataContext);
@@ -67,11 +69,17 @@ if (loading) {
     {darkMode ? <FaSun className="mr-2" /> : <FaMoon className="mr-2" />}
     {darkMode ? 'Light Mode' : 'Dark Mode'}
   </button> */}
-  <div className="profileShowSchoolName w-fit items-center flex gap-3">
+  {/* <div className="profileShowSchoolName w-fit items-center flex gap-3">
     <div className="bg bg-white w-14 h-14 rounded-full">
     </div>
     <h1>Bright Future</h1>
   </div>
+</div> */}
+<div className="profileShowSchoolName w-fit flex items-center gap-3 p-4">
+  <div className="w-14 h-14 rounded-full flex items-center justify-center bg-transparent text-white">
+    <FaUserCircle className="text-4xl" />
+  </div>
+  <h1 className="text-lg font-semibold text-white">Bright Future</h1>
 </div>
 
 
