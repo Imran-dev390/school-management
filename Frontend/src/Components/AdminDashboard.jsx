@@ -242,17 +242,17 @@ export default function AdminDashboard({ recentActivity, setRecentActivity }) {
     <div className={`flex min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'}`}>
 
       {/* ✅ Mobile-only hamburger button */}
-      <button
+      {/* <button
         onClick={toggleSidebar}
         className="md:hidden fixed top-4 left-4 z-50 bg-slate-400 text-black p-2"
       >
         {showSidebar ? <FaTimes className="text-xl" /> : <FaBars className="text-xl" />}
-      </button>
+      </button> */}
 
       {/* ✅ Sidebar with overlay */}
       {showSidebar && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
+          className={`fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden`}
           onClick={toggleSidebar}
         ></div>
       )}
