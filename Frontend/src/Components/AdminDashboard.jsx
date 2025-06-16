@@ -288,7 +288,7 @@ export default function AdminDashboard({ recentActivity, setRecentActivity }) {
       </div>  */}
 
       {/* ✅ Main Content */}
-      <div className={`flex-1 p-6 transition-all duration-300 md:pl-32`}>
+      <div className={`flex-1 p-6 transition-all duration-300 md:pl-12`}>
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-8 mb-6 text-center sm:text-left">
           <h1 className="text-2xl ml-8 sm:text-3xl font-bold">
