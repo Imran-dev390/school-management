@@ -62,12 +62,12 @@ if (loading) {
   <h1 className="text-2xl ml-8 sm:text-3xl font-bold">
     🏫 School Admin {name} Dashboard
   </h1>
-  </div>
 <div className="profileShowSchoolName w-fit flex items-center gap-3 p-4">
   <div className="w-14 h-14 rounded-full flex items-center justify-center bg-transparent">
     <FaUserCircle className="text-4xl" />
   </div>
-  <h1 className="text-lg font-semibold text-white">Bright Future</h1>
+  <h1 className="text-lg font-semibold">Bright Future</h1>
+</div>
 </div>
         {/* Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
