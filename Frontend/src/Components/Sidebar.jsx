@@ -536,7 +536,7 @@ export default function Sidebar() {
         <ul className="p-4 space-y-3 font-medium">
           <li>
             <Link to="/admin/dash" className="hover:text-gray-300 block">
-              📊 Dashboard
+              📊 Dashboardoo
             </Link>
           </li>
           <li>

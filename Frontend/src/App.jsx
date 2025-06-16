@@ -427,7 +427,7 @@ import Home from "./Components/Home";
 import SignupForm from "./Components/SignupForm";
 import StudentDashboard from "./Components/StudentDashboard";
 import TeacherDashboard from "./Components/TeacherDashboard";
-import AdminDashboard from "./Components/AdminDashboard";
+//import AdminDashboard from "./Components/AdminDashboard";
 import AddTeacher from "./Components/AddTeacher";
 import AddStudent from "./Components/AddStudent";
 import ClassRegistrationForm from "./Components/ClassRegistrationForm";
@@ -446,11 +446,11 @@ import AddFeeVoucher from "./Components/Feevoucher";
 import MarkAttendance from "./Components/MarkAttendance";
 import TeacherProfile from "./Components/TeacherProfile";
 import UpdatePasswordForm from "./Components/UpdatePasswordForm";
-
 import { userDataContext } from "./Context-Api/UserContext";
 import { adminDataContext } from "./Context-Api/AdminContext";
 import { authDataContext } from "./Context-Api/AuthContext";
-
+import AdminDashboard from "./Components/AdminDashboard";
+import Sidebar from "./Components/Sidebar";
 // ✅ Extracted RoleRedirect to standalone functional component
 const RoleRedirect = () => {
   const { userData } = useContext(userDataContext);

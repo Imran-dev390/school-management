@@ -211,16 +211,16 @@
 
 
 
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext,  useEffect } from 'react';
 import {
   FaUserGraduate,
   FaChalkboardTeacher,
   FaSchool,
   FaHistory,
-  FaMoon,
-  FaSun,
-  FaBars,
-  FaTimes,
+//  FaMoon,
+//  FaSun,
+//  FaBars,
+ // FaTimes,
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { userDataContext } from '../Context-Api/UserContext';
