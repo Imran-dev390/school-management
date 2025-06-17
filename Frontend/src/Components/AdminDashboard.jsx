@@ -286,7 +286,6 @@ export default function AdminDashboard({ recentActivity, setRecentActivity }) {
       > 
         <Sidebar/>
       </div>  */}
-
       {/* ✅ Main Content */}
       <div className={`flex-1 p-6 transition-all duration-300 md:pl-12`}>
         {/* Header */}
@@ -326,7 +325,7 @@ export default function AdminDashboard({ recentActivity, setRecentActivity }) {
             <h2 className="text-xl text-black dark:text-black font-bold mb-4">Quick Actions</h2>
             <ul className="space-y-4">
               <Link to="/admin/add-student" className="block p-3  text-black bg-blue-100 dark:bg-blue-700 rounded hover:bg-blue-200 transition">
-                ➕ Add New Students
+              ➕ Add New Students
               </Link>
               <Link to="/admin/add-class" className="block p-3 text-black  bg-blue-100 dark:bg-blue-700 rounded hover:bg-blue-200 transition">
                 ➕ Add New Class

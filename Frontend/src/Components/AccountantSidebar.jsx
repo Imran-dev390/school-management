@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { authDataContext } from '../Context-Api/AuthContext';
 import axios from 'axios';
 import { userDataContext } from '../Context-Api/UserContext';
@@ -7,6 +7,7 @@ import { FaMoneyBillWave, FaFileInvoice, FaUserTie, FaChartBar } from "react-ico
 const AccountantSidebar = () => {
     const {serverUrl} = useContext(authDataContext);
     const {userData,setUserData} = useContext(userDataContext);
+    const [isOpen,setIsOpen] = useState(false);
     const navigate = useNavigate();
      const handleLogout = async () => {
           try {
@@ -24,11 +25,45 @@ const AccountantSidebar = () => {
           }
         };
   return (
-       <div className=" text-white bg-[rgb(1,1,93)] w-64 min-h-screen p-5 fixed">
+    <>
+    {/* Hamburger Button (Mobile Only) */}
+      <div className="md:hidden flex items-center justify-between p-4 bg-white shadow">
+        {/* <img src="/logo.jpg" alt="Logo" className="w-4/5 h-8 object-cover" /> */}
+        <button onClick={() => setIsOpen(!isOpen)} aria-label="Toggle Sidebar">
+          <svg
+            className="w-6 h-6 text-blue-900"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            {isOpen ? (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            )}
+          </svg>
+        </button>
+      </div>
+
+      {/* Overlay (Mobile) */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-black bg-opacity-50 md:hidden"
+          onClick={() => setIsOpen(false)}
+        ></div>
+      )}
+
+      {/* Sidebar */}
+       <aside
+        className={`fixed z-40 top-0 left-0 h-full w-64 bg-[rgb(1,1,93)] text-white transform ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        } md:translate-x-0 transition-transform duration-300 ease-in-out md:static md:h-auto md:w-64`}
+      >
          <div className="logoImg px-4 py-4">
               <img src="/logo.jpg" alt="" className='w-full h-8 object-cover'/>
              </div>
-              <nav className="flex flex-col  space-y-4 text-lg">
+              <nav className="space-y-3 flex flex-col font-medium">
                 <a href="#" className="hover:bg-black p-2 rounded flex items-center space-x-2">
                   <FaMoneyBillWave />
                   <span>Fees</span>
@@ -47,7 +82,8 @@ const AccountantSidebar = () => {
                 </a>
                  <button className="bg-red-500 p-2 rounded flex items-center space-x-2" onClick={handleLogout}>Logout</button>
               </nav>
-            </div>
+            </aside>
+            </>
   )
 }
 
