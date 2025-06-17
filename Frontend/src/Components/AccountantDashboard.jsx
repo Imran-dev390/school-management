@@ -35,11 +35,11 @@ export default function AccountantDashboard() {
   },[userData])
   if(loading) return <p>Loading Data...</p>
   return (
-    <div className="flex min-h-screen font-sans bg-gray-100">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
       {/* Sidebar */}
 <AccountantSidebar/>
       {/* Main Dashboard Area */}
-      <div className="ml-64 flex-1 p-6">
+      <div className="flex-1 p-6">
         <h1 className="text-3xl font-bold mb-6">Welcome {userData.name} to Dashboard</h1>
 
         {/* Summary Cards */}

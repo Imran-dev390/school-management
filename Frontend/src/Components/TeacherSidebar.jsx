@@ -152,7 +152,7 @@ const TeacherSidebar = () => {
 
   {/* Sidebar */}
   <aside
-    className={`fixed z-40 top-0 left-0 h-full w-64 bg-[rgb(1,1,93)] text-white transform ${
+    className={`fixed z-40 top-0 left-0 h-full w-64 bg-[rgb(1,1,93)] text-white transform  ${
       isOpen ? 'translate-x-0' : '-translate-x-full'
     } md:translate-x-0 transition-transform duration-300 ease-in-out md:static md:h-auto md:w-64`}
   >
