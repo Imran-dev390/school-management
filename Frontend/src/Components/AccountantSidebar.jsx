@@ -64,19 +64,19 @@ const AccountantSidebar = () => {
     //           <img src="/logo.jpg" alt="" className='w-full h-8 object-cover'/>
     //          </div>
     //           <nav className="space-y-3 flex flex-col font-medium">
-    //             <a href="#" className="hover:bg-black p-2 rounded flex items-center space-x-2">
+    //             <a href="#" className="active:bg-black p-2 rounded flex items-center space-x-2">
     //               <FaMoneyBillWave />
     //               <span>Fees</span>
     //             </a>
-    //             <a href="#" className="hover:bg-black p-2 rounded flex items-center space-x-2">
+    //             <a href="#" className="active:bg-black p-2 rounded flex items-center space-x-2">
     //               <FaFileInvoice />
     //               <span>Expenses</span>
     //             </a>
-    //             <a href="#" className="hover:bg-black p-2 rounded flex items-center space-x-2">
+    //             <a href="#" className="active:bg-black p-2 rounded flex items-center space-x-2">
     //               <FaUserTie />
     //               <span>Salaries</span>
     //             </a>
-    //             <a href="#" className="hover:bg-black p-2 rounded flex items-center space-x-2">
+    //             <a href="#" className="active:bg-black p-2 rounded flex items-center space-x-2">
     //               <FaChartBar />
     //               <span>Reports</span>
     //             </a>
@@ -125,29 +125,29 @@ const AccountantSidebar = () => {
       <img src="/logo.jpg" alt="Logo" className="w-full h-8 object-cover" />
     </div>
     <ul className="p-4 space-y-3 font-medium text-white">
-      <li className="hover:text-[rgb(193,151,11)] flex items-center space-x-2">
+      <li className="active:text-[rgb(193,151,11)] flex items-center space-x-2">
         <FaMoneyBillWave />
         <a href="#">Fees</a>
       </li>
-      <li className="hover:text-[rgb(193,151,11)] flex items-center space-x-2">
+      <li className="active:text-[rgb(193,151,11)] flex items-center space-x-2">
         <FaFileInvoice />
         <a href="#">Expenses</a>
       </li>
-      <li className="hover:text-[rgb(193,151,11)] flex items-center space-x-2">
+      <li className="active:text-[rgb(193,151,11)] flex items-center space-x-2">
         <FaUserTie />
         <a href="#">Salaries</a>
       </li>
-      <li className="hover:text-[rgb(193,151,11)] flex items-center space-x-2">
+      <li className="active:text-[rgb(193,151,11)] flex items-center space-x-2">
         <FaChartBar />
         <a href="#">Reports</a>
       </li>
-       <li className="hover:text-[rgb(193,151,11)]">
+       <li className="active:text-[rgb(193,151,11)]">
             <Link to="/student/chat">💬 Chat</Link>
           </li>
       <li>
         <button
           onClick={handleLogout}
-          className="text-[rgb(193,151,11)] hover:text-[rgb(193,151,11)] w-full text-left flex items-center space-x-2"
+          className="text-[rgb(193,151,11)] active:text-[rgb(193,151,11)] w-full text-left flex items-center space-x-2"
         >
           <span>🚪</span>
           <span>Logout</span>

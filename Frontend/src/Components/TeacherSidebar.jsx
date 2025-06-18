@@ -71,26 +71,26 @@ const TeacherSidebar = () => {
 //               <img src="/logo.jpg" alt="" className='w-full h-8 object-cover'/>
 //              </div>
 //               <ul className="space-y-3    font-medium">
-//                  <li className="hover:text-gray-300">
-//                 <Link to="/teacher/dash" className='hover:text-black cursor-pointer'> 📊 Dashboard</Link>
+//                  <li className="active:text-gray-300">
+//                 <Link to="/teacher/dash" className='active:text-black cursor-pointer'> 📊 Dashboard</Link>
 //                </li>
 //                {Incharge &&
-//                 <li className="hover:text-gray-300">
-//                 <Link to="/Mark/Attendance" className="hover:text-black cursor-pointer">
+//                 <li className="active:text-gray-300">
+//                 <Link to="/Mark/Attendance" className="active:text-black cursor-pointer">
 //               ➕  Mark Attendance
 //                 </Link>
 //                 </li>
 // }
-//  <li className="hover:text-gray-300">
-//                 <Link className="hover:text-black cursor-pointer">My Classes</Link>
+//  <li className="active:text-gray-300">
+//                 <Link className="active:text-black cursor-pointer">My Classes</Link>
 //                 </li>
-//                  <li className="hover:text-gray-300">
-//                 <Link className="hover:text-black cursor-pointer">Students</Link>
+//                  <li className="active:text-gray-300">
+//                 <Link className="active:text-black cursor-pointer">Students</Link>
 //                 </li>
-//                  <li className="hover:text-gray-300">
+//                  <li className="active:text-gray-300">
 //                  <Link to="/teacher/announcements"> ➕ Announcements</Link>
 //                  </li>
-//                   <li className="hover:text-gray-300">
+//                   <li className="active:text-gray-300">
 //                              <Link
 //                                to={`/${userData.role}/${userData.name}/update/password`}
 //                                className="block"
@@ -98,14 +98,14 @@ const TeacherSidebar = () => {
 //                                🔒 Reset Password
 //                              </Link>
 //                              </li>
-//                   <li className="hover:text-gray-300">
-//                 <Link to="/teacher/profile" className="hover:text-black cursor-pointer">
+//                   <li className="active:text-gray-300">
+//                 <Link to="/teacher/profile" className="active:text-black cursor-pointer">
 //                 👤 Profile</Link>
 //                 </li>
 //                 <li>
 //                 <button
 //   onClick={handleLogout}
-//   className="text-red-700 cursor-pointer hover:text-black bg-transparent border-none p-0"
+//   className="text-red-700 cursor-pointer active:text-black bg-transparent border-none p-0"
 // >
 //  🚪 Logout
 // </button>
@@ -160,29 +160,29 @@ const TeacherSidebar = () => {
       <img src="/logo.jpg" alt="Logo" className="w-full h-8 object-cover" />
     </div>
     <ul className="p-4 space-y-3 font-medium">
-      <li className="hover:text-[rgb(193,151,11)]">
+      <li className="active:text-[rgb(193,151,11)]">
         <Link to="/teacher/dash">📊 Dashboard</Link>
       </li>
 
       {Incharge && (
-        <li className="hover:text-[rgb(193,151,11)]">
+        <li className="active:text-[rgb(193,151,11)]">
           <Link to="/Mark/Attendance">➕ Mark Attendance</Link>
         </li>
       )}
 
-      <li className="hover:text-[rgb(193,151,11)]">
+      <li className="active:text-[rgb(193,151,11)]">
         <Link to="#">📚 My Classes</Link>
       </li>
 
-      <li className="hover:text-[rgb(193,151,11)]">
+      <li className="active:text-[rgb(193,151,11)]">
         <Link to="#">👥 Students</Link>
       </li>
 
-      <li className="hover:text-[rgb(193,151,11)]">
+      <li className="active:text-[rgb(193,151,11)]">
         <Link to="/teacher/announcements">📢 Announcements</Link>
       </li>
 
-      <li className="hover:text-[rgb(193,151,11)]">
+      <li className="active:text-[rgb(193,151,11)]">
         <Link
           to={`/${userData.role}/${userData.name}/update/password`}
           className="block"
@@ -191,23 +191,23 @@ const TeacherSidebar = () => {
         </Link>
       </li>
 
-      <li className="hover:text-[rgb(193,151,11)]">
+      <li className="active:text-[rgb(193,151,11)]">
         <Link to="/teacher/profile">👤 Profile</Link>
       </li>
- <li className="hover:text-[rgb(193,151,11)]">
+ <li className="active:text-[rgb(193,151,11)]">
   <Link to="/teacher/add/announcement">📢 Add Announcement</Link>
 </li>
-<li className="hover:text-[rgb(193,151,11)]">
+<li className="active:text-[rgb(193,151,11)]">
   <Link to="/teacher/publish/marks">📊 Publish Marks</Link>
 </li>
-<li className="hover:text-[rgb(193,151,11)]">
+<li className="active:text-[rgb(193,151,11)]">
   <Link to="/teacher/chat">💬 Chat</Link>
 </li>
 
       <li>
         <button
           onClick={handleLogout}
-          className="text-[rgb(193,151,11)] hover:text-[rgb(193,151,11)] w-full text-left"
+          className="text-[rgb(193,151,11)] active:text-[rgb(193,151,11)] w-full text-left"
         >
           🚪 Logout
         </button>

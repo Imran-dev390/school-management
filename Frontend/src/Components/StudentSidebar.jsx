@@ -39,19 +39,19 @@
 // <img src="/logo.jpg" alt="" className='w-full h-8 object-cover'/>
 //               </div>
 //               <ul className="space-y-2 flex flex-col  text-white font-medium">
-//                 <li className="hover:text-black"><a href="#">Dashboard</a></li>
-//                 <li className="hover:text-black"><a href="#">Assignments</a></li>
-//                 <li className="hover:text-black"><a href="#">Grades</a></li>
+//                 <li className="active:text-black"><a href="#">Dashboard</a></li>
+//                 <li className="active:text-black"><a href="#">Assignments</a></li>
+//                 <li className="active:text-black"><a href="#">Grades</a></li>
 //                 <Link
 //                       to={`/${userData.role}/${userData.name}/update/password`}
-//                       className="text-sm lg:text-base font-medium block  hover:text-black"
+//                       className="text-sm lg:text-base font-medium block  active:text-black"
 //                     >
 //                       Reset Password
 //                     </Link>
 //                 <Link to="/student/profile" className="">Profile </Link>
 //                    <button
 //   onClick={handleLogout}
-//   className="text-red-700 cursor-pointer hover:text-black bg-transparent border-none p-0"
+//   className="text-red-700 cursor-pointer active:text-black bg-transparent border-none p-0"
 // >
 //   Logout
 // </button>
@@ -158,19 +158,19 @@ import axios from 'axios';
 //           <img src="/logo.jpg" alt="Logo" className="w-full h-8 object-cover" />
 //         </div>
 //         <ul className="space-y-2 flex flex-col text-white font-medium">
-//           <li className="hover:text-black"><a href="#">Dashboard</a></li>
-//           <li className="hover:text-black"><a href="#">Assignments</a></li>
-//           <li className="hover:text-black"><a href="#">Grades</a></li>
+//           <li className="active:text-black"><a href="#">Dashboard</a></li>
+//           <li className="active:text-black"><a href="#">Assignments</a></li>
+//           <li className="active:text-black"><a href="#">Grades</a></li>
 //           <Link
 //             to={`/${userData.role}/${userData.name}/update/password`}
-//             className="text-sm lg:text-base font-medium block hover:text-black"
+//             className="text-sm lg:text-base font-medium block active:text-black"
 //           >
 //             Reset Password
 //           </Link>
-//           <Link to="/student/profile" className="hover:text-black">Profile</Link>
+//           <Link to="/student/profile" className="active:text-black">Profile</Link>
 //           <button
 //             onClick={handleLogout}
-//             className="text-red-700 cursor-pointer hover:text-black bg-transparent border-none p-0"
+//             className="text-red-700 cursor-pointer active:text-black bg-transparent border-none p-0"
 //           >
 //             Logout
 //           </button>
@@ -245,21 +245,21 @@ const StudentSidebar = () => {
           <img src="/logo.jpg" alt="Logo" className="w-full h-8 object-cover" />
         </div>
         <ul className="p-4 space-y-3 font-medium">
-          <li className="hover:text-[rgb(193,151,11)]">
+          <li className="active:text-[rgb(193,151,11)]">
           <Link to='/student/dash'>
            📊 Dashboard
           </Link>
           </li>
-          {/* <li className="hover:text-[rgb(193,151,11)]">
+          {/* <li className="active:text-[rgb(193,151,11)]">
             <a href="#">📝 Assignments</a>
           </li> */ }
-          <li className="hover:text-[rgb(193,151,11)]">
+          <li className="active:text-[rgb(193,151,11)]">
             <Link to ="/send/leave"> ✉️ Send Leave </Link>
           </li>
-          <li className="hover:text-[rgb(193,151,11)]">
+          <li className="active:text-[rgb(193,151,11)]">
             <a href="#">📈 Result </a>
           </li>
-          <li className="hover:text-[rgb(193,151,11)]">
+          <li className="active:text-[rgb(193,151,11)]">
             <Link
               to={`/${userData.role}/${userData.name}/update/password`}
               className="block"
@@ -267,16 +267,16 @@ const StudentSidebar = () => {
               🔒 Reset Password
             </Link>
           </li>
-          <li className="hover:text-[rgb(193,151,11)]">
+          <li className="active:text-[rgb(193,151,11)]">
             <Link to="/student/profile">👤 Profile</Link>
           </li>
-          <li className="hover:text-[rgb(193,151,11)]">
+          <li className="active:text-[rgb(193,151,11)]">
             <Link to="/student/chat">💬 Chat</Link>
           </li>
           <li>
             <button
               onClick={handleLogout}
-              className="text-[rgb(193,151,11)] hover:text-[rgb(193,151,11)] w-full text-left"
+              className="text-[rgb(193,151,11)] active:text-[rgb(193,151,11)] w-full text-left"
             >
               🚪 Logout
             </button>
