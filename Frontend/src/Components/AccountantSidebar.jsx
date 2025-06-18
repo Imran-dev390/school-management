@@ -167,7 +167,7 @@ const AccountantSidebar = () => {
   <div className="bg-white p-4">
     <img src="/logo.jpg" alt="Logo" className="w-full h-8 object-cover" />
   </div>
-  <ul className="p-4 space-y-3 font-medium">
+  {/* <ul className="p-4 space-y-3 font-medium">
     <li>
       <NavLink
         to="/fees"
@@ -251,7 +251,92 @@ const AccountantSidebar = () => {
         <span>Logout</span>
       </button>
     </li>
-  </ul>
+  </ul> */}
+  <ul className="p-4 space-y-3 font-medium">
+  <li>
+    <NavLink
+      to="/fees"
+      className={({ isActive }) =>
+        `p-2 rounded-xl flex items-center space-x-2 ${
+          isActive
+            ? 'bg-slate-300 text-[rgb(193,151,11)]'
+            : 'text-white'
+        }`
+      }
+    >
+      <FaMoneyBillWave />
+      <span>Fees</span>
+    </NavLink>
+  </li>
+  <li>
+    <NavLink
+      to="/expenses"
+      className={({ isActive }) =>
+        `p-2 rounded-xl flex items-center space-x-2 ${
+          isActive
+            ? 'bg-slate-300 text-[rgb(193,151,11)]'
+            : 'text-white'
+        }`
+      }
+    >
+      <FaFileInvoice />
+      <span>Expenses</span>
+    </NavLink>
+  </li>
+  <li>
+    <NavLink
+      to="/salaries"
+      className={({ isActive }) =>
+        `p-2 rounded-xl flex items-center space-x-2 ${
+          isActive
+            ? 'bg-slate-300 text-[rgb(193,151,11)]'
+            : 'text-white'
+        }`
+      }
+    >
+      <FaUserTie />
+      <span>Salaries</span>
+    </NavLink>
+  </li>
+  <li>
+    <NavLink
+      to="/reports"
+      className={({ isActive }) =>
+        `p-2 rounded-xl flex items-center space-x-2 ${
+          isActive
+            ? 'bg-slate-300 text-[rgb(193,151,11)]'
+            : 'text-white '
+        }`
+      }
+    >
+      <FaChartBar />
+      <span>Reports</span>
+    </NavLink>
+  </li>
+  <li>
+    <NavLink
+      to="/student/chat"
+      className={({ isActive }) =>
+        `p-2 rounded-xl flex items-center space-x-2 ${
+          isActive
+            ? 'bg-slate-300 text-[rgb(193,151,11)]'
+            : 'text-white '
+        }`
+      }
+    >
+      <span>💬 Chat</span>
+    </NavLink>
+  </li>
+  <li>
+    <button
+      onClick={handleLogout}
+      className="text-[rgb(193,151,11)] active:text-[rgb(193,151,11)] p-2 rounded-xl w-full text-left flex items-center space-x-2"
+    >
+      <span>🚪</span>
+      <span>Logout</span>
+    </button>
+  </li>
+</ul>
 </aside>
 </>
   )
