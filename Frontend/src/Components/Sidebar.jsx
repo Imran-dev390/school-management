@@ -647,6 +647,9 @@ export  function Sidebar({ isOpen, setIsOpen }) {
           <li><Link to="/admin/teachers" className="hover:text-[rgb(193,151,11)] block">👩‍🏫 Teachers</Link></li>
           <li><Link to="/admin/classes" className="hover:text-[rgb(193,151,11)] block">🏫 Classes</Link></li>
           <li><Link to="/admin/staff" className="hover:text-[rgb(193,151,11)] block">👥 Staff</Link></li>
+          <li className="hover:text-[rgb(193,151,11)]">
+                     <Link to="/admin/chat">💬 Chat</Link>
+                   </li>
           <li>
             <button
               onClick={handleLogout}

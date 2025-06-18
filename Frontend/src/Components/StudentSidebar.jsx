@@ -250,11 +250,14 @@ const StudentSidebar = () => {
            📊 Dashboard
           </Link>
           </li>
-          <li className="hover:text-[rgb(193,151,11)]">
+          {/* <li className="hover:text-[rgb(193,151,11)]">
             <a href="#">📝 Assignments</a>
+          </li> */ }
+          <li className="hover:text-[rgb(193,151,11)]">
+            <Link to ="/send/leave"> ✉️ Send Leave </Link>
           </li>
           <li className="hover:text-[rgb(193,151,11)]">
-            <a href="#">📈 Grades</a>
+            <a href="#">📈 Result </a>
           </li>
           <li className="hover:text-[rgb(193,151,11)]">
             <Link
@@ -266,6 +269,9 @@ const StudentSidebar = () => {
           </li>
           <li className="hover:text-[rgb(193,151,11)]">
             <Link to="/student/profile">👤 Profile</Link>
+          </li>
+          <li className="hover:text-[rgb(193,151,11)]">
+            <Link to="/student/chat">💬 Chat</Link>
           </li>
           <li>
             <button

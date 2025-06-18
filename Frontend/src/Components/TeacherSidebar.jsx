@@ -194,6 +194,15 @@ const TeacherSidebar = () => {
       <li className="hover:text-[rgb(193,151,11)]">
         <Link to="/teacher/profile">👤 Profile</Link>
       </li>
+ <li className="hover:text-[rgb(193,151,11)]">
+  <Link to="/teacher/add/announcement">📢 Add Announcement</Link>
+</li>
+<li className="hover:text-[rgb(193,151,11)]">
+  <Link to="/teacher/publish/marks">📊 Publish Marks</Link>
+</li>
+<li className="hover:text-[rgb(193,151,11)]">
+  <Link to="/teacher/chat">💬 Chat</Link>
+</li>
 
       <li>
         <button

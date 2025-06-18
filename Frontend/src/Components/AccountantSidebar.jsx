@@ -141,6 +141,9 @@ const AccountantSidebar = () => {
         <FaChartBar />
         <a href="#">Reports</a>
       </li>
+       <li className="hover:text-[rgb(193,151,11)]">
+            <Link to="/student/chat">💬 Chat</Link>
+          </li>
       <li>
         <button
           onClick={handleLogout}
