@@ -450,7 +450,7 @@ import { userDataContext } from "./Context-Api/UserContext";
 import { adminDataContext } from "./Context-Api/AdminContext";
 import { authDataContext } from "./Context-Api/AuthContext";
 import AdminDashboard from "./Components/AdminDashboard";
-import Sidebar from "./Components/Sidebar";
+//import Sidebar from "./Components/Sidebar";
 // ✅ Extracted RoleRedirect to standalone functional component
 const RoleRedirect = () => {
   const { userData } = useContext(userDataContext);

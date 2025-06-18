@@ -642,15 +642,15 @@ export  function Sidebar({ isOpen, setIsOpen }) {
         </div>
 
         <ul className="p-4 space-y-3 font-medium">
-          <li><Link to="/admin/dash" className="hover:text-gray-300 block">📊 Dashboard</Link></li>
-          <li><Link to="/admin/students" className="hover:text-gray-300 block">👨‍🎓 Students</Link></li>
-          <li><Link to="/admin/teachers" className="hover:text-gray-300 block">👩‍🏫 Teachers</Link></li>
-          <li><Link to="/admin/classes" className="hover:text-gray-300 block">🏫 Classes</Link></li>
-          <li><Link to="/admin/staff" className="hover:text-gray-300 block">👥 Staff</Link></li>
+          <li><Link to="/admin/dash" className="hover:text-[rgb(193,151,11)] block">📊 Dashboard</Link></li>
+          <li><Link to="/admin/students" className="hover:text-[rgb(193,151,11)] block">👨‍🎓 Students</Link></li>
+          <li><Link to="/admin/teachers" className="hover:text-[rgb(193,151,11)] block">👩‍🏫 Teachers</Link></li>
+          <li><Link to="/admin/classes" className="hover:text-[rgb(193,151,11)] block">🏫 Classes</Link></li>
+          <li><Link to="/admin/staff" className="hover:text-[rgb(193,151,11)] block">👥 Staff</Link></li>
           <li>
             <button
               onClick={handleLogout}
-              className="text-red-500 hover:text-white w-full text-left"
+              className="text-[rgb(193,151,11)] hover:text-[rgb(193,151,11)] w-full text-left"
             >
               🚪 Logout
             </button>

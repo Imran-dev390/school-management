@@ -245,18 +245,18 @@ const StudentSidebar = () => {
           <img src="/logo.jpg" alt="Logo" className="w-full h-8 object-cover" />
         </div>
         <ul className="p-4 space-y-3 font-medium">
-          <li className="hover:text-gray-300">
+          <li className="hover:text-[rgb(193,151,11)]">
           <Link to='/student/dash'>
            📊 Dashboard
           </Link>
           </li>
-          <li className="hover:text-gray-300">
+          <li className="hover:text-[rgb(193,151,11)]">
             <a href="#">📝 Assignments</a>
           </li>
-          <li className="hover:text-gray-300">
+          <li className="hover:text-[rgb(193,151,11)]">
             <a href="#">📈 Grades</a>
           </li>
-          <li className="hover:text-gray-300">
+          <li className="hover:text-[rgb(193,151,11)]">
             <Link
               to={`/${userData.role}/${userData.name}/update/password`}
               className="block"
@@ -264,13 +264,13 @@ const StudentSidebar = () => {
               🔒 Reset Password
             </Link>
           </li>
-          <li className="hover:text-gray-300">
+          <li className="hover:text-[rgb(193,151,11)]">
             <Link to="/student/profile">👤 Profile</Link>
           </li>
           <li>
             <button
               onClick={handleLogout}
-              className="text-red-500 hover:text-white w-full text-left"
+              className="text-[rgb(193,151,11)] hover:text-[rgb(193,151,11)] w-full text-left"
             >
               🚪 Logout
             </button>

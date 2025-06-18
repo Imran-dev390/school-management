@@ -124,27 +124,27 @@ const AccountantSidebar = () => {
     <div className="bg-white p-4">
       <img src="/logo.jpg" alt="Logo" className="w-full h-8 object-cover" />
     </div>
-    <ul className="p-4 space-y-3 font-medium">
-      <li className="hover:text-gray-300 flex items-center space-x-2">
+    <ul className="p-4 space-y-3 font-medium text-white">
+      <li className="hover:text-[rgb(193,151,11)] flex items-center space-x-2">
         <FaMoneyBillWave />
         <a href="#">Fees</a>
       </li>
-      <li className="hover:text-gray-300 flex items-center space-x-2">
+      <li className="hover:text-[rgb(193,151,11)] flex items-center space-x-2">
         <FaFileInvoice />
         <a href="#">Expenses</a>
       </li>
-      <li className="hover:text-gray-300 flex items-center space-x-2">
+      <li className="hover:text-[rgb(193,151,11)] flex items-center space-x-2">
         <FaUserTie />
         <a href="#">Salaries</a>
       </li>
-      <li className="hover:text-gray-300 flex items-center space-x-2">
+      <li className="hover:text-[rgb(193,151,11)] flex items-center space-x-2">
         <FaChartBar />
         <a href="#">Reports</a>
       </li>
       <li>
         <button
           onClick={handleLogout}
-          className="text-red-500 hover:text-white w-full text-left flex items-center space-x-2"
+          className="text-[rgb(193,151,11)] hover:text-[rgb(193,151,11)] w-full text-left flex items-center space-x-2"
         >
           <span>🚪</span>
           <span>Logout</span>
