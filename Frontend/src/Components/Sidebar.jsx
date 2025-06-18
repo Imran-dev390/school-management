@@ -31,7 +31,7 @@
 // //     <div  className={`w-64 min-h-screen  bg-[rgb(1,1,93)] text-white fixed top-0 left-0 z-40 transform transition-transform duration-300 ${showSidebar ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
 // //       {/* Close button on mobile */}
 // //       <div className="md:hidden flex justify-end p-4">
-        
+
 // //       </div>
 // //      {/* Logo with white background */}
 // //   <div className="bg-white px-4 py-4">
@@ -607,7 +607,7 @@ import { userDataContext } from "../Context-Api/UserContext";
 
 
 
-export  function Sidebar({ isOpen, setIsOpen }) {
+export function Sidebar({ isOpen, setIsOpen }) {
   const { userData, setUserData } = useContext(userDataContext);
   const { serverUrl } = useContext(authDataContext);
   const navigate = useNavigate();
@@ -632,24 +632,53 @@ export  function Sidebar({ isOpen, setIsOpen }) {
       )}
 
       {/* Sidebar */}
-       <aside
-        className={`fixed z-40 top-0 left-0 h-full w-64 bg-[rgb(1,1,93)] text-white transform ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 transition-transform duration-300 ease-in-out md:static md:h-auto md:w-64`}
-      > 
+      <aside
+        className={`fixed z-40 top-0 left-0 h-full w-64 bg-[rgb(1,1,93)] text-white transform ${isOpen ? "translate-x-0" : "-translate-x-full"
+          } md:translate-x-0 transition-transform duration-300 ease-in-out md:static md:h-auto md:w-64`}
+      >
         <div className="bg-white p-4">
           <img src="/logo.jpg" alt="Logo" className="w-full h-10 object-cover" />
         </div>
 
         <ul className="p-4 space-y-3 font-medium">
-          <li><Link to="/admin/dash" className="active:text-[rgb(193,151,11)] block">📊 Dashboard</Link></li>
-          <li><Link to="/admin/students" className="active:text-[rgb(193,151,11)] block">👨‍🎓 Students</Link></li>
-          <li><Link to="/admin/teachers" className="active:text-[rgb(193,151,11)] block">👩‍🏫 Teachers</Link></li>
-          <li><Link to="/admin/classes" className="active:text-[rgb(193,151,11)] block">🏫 Classes</Link></li>
-          <li><Link to="/admin/staff" className="active:text-[rgb(193,151,11)] block">👥 Staff</Link></li>
+          <li  className="active:text-[rgb(193,151,11)] block"><Link to="/admin/dash"    >📊 Dashboard</Link></li>
+          <li  className="active:text-[rgb(193,151,11)] block"><Link to="/admin/students">👨‍🎓 Students</Link></li>
+          <li  className="active:text-[rgb(193,151,11)] block"><Link to="/admin/add-student" >
+            ➕ Add New Students
+          </Link>
+          </li>
+          <li  className="active:text-[rgb(193,151,11)] block" ><Link to="/admin/teachers"    >👩‍🏫 Teachers</Link></li>
+          <li  className="active:text-[rgb(193,151,11)] block" > <Link to="/admin/add-teacher">
+                          ➕ Register New Teacher
+                        </Link></li>
+          <li  className="active:text-[rgb(193,151,11)] block"><Link to="/admin/classes"  >🏫 Classes</Link></li>
+          <li  className="active:text-[rgb(193,151,11)] block"><Link to="/admin/add-class">
+                          ➕ Add New Class
+                        </Link></li>
+          <li  className="active:text-[rgb(193,151,11)] block"><Link to="/admin/staff">👥 Staff</Link></li>
+          <li  className="active:text-[rgb(193,151,11)] block"><Link to="/admin/add-staff">
+                          ➕ Register New Staff
+                        </Link></li>   
+ <li className="active:text-[rgb(193,151,11)]">
+  <Link to="/admin/sessions">⏰ Sessions</Link>
+</li>
+<li className="active:text-[rgb(193,151,11)]">
+ <Link to="/admin/add-session">
+                ➕ Add New Session
+              </Link>         
+              </li>
+              <li className="active:text-[rgb(193,151,11)]">
+               <Link to="/Add/Class/Timetable">
+                              ➕ Add Class TimeTable
+                            </Link>
+                            </li>
+                            <li className="active:text-[rgb(193,151,11)]"><Link to="/Add/Fee/Voucher">
+                              ➕ Add Fee Voucher
+                            </Link>
+                            </li>
           <li className="active:text-[rgb(193,151,11)]">
-                     <Link to="/admin/chat">💬 Chat</Link>
-                   </li>
+            <Link to="/admin/chat">💬 Chat</Link>
+          </li>
           <li>
             <button
               onClick={handleLogout}
@@ -660,7 +689,7 @@ export  function Sidebar({ isOpen, setIsOpen }) {
           </li>
         </ul>
 
-        <div className="px-4 mt-6">
+        {/* <div className="px-4 mt-6">
           <button
             onClick={() => setIsOpen(false)}
             className="w-full flex items-center justify-center bg-blue-600 active:bg-blue-700 p-2 rounded"
@@ -668,7 +697,7 @@ export  function Sidebar({ isOpen, setIsOpen }) {
             <FaRegDotCircle className="mr-2" />
             <span>Track Process</span>
           </button>
-        </div>
+        </div> */}
       </aside>
     </>
   );
