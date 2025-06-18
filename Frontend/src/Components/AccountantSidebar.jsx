@@ -4,6 +4,9 @@ import axios from 'axios';
 import { userDataContext } from '../Context-Api/UserContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaMoneyBillWave, FaFileInvoice, FaUserTie, FaChartBar } from "react-icons/fa";
+import { NavLink } from 'react-router-dom';
+//import { FaMoneyBillWave, FaFileInvoice, FaUserTie, FaChartBar } from 'react-icons/fa';
+
 const AccountantSidebar = () => {
     const {serverUrl} = useContext(authDataContext);
     const {userData,setUserData} = useContext(userDataContext);
@@ -116,7 +119,7 @@ const AccountantSidebar = () => {
   )}
 
   {/* Sidebar */}
-  <aside
+  {/* <aside
     className={`fixed z-40 top-0 left-0 h-full w-64 bg-[rgb(1,1,93)] text-white transform ${
       isOpen ? 'translate-x-0' : '-translate-x-full'
     } md:translate-x-0 transition-transform duration-300 ease-in-out md:static md:h-auto md:w-64`}
@@ -154,7 +157,102 @@ const AccountantSidebar = () => {
         </button>
       </li>
     </ul>
-  </aside>
+  </aside> */}
+
+<aside
+  className={`fixed z-40 top-0 left-0 h-full w-64 bg-[rgb(1,1,93)] text-white transform ${
+    isOpen ? 'translate-x-0' : '-translate-x-full'
+  } md:translate-x-0 transition-transform duration-300 ease-in-out md:static md:h-auto md:w-64`}
+>
+  <div className="bg-white p-4">
+    <img src="/logo.jpg" alt="Logo" className="w-full h-8 object-cover" />
+  </div>
+  <ul className="p-4 space-y-3 font-medium">
+    <li>
+      <NavLink
+        to="/fees"
+        className={({ isActive }) =>
+          `p-2 rounded-xl flex items-center space-x-2 ${
+            isActive
+              ? 'bg-slate-100 text-[rgb(193,151,11)]'
+              : 'text-white hover:text-[rgb(193,151,11)]'
+          }`
+        }
+      >
+        <FaMoneyBillWave />
+        <span>Fees</span>
+      </NavLink>
+    </li>
+    <li>
+      <NavLink
+        to="/expenses"
+        className={({ isActive }) =>
+          `p-2 rounded-xl flex items-center space-x-2 ${
+            isActive
+              ? 'bg-slate-100 text-[rgb(193,151,11)]'
+              : 'text-white hover:text-[rgb(193,151,11)]'
+          }`
+        }
+      >
+        <FaFileInvoice />
+        <span>Expenses</span>
+      </NavLink>
+    </li>
+    <li>
+      <NavLink
+        to="/salaries"
+        className={({ isActive }) =>
+          `p-2 rounded-xl flex items-center space-x-2 ${
+            isActive
+              ? 'bg-slate-100 text-[rgb(193,151,11)]'
+              : 'text-white hover:text-[rgb(193,151,11)]'
+          }`
+        }
+      >
+        <FaUserTie />
+        <span>Salaries</span>
+      </NavLink>
+    </li>
+    <li>
+      <NavLink
+        to="/reports"
+        className={({ isActive }) =>
+          `p-2 rounded-xl flex items-center space-x-2 ${
+            isActive
+              ? 'bg-slate-100 text-[rgb(193,151,11)]'
+              : 'text-white hover:text-[rgb(193,151,11)]'
+          }`
+        }
+      >
+        <FaChartBar />
+        <span>Reports</span>
+      </NavLink>
+    </li>
+    <li>
+      <NavLink
+        to="/student/chat"
+        className={({ isActive }) =>
+          `p-2 rounded-xl flex items-center space-x-2 ${
+            isActive
+              ? 'bg-slate-100 text-[rgb(193,151,11)]'
+              : 'text-white hover:text-[rgb(193,151,11)]'
+          }`
+        }
+      >
+        <span>💬 Chat</span>
+      </NavLink>
+    </li>
+    <li>
+      <button
+        onClick={handleLogout}
+        className="text-[rgb(193,151,11)] p-2 rounded-xl w-full text-left flex items-center space-x-2"
+      >
+        <span>🚪</span>
+        <span>Logout</span>
+      </button>
+    </li>
+  </ul>
+</aside>
 </>
   )
 }
