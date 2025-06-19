@@ -610,8 +610,26 @@ import { userDataContext } from "../Context-Api/UserContext";
 export function Sidebar({ isOpen, setIsOpen }) {
   const { userData, setUserData } = useContext(userDataContext);
   const { serverUrl } = useContext(authDataContext);
+  const [activeIndex, setActiveIndex] = useState(null); // track the active li
+
+  const menuItems = [
+    { path: "/admin/dash", label: "📊 Dashboard" },
+    { path: "/admin/students", label: "👨‍🎓 Students" },
+    { path: "/admin/add-student", label: "➕ Add New Students" },
+    { path: "/admin/teachers", label: "👩‍🏫 Teachers" },
+    { path: "/admin/add-teacher", label: "➕ Register New Teacher" },
+    { path: "/admin/classes", label: "🏫 Classes" },
+    { path: "/admin/add-class", label: "➕ Add New Class" },
+    { path: "/admin/staff", label: "👥 Staff" },
+    { path: "/admin/add-staff", label: "➕ Register New Staff" },
+    { path: "/admin/sessions", label: "⏰ Sessions" },
+    { path: "/admin/add-session", label: "➕ Add New Session" },
+    { path: "/Add/Class/Timetable", label: "➕ Add Class TimeTable" },
+    { path: "/Add/Fee/Voucher", label: "➕ Add Fee Voucher" },
+    { path: "/admin/chat", label: "💬 Chat" },
+  ];
   const navigate = useNavigate();
-const [isActive,setActive] = useState(false);
+//const [isActive,setActive] = useState(false);
   const handleLogout = async () => {
     try {
       await axios.get(serverUrl + "/api/auth/signout", { withCredentials: true });
@@ -638,7 +656,7 @@ const [isActive,setActive] = useState(false);
         <div className="bg-white p-4">
           <img src="/logo.jpg" alt="Logo" className="w-full h-10 object-cover" />
         </div>
-        <ul className="p-4 space-y-3 font-medium">
+        {/* <ul className="p-4 space-y-3 font-medium">
           <li  className={`p-4 rounded-xl ${isActive ? "bg-slate-300" : ""} `}   onClick={()=>setActive(true)}><Link to="/admin/dash"  className="active:text-[rgb(193,151,11)] block"    >📊 Dashboard</Link></li>
           <li  className={`p-4 rounded-xl ${isActive ? "bg-slate-300" : ""}  `} onClick={()=>setActive(true)}><Link to="/admin/students"  className="active:text-[rgb(193,151,11)] block">👨‍🎓 Students</Link></li>
           <li  className={`p-4 rounded-xl ${isActive ? "bg-slate-300" : ""}  `} onClick={()=>setActive(true)}><Link to="/admin/add-student"  className="active:text-[rgb(193,151,11)] block">
@@ -685,8 +703,28 @@ const [isActive,setActive] = useState(false);
               🚪 Logout
             </button>
           </li>
-        </ul>
-
+        </ul> */}
+<ul className="p-4 space-y-3 font-medium">
+      {menuItems.map((item, index) => (
+        <li
+          key={index}
+          className={`p-4 rounded-xl ${activeIndex === index ? "bg-orange-300" : ""}`}
+          onClick={() => setActiveIndex(index)}
+        >
+          <Link to={item.path} className="active:text-[rgb(193,151,11)] block">
+            {item.label}
+          </Link>
+        </li>
+      ))}
+ <li>
+        <button
+          onClick={handleLogout}
+          className="text-[rgb(193,151,11)] active:text-[rgb(193,151,11)] w-full text-left"
+        >
+          🚪 Logout
+        </button>
+      </li>
+    </ul>
         {/* <div className="px-4 mt-6">
           <button
             onClick={() => setIsOpen(false)}
