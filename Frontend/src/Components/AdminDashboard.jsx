@@ -290,7 +290,8 @@ export default function AdminDashboard({ recentActivity, setRecentActivity }) {
 //   );
 // }
 
-{loading && (
+if(loading){
+  return (
   <div className="relative min-h-screen w-full overflow-hidden">
     {/* Background image container */}
     <div
