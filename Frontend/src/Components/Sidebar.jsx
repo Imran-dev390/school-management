@@ -732,7 +732,7 @@ export function Sidebar({ isOpen, setIsOpen }) {
         return (
           <li
             key={index}
-            className={`p-4 rounded-xl ${isActive ? "bg-slate-300" : ""}`}
+            className={`p-4 rounded-xl ${isActive ? "bg-emerald-500" : ""}`}
           >
             <Link
               to={item.path}
