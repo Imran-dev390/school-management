@@ -615,72 +615,37 @@ export function Sidebar({ isOpen, setIsOpen }) {
    const [openDropdown, setOpenDropdown] = useState(null); // to control open dropdown
 
   const menuItems = [
-    {
-      label: "📊 Dashboard",
-      path: "/admin/dash",
-    },
+    { label: "📊 Dashboard", path: "/admin/dash" },
     {
       label: "👨‍🎓 Students",
       path: "/admin/students",
-      children: [
-        {
-          label: "➕ Add New Students",
-          path: "/admin/add-student",
-        },
-      ],
+      children: [{ label: "➕ Add New Students", path: "/admin/add-student" }],
     },
     {
       label: "👩‍🏫 Teachers",
       path: "/admin/teachers",
-      children: [
-        {
-          label: "➕ Register New Teacher",
-          path: "/admin/add-teacher",
-        },
-      ],
+      children: [{ label: "➕ Register New Teacher", path: "/admin/add-teacher" }],
     },
     {
       label: "🏫 Classes",
       path: "/admin/classes",
       children: [
-        {
-          label: "➕ Add New Class",
-          path: "/admin/add-class",
-        },
+        { label: "➕ Add New Class", path: "/admin/add-class" },
+        { label: "➕ Add Class TimeTable", path: "/Add/Class/Timetable" }, // moved here
       ],
     },
     {
       label: "👥 Staff",
       path: "/admin/staff",
-      children: [
-        {
-          label: "➕ Register New Staff",
-          path: "/admin/add-staff",
-        },
-      ],
+      children: [{ label: "➕ Register New Staff", path: "/admin/add-staff" }],
     },
     {
       label: "⏰ Sessions",
       path: "/admin/sessions",
-      children: [
-        {
-          label: "➕ Add New Session",
-          path: "/admin/add-session",
-        },
-      ],
+      children: [{ label: "➕ Add New Session", path: "/admin/add-session" }],
     },
-    {
-      label: "💬 Chat",
-      path: "/admin/chat",
-    },
-    {
-      label: "➕ Add Class TimeTable",
-      path: "/Add/Class/Timetable",
-    },
-    {
-      label: "➕ Add Fee Voucher",
-      path: "/Add/Fee/Voucher",
-    },
+    { label: "💬 Chat", path: "/admin/chat" },
+    { label: "➕ Add Fee Voucher", path: "/Add/Fee/Voucher" },
   ];
   const navigate = useNavigate();
 //const [isActive,setActive] = useState(false);
@@ -864,7 +829,8 @@ export function Sidebar({ isOpen, setIsOpen }) {
         </button>
       </li>
     </ul> */}
-     <ul className="p-4 space-y-1 font-medium"> {/* reduced gap here (space-y-1 instead of 3) */}
+    
+        <ul className="p-4 space-y-1 font-medium">
       {menuItems.map((item, index) => {
         const isActive = location.pathname === item.path;
         const isDropdownOpen = openDropdown === index;
@@ -872,7 +838,7 @@ export function Sidebar({ isOpen, setIsOpen }) {
         return (
           <li key={index}>
             <div
-              onClick={() => item.children ? toggleDropdown(index) : null}
+              onClick={() => (item.children ? toggleDropdown(index) : null)}
               className={`flex items-center justify-between p-3 rounded-md cursor-pointer ${
                 isActive ? "bg-slate-300" : ""
               }`}
@@ -901,10 +867,10 @@ export function Sidebar({ isOpen, setIsOpen }) {
                     <li key={childIndex}>
                       <Link
                         to={child.path}
-                        className={`block px-3 py-2 rounded-md text-sm ${
+                        className={`block px-3 py-2 rounded-md text-sm cursor-pointer ${
                           isChildActive
                             ? "bg-slate-300 text-[rgb(193,151,11)]"
-                            : "text-gray-700 hover:bg-gray-100"
+                            : "text-[rgb(193,151,11)] hover:bg-slate-100"
                         }`}
                       >
                         {child.label}
