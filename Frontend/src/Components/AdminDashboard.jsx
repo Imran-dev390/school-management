@@ -240,8 +240,12 @@ export default function AdminDashboard({ recentActivity, setRecentActivity }) {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
+      <div className="min-h-screen">
+        <div className="img">
+          <img src="/logo.jpg" alt="" className="w-72 h-24 object-cover">
+          </img>
+        </div>
+        <div className="text-center flex w-full h-full mt-12 items-center justify-center">
           <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4 mx-auto"></div>
           <p className="text-lg font-semibold">Loading dashboard...</p>
         </div>
