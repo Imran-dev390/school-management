@@ -708,7 +708,7 @@ export function Sidebar({ isOpen, setIsOpen }) {
       {menuItems.map((item, index) => (
         <li
           key={index}
-          className={`p-4 rounded-xl ${activeIndex === index ? "bg-orange-300" : ""}`}
+          className={`p-4 rounded-xl ${activeIndex === index ? "bg-orange-300 transition-all" : ""}`}
           onClick={() => setActiveIndex(index)}
         >
           <Link to={item.path} className="active:text-[rgb(193,151,11)] block">
