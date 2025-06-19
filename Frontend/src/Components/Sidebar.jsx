@@ -611,7 +611,7 @@ export function Sidebar({ isOpen, setIsOpen }) {
   const { userData, setUserData } = useContext(userDataContext);
   const { serverUrl } = useContext(authDataContext);
   const navigate = useNavigate();
-
+const [isActive,setActive] = useState(false);
   const handleLogout = async () => {
     try {
       await axios.get(serverUrl + "/api/auth/signout", { withCredentials: true });
@@ -630,7 +630,6 @@ export function Sidebar({ isOpen, setIsOpen }) {
           onClick={() => setIsOpen(false)}
         ></div>
       )}
-
       {/* Sidebar */}
       <aside
         className={`fixed z-40 top-0 left-0 h-full w-64 bg-[rgb(1,1,93)] text-white transform ${isOpen ? "translate-x-0" : "-translate-x-full"
@@ -639,45 +638,44 @@ export function Sidebar({ isOpen, setIsOpen }) {
         <div className="bg-white p-4">
           <img src="/logo.jpg" alt="Logo" className="w-full h-10 object-cover" />
         </div>
-
         <ul className="p-4 space-y-3 font-medium">
-          <li  className="active:text-[rgb(193,151,11)] block"><Link to="/admin/dash"    >📊 Dashboard</Link></li>
-          <li  className="active:text-[rgb(193,151,11)] block"><Link to="/admin/students">👨‍🎓 Students</Link></li>
-          <li  className="active:text-[rgb(193,151,11)] block"><Link to="/admin/add-student" >
+          <li  className={`p-4 rounded-xl ${isActive ? "bg-slate-300" : ""} `}   onClick={()=>setActive(true)}><Link to="/admin/dash"  className="active:text-[rgb(193,151,11)] block"    >📊 Dashboard</Link></li>
+          <li  className={`p-4 rounded-xl ${isActive ? "bg-slate-300" : ""}  `} onClick={()=>setActive(true)}><Link to="/admin/students"  className="active:text-[rgb(193,151,11)] block">👨‍🎓 Students</Link></li>
+          <li  className={`p-4 rounded-xl ${isActive ? "bg-slate-300" : ""}  `} onClick={()=>setActive(true)}><Link to="/admin/add-student"  className="active:text-[rgb(193,151,11)] block">
             ➕ Add New Students
           </Link>
           </li>
-          <li  className="active:text-[rgb(193,151,11)] block" ><Link to="/admin/teachers"    >👩‍🏫 Teachers</Link></li>
-          <li  className="active:text-[rgb(193,151,11)] block" > <Link to="/admin/add-teacher">
+          <li   className={`p-4 rounded-xl ${isActive ? "bg-slate-300" : ""} `} onClick={()=>setActive(true)}><Link to="/admin/teachers"    className="active:text-[rgb(193,151,11)] block" >👩‍🏫 Teachers</Link></li>
+          <li   className={`p-4 rounded-xl ${isActive ? "bg-slate-300" : ""} `} onClick={()=>setActive(true)}> <Link to="/admin/add-teacher"  className="active:text-[rgb(193,151,11)] block">
                           ➕ Register New Teacher
                         </Link></li>
-          <li  className="active:text-[rgb(193,151,11)] block"><Link to="/admin/classes"  >🏫 Classes</Link></li>
-          <li  className="active:text-[rgb(193,151,11)] block"><Link to="/admin/add-class">
+          <li   className={`p-4 rounded-xl ${isActive ? "bg-slate-300" : ""} `} onClick={()=>setActive(true)}><Link to="/admin/classes"    className="active:text-[rgb(193,151,11)] block">🏫 Classes</Link></li>
+          <li   className={`p-4 rounded-xl ${isActive ? "bg-slate-300" : ""} `} onClick={()=>setActive(true)}><Link to="/admin/add-class"  className="active:text-[rgb(193,151,11)] block">
                           ➕ Add New Class
                         </Link></li>
-          <li  className="active:text-[rgb(193,151,11)] block"><Link to="/admin/staff">👥 Staff</Link></li>
-          <li  className="active:text-[rgb(193,151,11)] block"><Link to="/admin/add-staff">
+          <li   className={`p-4 rounded-xl ${isActive ? "bg-slate-300" : ""} `} onClick={()=>setActive(true)}><Link to="/admin/staff"      className="active:text-[rgb(193,151,11)] block">👥 Staff</Link></li>
+          <li   className={`p-4 rounded-xl ${isActive ? "bg-slate-300" : ""} `} onClick={()=>setActive(true)}><Link to="/admin/add-staff"  className="active:text-[rgb(193,151,11)] block">
                           ➕ Register New Staff
                         </Link></li>   
- <li className="active:text-[rgb(193,151,11)]">
-  <Link to="/admin/sessions">⏰ Sessions</Link>
+ <li  className={`p-4 rounded-xl ${isActive ? "bg-slate-300" : ""} `} onClick={()=>setActive(true)}>
+  <Link to="/admin/sessions"  className="active:text-[rgb(193,151,11)] block">⏰ Sessions</Link>
 </li>
-<li className="active:text-[rgb(193,151,11)]">
- <Link to="/admin/add-session">
+<li  className={`p-4 rounded-xl ${isActive ? "bg-slate-300" : ""} `} onClick={()=>setActive(true)}>
+ <Link to="/admin/add-session"  className="active:text-[rgb(193,151,11)] block">
                 ➕ Add New Session
               </Link>         
               </li>
-              <li className="active:text-[rgb(193,151,11)]">
-               <Link to="/Add/Class/Timetable">
+              <li  className={`p-4 rounded-xl ${isActive ? "bg-slate-300" : ""} `} onClick={()=>setActive(true)}>
+               <Link to="/Add/Class/Timetable"  className="active:text-[rgb(193,151,11)] block">
                               ➕ Add Class TimeTable
                             </Link>
                             </li>
-                            <li className="active:text-[rgb(193,151,11)]"><Link to="/Add/Fee/Voucher">
+                            <li  className={`p-4 rounded-xl ${isActive ? "bg-slate-300" : ""} `} onClick={()=>setActive(true)}><Link to="/Add/Fee/Voucher"  className="active:text-[rgb(193,151,11)] block">
                               ➕ Add Fee Voucher
                             </Link>
                             </li>
-          <li className="active:text-[rgb(193,151,11)]">
-            <Link to="/admin/chat">💬 Chat</Link>
+          <li  className={`p-4 rounded-xl ${isActive ? "bg-slate-300" : ""} `} onClick={()=>setActive(true)}>
+            <Link to="/admin/chat"  className="active:text-[rgb(193,151,11)] block">💬 Chat</Link>
           </li>
           <li>
             <button
