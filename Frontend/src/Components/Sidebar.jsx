@@ -468,7 +468,7 @@
 
 
 import { useContext, useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaTimes } from "react-icons/fa";
 import { FaRegDotCircle } from "react-icons/fa";
@@ -610,8 +610,7 @@ import { userDataContext } from "../Context-Api/UserContext";
 export function Sidebar({ isOpen, setIsOpen }) {
   const { userData, setUserData } = useContext(userDataContext);
   const { serverUrl } = useContext(authDataContext);
-  const [activeIndex, setActiveIndex] = useState(null); // track the active li
-
+   const location = useLocation(); // track the active li
   const menuItems = [
     { path: "/admin/dash", label: "📊 Dashboard" },
     { path: "/admin/students", label: "👨‍🎓 Students" },
@@ -704,7 +703,7 @@ export function Sidebar({ isOpen, setIsOpen }) {
             </button>
           </li>
         </ul> */}
-<ul className="p-4 space-y-3 font-medium">
+{/* <ul className="p-4 space-y-3 font-medium">
       {menuItems.map((item, index) => (
         <li
           key={index}
@@ -717,6 +716,35 @@ export function Sidebar({ isOpen, setIsOpen }) {
         </li>
       ))}
  <li>
+        <button
+          onClick={handleLogout}
+          className="text-[rgb(193,151,11)] active:text-[rgb(193,151,11)] w-full text-left"
+        >
+          🚪 Logout
+        </button>
+      </li>
+    </ul> */}
+
+      <ul className="p-4 space-y-3 font-medium">
+      {menuItems.map((item, index) => {
+        const isActive = location.pathname === item.path;
+
+        return (
+          <li
+            key={index}
+            className={`p-4 rounded-xl ${isActive ? "bg-slate-300" : ""}`}
+          >
+            <Link
+              to={item.path}
+              className={`block ${isActive ? "text-[rgb(193,151,11)]" : ""}`}
+            >
+              {item.label}
+            </Link>
+          </li>
+        );
+      })}
+
+      <li>
         <button
           onClick={handleLogout}
           className="text-[rgb(193,151,11)] active:text-[rgb(193,151,11)] w-full text-left"
