@@ -238,20 +238,36 @@ export default function AdminDashboard({ recentActivity, setRecentActivity }) {
     }
   }, [adminData, fetchAdminData]);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen">
-        <div className="img">
-          <img src="/logo.jpg" alt="" className="w-72 h-24 object-cover">
-          </img>
-        </div>
-        <div className="text-center flex w-full h-full mt-12 items-center justify-center">
-          <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4 mx-auto"></div>
-          <p className="text-lg font-semibold">Loading dashboard...</p>
-        </div>
+  // if (loading) {
+  //   return (
+  //     <div className="min-h-screen">
+  //       <div className="img">
+  //         <img src="/logo.jpg" alt="" className="w-72 h-24 object-cover">
+  //         </img>
+  //       </div>
+  //       <div className="text-center flex w-full h-full mt-12 items-center justify-center">
+  //         <div className="loader flex items-center justify-center ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4 mx-auto"></div>
+  //         <p className="text-lg font-semibold">Loading dashboard...</p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
+if (loading) {
+  return (
+    <div className="min-h-screen relative bg-white">
+      {/* Top-left logo */}
+      <div className="absolute top-4 left-4">
+        <img src="/logo.jpg" alt="Logo" className="w-72 h-24 object-cover" />
       </div>
-    );
-  }
+
+      {/* Centered loader and text */}
+      <div className="flex flex-col items-center justify-center h-screen">
+        <div className="loader animate-spin ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
+        <p className="text-lg font-semibold">Loading dashboard...</p>
+      </div>
+    </div>
+  );
+}
 
   const { teachers = [], sessions = [], students = [], classes = [], name } = adminData.admin || {};
   return (
