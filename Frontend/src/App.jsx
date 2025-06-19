@@ -450,43 +450,68 @@ import { userDataContext } from "./Context-Api/UserContext";
 import { adminDataContext } from "./Context-Api/AdminContext";
 import { authDataContext } from "./Context-Api/AuthContext";
 import AdminDashboard from "./Components/AdminDashboard";
-//import Sidebar from "./Components/Sidebar";
-// ✅ Extracted RoleRedirect to standalone functional component
 const RoleRedirect = () => {
   const { userData } = useContext(userDataContext);
+  const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!userData) {
+//    useEffect(() => {
+//   //   if (!userData) {
+//   //     navigate("/login");
+//   //   } else {
+//   //     switch (userData.role) {
+//   //       case "Admin":
+//   //         navigate("/admin/dash");
+//   //         break;
+//   //       case "Teacher":
+//   //         navigate("/teacher/dash");
+//   //         break;
+//   //       case "Student":
+//   //         navigate("/student/dash");
+//   //         break;
+//   //       case "Accountant":
+//   //         navigate("/accountant/dash");
+//   //         break;
+//   //       default:
+//   //         navigate("/login");
+//   //     }
+//   //   }
+//   // }, [userData, navigate]);
+//   return null;
+ useEffect(() => {
+  if (!userData) {
+    if (location.pathname !== "/login") {
       navigate("/login");
-    } else {
-      switch (userData.role) {
-        case "Admin":
-          navigate("/admin/dash");
-          break;
-        case "Teacher":
-          navigate("/teacher/dash");
-          break;
-        case "Student":
-          navigate("/student/dash");
-          break;
-        case "Accountant":
-          navigate("/accountant/dash");
-          break;
-        default:
-          navigate("/login");
-      }
     }
-  }, [userData, navigate]);
-  return null;
-};
+  } else {
+    let targetPath = "/";
+    switch (userData.role) {
+      case "Admin":
+        targetPath = "/admin/dash";
+        break;
+      case "Teacher":
+        targetPath = "/teacher/dash";
+        break;
+      case "Student":
+        targetPath = "/student/dash";
+        break;
+      case "Accountant":
+        targetPath = "/accountant/dash";
+        break;
+    }
+    if (location.pathname !== targetPath) {
+      navigate(targetPath);
+    }
+  }
+}, [userData, navigate, location.pathname])
+}
 
 function App() {
   const { serverUrl } = useContext(authDataContext);
   const location = useLocation();
   const isHomePage = location.pathname === "/";
 
-  const { userData, setUserData } = useContext(userDataContext);
+  const { userData, setUserData, loadingUser} = useContext(userDataContext);
   const { fetchAdminData, adminData } = useContext(adminDataContext);
   const [recentActivity, setRecentActivity] = useState([
     {
@@ -511,7 +536,8 @@ function App() {
   return (
     <div className="main min-h-screen w-full">
       <Routes>
-        <Route path="/" element={<RoleRedirect />} />
+        {/* <Route path="/" element={<RoleRedirect />} /> */}
+        <Route path="/" element={loadingUser ? <div>Loading...</div> : <RoleRedirect />} />
         <Route path="/login" element={userData ? <Navigate to="/" /> : <Login />} />
         <Route path="/register" element={userData ? <Navigate to="/login" /> : <SignupForm />} />
 

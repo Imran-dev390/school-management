@@ -50,8 +50,8 @@ export const userDataContext = createContext();
 const UserContext = ({ children }) => {
   const { serverUrl } = useContext(authDataContext); // Get server URL from AuthContext
   const [userData, setUserData] = useState(null);
-
-  const getCurrentUser = async () => {
+const [loadingUser, setLoadingUser] = useState(true);
+  /*const getCurrentUser = async () => {
     try {
       const result = await axios.get(`${serverUrl}/api/user/home`, { withCredentials: true });
      // console.log(result.data);
@@ -60,7 +60,23 @@ const UserContext = ({ children }) => {
 //      console.error('Failed to fetch user:', err.message);
       setUserData(null);
     }
-  };
+  };*/
+
+
+
+
+
+const getCurrentUser = async () => {
+  try {
+    setLoadingUser(true);
+    const result = await axios.get(`${serverUrl}/api/user/home`, { withCredentials: true });
+    setUserData(result.data);
+  } catch (err) {
+    setUserData(null);
+  } finally {
+    setLoadingUser(false);
+  }
+};
 
   useEffect(() => {
     if (serverUrl) {
@@ -72,6 +88,7 @@ const UserContext = ({ children }) => {
     userData,
     setUserData,
     getCurrentUser,
+     loadingUser
   };
 
   return (

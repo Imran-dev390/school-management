@@ -853,7 +853,7 @@ export function Sidebar({ isOpen, setIsOpen }) {
               </Link>
 
               {item.children && (
-                <span className="ml-2 text-sm text-gray-600">
+                <span className="ml-2 text-sm text-gray-800">
                   {isDropdownOpen ? <FaChevronUp size={12} /> : <FaChevronDown size={12} />}
                 </span>
               )}
