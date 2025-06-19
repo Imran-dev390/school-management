@@ -830,7 +830,7 @@ export function Sidebar({ isOpen, setIsOpen }) {
       </li>
     </ul> */}
     
-        <ul className="p-4 space-y-1 font-medium">
+        <ul className="p-4 space-y-0 font-medium">
       {menuItems.map((item, index) => {
         const isActive = location.pathname === item.path;
         const isDropdownOpen = openDropdown === index;
