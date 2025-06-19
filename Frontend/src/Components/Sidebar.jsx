@@ -611,21 +611,75 @@ export function Sidebar({ isOpen, setIsOpen }) {
   const { userData, setUserData } = useContext(userDataContext);
   const { serverUrl } = useContext(authDataContext);
    const location = useLocation(); // track the active li
+   const [openDropdown, setOpenDropdown] = useState(null); // to control open dropdown
+
   const menuItems = [
-    { path: "/admin/dash", label: "📊 Dashboard" },
-    { path: "/admin/students", label: "👨‍🎓 Students" },
-    { path: "/admin/add-student", label: "➕ Add New Students" },
-    { path: "/admin/teachers", label: "👩‍🏫 Teachers" },
-    { path: "/admin/add-teacher", label: "➕ Register New Teacher" },
-    { path: "/admin/classes", label: "🏫 Classes" },
-    { path: "/admin/add-class", label: "➕ Add New Class" },
-    { path: "/admin/staff", label: "👥 Staff" },
-    { path: "/admin/add-staff", label: "➕ Register New Staff" },
-    { path: "/admin/sessions", label: "⏰ Sessions" },
-    { path: "/admin/add-session", label: "➕ Add New Session" },
-    { path: "/Add/Class/Timetable", label: "➕ Add Class TimeTable" },
-    { path: "/Add/Fee/Voucher", label: "➕ Add Fee Voucher" },
-    { path: "/admin/chat", label: "💬 Chat" },
+    {
+      label: "📊 Dashboard",
+      path: "/admin/dash",
+    },
+    {
+      label: "👨‍🎓 Students",
+      path: "/admin/students",
+      children: [
+        {
+          label: "➕ Add New Students",
+          path: "/admin/add-student",
+        },
+      ],
+    },
+    {
+      label: "👩‍🏫 Teachers",
+      path: "/admin/teachers",
+      children: [
+        {
+          label: "➕ Register New Teacher",
+          path: "/admin/add-teacher",
+        },
+      ],
+    },
+    {
+      label: "🏫 Classes",
+      path: "/admin/classes",
+      children: [
+        {
+          label: "➕ Add New Class",
+          path: "/admin/add-class",
+        },
+      ],
+    },
+    {
+      label: "👥 Staff",
+      path: "/admin/staff",
+      children: [
+        {
+          label: "➕ Register New Staff",
+          path: "/admin/add-staff",
+        },
+      ],
+    },
+    {
+      label: "⏰ Sessions",
+      path: "/admin/sessions",
+      children: [
+        {
+          label: "➕ Add New Session",
+          path: "/admin/add-session",
+        },
+      ],
+    },
+    {
+      label: "💬 Chat",
+      path: "/admin/chat",
+    },
+    {
+      label: "➕ Add Class TimeTable",
+      path: "/Add/Class/Timetable",
+    },
+    {
+      label: "➕ Add Fee Voucher",
+      path: "/Add/Fee/Voucher",
+    },
   ];
   const navigate = useNavigate();
 //const [isActive,setActive] = useState(false);
@@ -637,6 +691,9 @@ export function Sidebar({ isOpen, setIsOpen }) {
     } catch (err) {
       console.error(err);
     }
+  };
+   const toggleDropdown = (index) => {
+    setOpenDropdown(openDropdown === index ? null : index);
   };
   return (
     <>
@@ -725,14 +782,14 @@ export function Sidebar({ isOpen, setIsOpen }) {
       </li>
     </ul> */}
 
-      <ul className="p-4 space-y-3 font-medium">
+      {/* <ul className="p-4 space-y-3 font-medium">
       {menuItems.map((item, index) => {
         const isActive = location.pathname === item.path;
 
         return (
           <li
             key={index}
-            className={`p-4 rounded-xl ${isActive ? "bg-emerald-500" : ""}`}
+            className={`p-4 rounded-xl ${isActive ? "bg-slate-300" : ""}`}
           >
             <Link
               to={item.path}
@@ -748,6 +805,59 @@ export function Sidebar({ isOpen, setIsOpen }) {
         <button
           onClick={handleLogout}
           className="text-[rgb(193,151,11)] active:text-[rgb(193,151,11)] w-full text-left"
+        >
+          🚪 Logout
+        </button>
+      </li>
+    </ul> */}
+     <ul className="p-4 space-y-3 font-medium">
+      {menuItems.map((item, index) => {
+        const isActive = location.pathname === item.path;
+        return (
+          <li key={index}>
+            <div
+              onClick={() => item.children ? toggleDropdown(index) : null}
+              className={`p-4 rounded-xl cursor-pointer ${
+                isActive ? "bg-slate-300" : ""
+              }`}
+            >
+              <Link
+                to={item.path}
+                className={`block ${
+                  isActive ? "text-[rgb(193,151,11)]" : ""
+                }`}
+              >
+                {item.label}
+              </Link>
+            </div>
+
+            {item.children && openDropdown === index && (
+              <ul className="ml-6 mt-2 space-y-2">
+                {item.children.map((child, childIndex) => {
+                  const isChildActive = location.pathname === child.path;
+                  return (
+                    <li key={childIndex}>
+                      <Link
+                        to={child.path}
+                        className={`block p-2 rounded-lg ${
+                          isChildActive ? "bg-slate-300 text-[rgb(193,151,11)]" : ""
+                        }`}
+                      >
+                        {child.label}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </li>
+        );
+      })}
+
+      <li>
+        <button
+          onClick={handleLogout}
+          className="text-[rgb(193,151,11)] active:text-[rgb(193,151,11)] w-full text-left mt-4"
         >
           🚪 Logout
         </button>
