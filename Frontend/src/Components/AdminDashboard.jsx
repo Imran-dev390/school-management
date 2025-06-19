@@ -254,18 +254,39 @@ export default function AdminDashboard({ recentActivity, setRecentActivity }) {
   // }
 if (loading) {
   return (
-    <div className="min-h-screen relative bg-white">
-      {/* Top-left logo */}
-      <div className="absolute top-4 left-4">
-        <img src="/logo.jpg" alt="Logo" className="w-72 h-24 object-cover" />
-      </div>
+    // <div className="min-h-screen relative bg-white">
+    //   {/* Top-left logo */}
+    //   <div className="absolute top-4 left-4">
+    //     <img src="/logo.jpg" alt="Logo" className="w-72 h-24 object-cover" />
+    //   </div>
 
-      {/* Centered loader and text */}
-      <div className="flex flex-col items-center justify-center h-screen">
-        <div className="loader animate-spin ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
-        <p className="text-lg font-semibold">Loading dashboard...</p>
-      </div>
-    </div>
+    //   {/* Centered loader and text */}
+    //   <div className="flex flex-col items-center justify-center h-screen">
+    //     <div className="loader animate-spin ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
+    //     <p className="text-lg font-semibold">Loading dashboard...</p>
+    //   </div>
+    // </div>
+    <div className="relative min-h-screen overflow-hidden bg-white/30 backdrop-blur-md">
+  {/* Background image hidden but still affecting the blur */}
+  <div
+    className="absolute inset-0 bg-center bg-cover"
+    style={{
+      backgroundImage: "url('/splash.jpg')",
+      zIndex: -1,
+      opacity: 0.1, // Low opacity to prevent visibility while allowing blur to work
+      pointerEvents: 'none',
+    }}
+  />
+
+  {/* Centered bouncing logo */}
+  <div className="flex items-center justify-center min-h-screen z-10">
+    <img
+      src="/logo.jpg"
+      alt="Logo"
+      className="w-72 h-24 object-contain animate-bounce"
+    />
+  </div>
+</div>
   );
 }
 
