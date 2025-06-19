@@ -472,6 +472,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaTimes } from "react-icons/fa";
 import { FaRegDotCircle } from "react-icons/fa";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { authDataContext } from "../Context-Api/AuthContext";
 import { userDataContext } from "../Context-Api/UserContext";
 //import { authDataContext, userDataContext } from "../context"; // adjust path if needed
@@ -810,7 +811,7 @@ export function Sidebar({ isOpen, setIsOpen }) {
         </button>
       </li>
     </ul> */}
-     <ul className="p-4 space-y-3 font-medium">
+     {/* <ul className="p-4 space-y-1 font-medium">
       {menuItems.map((item, index) => {
         const isActive = location.pathname === item.path;
         return (
@@ -858,6 +859,70 @@ export function Sidebar({ isOpen, setIsOpen }) {
         <button
           onClick={handleLogout}
           className="text-[rgb(193,151,11)] active:text-[rgb(193,151,11)] w-full text-left mt-4"
+        >
+          🚪 Logout
+        </button>
+      </li>
+    </ul> */}
+     <ul className="p-4 space-y-1 font-medium"> {/* reduced gap here (space-y-1 instead of 3) */}
+      {menuItems.map((item, index) => {
+        const isActive = location.pathname === item.path;
+        const isDropdownOpen = openDropdown === index;
+
+        return (
+          <li key={index}>
+            <div
+              onClick={() => item.children ? toggleDropdown(index) : null}
+              className={`flex items-center justify-between p-3 rounded-md cursor-pointer ${
+                isActive ? "bg-slate-300" : ""
+              }`}
+            >
+              <Link
+                to={item.path}
+                className={`flex-1 ${
+                  isActive ? "text-[rgb(193,151,11)]" : ""
+                }`}
+              >
+                {item.label}
+              </Link>
+
+              {item.children && (
+                <span className="ml-2 text-sm text-gray-600">
+                  {isDropdownOpen ? <FaChevronUp size={12} /> : <FaChevronDown size={12} />}
+                </span>
+              )}
+            </div>
+
+            {item.children && isDropdownOpen && (
+              <ul className="ml-6 mt-1 space-y-1">
+                {item.children.map((child, childIndex) => {
+                  const isChildActive = location.pathname === child.path;
+                  return (
+                    <li key={childIndex}>
+                      <Link
+                        to={child.path}
+                        className={`block px-3 py-2 rounded-md text-sm ${
+                          isChildActive
+                            ? "bg-slate-300 text-[rgb(193,151,11)]"
+                            : "text-gray-700 hover:bg-gray-100"
+                        }`}
+                      >
+                        {child.label}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+          </li>
+        );
+      })}
+
+      {/* Aligned Logout Button */}
+      <li>
+        <button
+          onClick={handleLogout}
+          className="flex items-center w-full p-3 rounded-md text-left text-[rgb(193,151,11)] hover:bg-slate-100"
         >
           🚪 Logout
         </button>
