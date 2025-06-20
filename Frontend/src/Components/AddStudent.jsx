@@ -382,11 +382,11 @@ export default function AddStudent() {
           <h1 className="text-lg ml-8 sm:text-3xl font-bold">
             🏫 School Admin {name} Dashboard
           </h1>
-          <div className="profileShowSchoolName w-fit flex items-center gap-1 p-4">
-            <div className="w-14 h-14 rounded-full flex items-center justify-center bg-transparent">
+          <div className="profileShowSchoolName relative w-fit flex items-center gap-1 p-4">
+            <div className="w-14 h-14 rounded-full flex items-center justify-center bg-transparent sm:absolute left-14">
               <FaUserCircle className="text-4xl" />
             </div>
-            <h1 className="text-lg font-semibold">Bright Future</h1>
+            <h1 className="text-md flex gap-0 sm:text-lg  font-semibold">Bright Future</h1>
           </div>
         </div>
 {/* end */}
