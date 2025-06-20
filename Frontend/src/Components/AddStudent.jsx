@@ -26,9 +26,8 @@ export default function AddStudent() {
     Adress:"",
     Class:"",
   });
-
+const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-
   const handleChange = (e) => {
     setFormData(prev => ({
       ...prev,
@@ -64,7 +63,16 @@ export default function AddStudent() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 to-green-300 p-6">
-   <Sidebar/>
+  {!isSidebarOpen &&
+        <button
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          className="md:hidden fixed top-4 left-4 z-50 bg-white border p-2 shadow"
+          aria-label="Toggle Sidebar"
+        >
+          <FaBars className="text-xl text-blue-900" />
+        </button>
+  }
+   <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen}/>
       <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-xl transform hover:scale-[1.02] transition duration-500">
         <h2 className="text-3xl font-bold text-center text-green-800 mb-6">📚 Register New Student</h2>
 
