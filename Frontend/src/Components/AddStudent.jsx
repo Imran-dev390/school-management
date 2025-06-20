@@ -378,8 +378,8 @@ export default function AddStudent() {
       {/* Main Content */}
       <div className="flex-grow flex flex-col justify-center items-start p-6 md:p-12 overflow-auto">
         {/* Header */}
- <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-8 mb-6 text-center sm:text-left">
-          <h1 className="text-2xl ml-8 sm:text-3xl font-bold">
+ <div className="flex flex-row sm:flex-row justify-between items-center gap-4 sm:gap-8 mb-6 text-center sm:text-left">
+          <h1 className="text-lg ml-8 sm:text-3xl font-bold">
             🏫 School Admin {name} Dashboard
           </h1>
           <div className="profileShowSchoolName w-fit flex items-center gap-1 p-4">

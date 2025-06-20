@@ -316,7 +316,8 @@ if(loading){
     </div>
   </div>
 )}
-
+// TypeError: Failed to fetch dynamically imported module: 
+// Uncaught TypeError: Failed to fetch dynamically imported module: 
 
   const { teachers = [], sessions = [], students = [], classes = [], name } = adminData.admin || {};
   return (
@@ -362,7 +363,7 @@ if(loading){
           <h1 className="text-2xl ml-8 sm:text-md font-bold">
             🏫 School Admin {name} Dashboard
           </h1>
-          <div className="profileShowSchoolName flex items-center gap-1 p-4 w-fit lg:absolute left-14">
+          <div className="profileShowSchoolName flex items-center gap-1 p-4 w-fit">
             <div className="w-14 h-14 rounded-full flex items-center justify-center bg-transparent">
               <FaUserCircle className="text-4xl" />
             </div>
