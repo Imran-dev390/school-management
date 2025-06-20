@@ -295,6 +295,7 @@ if(loading){
   <div className="relative min-h-screen w-full overflow-hidden">
     {/* Background image container */}
     <div
+    
       className="absolute inset-0 bg-cover bg-center"
       style={{
         backgroundImage: "url('/splash.jpg')",
@@ -357,11 +358,11 @@ if(loading){
       {/* ✅ Main Content */}
       <div className={`flex-1 p-6 transition-all duration-300 md:pl-12`}>
         {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-8 mb-6 text-center sm:text-left">
-          <h1 className="text-2xl ml-8 sm:text-3xl font-bold">
+        <div className="flex flex-row sm:flex-row justify-between items-center gap-4 sm:gap-8 mb-6 text-center sm:text-left">
+          <h1 className="text-2xl ml-8 sm:text-md font-bold">
             🏫 School Admin {name} Dashboard
           </h1>
-          <div className="profileShowSchoolName w-fit flex items-center gap-1 p-4">
+          <div className="profileShowSchoolName w-fit absolute left-14 flex items-center gap-1 p-4">
             <div className="w-14 h-14 rounded-full flex items-center justify-center bg-transparent">
               <FaUserCircle className="text-4xl" />
             </div>
