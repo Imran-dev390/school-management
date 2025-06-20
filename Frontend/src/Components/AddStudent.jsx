@@ -377,7 +377,7 @@ export default function AddStudent() {
 
       {/* Main Content */}
       <div className="flex-grow flex justify-center items-start p-6 md:p-12 overflow-auto">
-        <div className="w-full max-w-4xl bg-white shadow-xl rounded-2xl p-8">
+        <div className="w-full max-w-3xl bg-white shadow-xl rounded-2xl p-4">
           <h2 className="text-3xl font-bold text-center text-green-800 mb-8">
             📚 Register New Student
           </h2>
@@ -388,7 +388,7 @@ export default function AddStudent() {
             </div>
           ) : (
             <form onSubmit={handleSubmit}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {[
                   { name: 'name', label: 'Full Name', type: 'text' },
                   { name: 'email', label: 'Email', type: 'email' },
