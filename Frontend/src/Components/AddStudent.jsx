@@ -307,7 +307,7 @@ import { adminDataContext } from '../Context-Api/AdminContext';
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
-import { FaBars } from 'react-icons/fa';
+import { FaBars, FaUserCircle } from 'react-icons/fa';
 
 export default function AddStudent() {
   const navigate = useNavigate();
@@ -315,7 +315,7 @@ export default function AddStudent() {
   const { adminData } = useContext(adminDataContext);
   const { classes = [] } = adminData?.admin || {};
   const { serverUrl } = useContext(authDataContext);
-
+// FaUserCircle
   const [formData, setFormData] = useState({
     name: '',
     email: '',
