@@ -443,7 +443,7 @@ const AddExamSchedule = () => {
     updated[index][field] = value;
     setSubjects(updated);
   };
-
+  const [isSidebarOpen,setIsSidebarOpen] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -479,11 +479,19 @@ const AddExamSchedule = () => {
   return (
     <div className="min h-screen bg-zinc-800">
       {/* Sidebar space */}
-      <Sidebar/>
+      {/* <Sidebar/>
       <div className="w-64 hidden md:block">
         {/* Optional Sidebar component goes here */}
-      </div>
-
+    {/*    </div> */}
+  {!isSidebarOpen && (
+        <button
+          onClick={() => setIsSidebarOpen(true)}
+          className="md:hidden fixed top-4 left-4 z-50 bg-white border p-2 shadow"
+        >
+          <FaBars className="text-xl text-green-700" />
+        </button>
+      )}
+      <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       {/* Main content */}
       <div className="flex-1 p-6">
         <div className="max-w-2xl mx-auto bg-white shadow-md p-6 rounded space-y-4">

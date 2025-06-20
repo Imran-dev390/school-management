@@ -286,8 +286,8 @@ const StaffCard = () => {
   const { adminData, fetchAdminData } = useContext(adminDataContext);
   const { staff } = adminData?.admin || {};
   const [staffList, setStaffLists] = useState([]);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
+//  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isSidebarOpen,setIsSidebarOpen] = useState(false);
   // Fetch admin data
   useEffect(() => {
     fetchAdminData();
@@ -308,28 +308,36 @@ const StaffCard = () => {
       {/* Mobile Navbar */}
       <div className="md:hidden flex justify-between items-center p-4 bg-zinc-900 shadow-md sticky top-0 z-50">
         <h1 className="text-2xl font-bold">Admin Panel</h1>
-        <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-white text-2xl">
+        {/* <button onClick={() => setSidebarOpen(!sidebarOpen)} className="text-white text-2xl">
           <FiMenu />
-        </button>
+        </button> */}
       </div>
 
       {/* Sidebar */}
-      <div
+      {/* <div
         className={`z-40 transition-all duration-300 bg-zinc-300  md:static absolute top-0 left-0 h-full w-64 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         } md:translate-x-0`}
       >
         <Sidebar />
-      </div>
+      </div> */}
 
       {/* Overlay for mobile */}
-      {sidebarOpen && (
+      {/* {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-40 z-30 md:hidden"
           onClick={() => setSidebarOpen(false)}
         ></div>
+      )} */}
+  {!isSidebarOpen && (
+        <button
+          onClick={() => setIsSidebarOpen(true)}
+          className="md:hidden fixed top-4 left-4 z-50 bg-white border p-2 shadow"
+        >
+          <FaBars className="text-xl text-green-700" />
+        </button>
       )}
-
+      <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       {/* Main Content */}
       <div className="flex-1 p-6 md:p-8 overflow-y-auto">
         <h1 className="text-4xl font-bold mb-8 text-center text-white">All Staff Members</h1>

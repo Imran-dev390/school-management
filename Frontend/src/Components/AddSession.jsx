@@ -12,6 +12,7 @@ const AddSession = ({recentActivity,setRecentActivity}) => {
     endDate: ''
   });
 const {serverUrl} = useContext(authDataContext);
+const [isSidebarOpen,setIsSidebarOpen] = useState(false);
 const {fetchAdminData} = useContext(adminDataContext);
   const handleChange = (e) => {
     setFormData(prev => ({
@@ -55,7 +56,15 @@ const {fetchAdminData} = useContext(adminDataContext);
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-50 to-indigo-100 flex items-center justify-center px-4">
-     <Sidebar/>
+       {!isSidebarOpen && (
+             <button
+               onClick={() => setIsSidebarOpen(true)}
+               className="md:hidden fixed top-4 left-4 z-50 bg-white border p-2 shadow"
+             >
+               <FaBars className="text-xl text-green-700" />
+             </button>
+           )}
+           <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       <div className="bg-white shadow-2xl rounded-xl w-full max-w-2xl p-8">
         <h1 className="text-3xl font-extrabold text-gray-800 mb-6 text-center">
           Create New Session

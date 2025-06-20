@@ -666,7 +666,7 @@ const ClassTimeTable = () => {
       ]
     }));
   };
-
+  const [isSidebarOpen,setIsSidebarOpen] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -689,7 +689,15 @@ const ClassTimeTable = () => {
 if(isLoading) return <p>Admin Data is Loading...</p>
   return (
     <div className="main min-h-screen w-full pt-3 bg-zinc-800">
-      <Sidebar/>
+        {!isSidebarOpen && (
+              <button
+                onClick={() => setIsSidebarOpen(true)}
+                className="md:hidden fixed top-4 left-4 z-50 bg-white border p-2 shadow"
+              >
+                <FaBars className="text-xl text-green-700" />
+              </button>
+            )}
+            <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
     <form onSubmit={handleSubmit} style={styles.form}>
       <h1 className='text-center text-xl font-bold'>Add Classes TimeTable</h1>
 

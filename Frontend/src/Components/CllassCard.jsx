@@ -88,7 +88,7 @@ const CllassCard = () => {
   const { classes = [] } = adminData?.admin || {};
   const [totalClasses, setTotalClasses] = useState([]);
   const [showSidebar, setShowSidebar] = useState(false);
-
+  const [isSidebarOpen,setIsSidebarOpen] = useState(false);
   useEffect(() => {
     if (classes && classes.length > 0) {
       setTotalClasses(classes);
@@ -110,7 +110,15 @@ const CllassCard = () => {
       >
         {showSidebar ? <FaTimes /> : <FaBars />}
       </button> */}
-<Sidebar/>
+  {!isSidebarOpen && (
+        <button
+          onClick={() => setIsSidebarOpen(true)}
+          className="md:hidden fixed top-4 left-4 z-50 bg-white border p-2 shadow"
+        >
+          <FaBars className="text-xl text-green-700" />
+        </button>
+      )}
+      <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       {/* Main Content */}
       <div className="flex-1 ml-0 md:ml-16 p-4 transition-all duration-300">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-12 md:mt-4">

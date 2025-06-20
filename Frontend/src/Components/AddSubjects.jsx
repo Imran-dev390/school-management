@@ -52,7 +52,7 @@ const AddSubject = () => {
       setClasses(adminData.admin.classes);
     }
   }, [adminData]); // set classes only when adminData changes
-  
+  const [isSidebarOpen,setIsSidebarOpen] = useState(false);
 
   // Handle form submit to add the subject
   const handleSubmit = async (e) => {
@@ -77,7 +77,15 @@ const AddSubject = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center py-10">
-      <Sidebar/>
+        {!isSidebarOpen && (
+              <button
+                onClick={() => setIsSidebarOpen(true)}
+                className="md:hidden fixed top-4 left-4 z-50 bg-white border p-2 shadow"
+              >
+                <FaBars className="text-xl text-green-700" />
+              </button>
+            )}
+            <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
         <h2 className="text-2xl font-semibold mb-6 text-center">Add New Subject</h2>
 

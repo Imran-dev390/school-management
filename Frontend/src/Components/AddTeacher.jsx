@@ -26,7 +26,7 @@ export default function AddTeacher() {
     teachSubject: '',
     incharge: false, // ✅ NEW
   });
-
+  const [isSidebarOpen,setIsSidebarOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -66,7 +66,15 @@ export default function AddTeacher() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-300 p-6">
-     <Sidebar/>
+     {!isSidebarOpen && (
+           <button
+             onClick={() => setIsSidebarOpen(true)}
+             className="md:hidden fixed top-4 left-4 z-50 bg-white border p-2 shadow"
+           >
+             <FaBars className="text-xl text-green-700" />
+           </button>
+         )}
+         <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-xl transform transition-all duration-500 hover:scale-[1.02]">
         <h2 className="text-3xl font-bold text-center text-blue-800 mb-6">Add New Teacher 👩‍🏫</h2>
 

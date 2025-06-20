@@ -120,7 +120,7 @@ import axios from 'axios';
 const AddFeeVoucher = () => {
   const { adminData, fetchAdminData } = useContext(adminDataContext);
   const classes = adminData?.admin?.classes || [];
-
+ const [isSidebarOpen,setIsSidebarOpen] = useState(false);
   const [selectedClassId, setSelectedClassId] = useState('');
   const [students, setStudents] = useState([]);
   const [voucherData, setVoucherData] = useState({
@@ -169,7 +169,15 @@ const AddFeeVoucher = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 p-5">
-      <Sidebar />
+        {!isSidebarOpen && (
+              <button
+                onClick={() => setIsSidebarOpen(true)}
+                className="md:hidden fixed top-4 left-4 z-50 bg-white border p-2 shadow"
+              >
+                <FaBars className="text-xl text-green-700" />
+              </button>
+            )}
+            <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       <div className="bg-white/20 backdrop-blur-md shadow-2xl rounded-xl p-8 w-full max-w-md border border-white/30">
         <h2 className="text-2xl font-bold mb-6 text-center">🎓 Add Fee Voucher</h2>
         <form onSubmit={handleSubmit} className="space-y-4">

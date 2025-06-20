@@ -14,6 +14,7 @@
  const [showModal, setShowModal] = useState(false);
  const [editData, setEditData] = useState(null); // holds current student data
  const {assignedClass} = teachers;
+ const [isSidebarOpen,setIsSidebarOpen] = useState(false);
  const [section,setSections]  = useState('');
  console.log("teachers",teachers);
    useEffect(() => {
@@ -101,7 +102,15 @@
   
    return (
      <div className="flex min-h-screen bg-gray-100 text-gray-800">
-       <Sidebar />
+        {!isSidebarOpen && (
+              <button
+                onClick={() => setIsSidebarOpen(true)}
+                className="md:hidden fixed top-4 left-4 z-50 bg-white border p-2 shadow"
+              >
+                <FaBars className="text-xl text-green-700" />
+              </button>
+            )}
+            <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
        <main className="flex-1 ml-0 md:ml-64 p-8">
          <h2 className="text-3xl font-bold mb-6 text-center">🎓 Teachers Profiles</h2>
            {/* ToastContainer placed here — always mounted */}

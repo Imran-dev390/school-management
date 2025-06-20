@@ -46,8 +46,7 @@ const StudentCard = ({showSidebar,setShowSidebar}) => {
       //console.error("Error deleting student:", err);
     }
   };
-
-
+ const [isSidebarOpen,setIsSidebarOpen] = useState(false);
   const handleUpdate = (index) => {
     const student = totalStudents[index];
     setEditData(student);
@@ -105,7 +104,15 @@ const StudentCard = ({showSidebar,setShowSidebar}) => {
 
   return (
     <div className="flex min-h-screen bg-gray-100 text-gray-800">
-       <Sidebar/>
+        {!isSidebarOpen && (
+              <button
+                onClick={() => setIsSidebarOpen(true)}
+                className="md:hidden fixed top-4 left-4 z-50 bg-white border p-2 shadow"
+              >
+                <FaBars className="text-xl text-green-700" />
+              </button>
+            )}
+            <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
         {/* <div className={`fixed top-0 left-0 z-40 h-full w-64 bg-white dark:bg-gray-800 shadow transform transition-transform duration-300 ${showSidebar ? 'translate-x-0' : '-translate-x-full'}`}>
       </div> */}
       <main className="flex-1 ml-0 md:ml-64 p-8">
