@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { adminDataContext } from '../Context-Api/AdminContext';
 import { authDataContext } from '../Context-Api/AuthContext';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { Sidebar } from './Sidebar';
 
 const AddSubject = () => {
   const { adminData } = useContext(adminDataContext);
@@ -76,6 +77,7 @@ const AddSubject = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center py-10">
+      <Sidebar/>
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
         <h2 className="text-2xl font-semibold mb-6 text-center">Add New Subject</h2>
 

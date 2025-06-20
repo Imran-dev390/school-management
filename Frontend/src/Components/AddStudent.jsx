@@ -5,6 +5,7 @@ import axios from 'axios';
 import { ToastContainer , toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { adminDataContext } from '../Context-Api/AdminContext';
+import { Sidebar } from './Sidebar';
 
 export default function AddStudent() {
   const navigate = useNavigate();
@@ -63,6 +64,7 @@ export default function AddStudent() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-100 to-green-300 p-6">
+   <Sidebar/>
       <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-xl transform hover:scale-[1.02] transition duration-500">
         <h2 className="text-3xl font-bold text-center text-green-800 mb-6">📚 Register New Student</h2>
 

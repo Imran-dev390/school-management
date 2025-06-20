@@ -106,7 +106,7 @@ const navigate = useNavigate();
         {loading ? "Loading...":"Sign Up"}
         </button>
         <p className="text-center cursor-pointer text-sm text-gray-600" onClick={()=>navigate("/login")}>
-          Already have an account? <span className="text-purple-600 font-medium">Login</span>
+          Already have an accountoo? <span className="text-purple-600 font-medium">Login</span>
         </p>
       </form>
        <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} theme="colored" />

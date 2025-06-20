@@ -100,17 +100,17 @@ const CllassCard = () => {
   return (
     <div className="relative min-h-screen w-full bg-slate-300 flex">
       {/* Sidebar */}
-      <div className={`fixed top-0 left-0 z-40 h-full w-64 bg-white dark:bg-gray-800 shadow transform transition-transform duration-300 ${showSidebar ? 'translate-x-0' : '-translate-x-full'}`}>
+      {/* <div className={`fixed top-0 left-0 z-40 h-full w-64 bg-white dark:bg-gray-800 shadow transform transition-transform duration-300 ${showSidebar ? 'translate-x-0' : '-translate-x-full'}`}>
       <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
     </div>
       {/* Toggle Button */}
-      <button
+    {/*  <button
         onClick={toggleSidebar}
         className="md:hidden fixed top-4 left-4 z-50 bg-blue-600 text-white p-2 rounded shadow"
       >
         {showSidebar ? <FaTimes /> : <FaBars />}
-      </button>
-
+      </button> */}
+<Sidebar/>
       {/* Main Content */}
       <div className="flex-1 ml-0 md:ml-16 p-4 transition-all duration-300">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-12 md:mt-4">

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { adminDataContext } from '../Context-Api/AdminContext';
+import { Sidebar } from './Sidebar';
 
 export default function AddTeacher() {
   const { serverUrl } = useContext(authDataContext);
@@ -65,6 +66,7 @@ export default function AddTeacher() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-300 p-6">
+     <Sidebar/>
       <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-xl transform transition-all duration-500 hover:scale-[1.02]">
         <h2 className="text-3xl font-bold text-center text-blue-800 mb-6">Add New Teacher 👩‍🏫</h2>
 

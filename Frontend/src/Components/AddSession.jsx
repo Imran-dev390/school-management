@@ -3,6 +3,7 @@ import { authDataContext } from '../Context-Api/AuthContext';
 import { adminDataContext } from '../Context-Api/AdminContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Sidebar } from './Sidebar';
 const AddSession = ({recentActivity,setRecentActivity}) => {
     const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -54,6 +55,7 @@ const {fetchAdminData} = useContext(adminDataContext);
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-50 to-indigo-100 flex items-center justify-center px-4">
+     <Sidebar/>
       <div className="bg-white shadow-2xl rounded-xl w-full max-w-2xl p-8">
         <h1 className="text-3xl font-extrabold text-gray-800 mb-6 text-center">
           Create New Session

@@ -4,6 +4,7 @@ import { authDataContext } from '../Context-Api/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer ,toast } from 'react-toastify';
 import { adminDataContext } from '../Context-Api/AdminContext';
+import { Sidebar } from './Sidebar';
 
 const ClassRegistrationForm = ({recentActivity,setRecentAcitviy}) => {
     const navigate  = useNavigate();
@@ -49,6 +50,7 @@ const ClassRegistrationForm = ({recentActivity,setRecentAcitviy}) => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-500 to-teal-500">
+ <Sidebar/>
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-3xl font-semibold text-center text-gray-700 mb-6">Class Registration</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
