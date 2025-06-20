@@ -377,6 +377,19 @@ export default function AddStudent() {
 
       {/* Main Content */}
       <div className="flex-grow flex justify-center items-start p-6 md:p-12 overflow-auto">
+        {/* Header */}
+ <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-8 mb-6 text-center sm:text-left">
+          <h1 className="text-2xl ml-8 sm:text-3xl font-bold">
+            🏫 School Admin {name} Dashboard
+          </h1>
+          <div className="profileShowSchoolName w-fit flex items-center gap-1 p-4">
+            <div className="w-14 h-14 rounded-full flex items-center justify-center bg-transparent">
+              <FaUserCircle className="text-4xl" />
+            </div>
+            <h1 className="text-lg font-semibold">Bright Future</h1>
+          </div>
+        </div>
+{/* end */}
         <div className="w-full max-w-3xl bg-white shadow-xl rounded-2xl p-4">
           <h2 className="text-3xl font-bold text-center text-green-800 mb-8">
             📚 Register New Student
