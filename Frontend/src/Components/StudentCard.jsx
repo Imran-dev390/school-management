@@ -303,8 +303,8 @@ import { authDataContext } from '../Context-Api/AuthContext';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { FaUserCircle } from 'react-icons/fa';
-import AdminLayout from './AdminLayout';  // import your layout
-
+import AdminLayout from './AdminLayout';
+//import AdminLayout from './AdminLayout';  // import your layout
 const StudentCard = () => {
   const { adminData } = useContext(adminDataContext);
   const { serverUrl } = useContext(authDataContext);
