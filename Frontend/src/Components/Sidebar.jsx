@@ -1556,7 +1556,7 @@ import { userDataContext } from "../Context-Api/UserContext";
 import { authDataContext } from "../Context-Api/AuthContext";
 //import { userDataContext } from "../contexts/userDataContext";
 //import { authDataContext } from "../contexts/authContext";
-export function Sidebar({ isOpen, setIsOpen }) {
+export function Sidebar({ isOpen, setIsOpen,adminName }) {
   const { userData, setUserData } = useContext(userDataContext);
   const { serverUrl } = useContext(authDataContext);
   const location = useLocation();
@@ -1614,7 +1614,7 @@ export function Sidebar({ isOpen, setIsOpen }) {
   return (
     <>
       {/* ✅ Mobile Top Navbar */}
-      <div className="md:hidden fixed top-0 left-0 right-0 flex items-center justify-between px-4 py-3 bg-white shadow z-50">
+      {/* <div className="md:hidden fixed top-0 left-0 right-0 flex items-center justify-between px-4 py-3 bg-white shadow z-50">
         <img src="/logo.jpg" alt="Logo" className="h-8 w-auto object-cover" />
         <button onClick={() => setIsOpen(!isOpen)} aria-label="Toggle Sidebar">
           <svg
@@ -1631,7 +1631,35 @@ export function Sidebar({ isOpen, setIsOpen }) {
             )}
           </svg>
         </button>
+      </div> */}
+{/* ✅ Mobile Top Navbar */}
+<div className="md:hidden fixed top-0 left-0 right-0 flex items-center justify-between px-4 py-3 bg-white shadow z-50">
+  <div className="flex items-center gap-2">
+    {/* <img src="/logo.jpg" alt="Logo" className="h-8 w-auto object-cover" /> */}
+    {adminName && (
+      <div className="flex items-center gap-2">
+        <FaUserCircle className="text-blue-900 text-xl" />
+        <span className="text-blue-900 text-sm font-semibold">{adminName}</span>
       </div>
+    )}
+  </div>
+  <button onClick={() => setIsOpen(!isOpen)} aria-label="Toggle Sidebar">
+    <svg
+      className="w-6 h-6 text-blue-900"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {isOpen ? (
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+      ) : (
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+      )}
+    </svg>
+  </button>
+</div>
+
 
       {/* ✅ Mobile Sidebar Overlay */}
       {isOpen && (
@@ -1643,7 +1671,7 @@ export function Sidebar({ isOpen, setIsOpen }) {
 
       {/* ✅ Sidebar */}
       <aside
-        className={`fixed z-40 top-0 left-0 h-full w-64 bg-[rgb(1,1,93)] text-white transform ${
+        className={`fixed z-40 top-0 min-h-screen left-0 h-full w-64 bg-[rgb(1,1,93)] text-white transform ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0 transition-transform duration-300 ease-in-out md:static`}
       >
