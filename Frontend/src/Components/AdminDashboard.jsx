@@ -399,7 +399,7 @@ if(loading){
         </div> */}
 <div className="flex flex-wrap gap-6 mb-10">
   {[
-    { icon: <FaUserGraduate />, label: 'Total Students', count: students.length },
+    { icon: <FaUserGraduate />, label: 'Total Studentsoooo', count: students.length },
     { icon: <FaChalkboardTeacher />, label: 'Teachers', count: teachers.length },
     { icon: <FaSchool />, label: 'Classes', count: classes.length },
     { icon: <FaHistory />, label: 'Sessions', count: sessions.length },
