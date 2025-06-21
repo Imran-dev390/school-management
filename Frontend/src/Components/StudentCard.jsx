@@ -297,54 +297,382 @@
 
 
 
-import React, { useContext, useEffect, useState } from 'react';
+// import React, { useContext, useEffect, useState } from 'react';
+// import { adminDataContext } from '../Context-Api/AdminContext';
+// import { authDataContext } from '../Context-Api/AuthContext';
+// import axios from 'axios';
+// import { ToastContainer, toast } from 'react-toastify';
+// import { FaUserCircle } from 'react-icons/fa';
+// import AdminLayout from './AdminLayout';
+// //import AdminLayout from './AdminLayout';  // import your layout
+// const StudentCard = () => {
+//   const { adminData } = useContext(adminDataContext);
+//   const { serverUrl } = useContext(authDataContext);
+//   const { students = [] } = adminData?.admin || {};
+//   const { fetchAdminData } = useContext(adminDataContext);
+//   const [totalStudents, setTotalStudents] = useState([]);
+//   const [showModal, setShowModal] = useState(false);
+//   const [editData, setEditData] = useState(null);
+// const [filter, setFilter] = useState('');
+
+//   const filtered = totalStudents.filter(s =>
+//     s.name.toLowerCase().includes(filter.toLowerCase()) ||
+//     s.Classs?.name?.toLowerCase().includes(filter.toLowerCase())
+//   );
+//   useEffect(() => {
+//     if (students.length > 0) {
+//       setTotalStudents(students);
+//     }
+//   }, [students]);
+
+//   const handleDelete = async (index) => {
+//     const studentToDelete = totalStudents[index];
+//     if (!studentToDelete?._id) return;
+
+//     try {
+//       const response = await axios.delete(`${serverUrl}/admin/students/${studentToDelete._id}`, { withCredentials: true });
+//       if (response.status === 200) {
+//         await fetchAdminData();
+//         toast.success("Successfully Deleted Student...");
+//         setTotalStudents(totalStudents.filter(s => s._id !== studentToDelete._id));
+//       }
+//       setShowModal(false);
+//     } catch (err) {
+//       toast.error(err?.response?.data.message);
+//     }
+//   };
+
+//   const handleUpdate = (index) => {
+//     setEditData(totalStudents[index]);
+//     setShowModal(true);
+//   };
+
+//   const handleFormChange = (e) => {
+//     setEditData({ ...editData, [e.target.name]: e.target.value });
+//   };
+
+//   const handleFormSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const response = await axios.put(
+//         `${serverUrl}/api/admin/student/${editData._id}`,
+//         {
+//           name: editData.name,
+//           parent: editData.parent,
+//           Classs: editData.class,
+//           dob: editData.dob,
+//           adress: editData.adress,
+//           phone: editData.phone,
+//           feesPaid: editData.feesPaid,
+//         },
+//         { withCredentials: true }
+//       );
+//       if (response.status === 200) {
+//         await fetchAdminData();
+//         const updatedStudent = response.data.student;
+//         setTotalStudents(prev => prev.map(s => (s._id === updatedStudent._id ? updatedStudent : s)));
+//         toast.success("Successfully updated the student...");
+//         setTimeout(() => setShowModal(false), 200);
+//       }
+//     } catch (err) {
+//       toast.error(err?.response?.data?.message || "Update failed.");
+//     }
+//   };
+
+//   return (
+//     // <AdminLayout adminName="Admin">  {/* Wrap content here, optionally pass adminName */}
+//     //   <div>
+//     //     <main className="p-8">
+//     //       <h2 className="text-3xl font-bold mb-6 text-center">🎓 Student Profiles</h2>
+//     //       <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} theme="colored" />
+
+//     //       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 items-start">
+//     //         {totalStudents.map((student, idx) => (
+//     //           <div key={idx} className="bg-white shadow rounded-xl p-6 border">
+//     //             <img
+//     //               src={student.profile || "https://via.placeholder.com/150"}
+//     //               alt={student.name}
+//     //               className="w-32 h-32 object-cover rounded-full mx-auto border-4 border-blue-500 shadow"
+//     //             />
+//     //             <div className="text-center mt-4">
+//     //               <h3 className="text-xl font-semibold text-gray-800">{student.name}</h3>
+//     //               <p><strong>Class:</strong> {student.Classs?.name || "N/A"}</p>
+//     //               <p><strong>DOB:</strong> {new Date(student.dob).toDateString()}</p>
+//     //               <p><strong>Parent:</strong> {student.parent}</p>
+//     //               <p><strong>Address:</strong> {student.adress}</p>
+//     //               <p><strong>Phone:</strong> {student.phone}</p>
+//     //               <p><strong>Fees Paid:</strong> {student.feesPaid === null ? 0 : student.feesPaid}</p>
+//     //               <div className="mt-2">
+//     //                 <button onClick={() => handleUpdate(idx)} className="bg-yellow-400 px-4 py-1 rounded">
+//     //                   Update
+//     //                 </button>
+//     //                 <button onClick={() => handleDelete(idx)} className="bg-red-500 text-white px-4 py-1 ml-2 rounded">
+//     //                   Delete
+//     //                 </button>
+//     //               </div>
+//     //             </div>
+//     //           </div>
+//     //         ))}
+//     //       </div>
+
+//     //       {showModal && editData && (
+//     //         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+//     //           <div className="bg-white p-6 rounded-lg w-[90%] max-w-lg shadow-lg">
+//     //             <h2 className="text-xl font-bold mb-4">Update Student</h2>
+//     //             <form onSubmit={handleFormSubmit} className="space-y-3">
+//     //               <input
+//     //                 type="text"
+//     //                 name="name"
+//     //                 value={editData.name || ""}
+//     //                 onChange={handleFormChange}
+//     //                 className="w-full border p-2 rounded"
+//     //                 placeholder="Name"
+//     //               />
+//     //               <input
+//     //                 type="text"
+//     //                 name="parent"
+//     //                 value={editData.parent || ""}
+//     //                 onChange={handleFormChange}
+//     //                 className="w-full border p-2 rounded"
+//     //                 placeholder="Parent"
+//     //               />
+//     //               <input
+//     //                 type="date"
+//     //                 name="dob"
+//     //                 value={editData.dob?.substring(0, 10) || ""}
+//     //                 onChange={handleFormChange}
+//     //                 className="w-full border p-2 rounded"
+//     //                 placeholder="DOB"
+//     //               />
+//     //               <input
+//     //                 type="text"
+//     //                 name="class"
+//     //                 value={editData.class || ""}
+//     //                 onChange={handleFormChange}
+//     //                 className="w-full border p-2 rounded"
+//     //                 placeholder="Class"
+//     //               />
+//     //               <input
+//     //                 type="text"
+//     //                 name="adress"
+//     //                 value={editData.adress || ""}
+//     //                 onChange={handleFormChange}
+//     //                 className="w-full border p-2 rounded"
+//     //                 placeholder="Address"
+//     //               />
+//     //               <input
+//     //                 type="number"
+//     //                 name="phone"
+//     //                 value={editData.phone || ""}
+//     //                 onChange={handleFormChange}
+//     //                 className="w-full border p-2 rounded"
+//     //                 placeholder="Phone"
+//     //               />
+//     //               <input
+//     //                 type="number"
+//     //                 name="feesPaid"
+//     //                 value={editData.feesPaid || ""}
+//     //                 onChange={handleFormChange}
+//     //                 className="w-full border p-2 rounded"
+//     //                 placeholder="Fees Paid"
+//     //               />
+
+//     //               <div className="flex justify-end gap-2">
+//     //                 <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
+//     //                   Save
+//     //                 </button>
+//     //                 <button
+//     //                   onClick={() => setShowModal(false)}
+//     //                   type="button"
+//     //                   className="bg-gray-400 px-4 py-2 rounded"
+//     //                 >
+//     //                   Cancel
+//     //                 </button>
+//     //               </div>
+//     //             </form>
+//     //           </div>
+//     //         </div>
+//     //       )}
+//     //     </main>
+//     //   </div>
+//     // </AdminLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//      <AdminLayout adminName="Bright Future">
+//       <main className="p-8">
+//         <h2 className="text-3xl font-bold mb-4 text-center">📋 Student Records</h2>
+//         <input
+//           type="text"
+//           placeholder="Search by name or class…"
+//           className="p-2 mb-4 border rounded w-full"
+//           value={filter}
+//           onChange={e => setFilter(e.target.value)}
+//         />
+
+//         <table className="min-w-full bg-white shadow rounded-lg overflow-hidden">
+//           <thead className="bg-gray-200">
+//             <tr>
+//               {['Name', 'Class', 'DOB', 'Parent', 'Phone', 'Fees Paid', 'Actions'].map(h => (
+//                 <th key={h} className="px-4 py-2 text-left">{h}</th>
+//               ))}
+//             </tr>
+//           </thead>
+//           <tbody>
+//             {filtered.map(student => (
+//               <tr key={student._id} className="border-b hover:bg-gray-50">
+//                 <td className="px-4 py-2">{student.name}</td>
+//                 <td className="px-4 py-2">{student.Classs?.name || '–'}</td>
+//                 <td className="px-4 py-2">{new Date(student.dob).toLocaleDateString()}</td>
+//                 <td className="px-4 py-2">{student.parent}</td>
+//                 <td className="px-4 py-2">{student.phone}</td>
+//                 <td className="px-4 py-2">{student.feesPaid ?? 0}</td>
+//                 <td className="px-4 py-2 flex space-x-2">
+//                   <button onClick={() => handleUpdateById(student._id)} className="text-blue-500 hover:underline">Edit</button>
+//                   <button onClick={() => handleViewDetails(student)} className="text-green-500 hover:underline">View</button>
+//                   <button onClick={() => handleDeleteById(student._id)} className="text-red-500 hover:underline">Delete</button>
+//                 </td>
+//               </tr>
+//             ))}
+//           </tbody>
+//         </table>
+
+//         {/* Modal for Edit or View Details */}
+//       </main>
+//     </AdminLayout>
+//   );
+// };
+
+// export default StudentCard;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import { useContext, useEffect, useState } from 'react';
 import { adminDataContext } from '../Context-Api/AdminContext';
 import { authDataContext } from '../Context-Api/AuthContext';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
-import { FaUserCircle } from 'react-icons/fa';
 import AdminLayout from './AdminLayout';
-//import AdminLayout from './AdminLayout';  // import your layout
+
 const StudentCard = () => {
-  const { adminData } = useContext(adminDataContext);
+  const { adminData, fetchAdminData } = useContext(adminDataContext);
   const { serverUrl } = useContext(authDataContext);
-  const { students = [] } = adminData?.admin || {};
-  const { fetchAdminData } = useContext(adminDataContext);
+  const { students = [] } = adminData?.admin || [];
+
   const [totalStudents, setTotalStudents] = useState([]);
+  const [filter, setFilter] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [editData, setEditData] = useState(null);
-const [filter, setFilter] = useState('');
 
-  const filtered = totalStudents.filter(s =>
-    s.name.toLowerCase().includes(filter.toLowerCase()) ||
-    s.Classs?.name?.toLowerCase().includes(filter.toLowerCase())
-  );
   useEffect(() => {
     if (students.length > 0) {
       setTotalStudents(students);
     }
   }, [students]);
 
-  const handleDelete = async (index) => {
-    const studentToDelete = totalStudents[index];
-    if (!studentToDelete?._id) return;
+  const filtered = totalStudents.filter(s =>
+    s.name.toLowerCase().includes(filter.toLowerCase()) ||
+    s.Classs?.name?.toLowerCase().includes(filter.toLowerCase())
+  );
 
-    try {
-      const response = await axios.delete(`${serverUrl}/admin/students/${studentToDelete._id}`, { withCredentials: true });
-      if (response.status === 200) {
-        await fetchAdminData();
-        toast.success("Successfully Deleted Student...");
-        setTotalStudents(totalStudents.filter(s => s._id !== studentToDelete._id));
-      }
-      setShowModal(false);
-    } catch (err) {
-      toast.error(err?.response?.data.message);
+  const studentsToRender = filter.trim() ? filtered : totalStudents;
+
+  const handleUpdateById = (id) => {
+    const student = totalStudents.find(s => s._id === id);
+    if (student) {
+      setEditData(student);
+      setShowModal(true);
     }
   };
 
-  const handleUpdate = (index) => {
-    setEditData(totalStudents[index]);
-    setShowModal(true);
+  const handleDeleteById = async (id) => {
+    try {
+      const response = await axios.delete(`${serverUrl}/admin/students/${id}`, { withCredentials: true });
+      if (response.status === 200) {
+        await fetchAdminData();
+        toast.success("Successfully Deleted Student...");
+        setTotalStudents(prev => prev.filter(s => s._id !== id));
+      }
+    } catch (err) {
+      toast.error(err?.response?.data?.message || "Delete failed.");
+    }
+  };
+
+  const handleViewDetails = (student) => {
+    alert(`👀 Viewing details for: ${student.name}`);
   };
 
   const handleFormChange = (e) => {
@@ -367,6 +695,7 @@ const [filter, setFilter] = useState('');
         },
         { withCredentials: true }
       );
+
       if (response.status === 200) {
         await fetchAdminData();
         const updatedStudent = response.data.student;
@@ -380,185 +709,33 @@ const [filter, setFilter] = useState('');
   };
 
   return (
-    // <AdminLayout adminName="Admin">  {/* Wrap content here, optionally pass adminName */}
-    //   <div>
-    //     <main className="p-8">
-    //       <h2 className="text-3xl font-bold mb-6 text-center">🎓 Student Profiles</h2>
-    //       <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} theme="colored" />
-
-    //       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 items-start">
-    //         {totalStudents.map((student, idx) => (
-    //           <div key={idx} className="bg-white shadow rounded-xl p-6 border">
-    //             <img
-    //               src={student.profile || "https://via.placeholder.com/150"}
-    //               alt={student.name}
-    //               className="w-32 h-32 object-cover rounded-full mx-auto border-4 border-blue-500 shadow"
-    //             />
-    //             <div className="text-center mt-4">
-    //               <h3 className="text-xl font-semibold text-gray-800">{student.name}</h3>
-    //               <p><strong>Class:</strong> {student.Classs?.name || "N/A"}</p>
-    //               <p><strong>DOB:</strong> {new Date(student.dob).toDateString()}</p>
-    //               <p><strong>Parent:</strong> {student.parent}</p>
-    //               <p><strong>Address:</strong> {student.adress}</p>
-    //               <p><strong>Phone:</strong> {student.phone}</p>
-    //               <p><strong>Fees Paid:</strong> {student.feesPaid === null ? 0 : student.feesPaid}</p>
-    //               <div className="mt-2">
-    //                 <button onClick={() => handleUpdate(idx)} className="bg-yellow-400 px-4 py-1 rounded">
-    //                   Update
-    //                 </button>
-    //                 <button onClick={() => handleDelete(idx)} className="bg-red-500 text-white px-4 py-1 ml-2 rounded">
-    //                   Delete
-    //                 </button>
-    //               </div>
-    //             </div>
-    //           </div>
-    //         ))}
-    //       </div>
-
-    //       {showModal && editData && (
-    //         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-    //           <div className="bg-white p-6 rounded-lg w-[90%] max-w-lg shadow-lg">
-    //             <h2 className="text-xl font-bold mb-4">Update Student</h2>
-    //             <form onSubmit={handleFormSubmit} className="space-y-3">
-    //               <input
-    //                 type="text"
-    //                 name="name"
-    //                 value={editData.name || ""}
-    //                 onChange={handleFormChange}
-    //                 className="w-full border p-2 rounded"
-    //                 placeholder="Name"
-    //               />
-    //               <input
-    //                 type="text"
-    //                 name="parent"
-    //                 value={editData.parent || ""}
-    //                 onChange={handleFormChange}
-    //                 className="w-full border p-2 rounded"
-    //                 placeholder="Parent"
-    //               />
-    //               <input
-    //                 type="date"
-    //                 name="dob"
-    //                 value={editData.dob?.substring(0, 10) || ""}
-    //                 onChange={handleFormChange}
-    //                 className="w-full border p-2 rounded"
-    //                 placeholder="DOB"
-    //               />
-    //               <input
-    //                 type="text"
-    //                 name="class"
-    //                 value={editData.class || ""}
-    //                 onChange={handleFormChange}
-    //                 className="w-full border p-2 rounded"
-    //                 placeholder="Class"
-    //               />
-    //               <input
-    //                 type="text"
-    //                 name="adress"
-    //                 value={editData.adress || ""}
-    //                 onChange={handleFormChange}
-    //                 className="w-full border p-2 rounded"
-    //                 placeholder="Address"
-    //               />
-    //               <input
-    //                 type="number"
-    //                 name="phone"
-    //                 value={editData.phone || ""}
-    //                 onChange={handleFormChange}
-    //                 className="w-full border p-2 rounded"
-    //                 placeholder="Phone"
-    //               />
-    //               <input
-    //                 type="number"
-    //                 name="feesPaid"
-    //                 value={editData.feesPaid || ""}
-    //                 onChange={handleFormChange}
-    //                 className="w-full border p-2 rounded"
-    //                 placeholder="Fees Paid"
-    //               />
-
-    //               <div className="flex justify-end gap-2">
-    //                 <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
-    //                   Save
-    //                 </button>
-    //                 <button
-    //                   onClick={() => setShowModal(false)}
-    //                   type="button"
-    //                   className="bg-gray-400 px-4 py-2 rounded"
-    //                 >
-    //                   Cancel
-    //                 </button>
-    //               </div>
-    //             </form>
-    //           </div>
-    //         </div>
-    //       )}
-    //     </main>
-    //   </div>
-    // </AdminLayout>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     <AdminLayout adminName="Bright Future">
+    <AdminLayout adminName="Bright Future">
       <main className="p-8">
+        <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} theme="colored" />
         <h2 className="text-3xl font-bold mb-4 text-center">📋 Student Records</h2>
+
         <input
           type="text"
           placeholder="Search by name or class…"
           className="p-2 mb-4 border rounded w-full"
           value={filter}
-          onChange={e => setFilter(e.target.value)}
+          onChange={(e) => setFilter(e.target.value)}
         />
 
         <table className="min-w-full bg-white shadow rounded-lg overflow-hidden">
           <thead className="bg-gray-200">
             <tr>
-              {['Name', 'Class', 'DOB', 'Parent', 'Phone', 'Fees Paid', 'Actions'].map(h => (
-                <th key={h} className="px-4 py-2 text-left">{h}</th>
-              ))}
+              <th className="px-4 py-2 text-left">Name</th>
+              <th className="px-4 py-2 text-left">Class</th>
+              <th className="px-4 py-2 text-left">DOB</th>
+              <th className="px-4 py-2 text-left">Parent</th>
+              <th className="px-4 py-2 text-left">Phone</th>
+              <th className="px-4 py-2 text-left">Fees Paid</th>
+              <th className="px-4 py-2 text-left">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {filtered.map(student => (
+            {studentsToRender.map(student => (
               <tr key={student._id} className="border-b hover:bg-gray-50">
                 <td className="px-4 py-2">{student.name}</td>
                 <td className="px-4 py-2">{student.Classs?.name || '–'}</td>
@@ -573,18 +750,40 @@ const [filter, setFilter] = useState('');
                 </td>
               </tr>
             ))}
+            {studentsToRender.length === 0 && (
+              <tr>
+                <td colSpan="7" className="text-center py-4 text-gray-500">
+                  No students found.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
 
-        {/* Modal for Edit or View Details */}
+        {showModal && editData && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className="bg-white p-6 rounded-lg w-[90%] max-w-lg shadow-lg">
+              <h2 className="text-xl font-bold mb-4">Update Student</h2>
+              <form onSubmit={handleFormSubmit} className="space-y-3">
+                <input type="text" name="name" value={editData.name || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Name" />
+                <input type="text" name="parent" value={editData.parent || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Parent" />
+                <input type="date" name="dob" value={editData.dob?.substring(0, 10) || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="DOB" />
+                <input type="text" name="class" value={editData.class || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Class" />
+                <input type="text" name="adress" value={editData.adress || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Address" />
+                <input type="number" name="phone" value={editData.phone || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Phone" />
+                <input type="number" name="feesPaid" value={editData.feesPaid || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Fees Paid" />
+
+                <div className="flex justify-end gap-2">
+                  <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Save</button>
+                  <button type="button" onClick={() => setShowModal(false)} className="bg-gray-400 px-4 py-2 rounded">Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
       </main>
     </AdminLayout>
   );
 };
 
 export default StudentCard;
-
-
-
-
-
