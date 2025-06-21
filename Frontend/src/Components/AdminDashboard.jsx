@@ -232,12 +232,18 @@ export default function AdminDashboard({ recentActivity, setRecentActivity }) {
   const [adminName,setName] = useState("Bright Future");
   const { adminData, loading, fetchAdminData } = useContext(adminDataContext);
 //  const [showSidebar, setShowSidebar] = useState(false);
+const [hasUserToggled, setHasUserToggled] = useState(false);
+
  const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
   if (typeof window !== "undefined") {
     return window.innerWidth >= 768; 
   }
   return true;
 });
+const handleSidebarToggle = () => {
+  setIsSidebarOpen(!isSidebarOpen);
+  setHasUserToggled(true); // only set to true once user interacts
+};
 
 useEffect(() => {
   function handleResize() {
@@ -372,7 +378,7 @@ if(loading){
         ></div>
       )} */}
        {/* Sidebar */}
-      <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} adminName={adminName}/>
+      <Sidebar isOpen={isSidebarOpen} onToggleSidebar={handleSidebarToggle} setIsOpen={setIsSidebarOpen} adminName={adminName}   hasUserToggled={hasUserToggled}/>
        {/* <div
         className={`fixed top-0 left-0 z-40 h-full w-64 bg-white dark:bg-gray-800 shadow transform transition-transform duration-300 ${
           showSidebar ? 'translate-x-0' : '-translate-x-full'

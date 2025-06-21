@@ -1505,7 +1505,7 @@ import { userDataContext } from "../Context-Api/UserContext";
 
 
 
-export function Sidebar({ isOpen, setIsOpen, adminName }) {
+export function Sidebar({ isOpen, setIsOpen, adminName ,hasUserToggled,onToggleSidebar}) {
   const { userData, setUserData } = useContext(userDataContext);
   const { serverUrl } = useContext(authDataContext);
   const location = useLocation();
@@ -1565,7 +1565,7 @@ export function Sidebar({ isOpen, setIsOpen, adminName }) {
       {/* Top Nav: Always visible */}
       <div className="fixed top-0 left-0 right-0 flex items-center justify-between px-4 py-5 bg-white shadow z-50 md:px-6">
         {/* Hamburger */}
-        <button onClick={() => setIsOpen(!isOpen)} aria-label="Toggle Sidebar">
+        {/* <button onClick={() => setIsOpen(!isOpen)} aria-label="Toggle Sidebar">
           <svg
             className="w-6 h-6 text-blue-900"
             fill="none"
@@ -1579,7 +1579,18 @@ export function Sidebar({ isOpen, setIsOpen, adminName }) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             )}
           </svg>
-        </button>
+        </button> */}
+<button onClick={onToggleSidebar} aria-label="Toggle Sidebar">
+  <svg className="w-6 h-6 text-blue-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    {hasUserToggled && isOpen ? (
+      // ❌ Show X if user toggled and sidebar is open
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+    ) : (
+      // ✅ Show hamburger in all other cases
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+    )}
+  </svg>
+</button>
 
         {/* Admin Name */}
         {adminName && (
