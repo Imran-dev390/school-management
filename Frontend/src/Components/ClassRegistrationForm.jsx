@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer ,toast } from 'react-toastify';
 import { adminDataContext } from '../Context-Api/AdminContext';
 import { Sidebar } from './Sidebar';
-
+import { FaBars } from 'react-icons/fa';
+//FaBars
 const ClassRegistrationForm = ({recentActivity,setRecentAcitviy}) => {
     const navigate  = useNavigate();
     const { fetchAdminData } = useContext(adminDataContext);
