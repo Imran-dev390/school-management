@@ -1552,8 +1552,10 @@ import { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaBars, FaChevronDown, FaChevronUp, FaUserCircle } from "react-icons/fa";
 import axios from "axios";
-import { userDataContext } from "../contexts/userDataContext";
-import { authDataContext } from "../contexts/authContext";
+import { userDataContext } from "../Context-Api/UserContext";
+import { authDataContext } from "../Context-Api/AuthContext";
+//import { userDataContext } from "../contexts/userDataContext";
+//import { authDataContext } from "../contexts/authContext";
 export function Sidebar({ isOpen, setIsOpen }) {
   const { userData, setUserData } = useContext(userDataContext);
   const { serverUrl } = useContext(authDataContext);
