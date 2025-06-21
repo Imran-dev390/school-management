@@ -1297,6 +1297,257 @@
 
 
 
+// import { useContext, useState } from "react";
+// import { Link, useLocation, useNavigate } from "react-router-dom";
+// import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+// import axios from "axios";
+// import { userDataContext } from "../contexts/userDataContext";
+// import { authDataContext } from "../contexts/authContext";
+
+// export function Sidebar({ isOpen, setIsOpen }) {
+//   const { userData, setUserData } = useContext(userDataContext);
+//   const { serverUrl } = useContext(authDataContext);
+//   const location = useLocation();
+//   const [openDropdown, setOpenDropdown] = useState(null);
+//   const navigate = useNavigate();
+
+//   const handleLogout = async () => {
+//     try {
+//       await axios.get(`${serverUrl}/api/auth/signout`, { withCredentials: true });
+//       setUserData(null);
+//       navigate("/login");
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   };
+
+//   const toggleDropdown = (index) => {
+//     setOpenDropdown(openDropdown === index ? null : index);
+//   };
+
+//   const menuItems = [
+//     { label: "📊 Dashboard", path: "/admin/dash" },
+//     {
+//       label: "👨‍🎓 Students",
+//       path: "/admin/students",
+//       children: [{ label: "➕ Add New Students", path: "/admin/add-student" }],
+//     },
+//     {
+//       label: "👩‍🏫 Teachers",
+//       path: "/admin/teachers",
+//       children: [{ label: "➕ Register New Teacher", path: "/admin/add-teacher" }],
+//     },
+//     {
+//       label: "🏫 Classes",
+//       path: "/admin/classes",
+//       children: [
+//         { label: "➕ Add New Class", path: "/admin/add-class" },
+//         { label: "➕ Add Class TimeTable", path: "/Add/Class/Timetable" },
+//       ],
+//     },
+//     {
+//       label: "👥 Staff",
+//       path: "/admin/staff",
+//       children: [{ label: "➕ Register New Staff", path: "/admin/add-staff" }],
+//     },
+//     {
+//       label: "⏰ Sessions",
+//       path: "/admin/sessions",
+//       children: [{ label: "➕ Add New Session", path: "/admin/add-session" }],
+//     },
+//     { label: "💬 Chat", path: "/admin/chat" },
+//     { label: "➕ Add Fee Voucher", path: "/Add/Fee/Voucher" },
+//   ];
+
+//   return (
+//     <>
+//       {/* ✅ Top Navbar for Mobile Only */}
+//       <div className="md:hidden flex items-center justify-between p-4 bg-white shadow z-50 relative">
+//         <img src="/logo.jpg" alt="Logo" className="h-8 w-auto object-cover" />
+//         <button onClick={() => setIsOpen(!isOpen)} aria-label="Toggle Sidebar">
+//           <svg
+//             className="w-6 h-6 text-blue-900"
+//             fill="none"
+//             stroke="currentColor"
+//             viewBox="0 0 24 24"
+//             xmlns="http://www.w3.org/2000/svg"
+//           >
+//             {isOpen ? (
+//               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+//             ) : (
+//               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+//             )}
+//           </svg>
+//         </button>
+//       </div>
+
+//       {/* Overlay for mobile */}
+//       {isOpen && (
+//         <div
+//           className="fixed inset-0 z-30 bg-black bg-opacity-50 md:hidden"
+//           onClick={() => setIsOpen(false)}
+//         ></div>
+//       )}
+
+//       {/* Sidebar */}
+//       <aside
+//         className={`fixed z-40 top-0 left-0 h-full w-64 bg-[rgb(1,1,93)] text-white transform ${
+//           isOpen ? "translate-x-0" : "-translate-x-full"
+//         } md:translate-x-0 transition-transform duration-300 ease-in-out md:static md:h-auto md:w-64`}
+//       >
+//         <div className="bg-white p-4 hidden md:block">
+//           <img src="/logo.jpg" alt="Logo" className="w-full h-8 object-cover" />
+//         </div>
+
+//         <ul className="p-4 space-y-3 font-medium">
+//           {menuItems.map((item, index) => {
+//             const isActive = location.pathname === item.path;
+//             const isDropdownOpen = openDropdown === index;
+
+//             return (
+//               <li key={index}>
+//                 <div
+//                   className="flex justify-between items-center cursor-pointer"
+//                   onClick={() => item.children && toggleDropdown(index)}
+//                 >
+//                   <Link
+//                     to={item.path}
+//                     className={`block w-full ${
+//                       isActive ? "text-[rgb(193,151,11)]" : "text-white"
+//                     }`}
+//                   >
+//                     {item.label}
+//                   </Link>
+//                   {item.children && (
+//                     <span className="text-white ml-2">
+//                       {isDropdownOpen ? <FaChevronUp size={12} /> : <FaChevronDown size={12} />}
+//                     </span>
+//                   )}
+//                 </div>
+
+//                 {item.children && isDropdownOpen && (
+//                   <ul className="ml-6 mt-2 space-y-2">
+//                     {item.children.map((child, childIdx) => {
+//                       const isChildActive = location.pathname === child.path;
+//                       return (
+//                         <li key={childIdx}>
+//                           <Link
+//                             to={child.path}
+//                             className={`block p-2 rounded-lg ${
+//                               isChildActive
+//                                 ? "bg-slate-300 text-[rgb(193,151,11)]"
+//                                 : "text-[rgb(193,151,11)] hover:bg-slate-100"
+//                             }`}
+//                           >
+//                             {child.label}
+//                           </Link>
+//                         </li>
+//                       );
+//                     })}
+//                   </ul>
+//                 )}
+//               </li>
+//             );
+//           })}
+
+//           {/* Logout */}
+//           <li>
+//             <button
+//               onClick={handleLogout}
+//               className="text-[rgb(193,151,11)] active:text-[rgb(193,151,11)] w-full text-left"
+//             >
+//               🚪 Logout
+//             </button>
+//           </li>
+//         </ul>
+//       </aside>
+//     </>
+//   );
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Sidebar.jsx
 import { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
@@ -1361,8 +1612,8 @@ export function Sidebar({ isOpen, setIsOpen }) {
 
   return (
     <>
-      {/* ✅ Top Navbar for Mobile Only */}
-      <div className="md:hidden flex items-center justify-between p-4 bg-white shadow z-50 relative">
+      {/* ✅ Mobile Top Navbar */}
+      <div className="md:hidden fixed top-0 left-0 right-0 flex items-center justify-between px-4 py-3 bg-white shadow z-50">
         <img src="/logo.jpg" alt="Logo" className="h-8 w-auto object-cover" />
         <button onClick={() => setIsOpen(!isOpen)} aria-label="Toggle Sidebar">
           <svg
@@ -1381,7 +1632,7 @@ export function Sidebar({ isOpen, setIsOpen }) {
         </button>
       </div>
 
-      {/* Overlay for mobile */}
+      {/* ✅ Mobile Sidebar Overlay */}
       {isOpen && (
         <div
           className="fixed inset-0 z-30 bg-black bg-opacity-50 md:hidden"
@@ -1389,11 +1640,11 @@ export function Sidebar({ isOpen, setIsOpen }) {
         ></div>
       )}
 
-      {/* Sidebar */}
+      {/* ✅ Sidebar */}
       <aside
         className={`fixed z-40 top-0 left-0 h-full w-64 bg-[rgb(1,1,93)] text-white transform ${
           isOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 transition-transform duration-300 ease-in-out md:static md:h-auto md:w-64`}
+        } md:translate-x-0 transition-transform duration-300 ease-in-out md:static`}
       >
         <div className="bg-white p-4 hidden md:block">
           <img src="/logo.jpg" alt="Logo" className="w-full h-8 object-cover" />
@@ -1412,9 +1663,7 @@ export function Sidebar({ isOpen, setIsOpen }) {
                 >
                   <Link
                     to={item.path}
-                    className={`block w-full ${
-                      isActive ? "text-[rgb(193,151,11)]" : "text-white"
-                    }`}
+                    className={`block w-full ${isActive ? "text-yellow-400" : "text-white"}`}
                   >
                     {item.label}
                   </Link>
@@ -1435,8 +1684,8 @@ export function Sidebar({ isOpen, setIsOpen }) {
                             to={child.path}
                             className={`block p-2 rounded-lg ${
                               isChildActive
-                                ? "bg-slate-300 text-[rgb(193,151,11)]"
-                                : "text-[rgb(193,151,11)] hover:bg-slate-100"
+                                ? "bg-slate-300 text-yellow-500"
+                                : "text-yellow-500 hover:bg-slate-100"
                             }`}
                           >
                             {child.label}
@@ -1450,11 +1699,10 @@ export function Sidebar({ isOpen, setIsOpen }) {
             );
           })}
 
-          {/* Logout */}
           <li>
             <button
               onClick={handleLogout}
-              className="text-[rgb(193,151,11)] active:text-[rgb(193,151,11)] w-full text-left"
+              className="text-yellow-400 w-full text-left"
             >
               🚪 Logout
             </button>

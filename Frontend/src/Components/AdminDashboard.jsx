@@ -331,7 +331,7 @@ if(loading){
         {showSidebar ? <FaTimes className="text-xl" /> : <FaBars className="text-xl" />}
       </button>  */}
        {/* Mobile hamburger menu */}
-      {!isSidebarOpen &&
+      {/* {!isSidebarOpen &&
       <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         className="md:hidden fixed top-4 left-4 z-50 bg-white border p-2 shadow"
@@ -339,7 +339,7 @@ if(loading){
       >
         <FaBars className="text-xl text-blue-900" />
       </button>
-}
+} */}
       {/* ✅ Sidebar with overlay */}
       {/* {showSidebar && (
         <div
@@ -357,7 +357,7 @@ if(loading){
         <Sidebar/>
       </div>  */}
       {/* ✅ Main Content */}
-      <div className={`flex-1 p-6 transition-all duration-300 md:pl-12`}>
+      <div className={`flex-1 p-6 pt-24 md:pt-6 transition-all duration-300`}>
         {/* Header */}
          {/* <div className="flex flex-row sm:flex-row justify-between items-center gap-4 sm:gap-8 mb-6 text-center sm:text-left">
           {/* <h1 className="text-2xl ml-8 sm:text-md font-bold">
