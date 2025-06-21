@@ -381,7 +381,13 @@ if(loading){
         <Sidebar/>
       </div>  */}
       {/* ✅ Main Content */}
-      <main className={`flex-1 p-6 pt-20 md:ml-64 transition-all duration-300`}>
+      {/* <main className={`flex-1 p-6 pt-20 md:ml-64 transition-all duration-300`}> */}
+      <main
+  className={`flex-1 p-6 pt-20 transition-all duration-300 ${
+    isSidebarOpen ? "md:ml-64" : "ml-0"
+  }`}
+>
+
         {/* Header */}
          {/* <div className="flex flex-row sm:flex-row justify-between items-center gap-4 sm:gap-8 mb-6 text-center sm:text-left">
           {/* <h1 className="text-2xl ml-8 sm:text-md font-bold">

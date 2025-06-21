@@ -1603,10 +1603,15 @@ export function Sidebar({ isOpen, setIsOpen, adminName }) {
         className={`fixed top-0 left-0 mt-2 z-40 h-full w-64 bg-[rgb(1,1,93)] text-white transform transition-transform duration-300 ease-in-out 
           ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
       > */}
-      <aside
+      {/* <aside
   className={`fixed top-[68px] left-0 z-40 h-[calc(100%-56px)] w-64 bg-[rgb(1,1,93)] text-white transform transition-transform duration-300 ease-in-out 
   ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
+> */}
+<aside
+  className={`fixed top-[68px] left-0 z-40 h-[calc(100%-68px)] w-64 bg-[rgb(1,1,93)] text-white transform transition-transform duration-300 ease-in-out 
+    ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
 >
+
 
         {/* Logo */}
 <div class="bg-white p-4">
