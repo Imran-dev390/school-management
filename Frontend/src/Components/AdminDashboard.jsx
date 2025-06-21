@@ -372,14 +372,23 @@ if(loading){
           </div> */}
        {/* </div>  */}
        {/* Fixed profile block on the far-left of the page */}
-<div className="fixed top-0 right-0  w-fit ml-4 z-40 flex items-start p-4">
+{/* <div className="fixed top-0 right-0  w-fit ml-4 z-40 flex items-start p-4">
   <div className="profileShowSchoolName flex  items-center gap-2">
     <div className="w-14 h-14 rounded-full flex items-center justify-center">
       <FaUserCircle className="text-4xl text-blue-900" />
     </div>
     <h1 className="text-lg font-semibold text-blue-900">Bright Future</h1>
   </div>
+</div> */}
+<div className="hidden md:flex fixed top-0 right-0 w-fit ml-4 z-40 items-start p-4">
+  <div className="profileShowSchoolName flex items-center gap-2">
+    <div className="w-14 h-14 rounded-full flex items-center justify-center">
+      <FaUserCircle className="text-4xl text-blue-900" />
+    </div>
+    <h1 className="text-lg font-semibold text-blue-900">Bright Future</h1>
+  </div>
 </div>
+
 
        {/* Stats */}
         {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">

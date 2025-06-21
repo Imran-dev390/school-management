@@ -1634,15 +1634,7 @@ export function Sidebar({ isOpen, setIsOpen,adminName }) {
       </div> */}
 {/* ✅ Mobile Top Navbar */}
 <div className="md:hidden fixed top-0 left-0 right-0 flex items-center justify-between px-4 py-3 bg-white shadow z-50">
-  <div className="flex items-center gap-2">
-    {/* <img src="/logo.jpg" alt="Logo" className="h-8 w-auto object-cover" /> */}
-    {adminName && (
-      <div className="flex items-center gap-2">
-        <FaUserCircle className="text-blue-900 text-xl" />
-        <span className="text-blue-900 text-sm font-semibold">{adminName}</span>
-      </div>
-    )}
-  </div>
+  {/* Menu Button on the Left */}
   <button onClick={() => setIsOpen(!isOpen)} aria-label="Toggle Sidebar">
     <svg
       className="w-6 h-6 text-blue-900"
@@ -1658,7 +1650,16 @@ export function Sidebar({ isOpen, setIsOpen,adminName }) {
       )}
     </svg>
   </button>
+
+  {/* Admin Name on the Right */}
+  {adminName && (
+    <div className="flex items-center gap-2">
+      <FaUserCircle className="text-blue-900 text-xl" />
+      <span className="text-blue-900 text-sm font-semibold">{adminName}</span>
+    </div>
+  )}
 </div>
+
 
 
       {/* ✅ Mobile Sidebar Overlay */}
@@ -1671,7 +1672,7 @@ export function Sidebar({ isOpen, setIsOpen,adminName }) {
 
       {/* ✅ Sidebar */}
       <aside
-        className={`fixed z-40 top-0 min-h-screen left-0 h-full w-64 bg-[rgb(1,1,93)] text-white transform ${
+        className={`fixed z-40 top-0 min-h-screen left-0  w-64 bg-[rgb(1,1,93)] text-white transform ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0 transition-transform duration-300 ease-in-out md:static`}
       >
