@@ -360,9 +360,9 @@ if(loading){
       <div className={`flex-1 p-6 transition-all duration-300 md:pl-12`}>
         {/* Header */}
         <div className="flex flex-row sm:flex-row justify-between items-center gap-4 sm:gap-8 mb-6 text-center sm:text-left">
-          <h1 className="text-2xl ml-8 sm:text-md font-bold">
+          {/* <h1 className="text-2xl ml-8 sm:text-md font-bold">
             🏫 School Admin {name} Dashboard
-          </h1>
+          </h1> */}
           <div className="profileShowSchoolName flex items-center gap-1 p-4 w-fit">
             <div className="w-14 h-14 rounded-full flex items-center justify-center bg-transparent">
               <FaUserCircle className="text-4xl" />

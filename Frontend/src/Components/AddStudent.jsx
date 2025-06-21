@@ -374,16 +374,15 @@ export default function AddStudent() {
         </button>
       )}
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
-
       {/* Main Content */}
       <div className="flex-grow flex flex-col justify-center items-start p-6 md:p-12 overflow-auto">
         {/* Header */}
  <div className="flex flex-row sm:flex-row justify-between items-center gap-4 sm:gap-8 mb-6 text-center sm:text-left">
-          <h1 className="text-lg ml-8 sm:text-3xl font-bold">
+          {/* <h1 className="text-lg ml-8 sm:text-3xl font-bold">
             🏫 School Admin {name} Dashboard
-          </h1>
-          <div className="profileShowSchoolName relative w-fit flex items-center gap-1 p-4">
-            <div className="w-14 h-14 rounded-full flex items-center justify-center bg-transparent sm:absolute left-14">
+          </h1> */}
+          <div className="profileShowSchoolName w-fit flex items-center gap-1 p-4">
+            <div className="w-14 h-14 rounded-full flex items-center justify-center bg-transparent">
               <FaUserCircle className="text-4xl" />
             </div>
             <h1 className="text-md flex gap-0 sm:text-lg  font-semibold">Bright Future</h1>
