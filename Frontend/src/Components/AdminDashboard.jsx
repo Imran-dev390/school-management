@@ -359,19 +359,20 @@ if(loading){
       {/* ✅ Main Content */}
       <div className={`flex-1 p-6 transition-all duration-300 md:pl-12`}>
         {/* Header */}
-        {/* <div className="flex flex-row sm:flex-row justify-between items-center gap-4 sm:gap-8 mb-6 text-center sm:text-left">
+         {/* <div className="flex flex-row sm:flex-row justify-between items-center gap-4 sm:gap-8 mb-6 text-center sm:text-left">
           {/* <h1 className="text-2xl ml-8 sm:text-md font-bold">
             🏫 School Admin {name} Dashboard
           </h1> */}
-          <div className="profileShowSchoolName flex items-center gap-1 p-4 w-fit">
+          {/* <div className="profileShowSchoolName flex items-center gap-1 p-4 w-fit">
             <div className="w-14 h-14 rounded-full flex items-center justify-center bg-transparent">
               <FaUserCircle className="text-4xl" />
             </div>
             <h1 className="text-lg font-semibold">Bright Future</h1>
-          </div>
-       {/* </div> */}
-<div className="flex justify-start items-center mb-6">
-  <div className="profileShowSchoolName flex items-center gap-2 p-4">
+          </div> */}
+       {/* </div>  */}
+       {/* Fixed profile block on the far-left of the page */}
+<div className="fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-40 flex items-start p-4">
+  <div className="profileShowSchoolName flex flex-col items-start gap-2">
     <div className="w-14 h-14 rounded-full flex items-center justify-center bg-transparent">
       <FaUserCircle className="text-4xl text-blue-900" />
     </div>
