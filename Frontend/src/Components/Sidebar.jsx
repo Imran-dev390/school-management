@@ -1600,12 +1600,12 @@ export function Sidebar({ isOpen, setIsOpen, adminName }) {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 z-40 h-full w-64 bg-[rgb(1,1,93)] text-white transform transition-transform duration-300 ease-in-out 
+        className={`fixed top-0 left-0 mt-2 z-40 h-full w-64 bg-[rgb(1,1,93)] text-white transform transition-transform duration-300 ease-in-out 
           ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
       >
         {/* Logo */}
         <div className="bg-white block p-4">
-          <img src="/logo.jpg" alt="Logo" className="w-full h-24 object-cover" />
+          <img src="/logo.jpg" alt="Logo" className="w-full h-8 object-cover" />
         </div>
 
         {/* Menu Items */}
