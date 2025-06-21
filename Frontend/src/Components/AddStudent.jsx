@@ -393,9 +393,13 @@ const handleSidebarToggle = () => {
   onToggleSidebar={handleSidebarToggle}
   adminName={"Bright Future"} // optional
 />
-
       {/* Main Content */}
-      <div className="flex-grow flex flex-col justify-center items-start p-6 md:p-12 overflow-auto">
+      {/* <div className="flex-grow flex flex-col justify-center items-start p-6 md:p-12 overflow-auto"> */}
+     <div
+  className={`flex-grow flex flex-col justify-center items-start p-6 md:p-12 overflow-auto transition-all duration-300 ${
+    isSidebarOpen ? 'md:ml-64' : ''
+  }`}
+>
         {/* Header */}
  {/* <div className="flex flex-row sm:flex-row justify-between items-center gap-4 sm:gap-8 mb-6 text-center sm:text-left">
           {/* <h1 className="text-lg ml-8 sm:text-3xl font-bold">
@@ -408,16 +412,8 @@ const handleSidebarToggle = () => {
             <h1 className="text-md flex gap-0 sm:text-lg  font-semibold">Bright Future</h1>
           </div> */}
       {/*  </div> */}
-      <div className="fixed top-0 right-0  w-fit ml-4 z-40 flex items-start p-4">
-        <div className="profileShowSchoolName flex  items-center gap-2">
-          <div className="w-14 h-14 rounded-full flex items-center justify-center">
-            <FaUserCircle className="text-4xl text-blue-900" />
-          </div>
-          <h1 className="text-lg font-semibold text-blue-900">Bright Future</h1>
-        </div>
-      </div>
 {/* end */}
-        <div className="w-full max-w-3xl bg-white shadow-xl rounded-2xl p-4">
+        <div className="w-full max-w-3xl bg-white  shadow-xl rounded-2xl p-4">
           <h2 className="text-3xl font-bold text-center text-green-800 mb-8">
             📚 Register New Student
           </h2>
