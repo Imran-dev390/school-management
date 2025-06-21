@@ -301,7 +301,7 @@
 
 
 
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { authDataContext } from '../Context-Api/AuthContext';
 import { adminDataContext } from '../Context-Api/AdminContext';
 import { ToastContainer, toast } from 'react-toastify';
@@ -317,7 +317,6 @@ export default function AddStudent() {
   const { serverUrl } = useContext(authDataContext);
  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 const [hasUserToggled, setHasUserToggled] = useState(false);
-
 useEffect(() => {
   if (window.innerWidth >= 768) {
     setIsSidebarOpen(true);
