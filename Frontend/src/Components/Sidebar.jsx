@@ -613,7 +613,7 @@ export function Sidebar({ isOpen, setIsOpen }) {
   const { serverUrl } = useContext(authDataContext);
    const location = useLocation(); // track the active li
    const [openDropdown, setOpenDropdown] = useState(null); // to control open dropdown
-
+ const [isOpen, setIsOpen] = useState(false);
   const menuItems = [
     { label: "📊 Dashboard", path: "/admin/dash" },
     {
@@ -663,6 +663,26 @@ export function Sidebar({ isOpen, setIsOpen }) {
   };
   return (
     <>
+     {/* Hamburger Button (Mobile Only) */}
+      <div className="md:hidden flex items-center justify-between p-4 bg-white shadow">
+        {/* <img src="/logo.jpg" alt="Logo" className="w-4/5 h-8 object-cover" /> */}
+        <button onClick={() => setIsOpen(!isOpen)} aria-label="Toggle Sidebar">
+          <svg
+            className="w-6 h-6 text-blue-900"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            {isOpen ? (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            )}
+          </svg>
+        </button>
+      </div>
+
       {/* Overlay for mobile */}
       {isOpen && (
         <div
@@ -828,13 +848,11 @@ export function Sidebar({ isOpen, setIsOpen }) {
           🚪 Logout
         </button>
       </li>
-    </ul> */}
-    
+    </ul> */}    
         <ul className="p-4 space-y-0 font-medium">
       {menuItems.map((item, index) => {
         const isActive = location.pathname === item.path;
         const isDropdownOpen = openDropdown === index;
-
         return (
           <li key={index}>
             <div
@@ -851,14 +869,12 @@ export function Sidebar({ isOpen, setIsOpen }) {
               >
                 {item.label}
               </Link>
-
               {item.children && (
                 <span className="ml-2 text-sm text-gray-200">
                   {isDropdownOpen ? <FaChevronUp size={12} /> : <FaChevronDown size={12} />}
                 </span>
               )}
             </div>
-
             {item.children && isDropdownOpen && (
               <ul className="ml-6 mt-1 space-y-1">
                 {item.children.map((child, childIndex) => {
