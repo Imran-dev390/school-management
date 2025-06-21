@@ -1604,10 +1604,10 @@ export function Sidebar({ isOpen, setIsOpen, adminName }) {
           ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
       >
         {/* Logo */}
-        <div className="bg-white block p-4">
-          <img src="/logo.jpg" alt="Logo" className="w-full h-8 object-cover" />
-        </div>
-
+<div class="bg-white p-4">
+  <img src="/logo.jpg" alt="Logo" class="w-full h-10 object-cover">
+  </img>
+  </div>
         {/* Menu Items */}
         <ul className="p-4 space-y-3 font-medium">
           {menuItems.map((item, index) => {
