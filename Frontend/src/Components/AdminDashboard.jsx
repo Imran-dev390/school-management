@@ -357,8 +357,9 @@ if(loading){
       > 
         <Sidebar/>
       </div>  */}
-      {/* ✅ Main Content */}
-      <div className={`flex-1 p-6 pt-24 md:pt-6 transition-all duration-300`}>
+      {/* ✅ Main Content  flex-1 p-6 pt-24 md:pt-6 transition-all duration-300 */}
+     
+      <div className={`flex-1 p-6 pt-20 transition-all duration-300`}>
         {/* Header */}
          {/* <div className="flex flex-row sm:flex-row justify-between items-center gap-4 sm:gap-8 mb-6 text-center sm:text-left">
           {/* <h1 className="text-2xl ml-8 sm:text-md font-bold">
@@ -380,14 +381,14 @@ if(loading){
     <h1 className="text-lg font-semibold text-blue-900">Bright Future</h1>
   </div>
 </div> */}
-<div className="hidden md:flex fixed top-0 right-0 w-fit ml-4 z-40 items-start p-4">
+{/* <div className="hidden md:flex fixed top-0 right-0 w-fit ml-4 z-40 items-start p-4">
   <div className="profileShowSchoolName flex items-center gap-2">
     <div className="w-14 h-14 rounded-full flex items-center justify-center">
       <FaUserCircle className="text-4xl text-blue-900" />
     </div>
     <h1 className="text-lg font-semibold text-blue-900">Bright Future</h1>
   </div>
-</div>
+</div> */}
 
 
        {/* Stats */}
