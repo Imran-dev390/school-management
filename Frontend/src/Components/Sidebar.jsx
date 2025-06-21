@@ -1605,7 +1605,7 @@ export function Sidebar({ isOpen, setIsOpen, adminName }) {
       >
         {/* Logo */}
         <div className="bg-white p-4">
-          <img src="/logo.jpg" alt="Logo" className="w-full h-10 object-contain" />
+          <img src="/logo.jpg" alt="Logo" className="w-full h-24 object-contain" />
         </div>
 
         {/* Menu Items */}
