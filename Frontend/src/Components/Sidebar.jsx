@@ -1583,9 +1583,9 @@ export function Sidebar({ isOpen, setIsOpen, adminName }) {
 
         {/* Admin Name */}
         {adminName && (
-          <div className="flex items-center p-4 gap-2">
-            <FaUserCircle className="text-blue-900 text-xl" />
-            <span className="text-blue-900 text-sm font-semibold">{adminName}</span>
+          <div className="flex items-center  gap-2">
+            <FaUserCircle className="text-blue-900 text-2xl" />
+            <span className="text-blue-900 text-xl font-semibold">{adminName}</span>
           </div>
         )}
       </div>
@@ -1604,7 +1604,7 @@ export function Sidebar({ isOpen, setIsOpen, adminName }) {
           ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
       > */}
       <aside
-  className={`fixed top-[60px] left-0 z-40 h-[calc(100%-56px)] w-64 bg-[rgb(1,1,93)] text-white transform transition-transform duration-300 ease-in-out 
+  className={`fixed top-[65px] left-0 z-40 h-[calc(100%-56px)] w-64 bg-[rgb(1,1,93)] text-white transform transition-transform duration-300 ease-in-out 
   ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
 >
 
