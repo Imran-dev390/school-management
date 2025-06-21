@@ -1563,7 +1563,7 @@ export function Sidebar({ isOpen, setIsOpen, adminName }) {
   return (
     <>
       {/* Top Nav: Always visible */}
-      <div className="fixed top-0 left-0 right-0 flex items-center justify-between px-4 py-3 bg-white shadow z-50 md:px-6">
+      <div className="fixed top-0 left-0 right-0 flex items-center justify-between px-4 py-6 bg-white shadow z-50 md:px-6">
         {/* Hamburger */}
         <button onClick={() => setIsOpen(!isOpen)} aria-label="Toggle Sidebar">
           <svg
