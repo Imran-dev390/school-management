@@ -315,6 +315,21 @@ export default function AddStudent() {
   const { adminData } = useContext(adminDataContext);
   const { classes = [] } = adminData?.admin || {};
   const { serverUrl } = useContext(authDataContext);
+ const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+const [hasUserToggled, setHasUserToggled] = useState(false);
+
+useEffect(() => {
+  if (window.innerWidth >= 768) {
+    setIsSidebarOpen(true);
+  }
+}, []);
+
+const handleSidebarToggle = () => {
+  setIsSidebarOpen((prev) => !prev);
+  setHasUserToggled(true);
+};
+
+
 // FaUserCircle
   const [formData, setFormData] = useState({
     name: '',
@@ -328,7 +343,6 @@ export default function AddStudent() {
     Class: '',
   });
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e) => {
@@ -373,7 +387,14 @@ export default function AddStudent() {
           <FaBars className="text-xl text-green-700" />
         </button>
       )}
-      <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+   <Sidebar
+  isOpen={isSidebarOpen}
+  setIsOpen={setIsSidebarOpen}
+  hasUserToggled={hasUserToggled}
+  onToggleSidebar={handleSidebarToggle}
+  adminName={"Bright Future"} // optional
+/>
+
       {/* Main Content */}
       <div className="flex-grow flex flex-col justify-center items-start p-6 md:p-12 overflow-auto">
         {/* Header */}
