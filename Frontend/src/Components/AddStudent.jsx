@@ -388,9 +388,9 @@ export default function AddStudent() {
             <h1 className="text-md flex gap-0 sm:text-lg  font-semibold">Bright Future</h1>
           </div>
       {/*  </div> */}
-      <div className="fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-40 flex items-start p-4">
-        <div className="profileShowSchoolName flex flex-col items-start gap-2">
-          <div className="w-14 h-14 rounded-full flex items-center justify-center bg-transparent">
+      <div className="fixed top-0 right-0  w-fit ml-4 z-40 flex items-start p-4">
+        <div className="profileShowSchoolName flex  items-start gap-2">
+          <div className="w-14 h-14 rounded-full flex items-center justify-center">
             <FaUserCircle className="text-4xl text-blue-900" />
           </div>
           <h1 className="text-lg font-semibold text-blue-900">Bright Future</h1>

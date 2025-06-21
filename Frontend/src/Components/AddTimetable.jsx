@@ -698,6 +698,16 @@ if(isLoading) return <p>Admin Data is Loading...</p>
               </button>
             )}
             <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+            {/* Header*/}
+            <div className="fixed top-0 right-0  w-fit ml-4 z-40 flex items-start p-4">
+              <div className="profileShowSchoolName flex  items-start gap-2">
+                <div className="w-14 h-14 rounded-full flex items-center justify-center">
+                  <FaUserCircle className="text-4xl text-blue-900" />
+                </div>
+                <h1 className="text-lg font-semibold text-blue-900">Bright Future</h1>
+              </div>
+            </div>
+            {/* end*/}
     <form onSubmit={handleSubmit} style={styles.form}>
       <h1 className='text-center text-xl font-bold'>Add Classes TimeTable</h1>
 

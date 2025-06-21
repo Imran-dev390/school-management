@@ -372,7 +372,7 @@ if(loading){
        {/* </div>  */}
        {/* Fixed profile block on the far-left of the page */}
 <div className="fixed top-0 right-0  w-fit ml-4 z-40 flex items-start p-4">
-  <div className="profileShowSchoolName flex flex-col items-start gap-2">
+  <div className="profileShowSchoolName flex  items-start gap-2">
     <div className="w-14 h-14 rounded-full flex items-center justify-center">
       <FaUserCircle className="text-4xl text-blue-900" />
     </div>

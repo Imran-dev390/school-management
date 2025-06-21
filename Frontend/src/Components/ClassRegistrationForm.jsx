@@ -23,7 +23,7 @@ const ClassRegistrationForm = ({recentActivity,setRecentAcitviy}) => {
       [name]: value,
     }));
   };
-
+  const [isSidebarOpen,setIsSidebarOpen] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle form submission logic here
@@ -50,7 +50,26 @@ const ClassRegistrationForm = ({recentActivity,setRecentAcitviy}) => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-500 to-teal-500">
- <Sidebar/>
+
+  {!isSidebarOpen && (
+        <button
+          onClick={() => setIsSidebarOpen(true)}
+          className="md:hidden fixed top-4 left-4 z-50 bg-white border p-2 shadow"
+        >
+          <FaBars className="text-xl text-green-700" />
+        </button>
+      )}
+      <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+ {/* header*/}
+ <div className="fixed top-0 right-0  w-fit ml-4 z-40 flex items-start p-4">
+   <div className="profileShowSchoolName flex  items-start gap-2">
+     <div className="w-14 h-14 rounded-full flex items-center justify-center">
+       <FaUserCircle className="text-4xl text-blue-900" />
+     </div>
+     <h1 className="text-lg font-semibold text-blue-900">Bright Future</h1>
+   </div>
+ </div>
+ {/* end*/}
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-3xl font-semibold text-center text-gray-700 mb-6">Class Registration</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
