@@ -1604,7 +1604,7 @@ export function Sidebar({ isOpen, setIsOpen, adminName }) {
           ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
       > */}
       <aside
-  className={`fixed top-[52px] left-0 z-40 h-[calc(100%-56px)] w-64 bg-[rgb(1,1,93)] text-white transform transition-transform duration-300 ease-in-out 
+  className={`fixed top-[50px] left-0 z-40 h-[calc(100%-56px)] w-64 bg-[rgb(1,1,93)] text-white transform transition-transform duration-300 ease-in-out 
   ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
 >
 
