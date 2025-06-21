@@ -1700,11 +1700,15 @@ export function Sidebar({ isOpen, setIsOpen,adminName }) {
 
       {/* ✅ Sidebar */}
       <aside
-        className={`fixed z-40 top-0 min-h-screen left-0  w-64 bg-[rgb(1,1,93)] text-white transform ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 transition-transform duration-300 ease-in-out md:static`}
+        // className={`fixed z-40 top-0 min-h-screen left-0  w-64 bg-[rgb(1,1,93)] text-white transform ${
+        //   isOpen ? "translate-x-0" : "-translate-x-full"
+        // } md:translate-x-0 transition-transform duration-300 ease-in-out md:static`}
+        className={`fixed z-40 top-0 min-h-screen left-0 w-64 bg-[rgb(1,1,93)] text-white transform ${
+  isOpen ? "translate-x-0" : "-translate-x-full"
+} transition-transform duration-300 ease-in-out`}
+
       >
-        <div className="bg-white p-4 hidden md:block">
+        <div className="bg-white p-4">
           <img src="/logo.jpg" alt="Logo" className="w-full h-8 object-cover" />
         </div>
 
