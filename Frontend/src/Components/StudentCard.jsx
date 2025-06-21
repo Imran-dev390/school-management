@@ -4,7 +4,7 @@ import { adminDataContext } from '../Context-Api/AdminContext';
 import { authDataContext } from '../Context-Api/AuthContext';
 import axios from 'axios';
 import { ToastContainer,toast } from 'react-toastify';
-import { FaBars } from 'react-icons/fa';
+import { FaBars, FaUserCircle } from 'react-icons/fa';
 const StudentCard = ({showSidebar,setShowSidebar}) => {
   const { adminData } = useContext(adminDataContext);
   const { serverUrl } = useContext(authDataContext);
@@ -115,6 +115,14 @@ const StudentCard = ({showSidebar,setShowSidebar}) => {
             <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
         {/* <div className={`fixed top-0 left-0 z-40 h-full w-64 bg-white dark:bg-gray-800 shadow transform transition-transform duration-300 ${showSidebar ? 'translate-x-0' : '-translate-x-full'}`}>
       </div> */}
+       <div className="fixed top-0 right-0  w-fit ml-4 z-40 flex items-start p-4">
+              <div className="profileShowSchoolName flex  items-center gap-2">
+                <div className="w-14 h-14 rounded-full flex items-center justify-center">
+                  <FaUserCircle className="text-4xl text-blue-900" />
+                </div>
+                <h1 className="text-lg font-semibold text-blue-900">Bright Future</h1>
+              </div>
+            </div>
       <main className="flex-1 ml-0 md:ml-64 p-8">
         <h2 className="text-3xl font-bold mb-6 text-center">🎓 Student Profiles</h2>
         <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} theme="colored" />

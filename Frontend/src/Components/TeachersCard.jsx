@@ -5,7 +5,7 @@
  import axios from 'axios';
  import { ToastContainer,toast } from 'react-toastify';
  import "react-toastify/dist/ReactToastify.css"; // Ensure this is imported
-import { FaBars } from 'react-icons/fa';
+import { FaBars, FaUserCircle } from 'react-icons/fa';
  const TeachersCard = () => {
  const { adminData } = useContext(adminDataContext);
  const { serverUrl } = useContext(authDataContext);
@@ -48,13 +48,11 @@ import { FaBars } from 'react-icons/fa';
        console.error("Error deleting student:", err);
      }
    };
-
    const handleUpdate = (index) => {
      const student = totalTeachers[index];
      setEditData(student);
      setShowModal(true);
    };
-
    const handleFormChange = (e) => {
      setEditData({ ...editData, [e.target.name]: e.target.value });
    };
@@ -112,6 +110,14 @@ import { FaBars } from 'react-icons/fa';
               </button>
             )}
             <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+             <div className="fixed top-0 right-0  w-fit ml-4 z-40 flex items-start p-4">
+                    <div className="profileShowSchoolName flex  items-center gap-2">
+                      <div className="w-14 h-14 rounded-full flex items-center justify-center">
+                        <FaUserCircle className="text-4xl text-blue-900" />
+                      </div>
+                      <h1 className="text-lg font-semibold text-blue-900">Bright Future</h1>
+                    </div>
+                  </div>
        <main className="flex-1 ml-0 md:ml-64 p-8">
          <h2 className="text-3xl font-bold mb-6 text-center">🎓 Teachers Profiles</h2>
            {/* ToastContainer placed here — always mounted */}

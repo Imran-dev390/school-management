@@ -5,8 +5,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { adminDataContext } from '../Context-Api/AdminContext';
 import { Sidebar } from './Sidebar';
-import { FaBars } from 'react-icons/fa';
+import { FaBars, FaCircle, FaUserCircle } from 'react-icons/fa';
 //FaBars
+//FaCircle
+//FaUserCircle
 export default function AddTeacher() {
   const { serverUrl } = useContext(authDataContext);
   const { fetchAdminData } = useContext(adminDataContext);

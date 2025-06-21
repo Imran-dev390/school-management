@@ -5,7 +5,7 @@ import { adminDataContext } from '../Context-Api/AdminContext';
 import { authDataContext } from '../Context-Api/AuthContext';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
-
+import { FaBars, FaUserCircle } from 'react-icons/fa';
 const AddSubject = () => {
   const { adminData } = useContext(adminDataContext);
   const { fetchAdminData } = useContext(adminDataContext);
