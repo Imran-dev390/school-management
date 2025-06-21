@@ -380,9 +380,8 @@ if(loading){
       > 
         <Sidebar/>
       </div>  */}
-      {/* ✅ Main Content  flex-1 p-6 pt-24 md:pt-6 transition-all duration-300 */}
-     
-      <div className={`flex-1 p-6 pt-20 transition-all duration-300`}>
+      {/* ✅ Main Content */}
+      <main className={`flex-1 p-6 pt-20 md:ml-64 transition-all duration-300`}>
         {/* Header */}
          {/* <div className="flex flex-row sm:flex-row justify-between items-center gap-4 sm:gap-8 mb-6 text-center sm:text-left">
           {/* <h1 className="text-2xl ml-8 sm:text-md font-bold">
@@ -500,7 +499,7 @@ if(loading){
             Logged in as: <strong>admin@school.edu</strong> • Role: <strong>Super Admin</strong>
           </p>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
