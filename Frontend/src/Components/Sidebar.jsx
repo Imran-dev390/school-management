@@ -1604,8 +1604,8 @@ export function Sidebar({ isOpen, setIsOpen, adminName }) {
           ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
       >
         {/* Logo */}
-        <div className="bg-white p-4">
-          <img src="/logo.jpg" alt="Logo" className="w-full h-24 object-contain" />
+        <div className="bg-white block p-4">
+          <img src="/logo.jpg" alt="Logo" className="w-full h-24 object-cover" />
         </div>
 
         {/* Menu Items */}
