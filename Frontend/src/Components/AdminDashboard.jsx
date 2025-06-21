@@ -211,22 +211,22 @@
 
 
 
-import React, { useContext,  useEffect, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
   FaUserGraduate,
   FaChalkboardTeacher,
   FaSchool,
   FaHistory,
-//  FaMoon,
-//  FaSun,
+  FaMoon,
+  FaSun,
   FaBars,
   FaTimes,
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { userDataContext } from '../Context-Api/UserContext';
 import { adminDataContext } from '../Context-Api/AdminContext';
-import { FaUserCircle } from 'react-icons/fa';
 import { Sidebar } from './Sidebar';
+import { FaUserCircle } from 'react-icons/fa';
 export default function AdminDashboard({ recentActivity, setRecentActivity }) {
   const { userData } = useContext(userDataContext);
   const { adminData, loading, fetchAdminData } = useContext(adminDataContext);
