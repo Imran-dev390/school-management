@@ -359,7 +359,7 @@ if(loading){
       {/* ✅ Main Content */}
       <div className={`flex-1 p-6 transition-all duration-300 md:pl-12`}>
         {/* Header */}
-        <div className="flex flex-row sm:flex-row justify-between items-center gap-4 sm:gap-8 mb-6 text-center sm:text-left">
+        {/* <div className="flex flex-row sm:flex-row justify-between items-center gap-4 sm:gap-8 mb-6 text-center sm:text-left">
           {/* <h1 className="text-2xl ml-8 sm:text-md font-bold">
             🏫 School Admin {name} Dashboard
           </h1> */}
@@ -369,10 +369,18 @@ if(loading){
             </div>
             <h1 className="text-lg font-semibold">Bright Future</h1>
           </div>
-        </div>
+       {/* </div> */}
+<div className="flex justify-start items-center mb-6">
+  <div className="profileShowSchoolName flex items-center gap-2 p-4">
+    <div className="w-14 h-14 rounded-full flex items-center justify-center bg-transparent">
+      <FaUserCircle className="text-4xl text-blue-900" />
+    </div>
+    <h1 className="text-lg font-semibold text-blue-900">Bright Future</h1>
+  </div>
+</div>
 
        {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+        {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
           {[
             { icon: <FaUserGraduate />, label: 'Total Students', count: students.length },
             { icon: <FaChalkboardTeacher />, label: 'Teachers', count: teachers.length },
@@ -387,7 +395,23 @@ if(loading){
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
+<div className="flex flex-wrap gap-6 mb-10">
+  {[
+    { icon: <FaUserGraduate />, label: 'Total Students', count: students.length },
+    { icon: <FaChalkboardTeacher />, label: 'Teachers', count: teachers.length },
+    { icon: <FaSchool />, label: 'Classes', count: classes.length },
+    { icon: <FaHistory />, label: 'Sessions', count: sessions.length },
+  ].map(({ icon, label, count }) => (
+    <div key={label} className="bg-white text-black dark:bg-gray-800 shadow-lg rounded-lg p-6 flex items-center space-x-4 w-full sm:w-[45%] lg:w-[22%]">
+      <div className="text-3xl text-blue-500">{icon}</div>
+      <div>
+        <h4 className="text-lg font-semibold">{label}</h4>
+        <p className="text-xl font-bold">{count}</p>
+      </div>
+    </div>
+  ))}
+</div>
 
         {/* Actions */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
