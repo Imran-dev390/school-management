@@ -1593,14 +1593,18 @@ export function Sidebar({ isOpen, setIsOpen, adminName ,hasUserToggled,onToggleS
 </button>
 
         {/* Admin Name */}
-        {adminName && (
+        {/* {adminName && (
           <div className="flex items-center  gap-2">
             <FaUserCircle className="text-blue-900 text-3xl" />
             <span className="text-blue-900 text-md font-semibold">{adminName}</span>
           </div>
         )}
-      </div>
-
+      </div> */}
+       <div className="flex items-center  gap-2">
+            <FaUserCircle className="text-blue-900 text-3xl" />
+            <span className="text-blue-900 text-md font-semibold">Bright Future</span>
+          </div>
+</div>
       {/* Overlay on mobile when sidebar is open */}
       {isOpen && (
         <div
