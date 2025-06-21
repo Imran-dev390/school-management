@@ -232,7 +232,30 @@ export default function AdminDashboard({ recentActivity, setRecentActivity }) {
   const [adminName,setName] = useState("Bright Future");
   const { adminData, loading, fetchAdminData } = useContext(adminDataContext);
 //  const [showSidebar, setShowSidebar] = useState(false);
- const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+ const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
+  if (typeof window !== "undefined") {
+    return window.innerWidth >= 768; 
+  }
+  return true;
+});
+
+useEffect(() => {
+  function handleResize() {
+    if (window.innerWidth >= 768) {
+      setIsSidebarOpen(true);  // open sidebar on desktop
+    } else {
+      setIsSidebarOpen(false); // close sidebar on mobile
+    }
+  }
+
+  window.addEventListener("resize", handleResize);
+
+  // optional: run on mount to ensure correct state if window size changed
+  handleResize();
+
+  return () => window.removeEventListener("resize", handleResize);
+}, []);
+
   useEffect(() => {
     if (!adminData) {
       fetchAdminData();
