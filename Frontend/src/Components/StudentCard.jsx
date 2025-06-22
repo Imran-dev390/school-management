@@ -887,17 +887,337 @@
 
 
 
- import React, { useContext, useEffect, useState } from "react";
-import DataTable from "react-data-table-component";
+//  import React, { useContext, useEffect, useState } from "react";
+// import DataTable from "react-data-table-component";
+// import axios from "axios";
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+// //import AdminLayout from "../Layouts/AdminLayout";
+// import { adminDataContext } from "../Context-Api/AdminContext";
+// import { authDataContext } from "../Context-Api/AuthContext";
+// import AdminLayout from "./AdminLayout";
+
+// const StudentCard = () => {
+//   const { adminData, fetchAdminData } = useContext(adminDataContext);
+//   const { serverUrl } = useContext(authDataContext);
+//   const { students = [] } = adminData?.admin || [];
+
+//   const [totalStudents, setTotalStudents] = useState([]);
+//   const [filterText, setFilterText] = useState("");
+//   const [showModal, setShowModal] = useState(false);
+//   const [editData, setEditData] = useState(null);
+
+//   useEffect(() => {
+//     if (students.length > 0) {
+//       setTotalStudents(students);
+//     }
+//   }, [students]);
+
+//   const filteredStudents = totalStudents.filter(
+//     (s) =>
+//       s.name.toLowerCase().includes(filterText.toLowerCase()) ||
+//       s.Classs?.name?.toLowerCase().includes(filterText.toLowerCase())
+//   );
+
+//   const handleUpdateById = (id) => {
+//     const student = totalStudents.find((s) => s._id === id);
+//     setEditData(student);
+//     setShowModal(true);
+//   };
+
+//   const handleDeleteById = async (id) => {
+//     try {
+//       const response = await axios.delete(`${serverUrl}/admin/students/${id}`, { withCredentials: true });
+//       if (response.status === 200) {
+//         await fetchAdminData();
+//         toast.success("Successfully Deleted Student...");
+//         setTotalStudents((prev) => prev.filter((s) => s._id !== id));
+//       }
+//     } catch (err) {
+//       toast.error(err?.response?.data?.message || "Delete failed.");
+//     }
+//   };
+
+//   const handleFormChange = (e) => {
+//     setEditData({ ...editData, [e.target.name]: e.target.value });
+//   };
+
+//   const handleFormSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const response = await axios.put(
+//         `${serverUrl}/api/admin/student/${editData._id}`,
+//         {
+//           name: editData.name,
+//           parent: editData.parent,
+//           Classs: editData.class,
+//           dob: editData.dob,
+//           adress: editData.adress,
+//           phone: editData.phone,
+//           feesPaid: editData.feesPaid,
+//         },
+//         { withCredentials: true }
+//       );
+
+//       if (response.status === 200) {
+//         await fetchAdminData();
+//         const updatedStudent = response.data.student;
+//         setTotalStudents((prev) =>
+//           prev.map((s) => (s._id === updatedStudent._id ? updatedStudent : s))
+//         );
+//         toast.success("Successfully updated the student...");
+//         setTimeout(() => setShowModal(false), 300);
+//       }
+//     } catch (err) {
+//       toast.error(err?.response?.data?.message || "Update failed.");
+//     }
+//   };
+
+//   const columns = [
+//     {
+//       name: "Name",
+//       selector: (row) => row.name,
+//       sortable: true,
+//     },
+//     {
+//       name: "Class",
+//       selector: (row) => row.Classs?.name || "–",
+//       sortable: true,
+//     },
+//     {
+//       name: "DOB",
+//       selector: (row) => new Date(row.dob).toLocaleDateString(),
+//       sortable: true,
+//     },
+//     {
+//       name: "Parent",
+//       selector: (row) => row.parent,
+//       sortable: true,
+//     },
+//     {
+//       name: "Phone",
+//       selector: (row) => row.phone,
+//       sortable: true,
+//     },
+//     {
+//       name: "Fees Paid",
+//       selector: (row) => row.feesPaid ?? 0,
+//       sortable: true,
+//     },
+//     {
+//       name: "Actions",
+//       cell: (row) => (
+//         <div className="flex space-x-2">
+//           <button onClick={() => handleUpdateById(row._id)} className="btn btn-sm btn-info">Edit</button>
+//           <button onClick={() => handleDeleteById(row._id)} className="btn btn-sm btn-danger">Delete</button>
+//         </div>
+//       ),
+//       ignoreRowClick: true,
+//       allowOverflow: true,
+//       button: true,
+//     },
+//   ];
+
+//   return (
+//     <AdminLayout adminName="Bright Future">
+//       <main className="p-8">
+//         <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} theme="colored" />
+//         <h2 className="text-3xl font-bold mb-4 text-center">📋 Student Records</h2>
+// <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+//   <h3 className="text-xl font-semibold mb-2 sm:mb-0">Students</h3>
+//   <input
+//     type="text"
+//     placeholder="Search by name or class…"
+//     className="p-2 border rounded-md w-full sm:w-64 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
+//     value={filterText}
+//     onChange={(e) => setFilterText(e.target.value)}
+//   />
+// </div>
+//         <DataTable
+//           columns={columns}
+//           data={filteredStudents}
+//           pagination
+//           highlightOnHover
+//           striped
+//           responsive
+//           noDataComponent="No students found."
+//         />
+
+//         {showModal && editData && (
+//           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+//             <div className="bg-white p-6 rounded-lg w-[90%] max-w-lg shadow-lg">
+//               <h2 className="text-xl font-bold mb-4">Update Student</h2>
+//               <form onSubmit={handleFormSubmit} className="space-y-3">
+//                 <input type="text" name="name" value={editData.name || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Name" />
+//                 <input type="text" name="parent" value={editData.parent || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Parent" />
+//                 <input type="date" name="dob" value={editData.dob?.substring(0, 10) || ""} onChange={handleFormChange} className="w-full border p-2 rounded" />
+//                 <input type="text" name="class" value={editData.class || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Class" />
+//                 <input type="text" name="adress" value={editData.adress || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Address" />
+//                 <input type="text" name="phone" value={editData.phone || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Phone" />
+//                 <input type="number" name="feesPaid" value={editData.feesPaid || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Fees Paid" />
+
+//                 <div className="flex justify-end gap-2">
+//                   <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Save</button>
+//                   <button type="button" onClick={() => setShowModal(false)} className="bg-gray-400 px-4 py-2 rounded">Cancel</button>
+//                 </div>
+//               </form>
+//             </div>
+//           </div>
+//         )}
+//       </main>
+//     </AdminLayout>
+//   );
+// };
+
+// export default StudentCard;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-//import AdminLayout from "../Layouts/AdminLayout";
-import { adminDataContext } from "../Context-Api/AdminContext";
-import { authDataContext } from "../Context-Api/AuthContext";
+//import { adminDataContext } from "../Context-Api/AdminContext";
+//import { authDataContext } from "../Context-Api/AuthContext";
 import AdminLayout from "./AdminLayout";
-//import { adminDataContext } from "../../Contexts/adminContext";
-//import { authDataContext } from "../../Contexts/authContext";
+import { authDataContext } from "../Context-Api/AuthContext";
+import { adminDataContext } from "../Context-Api/AdminContext";
 const StudentCard = () => {
   const { adminData, fetchAdminData } = useContext(adminDataContext);
   const { serverUrl } = useContext(authDataContext);
@@ -905,8 +1225,8 @@ const StudentCard = () => {
 
   const [totalStudents, setTotalStudents] = useState([]);
   const [filterText, setFilterText] = useState("");
-  const [showModal, setShowModal] = useState(false);
-  const [editData, setEditData] = useState(null);
+  const [entriesPerPage, setEntriesPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     if (students.length > 0) {
@@ -914,164 +1234,169 @@ const StudentCard = () => {
     }
   }, [students]);
 
-  const filteredStudents = totalStudents.filter(
-    (s) =>
-      s.name.toLowerCase().includes(filterText.toLowerCase()) ||
-      s.Classs?.name?.toLowerCase().includes(filterText.toLowerCase())
-  );
-
-  const handleUpdateById = (id) => {
-    const student = totalStudents.find((s) => s._id === id);
-    setEditData(student);
-    setShowModal(true);
-  };
-
   const handleDeleteById = async (id) => {
     try {
-      const response = await axios.delete(`${serverUrl}/admin/students/${id}`, { withCredentials: true });
+      const response = await axios.delete(`${serverUrl}/admin/students/${id}`, {
+        withCredentials: true,
+      });
       if (response.status === 200) {
         await fetchAdminData();
-        toast.success("Successfully Deleted Student...");
-        setTotalStudents((prev) => prev.filter((s) => s._id !== id));
+        toast.success("Student deleted successfully.");
       }
     } catch (err) {
       toast.error(err?.response?.data?.message || "Delete failed.");
     }
   };
 
-  const handleFormChange = (e) => {
-    setEditData({ ...editData, [e.target.name]: e.target.value });
-  };
+  const filteredStudents = totalStudents.filter(
+    (s) =>
+      s.name.toLowerCase().includes(filterText.toLowerCase()) ||
+      s.Classs?.name?.toLowerCase().includes(filterText.toLowerCase())
+  );
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.put(
-        `${serverUrl}/api/admin/student/${editData._id}`,
-        {
-          name: editData.name,
-          parent: editData.parent,
-          Classs: editData.class,
-          dob: editData.dob,
-          adress: editData.adress,
-          phone: editData.phone,
-          feesPaid: editData.feesPaid,
-        },
-        { withCredentials: true }
-      );
+  const indexOfLast = currentPage * entriesPerPage;
+  const indexOfFirst = indexOfLast - entriesPerPage;
+  const currentData = filteredStudents.slice(indexOfFirst, indexOfLast);
 
-      if (response.status === 200) {
-        await fetchAdminData();
-        const updatedStudent = response.data.student;
-        setTotalStudents((prev) =>
-          prev.map((s) => (s._id === updatedStudent._id ? updatedStudent : s))
-        );
-        toast.success("Successfully updated the student...");
-        setTimeout(() => setShowModal(false), 300);
-      }
-    } catch (err) {
-      toast.error(err?.response?.data?.message || "Update failed.");
-    }
-  };
-
-  const columns = [
-    {
-      name: "Name",
-      selector: (row) => row.name,
-      sortable: true,
-    },
-    {
-      name: "Class",
-      selector: (row) => row.Classs?.name || "–",
-      sortable: true,
-    },
-    {
-      name: "DOB",
-      selector: (row) => new Date(row.dob).toLocaleDateString(),
-      sortable: true,
-    },
-    {
-      name: "Parent",
-      selector: (row) => row.parent,
-      sortable: true,
-    },
-    {
-      name: "Phone",
-      selector: (row) => row.phone,
-      sortable: true,
-    },
-    {
-      name: "Fees Paid",
-      selector: (row) => row.feesPaid ?? 0,
-      sortable: true,
-    },
-    {
-      name: "Actions",
-      cell: (row) => (
-        <div className="flex space-x-2">
-          <button onClick={() => handleUpdateById(row._id)} className="btn btn-sm btn-info">Edit</button>
-          <button onClick={() => handleDeleteById(row._id)} className="btn btn-sm btn-danger">Delete</button>
-        </div>
-      ),
-      ignoreRowClick: true,
-      allowOverflow: true,
-      button: true,
-    },
-  ];
+  const totalPages = Math.ceil(filteredStudents.length / entriesPerPage);
 
   return (
     <AdminLayout adminName="Bright Future">
-      <main className="p-8">
-        <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} theme="colored" />
-        <h2 className="text-3xl font-bold mb-4 text-center">📋 Student Records</h2>
-<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
-  <h3 className="text-xl font-semibold mb-2 sm:mb-0">Students</h3>
-  <input
-    type="text"
-    placeholder="Search by name or class…"
-    className="p-2 border rounded-md w-full sm:w-64 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
-    value={filterText}
-    onChange={(e) => setFilterText(e.target.value)}
-  />
-</div>
-       <div className="overflow-x-auto bg-white rounded-lg shadow border border-gray-200">
-  <DataTable
-    columns={columns}
-    data={filteredStudents}
-    pagination
-    highlightOnHover
-    striped
-    responsive
-    noDataComponent="No students found."
-  />
-</div>
+      <ToastContainer />
+      <div className="p-6">
+        <div className="card shadow rounded">
+          <div className="card-body">
+            <div className="row mb-3">
+              <div className="col-md-6 mb-2">
+                <label>
+                  Show{" "}
+                  <select
+                    className="form-control form-control-sm w-auto d-inline"
+                    value={entriesPerPage}
+                    onChange={(e) => {
+                      setEntriesPerPage(parseInt(e.target.value));
+                      setCurrentPage(1);
+                    }}
+                  >
+                    {[10, 25, 50, 100].map((num) => (
+                      <option key={num} value={num}>
+                        {num}
+                      </option>
+                    ))}
+                  </select>{" "}
+                  entries
+                </label>
+              </div>
+              <div className="col-md-6 text-md-end">
+                <input
+                  type="text"
+                  placeholder="Search by name/class"
+                  className="form-control form-control-sm"
+                  value={filterText}
+                  onChange={(e) => {
+                    setFilterText(e.target.value);
+                    setCurrentPage(1);
+                  }}
+                />
+              </div>
+            </div>
 
+            <div className="table-responsive">
+              <table className="table table-hover table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Class</th>
+                    <th>Phone</th>
+                    <th>DOB</th>
+                    <th>Fees Paid</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {currentData.map((student, i) => (
+                    <tr key={student._id}>
+                      <td>{indexOfFirst + i + 1}</td>
+                      <td>{student.name}</td>
+                      <td>{student.Classs?.name || "–"}</td>
+                      <td>{student.phone}</td>
+                      <td>{new Date(student.dob).toLocaleDateString()}</td>
+                      <td>{student.feesPaid ?? 0}</td>
+                      <td>
+                        <div className="btn-group btn-group-sm">
+                          <button className="btn btn-info">View</button>
+                          <button
+                            className="btn btn-warning"
+                            onClick={() => alert("Edit modal coming soon")}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            className="btn btn-danger"
+                            onClick={() => handleDeleteById(student._id)}
+                          >
+                            Delete
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                  {currentData.length === 0 && (
+                    <tr>
+                      <td colSpan="7" className="text-center text-muted">
+                        No students found.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
 
-        {showModal && editData && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="bg-white p-6 rounded-lg w-[90%] max-w-lg shadow-lg">
-              <h2 className="text-xl font-bold mb-4">Update Student</h2>
-              <form onSubmit={handleFormSubmit} className="space-y-3">
-                <input type="text" name="name" value={editData.name || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Name" />
-                <input type="text" name="parent" value={editData.parent || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Parent" />
-                <input type="date" name="dob" value={editData.dob?.substring(0, 10) || ""} onChange={handleFormChange} className="w-full border p-2 rounded" />
-                <input type="text" name="class" value={editData.class || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Class" />
-                <input type="text" name="adress" value={editData.adress || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Address" />
-                <input type="text" name="phone" value={editData.phone || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Phone" />
-                <input type="number" name="feesPaid" value={editData.feesPaid || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Fees Paid" />
-
-                <div className="flex justify-end gap-2">
-                  <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Save</button>
-                  <button type="button" onClick={() => setShowModal(false)} className="bg-gray-400 px-4 py-2 rounded">Cancel</button>
-                </div>
-              </form>
+            <div className="row mt-3">
+              <div className="col-md-6">
+                Showing {indexOfFirst + 1} to{" "}
+                {Math.min(indexOfLast, filteredStudents.length)} of{" "}
+                {filteredStudents.length} entries
+              </div>
+              <div className="col-md-6 text-md-end">
+                <ul className="pagination pagination-sm justify-content-end mb-0">
+                  <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+                    <button
+                      className="page-link"
+                      onClick={() => setCurrentPage((prev) => prev - 1)}
+                    >
+                      Previous
+                    </button>
+                  </li>
+                  {[...Array(totalPages)].map((_, i) => (
+                    <li
+                      key={i}
+                      className={`page-item ${currentPage === i + 1 ? "active" : ""}`}
+                    >
+                      <button className="page-link" onClick={() => setCurrentPage(i + 1)}>
+                        {i + 1}
+                      </button>
+                    </li>
+                  ))}
+                  <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+                    <button
+                      className="page-link"
+                      onClick={() => setCurrentPage((prev) => prev + 1)}
+                    >
+                      Next
+                    </button>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
-        )}
-      </main>
+        </div>
+      </div>
     </AdminLayout>
   );
 };
 
 export default StudentCard;
+
 
