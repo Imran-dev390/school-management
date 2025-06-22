@@ -1024,24 +1024,28 @@ const StudentCard = () => {
       <main className="p-8">
         <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} theme="colored" />
         <h2 className="text-3xl font-bold mb-4 text-center">📋 Student Records</h2>
+<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+  <h3 className="text-xl font-semibold mb-2 sm:mb-0">Students</h3>
+  <input
+    type="text"
+    placeholder="Search by name or class…"
+    className="p-2 border rounded-md w-full sm:w-64 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
+    value={filterText}
+    onChange={(e) => setFilterText(e.target.value)}
+  />
+</div>
+       <div className="overflow-x-auto bg-white rounded-lg shadow border border-gray-200">
+  <DataTable
+    columns={columns}
+    data={filteredStudents}
+    pagination
+    highlightOnHover
+    striped
+    responsive
+    noDataComponent="No students found."
+  />
+</div>
 
-        <input
-          type="text"
-          placeholder="Search by name or class…"
-          className="p-2 mb-4 border rounded w-full"
-          value={filterText}
-          onChange={(e) => setFilterText(e.target.value)}
-        />
-
-        <DataTable
-          columns={columns}
-          data={filteredStudents}
-          pagination
-          highlightOnHover
-          striped
-          responsive
-          noDataComponent="No students found."
-        />
 
         {showModal && editData && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
