@@ -3,6 +3,7 @@ import axios from 'axios';
 import { authDataContext } from '../Context-Api/AuthContext';
 import { Sidebar } from './Sidebar';
 import { useNavigate } from 'react-router-dom';
+import AdminLayout from './AdminLayout';
 
 const AddStaff = () => {
     const navigate = useNavigate();
@@ -26,7 +27,7 @@ const AddStaff = () => {
     setFormData(prev => ({ ...prev, profileImage: e.target.files[0] }));
   };
 
-  const [isSidebarOpen,setIsSidebarOpen] = useState(false);
+ 
   /*const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -96,20 +97,10 @@ const handleSubmit = async (e) => {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-zinc-900 to-zinc-800 flex items-center justify-center p-4">
-     {!isSidebarOpen && (
-           <button
-             onClick={() => setIsSidebarOpen(true)}
-             className="md:hidden fixed top-4 left-4 z-50 bg-white border p-2 shadow"
-           >
-             <FaBars className="text-xl text-green-700" />
-           </button>
-         )}
-         <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+    <AdminLayout adminName='Bright Future'>
       <div className="w-full max-w-xl bg-white text-black rounded-xl shadow-lg p-8">
         <h2 className="text-3xl font-bold mb-6 text-center">Add Staff</h2>
         <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-0">
-          
           <div>
             <label className="block font-semibold mb-1">Name</label>
             <input
@@ -208,7 +199,7 @@ const handleSubmit = async (e) => {
           </button>
         </form>
       </div>
-    </div>
+    </AdminLayout>
   );
 };
 

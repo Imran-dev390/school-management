@@ -317,7 +317,6 @@ console.log("updatedData",req.body);
       updatedData.Classs = classObj._id; // Make sure 'Classs' is the correct field in your model
       delete updatedData.Classs; // Remove the original 'class' field as it's no longer needed
     }
-
     // Update the student with the new data
     const updatedStudent = await Student.findByIdAndUpdate(
       id,

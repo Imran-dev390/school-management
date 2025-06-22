@@ -6,6 +6,7 @@ import { authDataContext } from '../Context-Api/AuthContext';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { FaBars, FaUserCircle } from 'react-icons/fa';
+import AdminLayout from './AdminLayout';
 const AddSubject = () => {
   const { adminData } = useContext(adminDataContext);
   const { fetchAdminData } = useContext(adminDataContext);
@@ -76,16 +77,7 @@ const AddSubject = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center items-center py-10">
-        {!isSidebarOpen && (
-              <button
-                onClick={() => setIsSidebarOpen(true)}
-                className="md:hidden fixed top-4 left-4 z-50 bg-white border p-2 shadow"
-              >
-                <FaBars className="text-xl text-green-700" />
-              </button>
-            )}
-            <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+    <AdminLayout adminName='Bright Future'>
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
         <h2 className="text-2xl font-semibold mb-6 text-center">Add New Subject</h2>
 
@@ -163,7 +155,7 @@ const AddSubject = () => {
       </div>
 
       <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} theme="colored" />
-    </div>
+    </AdminLayout>
   );
 };
 

@@ -38,13 +38,9 @@ const isIncharge = await Teacher.exists({
   "assignedClass.incharge": true
 });
 console.log("testing InCharge",isIncharge);
-
 if (!isIncharge) {
   return res.status(403).json({ error: "Only the incharge teacher can mark attendance for this class." });
 }
-
-
-
     // ✅ Prevent duplicate marking for same date
     const startOfDay = new Date(inputDate.setHours(0, 0, 0, 0));
     const endOfDay = new Date(inputDate.setHours(23, 59, 59, 999));

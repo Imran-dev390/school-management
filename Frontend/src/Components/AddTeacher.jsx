@@ -186,7 +186,7 @@ export default function AddTeacher() {
             ➕ Add Teacher
           </button> */}
        
-<div className="bg-white rounded-2xl shadow-2xl mt-32 sm:mt-8 p-8 w-full max-w-xl transform transition-all duration-500 hover:scale-[1.02]">
+<div className="bg-white rounded-2xl shadow-2xl mt-32 sm:mt-8 mx-auto p-8 w-full max-w-xl transform transition-all duration-500 hover:scale-[1.02]">
   <h2 className="text-3xl font-bold text-center text-blue-800 mb-6">Add New Teacher 👩‍🏫</h2>
 
   <form className="space-y-5" onSubmit={handleSubmit}>

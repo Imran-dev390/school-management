@@ -81,46 +81,22 @@ import { Sidebar } from "./Sidebar";
 import { adminDataContext } from "../Context-Api/AdminContext";
 import { authDataContext } from "../Context-Api/AuthContext";
 import { FaBars, FaTimes } from "react-icons/fa";
+import AdminLayout from "./AdminLayout";
 
 const CllassCard = () => {
   const { adminData, fetchAdminData } = useContext(adminDataContext);
   const { serverUrl } = useContext(authDataContext);
   const { classes = [] } = adminData?.admin || {};
   const [totalClasses, setTotalClasses] = useState([]);
-  const [showSidebar, setShowSidebar] = useState(false);
-  const [isSidebarOpen,setIsSidebarOpen] = useState(false);
   useEffect(() => {
     if (classes && classes.length > 0) {
       setTotalClasses(classes);
     }
   }, [classes]);
-
-  const toggleSidebar = () => setShowSidebar(!showSidebar);
-
   return (
-    <div className="relative min-h-screen w-full bg-slate-300 flex">
-      {/* Sidebar */}
-      {/* <div className={`fixed top-0 left-0 z-40 h-full w-64 bg-white dark:bg-gray-800 shadow transform transition-transform duration-300 ${showSidebar ? 'translate-x-0' : '-translate-x-full'}`}>
-      <Sidebar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
-    </div>
-      {/* Toggle Button */}
-    {/*  <button
-        onClick={toggleSidebar}
-        className="md:hidden fixed top-4 left-4 z-50 bg-blue-600 text-white p-2 rounded shadow"
-      >
-        {showSidebar ? <FaTimes /> : <FaBars />}
-      </button> */}
-  {!isSidebarOpen && (
-        <button
-          onClick={() => setIsSidebarOpen(true)}
-          className="md:hidden fixed top-4 left-4 z-50 bg-white border p-2 shadow"
-        >
-          <FaBars className="text-xl text-green-700" />
-        </button>
-      )}
-      <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+    <AdminLayout adminName="Bright Futue">
       {/* Main Content */}
-      <div className="flex-1 ml-0 md:ml-16 p-4 transition-all duration-300">
+      <div className="flex-1 ml-0 mt-2 md:ml-16  p-4 transition-all duration-300">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-12 md:mt-4">
           {totalClasses.map((item) => (
             <div
@@ -174,7 +150,7 @@ const CllassCard = () => {
           ))}
         </div>
       </div>
-    </div>
+    </AdminLayout>
   );
 };
 

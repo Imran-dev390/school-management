@@ -50,6 +50,12 @@ const {fetchAdminData} = useContext(adminDataContext);
   }
 };
 
+//    <button
+//   onClick={handleLogout}
+//   className="text-red-700 cursor-pointer hover:text-blue-500 bg-transparent border-none p-0"
+// >
+//   Logout
+// </button>
    
   //  useEffect(()=>{
   //   fetchAdminData();
