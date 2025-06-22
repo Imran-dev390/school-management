@@ -1590,7 +1590,7 @@ console.log("students",students)
 
       {/* Table */}
       <div className="overflow-auto">
-        <table className="min-w-full p-6 mt-2 sm:p-0 text-sm border border-gray-200">
+        <table className="min-w-full p-6 mt-4 sm:p-0 text-sm border border-gray-200">
           {/* <thead className="bg-gray-100 text-left">
             <tr>
               <th className="px-3 py-2 border">#</th>
@@ -1719,7 +1719,7 @@ console.log("students",students)
       <td className="px-3 py-2 border hidden md:table-cell">{new Date(student.dob).toLocaleDateString()}</td>
       <td className="px-3 py-2 border hidden lg:table-cell">{student.feesPaid ?? 0}</td>
       <td className="px-3 py-2 border">{student.parent}</td>
-      <td className="px-3 py-2 border space-x-2">
+      <td className="px-3 py-2 border content-center space-y-2 sm:space-x-2">
         <button className="bg-blue-500 text-white px-2 py-1 rounded text-xs">View</button>
         <button
           className="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
