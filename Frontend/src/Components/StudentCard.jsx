@@ -1609,9 +1609,12 @@ console.log("students",students)
     <th className="px-3 py-2 border">Name</th>
     <th className="px-3 py-2 border">Class</th>
     <th className="px-3 py-2 border">Parent</th>
-    <th className="px-3 py-2 border">Phone</th>
+    {/* <th className="px-3 py-2 border">Phone</th>
     <th className="px-3 py-2 border">DOB</th>
-    <th className="px-3 py-2 border">Fees Paid</th>
+    <th className="px-3 py-2 border">Fees Paid</th> */}
+     <th className="px-3 py-2 border hidden sm:table-cell">Phone</th>
+    <th className="px-3 py-2 border hidden md:table-cell">DOB</th>
+    <th className="px-3 py-2 border hidden lg:table-cell">Fees Paid</th>
     <th className="px-3 py-2 border">Actions</th>
   </tr>
 </thead>
@@ -1652,13 +1655,17 @@ console.log("students",students)
           </tbody> */}
 
 
-          <tbody>
+          {/* <tbody>
   {currentData.map((student, i) => (
     <tr key={student._id} className="border-t">
       <td className="px-3 py-2 border">{indexOfFirst + i + 1}</td>
       <td className="px-3 py-2 border">{student.name}</td>
-      <td className="px-3 py-2 border">{student.Classs?.name || "–"}</td>
-      <td className="px-3 py-2 border">{student.parent || "–"}</td>
+      {/* <td className="px-3 py-2 border">{student.Classs?.name || "–"}</td> */}
+      {/* <td className="px-3 py-2 border">
+  {student.Classs?.name} {student.Classs?.section ? `(${student.Classs?.section})` : ""}
+</td> */}
+
+      {/* <td className="px-3 py-2 border">{student.parent || "–"}</td>
       <td className="px-3 py-2 border">{student.phone}</td>
       <td className="px-3 py-2 border">{new Date(student.dob).toLocaleDateString()}</td>
       <td className="px-3 py-2 border">{student.feesPaid ?? 0}</td>
@@ -1677,15 +1684,58 @@ console.log("students",students)
           Delete
         </button>
       </td>
-    </tr>
-  ))}
-  {currentData.length === 0 && (
+    </tr> */}
+  {/* ))} */}
+  {/* {currentData.length === 0 && (
     <tr>
       <td colSpan="8" className="text-center text-gray-500 py-4">
         No students found.
       </td>
     </tr>
-  )}
+  )} */}
+{/*</tbody> */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+<tbody>
+  {currentData.map((student, i) => (
+    <tr key={student._id} className="border-t">
+      <td className="px-3 py-2 border">{indexOfFirst + i + 1}</td>
+      <td className="px-3 py-2 border">{student.name}</td>
+      <td className="px-3 py-2 border">
+        {student.Classs?.name} ({student.Classs?.section || "not found"})
+      </td>
+      <td className="px-3 py-2 border hidden sm:table-cell">{student.phone}</td>
+      <td className="px-3 py-2 border hidden md:table-cell">{new Date(student.dob).toLocaleDateString()}</td>
+      <td className="px-3 py-2 border hidden lg:table-cell">{student.feesPaid ?? 0}</td>
+      <td className="px-3 py-2 border">{student.parent}</td>
+      <td className="px-3 py-2 border space-x-2">
+        <button className="bg-blue-500 text-white px-2 py-1 rounded text-xs">View</button>
+        <button
+          className="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
+          onClick={() => alert("Edit modal coming soon")}
+        >
+          Edit
+        </button>
+        <button
+          className="bg-red-500 text-white px-2 py-1 rounded text-xs"
+          onClick={() => handleDeleteById(student._id)}
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
+  ))}
 </tbody>
 
         </table>
