@@ -1247,13 +1247,19 @@ const StudentCard = () => {
       toast.error(err?.response?.data?.message || "Delete failed.");
     }
   };
+const [filterName, setFilterName] = useState("");
+const [filterClass, setFilterClass] = useState("");
+const [filterParent, setFilterParent] = useState("");
+const [filterPhone, setFilterPhone] = useState("");
 
-  const filteredStudents = totalStudents.filter(
-    (s) =>
-      s.name.toLowerCase().includes(filterText.toLowerCase()) ||
-      s.Classs?.name?.toLowerCase().includes(filterText.toLowerCase())
-  );
+ const filteredStudents = students.filter((student) => {
+  const nameMatch = student.name.toLowerCase().includes(filterName.toLowerCase());
+  const classMatch = student.Classs?.name.toLowerCase().includes(filterClass.toLowerCase());
+  const parentMatch = student.parent?.toLowerCase().includes(filterParent.toLowerCase());
+  const phoneMatch = student.phone.toLowerCase().includes(filterPhone.toLowerCase());
 
+  return nameMatch && classMatch && parentMatch && phoneMatch;
+});
   const indexOfLast = currentPage * entriesPerPage;
   const indexOfFirst = indexOfLast - entriesPerPage;
   const currentData = filteredStudents.slice(indexOfFirst, indexOfLast);
@@ -1261,139 +1267,358 @@ const StudentCard = () => {
   const totalPages = Math.ceil(filteredStudents.length / entriesPerPage);
 
   return (
+    // <AdminLayout adminName="Bright Future">
+    //   <ToastContainer />
+    //   <div className="p-6">
+    //     <div className="card shadow rounded">
+    //       <div className="card-body">
+    //         <div className="row mb-3">
+    //           <div className="col-md-6 mb-2">
+    //             <label>
+    //               Show{" "}
+    //               <select
+    //                 className="form-control form-control-sm w-auto d-inline"
+    //                 value={entriesPerPage}
+    //                 onChange={(e) => {
+    //                   setEntriesPerPage(parseInt(e.target.value));
+    //                   setCurrentPage(1);
+    //                 }}
+    //               >
+    //                 {[10, 25, 50, 100].map((num) => (
+    //                   <option key={num} value={num}>
+    //                     {num}
+    //                   </option>
+    //                 ))}
+    //               </select>{" "}
+    //               entries
+    //             </label>
+    //           </div>
+    //           <div className="col-md-6 text-md-end">
+    //             <input
+    //               type="text"
+    //               placeholder="Search by name/class"
+    //               className="form-control form-control-sm"
+    //               value={filterText}
+    //               onChange={(e) => {
+    //                 setFilterText(e.target.value);
+    //                 setCurrentPage(1);
+    //               }}
+    //             />
+    //           </div>
+    //         </div>
+
+    //         <div className="table-responsive">
+    //           <table className="table table-hover table-bordered table-striped">
+    //             <thead>
+    //               <tr>
+    //                 <th>#</th>
+    //                 <th>Name</th>
+    //                 <th>Class</th>
+    //                 <th>Phone</th>
+    //                 <th>DOB</th>
+    //                 <th>Fees Paid</th>
+    //                 <th>Actions</th>
+    //               </tr>
+    //             </thead>
+    //             <tbody>
+    //               {currentData.map((student, i) => (
+    //                 <tr key={student._id}>
+    //                   <td>{indexOfFirst + i + 1}</td>
+    //                   <td>{student.name}</td>
+    //                   <td>{student.Classs?.name || "–"}</td>
+    //                   <td>{student.phone}</td>
+    //                   <td>{new Date(student.dob).toLocaleDateString()}</td>
+    //                   <td>{student.feesPaid ?? 0}</td>
+    //                   <td>
+    //                     <div className="btn-group btn-group-sm">
+    //                       <button className="btn btn-info">View</button>
+    //                       <button
+    //                         className="btn btn-warning"
+    //                         onClick={() => alert("Edit modal coming soon")}
+    //                       >
+    //                         Edit
+    //                       </button>
+    //                       <button
+    //                         className="btn btn-danger"
+    //                         onClick={() => handleDeleteById(student._id)}
+    //                       >
+    //                         Delete
+    //                       </button>
+    //                     </div>
+    //                   </td>
+    //                 </tr>
+    //               ))}
+    //               {currentData.length === 0 && (
+    //                 <tr>
+    //                   <td colSpan="7" className="text-center text-muted">
+    //                     No students found.
+    //                   </td>
+    //                 </tr>
+    //               )}
+    //             </tbody>
+    //           </table>
+    //         </div>
+
+    //         <div className="row mt-3">
+    //           <div className="col-md-6">
+    //             Showing {indexOfFirst + 1} to{" "}
+    //             {Math.min(indexOfLast, filteredStudents.length)} of{" "}
+    //             {filteredStudents.length} entries
+    //           </div>
+    //           <div className="col-md-6 text-md-end">
+    //             <ul className="pagination pagination-sm justify-content-end mb-0">
+    //               <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+    //                 <button
+    //                   className="page-link"
+    //                   onClick={() => setCurrentPage((prev) => prev - 1)}
+    //                 >
+    //                   Previous
+    //                 </button>
+    //               </li>
+    //               {[...Array(totalPages)].map((_, i) => (
+    //                 <li
+    //                   key={i}
+    //                   className={`page-item ${currentPage === i + 1 ? "active" : ""}`}
+    //                 >
+    //                   <button className="page-link" onClick={() => setCurrentPage(i + 1)}>
+    //                     {i + 1}
+    //                   </button>
+    //                 </li>
+    //               ))}
+    //               <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
+    //                 <button
+    //                   className="page-link"
+    //                   onClick={() => setCurrentPage((prev) => prev + 1)}
+    //                 >
+    //                   Next
+    //                 </button>
+    //               </li>
+    //             </ul>
+    //           </div>
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </div>
+    // </AdminLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <AdminLayout adminName="Bright Future">
-      <ToastContainer />
-      <div className="p-6">
-        <div className="card shadow rounded">
-          <div className="card-body">
-            <div className="row mb-3">
-              <div className="col-md-6 mb-2">
-                <label>
-                  Show{" "}
-                  <select
-                    className="form-control form-control-sm w-auto d-inline"
-                    value={entriesPerPage}
-                    onChange={(e) => {
-                      setEntriesPerPage(parseInt(e.target.value));
-                      setCurrentPage(1);
-                    }}
-                  >
-                    {[10, 25, 50, 100].map((num) => (
-                      <option key={num} value={num}>
-                        {num}
-                      </option>
-                    ))}
-                  </select>{" "}
-                  entries
-                </label>
-              </div>
-              <div className="col-md-6 text-md-end">
-                <input
-                  type="text"
-                  placeholder="Search by name/class"
-                  className="form-control form-control-sm"
-                  value={filterText}
-                  onChange={(e) => {
-                    setFilterText(e.target.value);
-                    setCurrentPage(1);
-                  }}
-                />
-              </div>
-            </div>
+  <ToastContainer />
+  <div className="p-6">
+    <div className="bg-white shadow rounded p-4">
+      {/* Top Filters */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
+        <div className="flex items-center gap-2">
+          <label className="text-sm font-medium">
+            Show
+            <select
+              className="ml-2 px-2 py-1 border rounded text-sm"
+              value={entriesPerPage}
+              onChange={(e) => {
+                setEntriesPerPage(parseInt(e.target.value));
+                setCurrentPage(1);
+              }}
+            >
+              {[10, 25, 50, 100].map((num) => (
+                <option key={num} value={num}>
+                  {num}
+                </option>
+              ))}
+            </select>
+            entries
+          </label>
+        </div>
 
-            <div className="table-responsive">
-              <table className="table table-hover table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Class</th>
-                    <th>Phone</th>
-                    <th>DOB</th>
-                    <th>Fees Paid</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {currentData.map((student, i) => (
-                    <tr key={student._id}>
-                      <td>{indexOfFirst + i + 1}</td>
-                      <td>{student.name}</td>
-                      <td>{student.Classs?.name || "–"}</td>
-                      <td>{student.phone}</td>
-                      <td>{new Date(student.dob).toLocaleDateString()}</td>
-                      <td>{student.feesPaid ?? 0}</td>
-                      <td>
-                        <div className="btn-group btn-group-sm">
-                          <button className="btn btn-info">View</button>
-                          <button
-                            className="btn btn-warning"
-                            onClick={() => alert("Edit modal coming soon")}
-                          >
-                            Edit
-                          </button>
-                          <button
-                            className="btn btn-danger"
-                            onClick={() => handleDeleteById(student._id)}
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                  {currentData.length === 0 && (
-                    <tr>
-                      <td colSpan="7" className="text-center text-muted">
-                        No students found.
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-
-            <div className="row mt-3">
-              <div className="col-md-6">
-                Showing {indexOfFirst + 1} to{" "}
-                {Math.min(indexOfLast, filteredStudents.length)} of{" "}
-                {filteredStudents.length} entries
-              </div>
-              <div className="col-md-6 text-md-end">
-                <ul className="pagination pagination-sm justify-content-end mb-0">
-                  <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-                    <button
-                      className="page-link"
-                      onClick={() => setCurrentPage((prev) => prev - 1)}
-                    >
-                      Previous
-                    </button>
-                  </li>
-                  {[...Array(totalPages)].map((_, i) => (
-                    <li
-                      key={i}
-                      className={`page-item ${currentPage === i + 1 ? "active" : ""}`}
-                    >
-                      <button className="page-link" onClick={() => setCurrentPage(i + 1)}>
-                        {i + 1}
-                      </button>
-                    </li>
-                  ))}
-                  <li className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}>
-                    <button
-                      className="page-link"
-                      onClick={() => setCurrentPage((prev) => prev + 1)}
-                    >
-                      Next
-                    </button>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
+        {/* Search Filters */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 w-full">
+          <input
+            type="text"
+            placeholder="Search by Name"
+            className="border px-3 py-1 rounded text-sm"
+            value={filterName}
+            onChange={(e) => {
+              setFilterName(e.target.value);
+              setCurrentPage(1);
+            }}
+          />
+          <input
+            type="text"
+            placeholder="Search by Class"
+            className="border px-3 py-1 rounded text-sm"
+            value={filterClass}
+            onChange={(e) => {
+              setFilterClass(e.target.value);
+              setCurrentPage(1);
+            }}
+          />
+          <input
+            type="text"
+            placeholder="Search by Parent"
+            className="border px-3 py-1 rounded text-sm"
+            value={filterParent}
+            onChange={(e) => {
+              setFilterParent(e.target.value);
+              setCurrentPage(1);
+            }}
+          />
+          <input
+            type="text"
+            placeholder="Search by Phone"
+            className="border px-3 py-1 rounded text-sm"
+            value={filterPhone}
+            onChange={(e) => {
+              setFilterPhone(e.target.value);
+              setCurrentPage(1);
+            }}
+          />
         </div>
       </div>
-    </AdminLayout>
+
+      {/* Table */}
+      <div className="overflow-auto">
+        <table className="min-w-full text-sm border border-gray-200">
+          <thead className="bg-gray-100 text-left">
+            <tr>
+              <th className="px-3 py-2 border">#</th>
+              <th className="px-3 py-2 border">Name</th>
+              <th className="px-3 py-2 border">Class</th>
+              <th className="px-3 py-2 border">Phone</th>
+              <th className="px-3 py-2 border">DOB</th>
+              <th className="px-3 py-2 border">Fees Paid</th>
+              <th className="px-3 py-2 border">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentData.map((student, i) => (
+              <tr key={student._id} className="border-t">
+                <td className="px-3 py-2 border">{indexOfFirst + i + 1}</td>
+                <td className="px-3 py-2 border">{student.name}</td>
+                <td className="px-3 py-2 border">{student.Classs?.name || "–"}</td>
+                <td className="px-3 py-2 border">{student.phone}</td>
+                <td className="px-3 py-2 border">{new Date(student.dob).toLocaleDateString()}</td>
+                <td className="px-3 py-2 border">{student.feesPaid ?? 0}</td>
+                <td className="px-3 py-2 border space-x-2">
+                  <button className="bg-blue-500 text-white px-2 py-1 rounded text-xs">View</button>
+                  <button
+                    className="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
+                    onClick={() => alert("Edit modal coming soon")}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="bg-red-500 text-white px-2 py-1 rounded text-xs"
+                    onClick={() => handleDeleteById(student._id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+            {currentData.length === 0 && (
+              <tr>
+                <td colSpan="7" className="text-center text-gray-500 py-4">
+                  No students found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Pagination */}
+      <div className="flex flex-col md:flex-row justify-between items-center mt-4">
+        <div className="text-sm">
+          Showing {indexOfFirst + 1} to {Math.min(indexOfLast, filteredStudents.length)} of{" "}
+          {filteredStudents.length} entries
+        </div>
+        <div className="flex items-center gap-1 mt-2 md:mt-0">
+          <button
+            className={`px-2 py-1 border rounded text-sm ${
+              currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </button>
+          {[...Array(totalPages)].map((_, i) => (
+            <button
+              key={i}
+              className={`px-3 py-1 border rounded text-sm ${
+                currentPage === i + 1 ? "bg-blue-500 text-white" : ""
+              }`}
+              onClick={() => setCurrentPage(i + 1)}
+            >
+              {i + 1}
+            </button>
+          ))}
+          <button
+            className={`px-2 py-1 border rounded text-sm ${
+              currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</AdminLayout>
+
   );
 };
 
