@@ -892,9 +892,10 @@ import DataTable from "react-data-table-component";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AdminLayout from "../Layouts/AdminLayout";
+//import AdminLayout from "../Layouts/AdminLayout";
 import { adminDataContext } from "../Context-Api/AdminContext";
 import { authDataContext } from "../Context-Api/AuthContext";
+import AdminLayout from "./AdminLayout";
 //import { adminDataContext } from "../../Contexts/adminContext";
 //import { authDataContext } from "../../Contexts/authContext";
 const StudentCard = () => {
