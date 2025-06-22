@@ -1284,7 +1284,7 @@ const indexOfLast = currentPage * entriesPerPage;
   const currentData = filteredStudents.slice(indexOfFirst, indexOfLast);
 
   const totalPages = Math.ceil(filteredStudents.length / entriesPerPage);
-
+console.log("students",students)
   return (
     // <AdminLayout adminName="Bright Future">
     //   <ToastContainer />
