@@ -71,10 +71,10 @@ export default function AddTeacher() {
   return (
    <AdminLayout>
 
-      <div className="bg-white rounded-2xl shadow-2xl mt-32 sm:mt-0 p-8 w-full max-w-xl transform transition-all duration-500 hover:scale-[1.02]">
+      {/* <div className="bg-white rounded-2xl shadow-2xl mt-32 sm:mt-8 p-8 w-full max-w-xl transform transition-all duration-500 hover:scale-[1.02]">
         <h2 className="text-3xl font-bold text-center text-blue-800 mb-6">Add New Teacher 👩‍🏫</h2>
 
-        <form className="space-y-5" onSubmit={handleSubmit}>
+        {/* <form className="space-y-5" onSubmit={handleSubmit}>
           {[
             { name: 'name', label: 'Full Name', type: 'text' },
             { name: 'email', label: 'Email', type: 'email' },
@@ -104,7 +104,7 @@ export default function AddTeacher() {
           ))}
 
           {/* Assigned Class Dropdown */}
-          <div className="relative">
+          {/* <div className="relative">
             <select
               name="assignedClass"
               value={formData.assignedClass}
@@ -122,10 +122,10 @@ export default function AddTeacher() {
               ))}
             </select>
             <label className="absolute left-3 -top-2 text-sm text-blue-500 bg-white px-1">Class</label>
-          </div>
+          </div> */}
 
           {/* Teach Subject Dropdown */}
-          <div className="relative">
+          {/* <div className="relative">
             <select
               name="teachSubject"
               value={formData.teachSubject}
@@ -143,10 +143,10 @@ export default function AddTeacher() {
               ))}
             </select>
             <label className="absolute left-3 -top-2 text-sm text-blue-500 bg-white px-1">Subject</label>
-          </div>
+          </div> */}
 
           {/* Gender Dropdown */}
-          <div className="relative">
+          {/* <div className="relative">
             <select
               name="gender"
               value={formData.gender}
@@ -161,10 +161,10 @@ export default function AddTeacher() {
               <option value="female">Female</option>
             </select>
             <label className="absolute left-3 -top-2 text-sm text-blue-500 bg-white px-1">Gender</label>
-          </div>
+          </div> */}
 
           {/* ✅ InCharge Checkbox */}
-          <div className="flex items-center space-x-3">
+          {/* <div className="flex items-center space-x-3">
             <input
               type="checkbox"
               id="incharge"
@@ -176,19 +176,63 @@ export default function AddTeacher() {
             <label htmlFor="inCharge" className="text-gray-700 font-medium">
               Is In-Charge of the Class?
             </label>
-          </div>
+          </div> */}
 
           {/* Submit Button */}
-          <button
+          {/* <button
             type="submit"
             className="w-full py-3 mt-4 bg-blue-600 text-white rounded-xl shadow-lg hover:bg-blue-700 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
           >
             ➕ Add Teacher
-          </button>
-        </form>
+          </button> */}
+       
+<div className="bg-white rounded-2xl shadow-2xl mt-32 sm:mt-8 p-8 w-full max-w-xl transform transition-all duration-500 hover:scale-[1.02]">
+  <h2 className="text-3xl font-bold text-center text-blue-800 mb-6">Add New Teacher 👩‍🏫</h2>
 
-        <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} theme="colored" />
-      </div>
+  <form className="space-y-5" onSubmit={handleSubmit}>
+    <div className="flex flex-wrap gap-5">
+      {[
+        { name: 'name', label: 'Full Name', type: 'text' },
+        { name: 'email', label: 'Email', type: 'email' },
+        { name: 'phone', label: 'Phone Number', type: 'tel' },
+        { name: 'dob', label: 'Date of Birth', type: 'date' },
+        { name: 'qualifications', label: 'Qualification', type: 'text' },
+        { name: 'salary', label: 'Salary', type: 'number' },
+        { name: 'password', label: 'Password', type: 'password' },
+      ].map(({ name, label, type }) => (
+        <div key={name} className="relative w-full sm:w-[48%]">
+          <input
+            type={type}
+            name={name}
+            value={formData[name]}
+            onChange={handleChange}
+            required
+            className="peer w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-blue-500"
+            placeholder=" "
+          />
+          <label
+            htmlFor={name}
+            className="absolute left-3 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-blue-500"
+          >
+            {label}
+          </label>
+        </div>
+      ))}
+    </div>
+
+    {/* Submit Button */}
+    <button
+      type="submit"
+      className="w-full py-3 mt-4 bg-blue-600 text-white rounded-xl shadow-lg hover:bg-blue-700 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
+    >
+      ➕ Add Teacher
+    </button>
+  </form>
+
+  {/* Toast Notifications */}
+  <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} theme="colored" />
+</div>
+     {/* </div> */}
     </AdminLayout>
   );
 }
