@@ -620,20 +620,290 @@
 
 
 
-import { useContext, useEffect, useState } from 'react';
-import { adminDataContext } from '../Context-Api/AdminContext';
-import { authDataContext } from '../Context-Api/AuthContext';
-import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
-import AdminLayout from './AdminLayout';
+// import { useContext, useEffect, useState } from 'react';
+// import { adminDataContext } from '../Context-Api/AdminContext';
+// import { authDataContext } from '../Context-Api/AuthContext';
+// import axios from 'axios';
+// import { ToastContainer, toast } from 'react-toastify';
+// import AdminLayout from './AdminLayout';
+// import DataTable from 'react-data-table-component';
 
+// const StudentCard = () => {
+//   const { adminData, fetchAdminData } = useContext(adminDataContext);
+//   const { serverUrl } = useContext(authDataContext);
+//   const { students = [] } = adminData?.admin || [];
+
+//   const [totalStudents, setTotalStudents] = useState([]);
+//   const [filter, setFilter] = useState('');
+//   const [showModal, setShowModal] = useState(false);
+//   const [editData, setEditData] = useState(null);
+
+//   useEffect(() => {
+//     if (students.length > 0) {
+//       setTotalStudents(students);
+//     }
+//   }, [students]);
+
+//   const filtered = totalStudents.filter(s =>
+//     s.name.toLowerCase().includes(filter.toLowerCase()) ||
+//     s.Classs?.name?.toLowerCase().includes(filter.toLowerCase())
+//   );
+
+//   const studentsToRender = filter.trim() ? filtered : totalStudents;
+
+//   const handleUpdateById = (id) => {
+//     const student = totalStudents.find(s => s._id === id);
+//     if (student) {
+//       setEditData(student);
+//       setShowModal(true);
+//     }
+//   };
+
+//   const handleDeleteById = async (id) => {
+//     try {
+//       const response = await axios.delete(`${serverUrl}/admin/students/${id}`, { withCredentials: true });
+//       if (response.status === 200) {
+//         await fetchAdminData();
+//         toast.success("Successfully Deleted Student...");
+//         setTotalStudents(prev => prev.filter(s => s._id !== id));
+//       }
+//     } catch (err) {
+//       toast.error(err?.response?.data?.message || "Delete failed.");
+//     }
+//   };
+
+//   const handleViewDetails = (student) => {
+//     alert(`👀 Viewing details for: ${student.name}`);
+//   };
+
+//   const handleFormChange = (e) => {
+//     setEditData({ ...editData, [e.target.name]: e.target.value });
+//   };
+
+//   const handleFormSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const response = await axios.put(
+//         `${serverUrl}/api/admin/student/${editData._id}`,
+//         {
+//           name: editData.name,
+//           parent: editData.parent,
+//           Classs: editData.class,
+//           dob: editData.dob,
+//           adress: editData.adress,
+//           phone: editData.phone,
+//           feesPaid: editData.feesPaid,
+//         },
+//         { withCredentials: true }
+//       );
+
+//       if (response.status === 200) {
+//         await fetchAdminData();
+//         const updatedStudent = response.data.student;
+//         setTotalStudents(prev => prev.map(s => (s._id === updatedStudent._id ? updatedStudent : s)));
+//         toast.success("Successfully updated the student...");
+//         setTimeout(() => setShowModal(false), 200);
+//       }
+//     } catch (err) {
+//       toast.error(err?.response?.data?.message || "Update failed.");
+//     }
+//   };
+
+//   return (
+//     <AdminLayout adminName="Bright Future">
+//       <main className="p-8">
+//         <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} theme="colored" />
+//         <h2 className="text-3xl font-bold mb-4 text-center">📋 Student Records</h2>
+
+//         <input
+//           type="text"
+//           placeholder="Search by name or class…"
+//           className="p-2 mb-4 border rounded w-full"
+//           value={filter}
+//           onChange={(e) => setFilter(e.target.value)}
+//         />
+
+//         <table className="min-w-full bg-white shadow rounded-lg overflow-hidden">
+//           <thead className="bg-gray-200">
+//             <tr>
+//               <th className="px-4 py-2 text-left">Name</th>
+//               <th className="px-4 py-2 text-left">Class</th>
+//               <th className="px-4 py-2 text-left">DOB</th>
+//               <th className="px-4 py-2 text-left">Parent</th>
+//               <th className="px-4 py-2 text-left">Phone</th>
+//               <th className="px-4 py-2 text-left">Fees Paid</th>
+//               <th className="px-4 py-2 text-left">Actions</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             {studentsToRender.map(student => (
+//               <tr key={student._id} className="border-b hover:bg-gray-50">
+//                 <td className="px-4 py-2">{student.name}</td>
+//                 <td className="px-4 py-2">{student.Classs?.name || '–'}</td>
+//                 <td className="px-4 py-2">{new Date(student.dob).toLocaleDateString()}</td>
+//                 <td className="px-4 py-2">{student.parent}</td>
+//                 <td className="px-4 py-2">{student.phone}</td>
+//                 <td className="px-4 py-2">{student.feesPaid ?? 0}</td>
+//                 <td className="px-4 py-2 flex space-x-2">
+//                   <button onClick={() => handleUpdateById(student._id)} className="text-blue-500 hover:underline">Edit</button>
+//                   <button onClick={() => handleViewDetails(student)} className="text-green-500 hover:underline">View</button>
+//                   <button onClick={() => handleDeleteById(student._id)} className="text-red-500 hover:underline">Delete</button>
+//                 </td>
+//               </tr>
+//             ))}
+//             {studentsToRender.length === 0 && (
+//               <tr>
+//                 <td colSpan="7" className="text-center py-4 text-gray-500">
+//                   No students found.
+//                 </td>
+//               </tr>
+//             )}
+//           </tbody>
+//         </table>
+
+//         {showModal && editData && (
+//           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+//             <div className="bg-white p-6 rounded-lg w-[90%] max-w-lg shadow-lg">
+//               <h2 className="text-xl font-bold mb-4">Update Student</h2>
+//               <form onSubmit={handleFormSubmit} className="space-y-3">
+//                 <input type="text" name="name" value={editData.name || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Name" />
+//                 <input type="text" name="parent" value={editData.parent || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Parent" />
+//                 <input type="date" name="dob" value={editData.dob?.substring(0, 10) || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="DOB" />
+//                 <input type="text" name="class" value={editData.class || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Class" />
+//                 <input type="text" name="adress" value={editData.adress || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Address" />
+//                 <input type="number" name="phone" value={editData.phone || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Phone" />
+//                 <input type="number" name="feesPaid" value={editData.feesPaid || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Fees Paid" />
+
+//                 <div className="flex justify-end gap-2">
+//                   <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Save</button>
+//                   <button type="button" onClick={() => setShowModal(false)} className="bg-gray-400 px-4 py-2 rounded">Cancel</button>
+//                 </div>
+//               </form>
+//             </div>
+//           </div>
+//         )}
+//       </main>
+//     </AdminLayout>
+//   );
+// };
+
+// export default StudentCard;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ import React, { useContext, useEffect, useState } from "react";
+import DataTable from "react-data-table-component";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import AdminLayout from "../Layouts/AdminLayout";
+import { adminDataContext } from "../Context-Api/AdminContext";
+import { authDataContext } from "../Context-Api/AuthContext";
+//import { adminDataContext } from "../../Contexts/adminContext";
+//import { authDataContext } from "../../Contexts/authContext";
 const StudentCard = () => {
   const { adminData, fetchAdminData } = useContext(adminDataContext);
   const { serverUrl } = useContext(authDataContext);
   const { students = [] } = adminData?.admin || [];
 
   const [totalStudents, setTotalStudents] = useState([]);
-  const [filter, setFilter] = useState('');
+  const [filterText, setFilterText] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [editData, setEditData] = useState(null);
 
@@ -643,19 +913,16 @@ const StudentCard = () => {
     }
   }, [students]);
 
-  const filtered = totalStudents.filter(s =>
-    s.name.toLowerCase().includes(filter.toLowerCase()) ||
-    s.Classs?.name?.toLowerCase().includes(filter.toLowerCase())
+  const filteredStudents = totalStudents.filter(
+    (s) =>
+      s.name.toLowerCase().includes(filterText.toLowerCase()) ||
+      s.Classs?.name?.toLowerCase().includes(filterText.toLowerCase())
   );
 
-  const studentsToRender = filter.trim() ? filtered : totalStudents;
-
   const handleUpdateById = (id) => {
-    const student = totalStudents.find(s => s._id === id);
-    if (student) {
-      setEditData(student);
-      setShowModal(true);
-    }
+    const student = totalStudents.find((s) => s._id === id);
+    setEditData(student);
+    setShowModal(true);
   };
 
   const handleDeleteById = async (id) => {
@@ -664,15 +931,11 @@ const StudentCard = () => {
       if (response.status === 200) {
         await fetchAdminData();
         toast.success("Successfully Deleted Student...");
-        setTotalStudents(prev => prev.filter(s => s._id !== id));
+        setTotalStudents((prev) => prev.filter((s) => s._id !== id));
       }
     } catch (err) {
       toast.error(err?.response?.data?.message || "Delete failed.");
     }
-  };
-
-  const handleViewDetails = (student) => {
-    alert(`👀 Viewing details for: ${student.name}`);
   };
 
   const handleFormChange = (e) => {
@@ -699,14 +962,61 @@ const StudentCard = () => {
       if (response.status === 200) {
         await fetchAdminData();
         const updatedStudent = response.data.student;
-        setTotalStudents(prev => prev.map(s => (s._id === updatedStudent._id ? updatedStudent : s)));
+        setTotalStudents((prev) =>
+          prev.map((s) => (s._id === updatedStudent._id ? updatedStudent : s))
+        );
         toast.success("Successfully updated the student...");
-        setTimeout(() => setShowModal(false), 200);
+        setTimeout(() => setShowModal(false), 300);
       }
     } catch (err) {
       toast.error(err?.response?.data?.message || "Update failed.");
     }
   };
+
+  const columns = [
+    {
+      name: "Name",
+      selector: (row) => row.name,
+      sortable: true,
+    },
+    {
+      name: "Class",
+      selector: (row) => row.Classs?.name || "–",
+      sortable: true,
+    },
+    {
+      name: "DOB",
+      selector: (row) => new Date(row.dob).toLocaleDateString(),
+      sortable: true,
+    },
+    {
+      name: "Parent",
+      selector: (row) => row.parent,
+      sortable: true,
+    },
+    {
+      name: "Phone",
+      selector: (row) => row.phone,
+      sortable: true,
+    },
+    {
+      name: "Fees Paid",
+      selector: (row) => row.feesPaid ?? 0,
+      sortable: true,
+    },
+    {
+      name: "Actions",
+      cell: (row) => (
+        <div className="flex space-x-2">
+          <button onClick={() => handleUpdateById(row._id)} className="btn btn-sm btn-info">Edit</button>
+          <button onClick={() => handleDeleteById(row._id)} className="btn btn-sm btn-danger">Delete</button>
+        </div>
+      ),
+      ignoreRowClick: true,
+      allowOverflow: true,
+      button: true,
+    },
+  ];
 
   return (
     <AdminLayout adminName="Bright Future">
@@ -718,47 +1028,19 @@ const StudentCard = () => {
           type="text"
           placeholder="Search by name or class…"
           className="p-2 mb-4 border rounded w-full"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
+          value={filterText}
+          onChange={(e) => setFilterText(e.target.value)}
         />
 
-        <table className="min-w-full bg-white shadow rounded-lg overflow-hidden">
-          <thead className="bg-gray-200">
-            <tr>
-              <th className="px-4 py-2 text-left">Name</th>
-              <th className="px-4 py-2 text-left">Class</th>
-              <th className="px-4 py-2 text-left">DOB</th>
-              <th className="px-4 py-2 text-left">Parent</th>
-              <th className="px-4 py-2 text-left">Phone</th>
-              <th className="px-4 py-2 text-left">Fees Paid</th>
-              <th className="px-4 py-2 text-left">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {studentsToRender.map(student => (
-              <tr key={student._id} className="border-b hover:bg-gray-50">
-                <td className="px-4 py-2">{student.name}</td>
-                <td className="px-4 py-2">{student.Classs?.name || '–'}</td>
-                <td className="px-4 py-2">{new Date(student.dob).toLocaleDateString()}</td>
-                <td className="px-4 py-2">{student.parent}</td>
-                <td className="px-4 py-2">{student.phone}</td>
-                <td className="px-4 py-2">{student.feesPaid ?? 0}</td>
-                <td className="px-4 py-2 flex space-x-2">
-                  <button onClick={() => handleUpdateById(student._id)} className="text-blue-500 hover:underline">Edit</button>
-                  <button onClick={() => handleViewDetails(student)} className="text-green-500 hover:underline">View</button>
-                  <button onClick={() => handleDeleteById(student._id)} className="text-red-500 hover:underline">Delete</button>
-                </td>
-              </tr>
-            ))}
-            {studentsToRender.length === 0 && (
-              <tr>
-                <td colSpan="7" className="text-center py-4 text-gray-500">
-                  No students found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+        <DataTable
+          columns={columns}
+          data={filteredStudents}
+          pagination
+          highlightOnHover
+          striped
+          responsive
+          noDataComponent="No students found."
+        />
 
         {showModal && editData && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -767,10 +1049,10 @@ const StudentCard = () => {
               <form onSubmit={handleFormSubmit} className="space-y-3">
                 <input type="text" name="name" value={editData.name || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Name" />
                 <input type="text" name="parent" value={editData.parent || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Parent" />
-                <input type="date" name="dob" value={editData.dob?.substring(0, 10) || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="DOB" />
+                <input type="date" name="dob" value={editData.dob?.substring(0, 10) || ""} onChange={handleFormChange} className="w-full border p-2 rounded" />
                 <input type="text" name="class" value={editData.class || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Class" />
                 <input type="text" name="adress" value={editData.adress || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Address" />
-                <input type="number" name="phone" value={editData.phone || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Phone" />
+                <input type="text" name="phone" value={editData.phone || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Phone" />
                 <input type="number" name="feesPaid" value={editData.feesPaid || ""} onChange={handleFormChange} className="w-full border p-2 rounded" placeholder="Fees Paid" />
 
                 <div className="flex justify-end gap-2">
@@ -787,3 +1069,4 @@ const StudentCard = () => {
 };
 
 export default StudentCard;
+
