@@ -1,6 +1,8 @@
 // components/AdminLayout.jsx
 import { useState, useEffect } from "react";
-import Sidebar from "./Sidebar";
+import { Sidebar } from "./Sidebar";
+//import { Sidebar } from "./Sidebar";
+
 
 export default function AdminLayout({ children, adminName = "Admin" }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
