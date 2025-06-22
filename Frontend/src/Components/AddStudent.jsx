@@ -309,7 +309,7 @@ import { useNavigate } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { FaBars, FaUserCircle } from 'react-icons/fa';
 import AdminLayout from './AdminLayout';
-
+import axios from 'axios';
 export default function AddStudent() {
   const navigate = useNavigate();
   const { fetchAdminData } = useContext(adminDataContext);
