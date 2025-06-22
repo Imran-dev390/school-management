@@ -96,7 +96,7 @@ const CllassCard = () => {
   return (
     <AdminLayout adminName="Bright Futue">
       {/* Main Content */}
-      <div className="flex-1 ml-0 mt-2 md:ml-16  p-4 transition-all duration-300">
+      <div className="flex-1 mx-auto ml-0 mt-2 md:ml-16  p-4 transition-all duration-300">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-12 md:mt-4">
           {totalClasses.map((item) => (
             <div
