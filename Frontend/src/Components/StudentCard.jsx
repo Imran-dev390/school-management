@@ -1590,7 +1590,7 @@ console.log("students",students)
 
       {/* Table */}
       <div className="overflow-auto">
-        <table className="min-w-full p-6 mt-4 sm:p-0 text-sm border border-gray-200">
+        <table className=" p-6 mt-4 sm:p-0 text-sm border border-gray-200 max-w-64  sm:min-w-full">
           {/* <thead className="bg-gray-100 text-left">
             <tr>
               <th className="px-3 py-2 border">#</th>
