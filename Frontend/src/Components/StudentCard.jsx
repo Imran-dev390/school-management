@@ -1476,7 +1476,7 @@ console.log("students",students)
     <AdminLayout adminName="Bright Future">
   <ToastContainer />
   <div className="p-6">
-    <div className="bg-white w-full sm: shadow rounded p-4">
+    <div className="bg-white w-full mt-4 sm:mt-0 shadow rounded p-4">
       {/* Top Filters */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
         <div className="flex items-center gap-2">
