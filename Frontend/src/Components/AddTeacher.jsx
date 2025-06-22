@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { adminDataContext } from '../Context-Api/AdminContext';
 import { Sidebar } from './Sidebar';
 import { FaBars, FaCircle, FaUserCircle } from 'react-icons/fa';
+import AdminLayout from './AdminLayout';
 //FaBars
 //FaCircle
 //FaUserCircle
@@ -68,26 +69,8 @@ export default function AddTeacher() {
   if (isLoading) return <div>Loading admin data...</div>;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-blue-300 p-6">
-     {!isSidebarOpen && (
-           <button
-             onClick={() => setIsSidebarOpen(true)}
-             className="md:hidden fixed top-4 left-4 z-50 bg-white border p-2 shadow"
-           >
-             <FaBars className="text-xl text-green-700" />
-           </button>
-         )}
-         <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
-        {/* Header */}
-<div className="fixed top-0 right-0  w-fit ml-4 z-40 flex items-start p-4">
-  <div className="profileShowSchoolName flex  items-start gap-2">
-    <div className="w-14 h-14 rounded-full flex items-center justify-center">
-      <FaUserCircle className="text-4xl text-blue-900" />
-    </div>
-    <h1 className="text-lg font-semibold text-blue-900">Bright Future</h1>
-  </div>
-</div>
-{/* end*/}
+   <AdminLayout>
+
       <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-xl transform transition-all duration-500 hover:scale-[1.02]">
         <h2 className="text-3xl font-bold text-center text-blue-800 mb-6">Add New Teacher 👩‍🏫</h2>
 
@@ -206,7 +189,7 @@ export default function AddTeacher() {
 
         <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} theme="colored" />
       </div>
-    </div>
+    </AdminLayout>
   );
 }
 

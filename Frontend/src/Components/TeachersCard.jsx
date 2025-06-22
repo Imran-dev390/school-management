@@ -348,7 +348,7 @@ const TeachersCard = () => {
 
   return (
     <AdminLayout>
-    <div className="ml-0 md:ml-64 p-6 bg-gray-100 min-h-screen">
+    <div className="ml-0 md:ml-64 p-6 bg-gray-100 max-h-full">
       <ToastContainer position="top-right" autoClose={3000} theme="colored" />
       <h2 className="text-3xl font-bold mb-6 text-center">🎓 Teachers List</h2>
 
