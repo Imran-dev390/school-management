@@ -1250,17 +1250,36 @@ const StudentCard = () => {
 const [filterName, setFilterName] = useState("");
 const [filterClass, setFilterClass] = useState("");
 const [filterParent, setFilterParent] = useState("");
-const [filterPhone, setFilterPhone] = useState("");
+//const [filterPhone, setFilterPhone] = useState("");
+const [filterSessionDate, setFilterSessionDate] = useState("");
+//  const filteredStudents = students.filter((student) => {
+//   const nameMatch = student.name.toLowerCase().includes(filterName.toLowerCase());
+//   const classMatch = student.Classs?.name.toLowerCase().includes(filterClass.toLowerCase());
+//   const parentMatch = student.parent?.toLowerCase().includes(filterParent.toLowerCase());
+//   const phoneMatch = student.phone.toLowerCase().includes(filterPhone.toLowerCase());
 
- const filteredStudents = students.filter((student) => {
-  const nameMatch = student.name.toLowerCase().includes(filterName.toLowerCase());
-  const classMatch = student.Classs?.name.toLowerCase().includes(filterClass.toLowerCase());
+//   return nameMatch && classMatch && parentMatch && phoneMatch;
+// });
+ 
+
+
+
+
+
+const filteredStudents = students.filter((student) => {
+  const nameMatch = student.name?.toLowerCase().includes(filterName.toLowerCase());
+  const classMatch = student.Classs?.name?.toLowerCase().includes(filterClass.toLowerCase());
   const parentMatch = student.parent?.toLowerCase().includes(filterParent.toLowerCase());
-  const phoneMatch = student.phone.toLowerCase().includes(filterPhone.toLowerCase());
+  
+  const sessionDateMatch = filterSessionDate
+    ? new Date(student.sessionDate).toLocaleDateString().includes(filterSessionDate)
+    : true;
 
-  return nameMatch && classMatch && parentMatch && phoneMatch;
+  return nameMatch && classMatch && parentMatch && sessionDateMatch;
 });
-  const indexOfLast = currentPage * entriesPerPage;
+
+
+const indexOfLast = currentPage * entriesPerPage;
   const indexOfFirst = indexOfLast - entriesPerPage;
   const currentData = filteredStudents.slice(indexOfFirst, indexOfLast);
 
@@ -1482,7 +1501,7 @@ const [filterPhone, setFilterPhone] = useState("");
         </div>
 
         {/* Search Filters */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 w-full">
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 w-full">
           <input
             type="text"
             placeholder="Search by Name"
@@ -1523,13 +1542,56 @@ const [filterPhone, setFilterPhone] = useState("");
               setCurrentPage(1);
             }}
           />
-        </div>
+        </div> */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 w-full">
+  <input
+    type="text"
+    placeholder="Search by Name"
+    className="border px-3 py-1 rounded text-sm"
+    value={filterName}
+    onChange={(e) => {
+      setFilterName(e.target.value);
+      setCurrentPage(1);
+    }}
+  />
+  <input
+    type="text"
+    placeholder="Search by Class"
+    className="border px-3 py-1 rounded text-sm"
+    value={filterClass}
+    onChange={(e) => {
+      setFilterClass(e.target.value);
+      setCurrentPage(1);
+    }}
+  />
+  <input
+    type="text"
+    placeholder="Search by Parent"
+    className="border px-3 py-1 rounded text-sm"
+    value={filterParent}
+    onChange={(e) => {
+      setFilterParent(e.target.value);
+      setCurrentPage(1);
+    }}
+  />
+  <input
+    type="text"
+    placeholder="Search by Session Date (e.g. 6/22/2025)"
+    className="border px-3 py-1 rounded text-sm"
+    value={filterSessionDate}
+    onChange={(e) => {
+      setFilterSessionDate(e.target.value);
+      setCurrentPage(1);
+    }}
+  />
+</div>
+
       </div>
 
       {/* Table */}
       <div className="overflow-auto">
         <table className="min-w-full text-sm border border-gray-200">
-          <thead className="bg-gray-100 text-left">
+          {/* <thead className="bg-gray-100 text-left">
             <tr>
               <th className="px-3 py-2 border">#</th>
               <th className="px-3 py-2 border">Name</th>
@@ -1539,8 +1601,22 @@ const [filterPhone, setFilterPhone] = useState("");
               <th className="px-3 py-2 border">Fees Paid</th>
               <th className="px-3 py-2 border">Actions</th>
             </tr>
-          </thead>
-          <tbody>
+          </thead> */}
+
+          <thead className="bg-gray-100 text-left">
+  <tr>
+    <th className="px-3 py-2 border">#</th>
+    <th className="px-3 py-2 border">Name</th>
+    <th className="px-3 py-2 border">Class</th>
+    <th className="px-3 py-2 border">Parent</th>
+    <th className="px-3 py-2 border">Phone</th>
+    <th className="px-3 py-2 border">DOB</th>
+    <th className="px-3 py-2 border">Fees Paid</th>
+    <th className="px-3 py-2 border">Actions</th>
+  </tr>
+</thead>
+
+          {/* <tbody>
             {currentData.map((student, i) => (
               <tr key={student._id} className="border-t">
                 <td className="px-3 py-2 border">{indexOfFirst + i + 1}</td>
@@ -1573,7 +1649,45 @@ const [filterPhone, setFilterPhone] = useState("");
                 </td>
               </tr>
             )}
-          </tbody>
+          </tbody> */}
+
+
+          <tbody>
+  {currentData.map((student, i) => (
+    <tr key={student._id} className="border-t">
+      <td className="px-3 py-2 border">{indexOfFirst + i + 1}</td>
+      <td className="px-3 py-2 border">{student.name}</td>
+      <td className="px-3 py-2 border">{student.Classs?.name || "–"}</td>
+      <td className="px-3 py-2 border">{student.parent || "–"}</td>
+      <td className="px-3 py-2 border">{student.phone}</td>
+      <td className="px-3 py-2 border">{new Date(student.dob).toLocaleDateString()}</td>
+      <td className="px-3 py-2 border">{student.feesPaid ?? 0}</td>
+      <td className="px-3 py-2 border space-x-2">
+        <button className="bg-blue-500 text-white px-2 py-1 rounded text-xs">View</button>
+        <button
+          className="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
+          onClick={() => alert("Edit modal coming soon")}
+        >
+          Edit
+        </button>
+        <button
+          className="bg-red-500 text-white px-2 py-1 rounded text-xs"
+          onClick={() => handleDeleteById(student._id)}
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
+  ))}
+  {currentData.length === 0 && (
+    <tr>
+      <td colSpan="8" className="text-center text-gray-500 py-4">
+        No students found.
+      </td>
+    </tr>
+  )}
+</tbody>
+
         </table>
       </div>
 
