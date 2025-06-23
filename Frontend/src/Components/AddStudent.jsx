@@ -428,7 +428,7 @@ const handleFileChange = (e) => {
     setSubmitted(true);
   } catch (err) {
     toast.error(err?.response?.data?.message || "Something went wrong");
-    console.log("erron when submiting",err?.response?.data?.message);
+    console.log(err?.response?.data?.message || err.message || "erron when submiting");
   }
 };
 
