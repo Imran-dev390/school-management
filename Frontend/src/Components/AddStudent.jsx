@@ -583,7 +583,7 @@ const handleFileChange = (e) => {
 
 
 <AdminLayout adminName="Bright Future">
-      <div className="w-full max-w-3xl  mt-32 sm:mt-0 bg-white shadow-xl rounded-2xl p-4">
+      <div className="w-full max-w-3xl sm:max-w-5xl  mt-32 sm:mt-4 bg-white shadow-xl rounded-2xl p-4">
         <h2 className="text-3xl font-bold text-center text-green-800 mb-8">
           📚 Register New Student
         </h2>
