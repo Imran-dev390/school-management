@@ -422,14 +422,14 @@ const handleFileChange = (e) => {
         'Content-Type': 'multipart/form-data',
       },
     });
-    console.log([...formData.entries()]);
+//    console.log([...formData.entries()]);
     toast.success("✅ Student registered successfully!");
     await fetchAdminData();
     navigate("/admin/dash");
     setSubmitted(true);
   } catch (err) {
     toast.error(err?.response?.data?.message || "Something went wrong");
-    console.log([...formData.entries()]);
+    console.log(formData);
     console.log(err?.response?.data?.message || err.message || "erron when submiting");
   }
 };
@@ -684,7 +684,7 @@ const handleFileChange = (e) => {
                   </option>
                   {classes.map((classItem) => (
                     <option key={classItem._id} value={classItem._id}>
-                      {classItem.name} {classItem.section}
+                      {classItem.name} - {classItem.section}
                     </option>
                   ))}
                 </select>
