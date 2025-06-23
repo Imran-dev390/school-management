@@ -286,7 +286,7 @@ const AddStudent = async (req, res) => {
   const mongoose = require('mongoose');
   const { 
     name, email, password, phone, gender, dob, adress, parent, 
-    Classs: classId, prevschoolName, prevSchoolAddress, 
+    Classs: classId, prevschoolName,prevClass,prevSchoolAddress, 
     bformNumber, CnicNumber, feesPaid 
   } = req.body;
 
@@ -332,6 +332,7 @@ const AddStudent = async (req, res) => {
       parent,
       Classs: enteredClassMatch._id,
       prevschoolName,
+      prevClass,
       prevSchoolAddress,
       bformNumber,
       CnicNumber,

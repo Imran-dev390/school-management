@@ -47,6 +47,44 @@ const studentSchema = new mongoose.Schema({
     type:mongoose.Schema.Types.ObjectId,
     ref:"Leave",
   }],
+  prevschoolName:{
+    type:String,
+    required:true,
+  },
+  prevClass:{
+    type:String,
+    required:true,
+  },
+  prevSchoolAddress:{
+    type:String,
+    required:true,
+  },
+   profileImage:{ 
+    data:Buffer,
+    contentType: String,
+   },
+     CnicFrontImage:{ 
+    data:Buffer,
+    contentType: String,
+   },
+   CnicBackImage:{ 
+    data:Buffer,
+    contentType: String,
+   },
+   bformImage:{
+     data:Buffer,
+     contentType:String,
+   },
+   bformNumber:{
+    type:String,
+    required:true,
+    minLength:11,
+   },
+   CnicNumber:{
+    type:String,
+    required:true,
+    minLength:11,
+   },
   Classs: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'class',
