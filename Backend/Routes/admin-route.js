@@ -18,11 +18,7 @@ router.put("/teacher/:id",isAuth,UpdateTeacher);
 router.delete("/teacher/:id",isAuth,DeleteTeacher);
 router.delete('/students/:id',isAuth,DeleteStudent);
 //router.post("/Add/Student",isAuth,AddStudent);
-router.post(
-  "/Add/Student",
-  isAuth,
-  upload.fields([
-    { name: 'profileImage', maxCount: 1 },
+router.post("/Add/Student",isAuth,upload.fields([{ name: 'profileImage', maxCount: 1 },
     { name: 'CnicFrontImage', maxCount: 1 },
     { name: 'CnicBackImage', maxCount: 1 },
     { name: 'bformImage', maxCount: 1 },
