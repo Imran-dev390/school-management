@@ -403,11 +403,19 @@ const handleFileChange = (e) => {
 
   const handleSubmit = async (e) => {
   e.preventDefault();
-  const form = new FormData();
-  for (const key in formData) {
+  // const form = new FormData();
+  // for (const key in formData) {
+  //   form.append(key, formData[key]);
+  // }
+// Before appending, rename the field expected by the backend
+const form = new FormData();
+for (const key in formData) {
+  if (key === 'Class') {
+    form.append('Classs', formData[key]); // Backend expects 'Classs'
+  } else {
     form.append(key, formData[key]);
   }
-
+}
   // Append image files
   for (const key in images) {
     if (images[key]) {

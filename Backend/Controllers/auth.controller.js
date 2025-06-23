@@ -283,7 +283,6 @@ console.log("reqeseted body",req.body)
 
 
 const AddStudent = async (req, res) => {
-  const mongoose = require('mongoose');
   const { 
     name, email, password, phone, gender, dob, adress, parent, 
    Classs: classId, prevschoolName,prevClass,prevSchoolAddress, 
