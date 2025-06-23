@@ -422,13 +422,13 @@ const handleFileChange = (e) => {
         'Content-Type': 'multipart/form-data',
       },
     });
-
     toast.success("✅ Student registered successfully!");
     await fetchAdminData();
     navigate("/admin/dash");
     setSubmitted(true);
   } catch (err) {
     toast.error(err?.response?.data?.message || "Something went wrong");
+    console.log("erron when submiting",err?.response?.data?.message);
   }
 };
 
@@ -584,7 +584,7 @@ const handleFileChange = (e) => {
 
 
 <AdminLayout adminName="Bright Future">
-      <div className="w-full max-w-3xl mt-32 sm:max-w-5xl   sm:mt-8 bg-white shadow-xl rounded-2xl p-4">
+      <div className="w-full max-w-3xl mt-32  sm:max-w-5xl   sm:mt-8 bg-white shadow-xl rounded-2xl p-4">
         <h2 className="text-3xl font-bold text-center text-green-800 mb-8">
           📚 Register New Student
         </h2>
