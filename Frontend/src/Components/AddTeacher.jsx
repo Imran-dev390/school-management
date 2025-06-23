@@ -218,7 +218,74 @@ export default function AddTeacher() {
           </label>
         </div>
       ))}
+      {/* Gender Dropdown */}
+<div className="relative w-full sm:w-[48%]">
+  <select
+    name="gender"
+    value={formData.gender}
+    onChange={handleChange}
+    required
+    className="w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-blue-500"
+  >
+    <option value="" disabled>Select Gender</option>
+    <option value="male">Male</option>
+    <option value="female">Female</option>
+  </select>
+  <label className="absolute left-3 -top-2 text-sm text-blue-500 bg-white px-1">Gender</label>
+</div>
+
+{/* Assigned Class Dropdown */}
+<div className="relative w-full sm:w-[48%]">
+  <select
+    name="assignedClass"
+    value={formData.assignedClass}
+    onChange={handleChange}
+    required
+    className="w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-blue-500"
+  >
+    <option value="" disabled>Select Assigned Class</option>
+    {classes.map((item) => (
+      <option key={item._id} value={item._id}>
+        {item.name} {item.section}
+      </option>
+    ))}
+  </select>
+  <label className="absolute left-3 -top-2 text-sm text-blue-500 bg-white px-1">Class</label>
+</div>
+
+{/* Teach Subject Dropdown */}
+<div className="relative w-full sm:w-[48%]">
+  <select
+    name="teachSubject"
+    value={formData.teachSubject}
+    onChange={handleChange}
+    required
+    className="w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-blue-500"
+  >
+    <option value="" disabled>Select Subject</option>
+    {subjects.map((item) => (
+      <option key={item._id} value={item._id}>
+        {item.name}
+      </option>
+    ))}
+  </select>
+  <label className="absolute left-3 -top-2 text-sm text-blue-500 bg-white px-1">Subject</label>
+</div>
     </div>
+{/* InCharge Checkbox */}
+<div className="flex items-center space-x-3">
+  <input
+    type="checkbox"
+    id="incharge"
+    name="incharge"
+    checked={formData.incharge}
+    onChange={handleChange}
+    className="w-5 h-5"
+  />
+  <label htmlFor="incharge" className="text-gray-700 font-medium">
+    Is In-Charge of the Class?
+  </label>
+</div>
 
     {/* Submit Button */}
     <button
