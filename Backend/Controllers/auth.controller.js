@@ -9,6 +9,7 @@ const Staff = require("../models/addStaff.model");
 const Timetable = require('../models/timetable.model');
 const Admin = require("../models/admin.model");
 const updateClassGenderCount = require("../utils/updateClassGenderCount");
+const upload = require("../middlewares/upload");
 const Subjects = require("../models/Subjects.model");
 const Student = require("../models/student.model");
 const Subject = require("../models/Subjects.model");
@@ -155,18 +156,146 @@ console.log("reqeseted body",req.body)
 
 
 
+// const AddStudent = async (req, res) => {
+//   const { name, email, password, phone, gender, dob, adress, parent, Classs: classId } = req.body;
+//   console.log("Requested body:", req.body.classes);
+
+//   try {
+//     // Check if classId is a valid MongoDB ObjectId
+//     const mongoose = require('mongoose');
+//     if (!mongoose.Types.ObjectId.isValid(classId)) {
+//       return res.status(400).json({ message: "Invalid class ID format" });
+//     }
+
+//     // Check if user with email or phone exists
+//     const existingEmail = await User.findOne({ email });
+//     const existingPhone = await User.findOne({ phone });
+
+//     if (existingEmail) {
+//       return res.status(401).json({ message: 'User already registered with this email' });
+//     }
+
+//     if (existingPhone) {
+//       return res.status(401).json({ message: 'User already registered with this Contact Number' });
+//     }
+
+//     // Check if the entered class exists
+//     console.log("Searching for class with ID:", classId);
+//     const enteredClassMatch = await Class.findById(classId);
+//     if (!enteredClassMatch) {
+//       return res.status(404).json({ message: "Entered Class Not Found in System." });
+//     }
+//     console.log("Class found:", enteredClassMatch);
+
+//     // Create user
+//     const hashedPass = await bcrypt.hash(password, 10);
+//     let user = await User.create({
+//       name,
+//       email,
+//       password: hashedPass,
+//       phone,
+//       gender,
+//       dob,
+//       adress,
+//       parent,
+//       Classs: enteredClassMatch._id,
+//     });
+
+//     await user.populate("Classs"); // Populate the class field
+//      enteredClassMatch.students.push(user._id);
+//      await enteredClassMatch.save();
+//     // Add to admin
+//     const admin = await Admin.findById(req.userId);
+//     if (!admin) {
+//       return res.status(404).json({ message: "Admin Not Found" });
+//     }
+
+//     admin.students.push(user._id);
+//     await admin.save();
+// // ✅ Update gender counts in the class
+//  await updateClassGenderCount(classId);  // 👈 Add this line here
+//     return res.status(201).json(user);
+//   } catch (err) {
+//     console.error("Signup error:", err.message);
+//     return res.status(500).json({ message: "Server error on signup" });
+//   }
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const AddStudent = async (req, res) => {
-  const { name, email, password, phone, gender, dob, adress, parent, Classs: classId } = req.body;
-  console.log("Requested body:", req.body.classes);
+  const mongoose = require('mongoose');
+  const { 
+    name, email, password, phone, gender, dob, adress, parent, 
+    Classs: classId, prevschoolName, prevSchoolAddress, 
+    bformNumber, CnicNumber, feesPaid 
+  } = req.body;
 
   try {
-    // Check if classId is a valid MongoDB ObjectId
-    const mongoose = require('mongoose');
     if (!mongoose.Types.ObjectId.isValid(classId)) {
       return res.status(400).json({ message: "Invalid class ID format" });
     }
 
-    // Check if user with email or phone exists
+    // Check if email or phone already exists
     const existingEmail = await User.findOne({ email });
     const existingPhone = await User.findOne({ phone });
 
@@ -178,16 +307,20 @@ const AddStudent = async (req, res) => {
       return res.status(401).json({ message: 'User already registered with this Contact Number' });
     }
 
-    // Check if the entered class exists
-    console.log("Searching for class with ID:", classId);
+    // Check class existence
     const enteredClassMatch = await Class.findById(classId);
     if (!enteredClassMatch) {
       return res.status(404).json({ message: "Entered Class Not Found in System." });
     }
-    console.log("Class found:", enteredClassMatch);
 
-    // Create user
+    // Handle image buffers from multer (files are expected to have same field names)
+    const profileImage = req.files?.profileImage?.[0];
+    const CnicFrontImage = req.files?.CnicFrontImage?.[0];
+    const CnicBackImage = req.files?.CnicBackImage?.[0];
+    const bformImage = req.files?.bformImage?.[0];
+
     const hashedPass = await bcrypt.hash(password, 10);
+
     let user = await User.create({
       name,
       email,
@@ -198,12 +331,38 @@ const AddStudent = async (req, res) => {
       adress,
       parent,
       Classs: enteredClassMatch._id,
+      prevschoolName,
+      prevSchoolAddress,
+      bformNumber,
+      CnicNumber,
+      feesPaid: feesPaid || null,
+
+      // Images as Buffer
+      profileImage: profileImage ? {
+        data: profileImage.buffer,
+        contentType: profileImage.mimetype,
+      } : undefined,
+
+      CnicFrontImage: CnicFrontImage ? {
+        data: CnicFrontImage.buffer,
+        contentType: CnicFrontImage.mimetype,
+      } : undefined,
+
+      CnicBackImage: CnicBackImage ? {
+        data: CnicBackImage.buffer,
+        contentType: CnicBackImage.mimetype,
+      } : undefined,
+
+      bformImage: bformImage ? {
+        data: bformImage.buffer,
+        contentType: bformImage.mimetype,
+      } : undefined,
     });
 
-    await user.populate("Classs"); // Populate the class field
-     enteredClassMatch.students.push(user._id);
-     await enteredClassMatch.save();
-    // Add to admin
+    await user.populate("Classs");
+    enteredClassMatch.students.push(user._id);
+    await enteredClassMatch.save();
+
     const admin = await Admin.findById(req.userId);
     if (!admin) {
       return res.status(404).json({ message: "Admin Not Found" });
@@ -211,16 +370,15 @@ const AddStudent = async (req, res) => {
 
     admin.students.push(user._id);
     await admin.save();
-// ✅ Update gender counts in the class
- await updateClassGenderCount(classId);  // 👈 Add this line here
+
+    await updateClassGenderCount(classId);
+
     return res.status(201).json(user);
   } catch (err) {
     console.error("Signup error:", err.message);
     return res.status(500).json({ message: "Server error on signup" });
   }
 };
-
-
 
 
 
@@ -1220,7 +1378,7 @@ const admin = await Admin.findById(req.userId);
     console.error(error);
     res.status(500).json({ message: 'Error registering staff', error });
   }
-};
+};3
 const AddTimeTable = async (req, res) => {
   try {
     const { className, day, periods } = req.body;

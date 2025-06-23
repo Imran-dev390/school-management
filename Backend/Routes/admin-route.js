@@ -17,7 +17,18 @@ router.put("/student/:id",isAuth,UpdateStudent);
 router.put("/teacher/:id",isAuth,UpdateTeacher);
 router.delete("/teacher/:id",isAuth,DeleteTeacher);
 router.delete('/students/:id',isAuth,DeleteStudent);
-router.post("/Add/Student",isAuth,AddStudent);
+//router.post("/Add/Student",isAuth,AddStudent);
+router.post(
+  "/Add/Student",
+  isAuth,
+  upload.fields([
+    { name: 'profileImage', maxCount: 1 },
+    { name: 'CnicFrontImage', maxCount: 1 },
+    { name: 'CnicBackImage', maxCount: 1 },
+    { name: 'bformImage', maxCount: 1 },
+  ]),
+  AddStudent
+);
 router.post("/Add/ExamSchedule",isAuth,ExamTimetable);
 router.post("/Add/Teacher",isAuth,AddTeacher);
 router.post("/Add/Class",isAuth,AddClass);

@@ -319,17 +319,51 @@ export default function AddStudent() {
 
 
 // FaUserCircle
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    gender: '',
-    dob: '',
-    password: '',
-    Parent: '',
-    Adress: '',
-    Class: '',
-  });
+  // const [formData, setFormData] = useState({
+  //   name: '',
+  //   email: '',
+  //   phone: '',
+  //   gender: '',
+  //   dob: '',
+  //   password: '',
+  //   Parent: '',
+  //   Adress: '',
+  //   Class: '',
+  // });
+
+
+
+
+const [formData, setFormData] = useState({
+  name: '',
+  email: '',
+  phone: '',
+  gender: '',
+  dob: '',
+  password: '',
+  Parent: '',
+  Adress: '',
+  Class: '',
+  prevschoolName: '',
+  prevSchoolAddress: '',
+  bformNumber: '',
+  CnicNumber: '',
+});
+
+const [images, setImages] = useState({
+  profileImage: null,
+  CnicFrontImage: null,
+  CnicBackImage: null,
+  bformImage: null,
+});
+
+const handleFileChange = (e) => {
+  const { name, files } = e.target;
+  setImages(prev => ({
+    ...prev,
+    [name]: files[0],
+  }));
+};
 
   const [submitted, setSubmitted] = useState(false);
 
@@ -339,29 +373,63 @@ export default function AddStudent() {
       [e.target.name]: e.target.value
     }));
   };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post(`${serverUrl}/api/admin/Add/Student`, {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        gender: formData.gender,
-        dob: formData.dob,
-        password: formData.password,
-        parent: formData.Parent,
-        adress: formData.Adress,
-        Classs: formData.Class,
-      }, { withCredentials: true });
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     await axios.post(`${serverUrl}/api/admin/Add/Student`, {
+  //       name: formData.name,
+  //       email: formData.email,
+  //       phone: formData.phone,
+  //       gender: formData.gender,
+  //       dob: formData.dob,
+  //       password: formData.password,
+  //       parent: formData.Parent,
+  //       adress: formData.Adress,
+  //       Classs: formData.Class,
+  //     }, { withCredentials: true });
 
-      toast.success("Successfully Student Registered");
-      await fetchAdminData();
-      navigate("/admin/dash");
-      setSubmitted(true);
-    } catch (err) {
-      toast.error(err?.response?.data?.message || "Something went wrong");
+  //     toast.success("Successfully Student Registered");
+  //     await fetchAdminData();
+  //     navigate("/admin/dash");
+  //     setSubmitted(true);
+  //   } catch (err) {
+  //     toast.error(err?.response?.data?.message || "Something went wrong");
+  //   }
+  // };
+
+
+
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  const form = new FormData();
+  for (const key in formData) {
+    form.append(key, formData[key]);
+  }
+
+  // Append image files
+  for (const key in images) {
+    if (images[key]) {
+      form.append(key, images[key]);
     }
-  };
+  }
+
+  try {
+    await axios.post(`${serverUrl}/api/admin/Add/Student`, form, {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    toast.success("✅ Student registered successfully!");
+    await fetchAdminData();
+    navigate("/admin/dash");
+    setSubmitted(true);
+  } catch (err) {
+    toast.error(err?.response?.data?.message || "Something went wrong");
+  }
+};
 
   return (
 //     <div className="flex min-h-screen bg-green-100">
@@ -535,26 +603,49 @@ export default function AddStudent() {
                 { name: "password", label: "Password", type: "password" },
                 { name: "Parent", label: "Parent Name", type: "text" },
                 { name: "Adress", label: "Address", type: "text" },
-              ].map(({ name, label, type }) => (
-                <div key={name} className="relative">
-                  <input
-                    type={type}
-                    name={name}
-                    value={formData[name]}
-                    onChange={handleChange}
-                    required
-                    className="peer w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
-                    placeholder=" "
-                  />
-                  <label
-                    htmlFor={name}
-                    className="absolute left-3 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-green-600"
-                  >
-                    {label}
-                  </label>
-                </div>
-              ))}
-
+                { name: 'prevschoolName', label: 'Previous School Name',type:'text' },
+                { name: 'prevSchoolAddress', label: 'Previous School Address',type:'text'},
+                { name: 'bformNumber', label: 'B-Form Number',type: 'text'},
+                { name: 'CnicNumber', label: 'Parent CNIC Number',type: 'text'},
+               ].map(({ name, label, type }) => (
+                 <div key={name} className="relative">
+                   <input
+                     type={type}
+                     name={name}
+                     value={formData[name]}
+                     onChange={handleChange}
+                     required
+                     className="peer w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
+                     placeholder=" "
+                   />
+                   <label
+                     htmlFor={name}
+                     className="absolute left-3 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-green-600"
+                   >
+                     {label}
+                   </label>
+                 </div>
+               ))}
+            
+{/* File Uploads */}
+{[
+  { name: 'profileImage', label: 'Profile Image' },
+  { name: 'CnicFrontImage', label: 'CNIC Front Image' },
+  { name: 'CnicBackImage', label: 'CNIC Back Image' },
+  { name: 'bformImage', label: 'B-Form Image' },
+].map(({ name, label }) => (
+  <div key={name} className="relative">
+    <label className="block text-sm text-gray-700 mb-1">{label}</label>
+    <input
+      type="file"
+      name={name}
+      accept="image/*"
+      onChange={handleFileChange}
+      required
+      className="w-full p-2 border border-gray-300 rounded-md"
+    />
+  </div>
+))}
               {/* Gender Selector */}
               <div className="relative">
                 <select
