@@ -594,7 +594,7 @@ const handleFileChange = (e) => {
             ✅ Student registered successfully!
           </div>
         ) : (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} encType="multipart/form-data">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {[
                 { name: "name", label: "Full Name", type: "text" },
