@@ -422,12 +422,14 @@ const handleFileChange = (e) => {
         'Content-Type': 'multipart/form-data',
       },
     });
+    console.log([...formData.entries()]);
     toast.success("✅ Student registered successfully!");
     await fetchAdminData();
     navigate("/admin/dash");
     setSubmitted(true);
   } catch (err) {
     toast.error(err?.response?.data?.message || "Something went wrong");
+    console.log([...formData.entries()]);
     console.log(err?.response?.data?.message || err.message || "erron when submiting");
   }
 };
