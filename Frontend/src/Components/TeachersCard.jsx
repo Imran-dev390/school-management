@@ -514,6 +514,7 @@ const TeachersCard = () => {
   useEffect(() => {
    if (Array.isArray(teachers)) {
     setTotalTeachers(teachers);
+    console.log("teachers",teachers);
   }
     setCurrentPage(1); // Reset to page 1 on filter change
   }, [filterName, filterPhone, filterClass, filterSection, filterDOB,teachers]);
@@ -639,7 +640,7 @@ const filteredTeachers = totalTeachers.filter((t) => {
                     <td className="px-3 py-2 border">{indexOfFirst + i + 1}</td>
                     <td className="px-3 py-2 border">{teacher.name}</td>
                     <td className="px-3 py-2 border">
-                      {teacher.assignedClass?.map(cls => cls.name).join(", ")}
+                      {teacher.assignedClass?.map(cls => cls.name || "Fetching...").join(", ")}
                     </td>
                     <td className="px-3 py-2 border">
                       {teacher.assignedClass?.map(cls => cls.section || "Searching...").join(", ")}
