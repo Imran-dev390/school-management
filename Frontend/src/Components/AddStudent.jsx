@@ -309,7 +309,7 @@ import { useNavigate } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { FaBars, FaUserCircle } from 'react-icons/fa';
 import AdminLayout from './AdminLayout';
-import { FaUserCircle } from 'react-icons/fa';
+//import { FaUserCircle } from 'react-icons/fa';
 import axios from 'axios';
 import imageCompression from 'browser-image-compression';
 export default function AddStudent() {
@@ -461,6 +461,16 @@ for (const key in formData) {
     console.log(err?.response?.data?.message || err.message || "erron when submiting");
   }
 };
+useEffect(() => {
+  let objectUrl;
+  if (images.profileImage) {
+    objectUrl = URL.createObjectURL(images.profileImage);
+    setProfilePreview(objectUrl);
+  }
+  return () => {
+    if (objectUrl) URL.revokeObjectURL(objectUrl);
+  };
+}, [images.profileImage]);
 
   return (
 //     <div className="flex min-h-screen bg-green-100">
