@@ -512,25 +512,40 @@ const TeachersCard = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
+   if (Array.isArray(teachers)) {
     setTotalTeachers(teachers);
+  }
     setCurrentPage(1); // Reset to page 1 on filter change
   }, [filterName, filterPhone, filterClass, filterSection, filterDOB,teachers]);
 
-  const filteredTeachers = totalTeachers.filter((t) => {
-    const nameMatch = t.name?.toLowerCase().includes(filterName.toLowerCase());
-    const phoneMatch = t.phone?.toString().includes(filterPhone);
-    const classMatch = t.assignedClass?.some(cls =>
-      cls.name?.toLowerCase().includes(filterClass.toLowerCase())
-    );
-    const sectionMatch = t.assignedClass?.some(cls =>
-      cls.section?.toLowerCase().includes(filterSection.toLowerCase())
-    );
-    const dobMatch = filterDOB
-      ? new Date(t.dob).toLocaleDateString().includes(filterDOB)
-      : true;
+  // const filteredTeachers = totalTeachers.filter((t) => {
+  //   const nameMatch = t.name?.toLowerCase().includes(filterName.toLowerCase());
+  //   const phoneMatch = t.phone?.toString().includes(filterPhone);
+  //   const classMatch = t.assignedClass?.some(cls =>
+  //     cls.name?.toLowerCase().includes(filterClass.toLowerCase())
+  //   );
+  //   const sectionMatch = t.assignedClass?.some(cls =>
+  //     cls.section?.toLowerCase().includes(filterSection.toLowerCase())
+  //   );
+  //   const dobMatch = filterDOB
+  //     ? new Date(t.dob).toLocaleDateString().includes(filterDOB)
+  //     : true;
 
-    return nameMatch && phoneMatch && classMatch && sectionMatch && dobMatch;
-  });
+  //   return nameMatch && phoneMatch && classMatch && sectionMatch && dobMatch;
+  // });
+const filteredTeachers = totalTeachers.filter((t) => {
+  const nameMatch = filterName === "" || t.name?.toLowerCase().includes(filterName.toLowerCase());
+  const phoneMatch = filterPhone === "" || t.phone?.toString().includes(filterPhone);
+  const classMatch = filterClass === "" || t.assignedClass?.some(cls =>
+    cls.name?.toLowerCase().includes(filterClass.toLowerCase())
+  );
+  const sectionMatch = filterSection === "" || t.assignedClass?.some(cls =>
+    cls.section?.toLowerCase().includes(filterSection.toLowerCase())
+  );
+  const dobMatch = filterDOB === "" || new Date(t.dob).toLocaleDateString().includes(filterDOB);
+
+  return nameMatch && phoneMatch && classMatch && sectionMatch && dobMatch;
+});
 
   const indexOfLast = currentPage * entriesPerPage;
   const indexOfFirst = indexOfLast - entriesPerPage;
@@ -609,8 +624,8 @@ const TeachersCard = () => {
                 <tr>
                   <th className="px-3 py-2 border">#</th>
                   <th className="px-3 py-2 border">Name</th>
-                  <th className="px-3 py-2 border">Classes</th>
-                  <th className="px-3 py-2 border">Sections</th>
+                  <th className="px-3 py-2 border">Class</th>
+                  <th className="px-3 py-2 border">Section</th>
                   <th className="px-3 py-2 border hidden sm:table-cell">Phone</th>
                   <th className="px-3 py-2 border hidden md:table-cell">DOB</th>
                   <th className="px-3 py-2 border hidden lg:table-cell">Address</th>
@@ -627,7 +642,7 @@ const TeachersCard = () => {
                       {teacher.assignedClass?.map(cls => cls.name).join(", ")}
                     </td>
                     <td className="px-3 py-2 border">
-                      {teacher.assignedClass?.map(cls => cls.section).join(", ")}
+                      {teacher.assignedClass?.map(cls => cls.section || "Searching...").join(", ")}
                     </td>
                     <td className="px-3 py-2 border hidden sm:table-cell">{teacher.phone}</td>
                     <td className="px-3 py-2 border hidden md:table-cell">{new Date(teacher.dob).toLocaleDateString()}</td>
