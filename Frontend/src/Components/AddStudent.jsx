@@ -637,7 +637,7 @@ for (const key in formData) {
                  { name: 'prevClass', label: 'Previous Class',type:'text' },
                 { name: 'prevSchoolAddress', label: 'Previous School Address',type:'text'},
                 { name: 'bformNumber', label: 'B-Form Number',type: 'text'},
-                { name: 'CnicNumber', label: 'Parent CNIC Number',type: 'text'},
+                { name: 'CnicNumber', label: 'Parent CNIC Numberooo',type: 'text'},
                ].map(({ name, label, type }) => (
                  <div key={name} className="relative">
                    <input
