@@ -316,13 +316,13 @@ import imageCompression from 'browser-image-compression';
 
 
 
-const InputField = ({ label, name, type }) => (
+const InputField = ({ label, name, type, value, onChange }) => (
   <div className="relative">
     <input
       type={type}
       name={name}
-      value={formData[name]}
-      onChange={handleChange}
+      value={value}
+      onChange={onChange}
       required
       className="peer w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
       placeholder=" "
@@ -335,6 +335,7 @@ const InputField = ({ label, name, type }) => (
     </label>
   </div>
 );
+
 
 const SelectField = ({ label, name, value, onChange, options }) => (
   <div className="relative">
