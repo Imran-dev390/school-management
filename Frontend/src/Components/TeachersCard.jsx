@@ -501,7 +501,7 @@ const TeachersCard = () => {
   const { adminData, fetchAdminData } = useContext(adminDataContext);
   const { serverUrl } = useContext(authDataContext);
   const { teachers = [] } = adminData?.admin || {};
-
+  const [totalTeachers,setTotalTeachers] = useState([]);
   const [filterName, setFilterName] = useState("");
   const [filterPhone, setFilterPhone] = useState("");
   const [filterClass, setFilterClass] = useState("");
@@ -512,10 +512,11 @@ const TeachersCard = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
+    setTotalTeachers(teachers);
     setCurrentPage(1); // Reset to page 1 on filter change
-  }, [filterName, filterPhone, filterClass, filterSection, filterDOB]);
+  }, [filterName, filterPhone, filterClass, filterSection, filterDOB,teachers]);
 
-  const filteredTeachers = teachers.filter((t) => {
+  const filteredTeachers = totalTeachers.filter((t) => {
     const nameMatch = t.name?.toLowerCase().includes(filterName.toLowerCase());
     const phoneMatch = t.phone?.toString().includes(filterPhone);
     const classMatch = t.assignedClass?.some(cls =>

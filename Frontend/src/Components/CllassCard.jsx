@@ -82,6 +82,7 @@ import { adminDataContext } from "../Context-Api/AdminContext";
 import { authDataContext } from "../Context-Api/AuthContext";
 import { FaBars, FaTimes } from "react-icons/fa";
 import AdminLayout from "./AdminLayout";
+import { ToastContainer,toast} from "react-toastify";
 
 // const CllassCard = () => {
 //   const { adminData, fetchAdminData } = useContext(adminDataContext);

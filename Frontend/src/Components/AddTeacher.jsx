@@ -256,7 +256,7 @@ const handleFileChange = async (e) => {
             className="w-full py-3 mt-4 bg-blue-600 text-white rounded-xl shadow-lg hover:bg-blue-700 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
           >
             ➕ Add Teacher
-          </button> */}
+          </button>  */}
        
 {/* <div className="bg-white rounded-2xl max-w-3xl shadow-2xl mt-32 sm:mt-8 mx-auto p-8 w-full sm:max-w-5xl transform transition-all duration-500 hover:scale-[1.02]">
   <h2 className="text-3xl font-bold text-center text-blue-800 mb-6">Add New Teacher 👩‍🏫</h2>
@@ -289,7 +289,7 @@ const handleFileChange = async (e) => {
             {label}
           </label>
         </div>
-      ))}
+      ))} */}
       {/* Gender Dropdown */}
 {/* <div className="relative w-full sm:w-[48%]">
   <select
@@ -526,31 +526,6 @@ const handleFileChange = async (e) => {
         </label>
       </div>
 
-      {/* Profile Image */}
-      <div className="w-full flex flex-col items-center sm:col-span-2">
-        <label htmlFor="profileImage" className="cursor-pointer relative group">
-          {images.profileImage ? (
-            <img
-              src={URL.createObjectURL(images.profileImage)}
-              alt="Profile"
-              className="w-24 h-24 rounded-full object-cover border-2 border-blue-500"
-            />
-          ) : (
-            <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300 hover:border-blue-500">
-              <FaUserCircle className="text-4xl text-gray-500 group-hover:text-blue-600" />
-            </div>
-          )}
-          <input
-            type="file"
-            id="profileImage"
-            name="profileImage"
-            accept="image/*"
-            onChange={handleFileChange}
-            className="hidden"
-          />
-        </label>
-        <p className="text-xs text-gray-500 mt-2">Click to upload profile</p>
-      </div>
 
       {/* Email */}
       <div className="relative w-full">
@@ -615,7 +590,31 @@ const handleFileChange = async (e) => {
           Phone Number
         </label>
       </div>
-
+ {/* Profile Image */}
+      <div className="w-full flex flex-col items-center sm:col-span-2">
+        <label htmlFor="profileImage" className="cursor-pointer relative group">
+          {images.profileImage ? (
+            <img
+              src={URL.createObjectURL(images.profileImage)}
+              alt="Profile"
+              className="w-24 h-24 rounded-full object-cover border-2 border-blue-500"
+            />
+          ) : (
+            <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300 hover:border-blue-500">
+              <FaUserCircle className="text-4xl text-gray-500 group-hover:text-blue-600" />
+            </div>
+          )}
+          <input
+            type="file"
+            id="profileImage"
+            name="profileImage"
+            accept="image/*"
+            onChange={handleFileChange}
+            className="hidden"
+          />
+        </label>
+        <p className="text-xs text-gray-500 mt-2">Click to upload profile</p>
+      </div>
       {/* CNIC Number */}
       <div className="relative w-full">
         <input
