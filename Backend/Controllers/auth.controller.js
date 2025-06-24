@@ -619,7 +619,6 @@ const SignupAdmin = async (req, res) => {
 
 const AdminSignIn = async (req, res, next) => {
   const { email, password } = req.body;
-
   try {
     let user = await Admin.findOne({ email });
     let role = "admin";
@@ -798,4 +797,3 @@ module.exports = {
     AddClass,
     SignOut,
 };
-s
