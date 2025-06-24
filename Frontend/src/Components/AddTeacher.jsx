@@ -430,10 +430,6 @@ const handleFileChange = async (e) => {
 
     {/* Submit Button */}
   {/* //   <button */}
-  //     type="submit"
-  //     className="w-full py-3 mt-4 bg-blue-600 text-white rounded-xl shadow-lg hover:bg-blue-700 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
-  //   >
-  //     ➕ Add Teacher
   {/* //   </button> */}
   {/* // </form> */}
 
