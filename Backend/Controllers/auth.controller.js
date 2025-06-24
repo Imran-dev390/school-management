@@ -444,132 +444,241 @@ const AddSession = async (req, res) => {
 
 
 
+// const AddTeacher = async (req, res) => {
+//    try {
+//    let {
+//   name,
+//   email,
+//   password,
+//   phone,
+//   salary,
+//   dob,
+//   gender,
+//   qualifications,
+//   teachSubject,
+//   assignedClass,
+//   incharge  // ✅ <-- you missed this!
+// } = req.body;
+
+//      // 🔒 Input Sanitization
+//      email = email.trim().toLowerCase();
+//      name = name.trim();
+//      teachSubject = teachSubject.trim();
+//      // ✅ Class Name to ObjectId
+//      const classDoc = await Class.findOne({_id: assignedClass });
+//      if (!classDoc) {
+//        return res.status(400).json({ message: "Class not found with name: " + assignedClass });
+//      }
+//      assignedClass = classDoc._id;  // Now it's valid for MongoDB
+//      // ✅ Check if teacher already exists by email or class
+//     //  const existingTeacher = await Teacher.findOne({ email });
+//     //  if (existingTeacher) {
+//     //    return res.status(400).json({ message: "Teacher already registered with this email" });
+//     //  }
+//     const isEmailTaken = require("../middlewares/checkisEmailUnique");
+
+// if (await isEmailTaken(email)) {
+//   return res.status(401).json({ message: 'This email is already used by another user role' });
+// }
+
+//  //const newSubject = await Subject.findOne({name});
+//  const subjectDoc = await Subject.findById(teachSubject); 
+//  //const subjectDoc = await Subject.findOne({ name: teachSubject });
+//     if (!subjectDoc) {
+//       return res.status(400).json({ message: "Subject not found: " + teachSubject });
+//     }
+//      const existingTeacherClass = await Teacher.findOne({ assignedClass });
+//      /*if (existingTeacherClass) {
+//        return res.status(400).json({ message: "Class already assigned to another teacher" });
+//      }*/
+//      // ✅ Field Validations
+//      if (name.length < 3) {
+//        return res.status(400).json({ message: "Name must be at least 3 characters" });
+//      }
+//      if (email.length < 11 || !email.includes("@gmail.com")) {
+//        return res.status(400).json({ message: "Email must be valid and at least 11 characters" });
+//      }
+//      if (password.length < 8) {
+//        return res.status(400).json({ message: "Password must be at least 8 characters" });
+//      }
+//      if (!/^\d{11}$/.test(phone)) {
+//        return res.status(400).json({ message: "Phone number must be exactly 11 digits" });
+//      }
+//      if (teachSubject.length < 4) {
+//        return res.status(400).json({ message: "Subject must be at least 4 characters" });
+//      }
+//      // ✅ Check Admin Exists
+//      const admin = await Admin.findById(req.userId);
+//      if (!admin) {
+//        return res.status(404).json({ message: "Admin not found" });
+//      }
+//      // 🔐 Hash Password
+//      const hashedPassword = await bcrypt.hash(password, 10);
+//      // ✅ Create New Teacher
+//     //  const newTeacher = await Teacher.create({
+//     //    name,
+//     //    email,
+//     //    password: hashedPassword,
+//     //    phone,
+//     //    salary,
+//     //    dob,
+//     //    gender,
+//     //    qualifications,
+//     //    teachSubject:subjectDoc._id,
+//     //    assignedClass
+//     //  });
+//     const newTeacher = await Teacher.create({
+//   name,
+//   email,
+//   password: hashedPassword,
+//   phone,
+//   salary,
+//   dob,
+//   gender,
+//   qualifications,
+//   teachSubject: subjectDoc._id,
+//   assignedClass: [
+//     {
+//       class: assignedClass,
+//       incharge:incharge || false,
+//     }
+//   ]
+// });
+
+//      // ✅ Attach teacher to admin
+//      newTeacher.populate("assignedClass");
+//      newTeacher.populate("teachSubject");
+//      //newTeacher.populate("teachSubject");
+//      await newTeacher.save();
+//      classDoc.teacher.push(newTeacher._id);
+//      await classDoc.save();
+//      admin.teachers.push(newTeacher._id);
+//      await admin.save();
+//     //  // ✅ Populate the assigned class
+//     //  await newTeacher.populate({
+//     //    path: 'assignedClass', // Populate the class details from the assignedClass field
+//     //    select: 'name grade'   // You can select only the fields you need, like 'name' and 'grade'
+//     //  });
+//      return res.status(201).json({
+//        message: "Teacher registered successfully",
+//        teacher: newTeacher
+//      });
+//    } catch (err) {
+//      console.error("Signup error:", err);
+//      return res.status(500).json({ message: "Server error on signup", error: err.message });
+//    }
+//  };
+
+
 const AddTeacher = async (req, res) => {
-   try {
-   let {
-  name,
-  email,
-  password,
-  phone,
-  salary,
-  dob,
-  gender,
-  qualifications,
-  teachSubject,
-  assignedClass,
-  incharge  // ✅ <-- you missed this!
-} = req.body;
+  try {
+    let {
+      name,
+      email,
+      password,
+      phone,
+      salary,
+      dob,
+      gender,
+      qualifications,
+      teachSubject,
+      assignedClass,
+      incharge,
+      CnicNumber
+    } = req.body;
 
-     // 🔒 Input Sanitization
-     email = email.trim().toLowerCase();
-     name = name.trim();
-     teachSubject = teachSubject.trim();
-     // ✅ Class Name to ObjectId
-     const classDoc = await Class.findOne({_id: assignedClass });
-     if (!classDoc) {
-       return res.status(400).json({ message: "Class not found with name: " + assignedClass });
-     }
-     assignedClass = classDoc._id;  // Now it's valid for MongoDB
-     // ✅ Check if teacher already exists by email or class
-    //  const existingTeacher = await Teacher.findOne({ email });
-    //  if (existingTeacher) {
-    //    return res.status(400).json({ message: "Teacher already registered with this email" });
-    //  }
+    // 🔒 Input Sanitization
+    email = email.trim().toLowerCase();
+    name = name.trim();
+    teachSubject = teachSubject.trim();
+
+    // ✅ Validate Required Fields
+    if (!CnicNumber || CnicNumber.length < 11) {
+      return res.status(400).json({ message: "CNIC Number is required and must be at least 11 digits" });
+    }
+
+    // ✅ Handle Image Uploads (Requires multer setup)
+    const profileImage = req.files?.profileImage?.[0];
+    const CnicFrontImage = req.files?.CnicFrontImage?.[0];
+    const CnicBackImage = req.files?.CnicBackImage?.[0];
+
+    // ✅ Class Lookup
+    const classDoc = await Class.findOne({ _id: assignedClass });
+    if (!classDoc) {
+      return res.status(400).json({ message: "Class not found with name: " + assignedClass });
+    }
+    assignedClass = classDoc._id;
+
     const isEmailTaken = require("../middlewares/checkisEmailUnique");
+    if (await isEmailTaken(email)) {
+      return res.status(401).json({ message: 'This email is already used by another user role' });
+    }
 
-if (await isEmailTaken(email)) {
-  return res.status(401).json({ message: 'This email is already used by another user role' });
-}
-
- //const newSubject = await Subject.findOne({name});
- const subjectDoc = await Subject.findById(teachSubject); 
- //const subjectDoc = await Subject.findOne({ name: teachSubject });
+    const subjectDoc = await Subject.findById(teachSubject);
     if (!subjectDoc) {
       return res.status(400).json({ message: "Subject not found: " + teachSubject });
     }
-     const existingTeacherClass = await Teacher.findOne({ assignedClass });
-     /*if (existingTeacherClass) {
-       return res.status(400).json({ message: "Class already assigned to another teacher" });
-     }*/
-     // ✅ Field Validations
-     if (name.length < 3) {
-       return res.status(400).json({ message: "Name must be at least 3 characters" });
-     }
-     if (email.length < 11 || !email.includes("@gmail.com")) {
-       return res.status(400).json({ message: "Email must be valid and at least 11 characters" });
-     }
-     if (password.length < 8) {
-       return res.status(400).json({ message: "Password must be at least 8 characters" });
-     }
-     if (!/^\d{11}$/.test(phone)) {
-       return res.status(400).json({ message: "Phone number must be exactly 11 digits" });
-     }
-     if (teachSubject.length < 4) {
-       return res.status(400).json({ message: "Subject must be at least 4 characters" });
-     }
-     // ✅ Check Admin Exists
-     const admin = await Admin.findById(req.userId);
-     if (!admin) {
-       return res.status(404).json({ message: "Admin not found" });
-     }
-     // 🔐 Hash Password
-     const hashedPassword = await bcrypt.hash(password, 10);
-     // ✅ Create New Teacher
-    //  const newTeacher = await Teacher.create({
-    //    name,
-    //    email,
-    //    password: hashedPassword,
-    //    phone,
-    //    salary,
-    //    dob,
-    //    gender,
-    //    qualifications,
-    //    teachSubject:subjectDoc._id,
-    //    assignedClass
-    //  });
-    const newTeacher = await Teacher.create({
-  name,
-  email,
-  password: hashedPassword,
-  phone,
-  salary,
-  dob,
-  gender,
-  qualifications,
-  teachSubject: subjectDoc._id,
-  assignedClass: [
-    {
-      class: assignedClass,
-      incharge:incharge || false,
+
+    const admin = await Admin.findById(req.userId);
+    if (!admin) {
+      return res.status(404).json({ message: "Admin not found" });
     }
-  ]
-});
 
-     // ✅ Attach teacher to admin
-     newTeacher.populate("assignedClass");
-     newTeacher.populate("teachSubject");
-     //newTeacher.populate("teachSubject");
-     await newTeacher.save();
-     classDoc.teacher.push(newTeacher._id);
-     await classDoc.save();
-     admin.teachers.push(newTeacher._id);
-     await admin.save();
-    //  // ✅ Populate the assigned class
-    //  await newTeacher.populate({
-    //    path: 'assignedClass', // Populate the class details from the assignedClass field
-    //    select: 'name grade'   // You can select only the fields you need, like 'name' and 'grade'
-    //  });
-     return res.status(201).json({
-       message: "Teacher registered successfully",
-       teacher: newTeacher
-     });
-   } catch (err) {
-     console.error("Signup error:", err);
-     return res.status(500).json({ message: "Server error on signup", error: err.message });
-   }
- };
+    const hashedPassword = await bcrypt.hash(password, 10);
 
+    // ✅ Create New Teacher with new fields
+    const newTeacher = await Teacher.create({
+      name,
+      email,
+      password: hashedPassword,
+      phone,
+      salary,
+      dob,
+      gender,
+      qualifications,
+      CnicNumber,
+      profileImage: profileImage
+        ? {
+            data: profileImage.buffer,
+            contentType: profileImage.mimetype
+          }
+        : undefined,
+      CnicFrontImage: CnicFrontImage
+        ? {
+            data: CnicFrontImage.buffer,
+            contentType: CnicFrontImage.mimetype
+          }
+        : undefined,
+      CnicBackImage: CnicBackImage
+        ? {
+            data: CnicBackImage.buffer,
+            contentType: CnicBackImage.mimetype
+          }
+        : undefined,
+      teachSubject: subjectDoc._id,
+      assignedClass: [
+        {
+          class: assignedClass,
+          incharge: incharge || false,
+        }
+      ]
+    });
 
+    await newTeacher.save();
+    classDoc.teacher.push(newTeacher._id);
+    await classDoc.save();
+    admin.teachers.push(newTeacher._id);
+    await admin.save();
+
+    return res.status(201).json({
+      message: "Teacher registered successfully",
+      teacher: newTeacher
+    });
+  } catch (err) {
+    console.error("Signup error:", err);
+    return res.status(500).json({ message: "Server error on signup", error: err.message });
+  }
+};
 
 const SignupAdmin = async (req, res) => {
   const { name, email, password} = req.body;

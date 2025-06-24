@@ -26,7 +26,10 @@ router.post("/Add/Student",isAuth,upload.fields([{ name: 'profileImage', maxCoun
   AddStudent
 );
 router.post("/Add/ExamSchedule",isAuth,ExamTimetable);
-router.post("/Add/Teacher",isAuth,AddTeacher);
+router.post("/Add/Teacher",isAuth,upload.fields([
+  { name: 'profileImage', maxCount: 1 },
+  { name: 'CnicFrontImage', maxCount: 1 },
+  { name: 'CnicBackImage', maxCount: 1 }]),AddTeacher);
 router.post("/Add/Class",isAuth,AddClass);
 module.exports = router;
 

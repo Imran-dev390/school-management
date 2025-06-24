@@ -7,6 +7,7 @@ import { adminDataContext } from '../Context-Api/AdminContext';
 import { Sidebar } from './Sidebar';
 import { FaBars, FaCircle, FaUserCircle } from 'react-icons/fa';
 import AdminLayout from './AdminLayout';
+import imageCompression from 'browser-image-compression';
 //FaBars
 //FaCircle
 //FaUserCircle
@@ -17,20 +18,58 @@ export default function AddTeacher() {
   const subjects = adminData?.admin?.subjects || [];
   const classes = adminData?.admin?.classes || [];
 
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    gender: '',
-    phone: '',
-    dob: '',
-    salary: '',
-    password: '',
-    qualifications: '',
-    assignedClass: '',
-    teachSubject: '',
-    incharge: false, // ✅ NEW
-  });
-  const [isSidebarOpen,setIsSidebarOpen] = useState(false);
+  // const [formData, setFormData] = useState({
+  //   name: '',
+  //   email: '',
+  //   gender: '',
+  //   phone: '',
+  //   dob: '',
+  //   salary: '',
+  //   password: '',
+  //   qualifications: '',
+  //   assignedClass: '',
+  //   teachSubject: '',
+  //   incharge: false, // ✅ NEW
+  // });
+ const [formData, setFormData] = useState({
+  name: '',
+  email: '',
+  gender: '',
+  phone: '',
+  dob: '',
+  salary: '',
+  password: '',
+  qualifications: '',
+  assignedClass: '',
+  teachSubject: '',
+  incharge: false,
+  CnicNumber: '', // ✅ New
+});
+
+const [images, setImages] = useState({
+  profileImage: null,
+  CnicFrontImage: null,
+  CnicBackImage: null,
+});
+const handleFileChange = async (e) => {
+  const { name, files } = e.target;
+  if (!files || files.length === 0) return;
+
+  try {
+    const compressedFile = await imageCompression(files[0], {
+      maxSizeMB: 5, // Max size per image (adjust as needed)
+      maxWidthOrHeight: 1024, // Resize if too large
+      useWebWorker: true,
+    });
+    setImages((prev) => ({
+      ...prev,
+      [name]: compressedFile,
+    }));
+  } catch (error) {
+    console.error("Image compression error:", error);
+    toast.error("Failed to compress image. Please try a smaller file.");
+  }
+};
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -46,25 +85,56 @@ export default function AddTeacher() {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      let result = await axios.post(
-        `${serverUrl}/api/admin/Add/Teacher`,
-        {
-          ...formData,
-        },
-        { withCredentials: true }
-      );
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     let result = await axios.post(
+  //       `${serverUrl}/api/admin/Add/Teacher`,
+  //       {
+  //         ...formData,
+  //       },
+  //       { withCredentials: true }
+  //     );
 
-      toast.success('Teacher Successfully Registered');
-      await fetchAdminData();
-      navigate('/admin/dash');
-    } catch (err) {
-      toast.error(err?.response?.data?.message || 'Error registering teacher');
-      console.error(err);
-    }
-  };
+  //     toast.success('Teacher Successfully Registered');
+  //     await fetchAdminData();
+  //     navigate('/admin/dash');
+  //   } catch (err) {
+  //     toast.error(err?.response?.data?.message || 'Error registering teacher');
+  //     console.error(err);
+  //   }
+  // };
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  const data = new FormData();
+
+  Object.entries(formData).forEach(([key, value]) => {
+    data.append(key, value);
+  });
+
+  Object.entries(images).forEach(([key, file]) => {
+    if (file) data.append(key, file);
+  });
+
+  try {
+    let result = await axios.post(
+      `${serverUrl}/api/admin/Add/Teacher`,
+      data,
+      {
+        withCredentials: true,
+        headers: { 'Content-Type': 'multipart/form-data' },
+      }
+    );
+
+    toast.success('Teacher Successfully Registered');
+    await fetchAdminData();
+    navigate('/admin/dash');
+  } catch (err) {
+    toast.error(err?.response?.data?.message || 'Error registering teacher');
+    console.error(err);
+  }
+};
 
   if (isLoading) return <div>Loading admin data...</div>;
 
@@ -251,6 +321,60 @@ export default function AddTeacher() {
     ))}
   </select>
   <label className="absolute left-3 -top-2 text-sm text-blue-500 bg-white px-1">Class</label>
+</div>
+{/* CNIC Number Input */}
+<div className="relative w-full">
+  <input
+    type="text"
+    name="CnicNumber"
+    value={formData.CnicNumber}
+    onChange={handleChange}
+    required
+    minLength={11}
+    className="peer w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-blue-500"
+    placeholder=" "
+  />
+  <label
+    htmlFor="CnicNumber"
+    className="absolute left-3 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-blue-500"
+  >
+    CNIC Number
+  </label>
+</div>
+
+{/* Profile Image Upload */}
+<div className="relative w-full">
+  <label className="block mb-1 text-sm font-medium text-gray-700">Profile Image</label>
+  <input
+    type="file"
+    name="profileImage"
+    accept="image/*"
+    onChange={handleFileChange}
+    className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:border file:border-gray-300 file:rounded-lg file:text-sm file:bg-white file:text-gray-700 hover:file:bg-gray-100"
+  />
+</div>
+{/* CNIC Front Image Upload */}
+<div className="relative w-full">
+  <label className="block mb-1 text-sm font-medium text-gray-700">CNIC Front Image</label>
+  <input
+    type="file"
+    name="CnicFrontImage"
+    accept="image/*"
+    onChange={handleFileChange}
+    className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:border file:border-gray-300 file:rounded-lg file:text-sm file:bg-white file:text-gray-700 hover:file:bg-gray-100"
+  />
+</div>
+
+{/* CNIC Back Image Upload */}
+<div className="relative w-full">
+  <label className="block mb-1 text-sm font-medium text-gray-700">CNIC Back Image</label>
+  <input
+    type="file"
+    name="CnicBackImage"
+    accept="image/*"
+    onChange={handleFileChange}
+    className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:border file:border-gray-300 file:rounded-lg file:text-sm file:bg-white file:text-gray-700 hover:file:bg-gray-100"
+  />
 </div>
 
 {/* Teach Subject Dropdown */}

@@ -39,6 +39,23 @@ const TeacherSchema = new mongoose.Schema({
     type:String,
     required:true,
   },
+   profileImage:{ 
+    data:Buffer,
+    contentType: String,
+   },
+    CnicFrontImage:{ 
+    data:Buffer,
+    contentType: String,
+   },
+   CnicBackImage:{ 
+    data:Buffer,
+    contentType: String,
+   },
+    CnicNumber:{
+    type:String,
+    required:true,
+    minLength:11,
+   },
   salary: {
     type: Number,
     required:true,
