@@ -312,6 +312,49 @@ import AdminLayout from './AdminLayout';
 //import { FaUserCircle } from 'react-icons/fa';
 import axios from 'axios';
 import imageCompression from 'browser-image-compression';
+
+
+
+
+const InputField = ({ label, name, type }) => (
+  <div className="relative">
+    <input
+      type={type}
+      name={name}
+      value={formData[name]}
+      onChange={handleChange}
+      required
+      className="peer w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
+      placeholder=" "
+    />
+    <label
+      htmlFor={name}
+      className="absolute left-3 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-green-600"
+    >
+      {label}
+    </label>
+  </div>
+);
+
+const SelectField = ({ label, name, value, onChange, options }) => (
+  <div className="relative">
+    <select
+      name={name}
+      value={value}
+      onChange={onChange}
+      required
+      className="w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
+    >
+      <option value="" disabled>Select {label}</option>
+      {options.map(opt =>
+        typeof opt === 'string'
+          ? <option key={opt} value={opt}>{opt}</option>
+          : <option key={opt.value} value={opt.value}>{opt.label}</option>
+      )}
+    </select>
+    <label className="absolute left-3 -top-2 text-sm text-green-600 bg-white px-1">{label}</label>
+  </div>
+);
 export default function AddStudent() {
   const navigate = useNavigate();
   const { fetchAdminData } = useContext(adminDataContext);
