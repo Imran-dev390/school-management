@@ -372,11 +372,10 @@ const AddStudent = async (req, res) => {
     await admin.save();
 
     await updateClassGenderCount(classId);
-
     return res.status(201).json(user);
   } catch (err) {
     console.error("Signup error:", err.message);
-    return res.status(500).json({ message: "Server error on signup" });
+    return res.status(500).json({message:err.message});
   }
 };
 
