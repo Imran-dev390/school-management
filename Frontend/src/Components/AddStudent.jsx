@@ -309,7 +309,9 @@ import { useNavigate } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { FaBars, FaUserCircle } from 'react-icons/fa';
 import AdminLayout from './AdminLayout';
+import { FaUserCircle } from 'react-icons/fa';
 import axios from 'axios';
+import imageCompression from 'browser-image-compression';
 export default function AddStudent() {
   const navigate = useNavigate();
   const { fetchAdminData } = useContext(adminDataContext);
@@ -358,14 +360,32 @@ const [images, setImages] = useState({
   bformImage: null,
 });
 
-const handleFileChange = (e) => {
+// const handleFileChange = (e) => {
+//   const { name, files } = e.target;
+//   setImages(prev => ({
+//     ...prev,
+//     [name]: files[0],
+//   }));
+// };
+const handleFileChange = async (e) => {
   const { name, files } = e.target;
-  setImages(prev => ({
-    ...prev,
-    [name]: files[0],
-  }));
-};
+  if (!files || files.length === 0) return;
 
+  try {
+    const compressedFile = await imageCompression(files[0], {
+      maxSizeMB: 1, // Max size per image (adjust as needed)
+      maxWidthOrHeight: 1024, // Resize if too large
+      useWebWorker: true,
+    });
+    setImages((prev) => ({
+      ...prev,
+      [name]: compressedFile,
+    }));
+  } catch (error) {
+    console.error("Image compression error:", error);
+    toast.error("Failed to compress image. Please try a smaller file.");
+  }
+};
   const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e) => {
@@ -640,7 +660,7 @@ for (const key in formData) {
                ))}
             
 {/* File Uploads */}
-{[
+{/*{[
   { name: 'profileImage', label: 'Profile Image' },
   { name: 'CnicFrontImage', label: 'CNIC Front Image' },
   { name: 'CnicBackImage', label: 'CNIC Back Image' },
@@ -657,8 +677,60 @@ for (const key in formData) {
       className="w-full p-2 border border-gray-300 rounded-md"
     />
   </div>
+))}*/}
+
+
+{[
+  { name: 'profileImage', label: 'Profile Image' },
+  { name: 'CnicFrontImage', label: 'CNIC Front Image' },
+  { name: 'CnicBackImage', label: 'CNIC Back Image' },
+  { name: 'bformImage', label: 'B-Form Image' },
+].map(({ name, label }) => (
+  name === 'profileImage' ? (
+    <div key={name} className="flex flex-col items-center col-span-2">
+      <label htmlFor="profileImage" className="cursor-pointer relative group">
+        {images.profileImage ? (
+          <img
+            src={URL.createObjectURL(images.profileImage)}
+            alt="Profile Preview"
+            className="w-24 h-24 rounded-full object-cover border-2 border-green-500"
+          />
+        ) : (
+          <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300 hover:border-green-500">
+            <FaUserCircle className="text-4xl text-gray-500 group-hover:text-green-600" />
+          </div>
+        )}
+        <input
+          type="file"
+          name="profileImage"
+          id="profileImage"
+          accept="image/*"
+          onChange={handleFileChange}
+          required
+          className="hidden"
+        />
+      </label>
+      <p className="text-xs mt-2 text-gray-500">{label}</p>
+    </div>
+  ) : (
+    <div key={name} className="relative">
+      <label className="block text-sm text-gray-700 mb-1">{label}</label>
+      <input
+        type="file"
+        name={name}
+        accept="image/*"
+        onChange={handleFileChange}
+        required
+        className="w-full p-2 border border-gray-300 rounded-md"
+      />
+    </div>
+  )
 ))}
-              {/* Gender Selector */}
+
+
+
+     
+{/* Gender Selector */}
               <div className="relative">
                 <select
                   name="gender"
