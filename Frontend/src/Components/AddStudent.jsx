@@ -373,7 +373,7 @@ const handleFileChange = async (e) => {
 
   try {
     const compressedFile = await imageCompression(files[0], {
-      maxSizeMB: 1, // Max size per image (adjust as needed)
+      maxSizeMB: 8, // Max size per image (adjust as needed)
       maxWidthOrHeight: 1024, // Resize if too large
       useWebWorker: true,
     });
@@ -623,163 +623,254 @@ for (const key in formData) {
             ✅ Student registered successfully!
           </div>
         ) : (
-          <form onSubmit={handleSubmit} encType="multipart/form-data">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {[
-                { name: "name", label: "Full Name", type: "text" },
-                { name: "email", label: "Email", type: "email" },
-                { name: "phone", label: "Contact No", type: "tel" },
-                { name: "dob", label: "Date of Birth", type: "date" },
-                { name: "password", label: "Password", type: "password" },
-                { name: "parent", label: "Parent/Gardenian name", type: "text" },
-                { name: "adress", label: "Address", type: "text" },
-                { name: 'prevschoolName', label: 'Previous School Name',type:'text' },
-                 { name: 'prevClass', label: 'Previous Class',type:'text' },
-                { name: 'prevSchoolAddress', label: 'Previous School Address',type:'text'},
-                { name: 'bformNumber', label: 'B-Form Number',type: 'text'},
-                { name: 'CnicNumber', label: 'Parent CNIC Number',type: 'text'},
-               ].map(({ name, label, type }) => (
-                 <div key={name} className="relative">
-                   <input
-                     type={type}
-                     name={name}
-                     value={formData[name]}
-                     onChange={handleChange}
-                     required
-                     className="peer w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
-                     placeholder=" "
-                   />
-                   <label
-                     htmlFor={name}
-                     className="absolute left-3 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-green-600"
-                   >
-                     {label}
-                   </label>
-                 </div>
-               ))}
+//           <form onSubmit={handleSubmit} encType="multipart/form-data">
+//             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+//               {[
+//                 { name: "name", label: "Full Name", type: "text" },
+//                 { name: "email", label: "Email", type: "email" },
+//                 { name: "phone", label: "Contact No", type: "tel" },
+//                 { name: "dob", label: "Date of Birth", type: "date" },
+//                 { name: "password", label: "Password", type: "password" },
+//                 { name: "parent", label: "Parent/Gardenian name", type: "text" },
+//                 { name: "adress", label: "Address", type: "text" },
+//                 { name: 'prevschoolName', label: 'Previous School Name',type:'text' },
+//                  { name: 'prevClass', label: 'Previous Class',type:'text' },
+//                 { name: 'prevSchoolAddress', label: 'Previous School Address',type:'text'},
+//                 { name: 'bformNumber', label: 'B-Form Number',type: 'text'},
+//                 { name: 'CnicNumber', label: 'Parent CNIC Number',type: 'text'},
+//                ].map(({ name, label, type }) => (
+//                  <div key={name} className="relative">
+//                    <input
+//                      type={type}
+//                      name={name}
+//                      value={formData[name]}
+//                      onChange={handleChange}
+//                      required
+//                      className="peer w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
+//                      placeholder=" "
+//                    />
+//                    <label
+//                      htmlFor={name}
+//                      className="absolute left-3 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-green-600"
+//                    >
+//                      {label}
+//                    </label>
+//                  </div>
+//                ))}
             
-{/* File Uploads */}
-{/*{[
-  { name: 'profileImage', label: 'Profile Image' },
-  { name: 'CnicFrontImage', label: 'CNIC Front Image' },
-  { name: 'CnicBackImage', label: 'CNIC Back Image' },
-  { name: 'bformImage', label: 'B-Form Image' },
-].map(({ name, label }) => (
-  <div key={name} className="relative">
-    <label className="block text-sm text-gray-700 mb-1">{label}</label>
-    <input
-      type="file"
-      name={name}
-      accept="image/*"
-      onChange={handleFileChange}
-      required
-      className="w-full p-2 border border-gray-300 rounded-md"
-    />
-  </div>
-))}*/}
+// {/* File Uploads */}
+// {/*{[
+//   { name: 'profileImage', label: 'Profile Image' },
+//   { name: 'CnicFrontImage', label: 'CNIC Front Image' },
+//   { name: 'CnicBackImage', label: 'CNIC Back Image' },
+//   { name: 'bformImage', label: 'B-Form Image' },
+// ].map(({ name, label }) => (
+//   <div key={name} className="relative">
+//     <label className="block text-sm text-gray-700 mb-1">{label}</label>
+//     <input
+//       type="file"
+//       name={name}
+//       accept="image/*"
+//       onChange={handleFileChange}
+//       required
+//       className="w-full p-2 border border-gray-300 rounded-md"
+//     />
+//   </div>
+// ))}*/}
 
 
-{[
-  { name: 'profileImage', label: 'Profile Image' },
-  { name: 'CnicFrontImage', label: 'CNIC Front Image' },
-  { name: 'CnicBackImage', label: 'CNIC Back Image' },
-  { name: 'bformImage', label: 'B-Form Image' },
-].map(({ name, label }) => (
-  name === 'profileImage' ? (
-    <div key={name} className="flex flex-col items-center col-span-2">
-      <label htmlFor="profileImage" className="cursor-pointer relative group">
-        {images.profileImage ? (
-          <img
-            src={URL.createObjectURL(images.profileImage)}
-            alt="Profile Preview"
-            className="w-24 h-24 rounded-full object-cover border-2 border-green-500"
-          />
-        ) : (
-          <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300 hover:border-green-500">
-            <FaUserCircle className="text-4xl text-gray-500 group-hover:text-green-600" />
-          </div>
-        )}
-        <input
-          type="file"
-          name="profileImage"
-          id="profileImage"
-          accept="image/*"
-          onChange={handleFileChange}
-          required
-          className="hidden"
-        />
-      </label>
-      <p className="text-xs mt-2 text-gray-500">{label}</p>
-    </div>
-  ) : (
-    <div key={name} className="relative">
-      <label className="block text-sm text-gray-700 mb-1">{label}</label>
-      <input
-        type="file"
-        name={name}
-        accept="image/*"
-        onChange={handleFileChange}
-        required
-        className="w-full p-2 border border-gray-300 rounded-md"
-      />
-    </div>
-  )
-))}
+// {[
+//   { name: 'profileImage', label: 'Profile Image' },
+//   { name: 'CnicFrontImage', label: 'CNIC Front Image' },
+//   { name: 'CnicBackImage', label: 'CNIC Back Image' },
+//   { name: 'bformImage', label: 'B-Form Image' },
+// ].map(({ name, label }) => (
+//   name === 'profileImage' ? (
+//     <div key={name} className="flex flex-col items-center col-span-2">
+//       <label htmlFor="profileImage" className="cursor-pointer relative group">
+//         {images.profileImage ? (
+//           <img
+//             src={URL.createObjectURL(images.profileImage)}
+//             alt="Profile Preview"
+//             className="w-24 h-24 rounded-full object-cover border-2 border-green-500"
+//           />
+//         ) : (
+//           <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300 hover:border-green-500">
+//             <FaUserCircle className="text-4xl text-gray-500 group-hover:text-green-600" />
+//           </div>
+//         )}
+//         <input
+//           type="file"
+//           name="profileImage"
+//           id="profileImage"
+//           accept="image/*"
+//           onChange={handleFileChange}
+//           required
+//           className="hidden"
+//         />
+//       </label>
+//       <p className="text-xs mt-2 text-gray-500">{label}</p>
+//     </div>
+//   ) : (
+//     <div key={name} className="relative">
+//       <label className="block text-sm text-gray-700 mb-1">{label}</label>
+//       <input
+//         type="file"
+//         name={name}
+//         accept="image/*"
+//         onChange={handleFileChange}
+//         required
+//         className="w-full p-2 border border-gray-300 rounded-md"
+//       />
+//     </div>
+//   )
+// ))}
 
 
 
      
-{/* Gender Selector */}
-              <div className="relative">
-                <select
-                  name="gender"
-                  value={formData.gender}
-                  onChange={handleChange}
-                  required
-                  className="w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
-                >
-                  <option value="" disabled>
-                    Select Gender
-                  </option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                </select>
-                <label className="absolute left-3 -top-2 text-sm text-green-600 bg-white px-1">
-                  Gender
-                </label>
-              </div>
+// {/* Gender Selector */}
+//               <div className="relative">
+//                 <select
+//                   name="gender"
+//                   value={formData.gender}
+//                   onChange={handleChange}
+//                   required
+//                   className="w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
+//                 >
+//                   <option value="" disabled>
+//                     Select Gender
+//                   </option>
+//                   <option value="Male">Male</option>
+//                   <option value="Female">Female</option>
+//                 </select>
+//                 <label className="absolute left-3 -top-2 text-sm text-green-600 bg-white px-1">
+//                   Gender
+//                 </label>
+//               </div>
 
-              {/* Class Selector */}
-              <div className="relative">
-                <select
-                  name="Class"
-                  value={formData.Class}
-                  onChange={handleChange}
-                  required
-                  className="w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
-                >
-                  <option value="" disabled>
-                    Select Class
-                  </option>
-                  {classes.map((classItem) => (
-                    <option key={classItem._id} value={classItem._id}>
-                      {classItem.name} - {classItem.section}
-                    </option>
-                  ))}
-                </select>
-                <label className="absolute left-3 -top-2 text-sm text-green-600 bg-white px-1">
-                  Class
-                </label>
-              </div>
+//               {/* Class Selector */}
+//               <div className="relative">
+//                 <select
+//                   name="Class"
+//                   value={formData.Class}
+//                   onChange={handleChange}
+//                   required
+//                   className="w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
+//                 >
+//                   <option value="" disabled>
+//                     Select Class
+//                   </option>
+//                   {classes.map((classItem) => (
+//                     <option key={classItem._id} value={classItem._id}>
+//                       {classItem.name} - {classItem.section}
+//                     </option>
+//                   ))}
+//                 </select>
+//                 <label className="absolute left-3 -top-2 text-sm text-green-600 bg-white px-1">
+//                   Class
+//                 </label>
+//               </div>
+//             </div>
+
+//             <button
+//               type="submit"
+//               className="w-full mt-8 py-3 bg-green-600 text-white rounded-xl shadow-lg hover:bg-green-700 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
+//             >
+//               ➕ Add Student
+//             </button>
+//           </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<form onSubmit={handleSubmit} encType="multipart/form-data">
+  {/* Student Details Section */}
+  <div className="mb-6">
+    <h3 className="text-xl font-semibold text-green-700 border-b mb-4 pb-1">👤 Student Details</h3>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <InputField label="Full Name" name="name" type="text" />
+      <InputField label="Email" name="email" type="email" />
+      <InputField label="Date of Birth" name="dob" type="date" />
+      <InputField label="Password" name="password" type="password" />
+      <InputField label="B-Form Number" name="bformNumber" type="text" />
+      <div className="sm:col-span-2">
+        <label className="block text-sm text-gray-700 mb-1">B-Form Image</label>
+        <input type="file" name="bformImage" accept="image/*" onChange={handleFileChange} required className="w-full p-2 border border-gray-300 rounded-md" />
+      </div>
+      <SelectField label="Gender" name="gender" value={formData.gender} onChange={handleChange} options={["Male", "Female"]} />
+      <SelectField label="Class" name="Class" value={formData.Class} onChange={handleChange} options={classes.map(c => ({ value: c._id, label: `${c.name} - ${c.section}` }))} />
+      {/* Profile Picture */}
+      <div className="sm:col-span-2 flex flex-col items-center mt-2">
+        <label htmlFor="profileImage" className="cursor-pointer relative group">
+          {images.profileImage ? (
+            <img src={URL.createObjectURL(images.profileImage)} alt="Profile" className="w-24 h-24 rounded-full object-cover border-2 border-green-500" />
+          ) : (
+            <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300 hover:border-green-500">
+              <FaUserCircle className="text-4xl text-gray-500 group-hover:text-green-600" />
             </div>
+          )}
+          <input type="file" id="profileImage" name="profileImage" accept="image/*" onChange={handleFileChange} required className="hidden" />
+        </label>
+        <p className="text-xs text-gray-500 mt-2">Profile Image</p>
+      </div>
+    </div>
+  </div>
 
-            <button
-              type="submit"
-              className="w-full mt-8 py-3 bg-green-600 text-white rounded-xl shadow-lg hover:bg-green-700 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
-            >
-              ➕ Add Student
-            </button>
-          </form>
+  {/* Parent Details Section */}
+  <div className="mb-6">
+    <h3 className="text-xl font-semibold text-green-700 border-b mb-4 pb-1">👪 Parent Details</h3>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <InputField label="Parent/Guardian Name" name="parent" type="text" />
+      <InputField label="CNIC Number" name="CnicNumber" type="text" />
+      <div>
+        <label className="block text-sm text-gray-700 mb-1">CNIC Front Image</label>
+        <input type="file" name="CnicFrontImage" accept="image/*" onChange={handleFileChange} required className="w-full p-2 border border-gray-300 rounded-md" />
+      </div>
+      <div>
+        <label className="block text-sm text-gray-700 mb-1">CNIC Back Image</label>
+        <input type="file" name="CnicBackImage" accept="image/*" onChange={handleFileChange} required className="w-full p-2 border border-gray-300 rounded-md" />
+      </div>
+      <InputField label="Contact No" name="phone" type="tel" />
+      <InputField label="Address" name="adress" type="text" />
+    </div>
+  </div>
+
+  {/* Previous School Section */}
+  <div className="mb-6">
+    <h3 className="text-xl font-semibold text-green-700 border-b mb-4 pb-1">🏫 Previous School</h3>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <InputField label="School Name" name="prevschoolName" type="text" />
+      <InputField label="Class" name="prevClass" type="text" />
+      <InputField label="School Address" name="prevSchoolAddress" type="text" />
+    </div>
+  </div>
+
+  {/* Submit Button */}
+  <button type="submit" className="w-full mt-4 py-3 bg-green-600 text-white rounded-xl shadow-lg hover:bg-green-700 transition-transform hover:scale-105">
+    ➕ Add Student
+  </button>
+</form>
+
         )}
 
         <ToastContainer

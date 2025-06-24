@@ -786,7 +786,6 @@ const SignOut = async function (req, res, next) {
         return next(err);
     }
 };
-
 module.exports = {
     AddTimeTable,
     AddStaff,
@@ -799,3 +798,4 @@ module.exports = {
     AddClass,
     SignOut,
 };
+s
