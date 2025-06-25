@@ -852,11 +852,11 @@ for (const key in formData) {
   <div className="mb-6">
     <h3 className="text-xl font-semibold text-green-700 border-b mb-4 pb-1">👤 Student Details</h3>
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <InputField label="Full Name" name="name" type="text" />
-      <InputField label="Email" name="email" type="email" />
-      <InputField label="Date of Birth" name="dob" type="date" />
-      <InputField label="Password" name="password" type="password" />
-      <InputField label="B-Form Number" name="bformNumber" type="text" />
+      <InputField label="Full Name" name="name" type="text" value={formData.name} onChange={handleChange}/>
+      <InputField label="Email" name="email" type="email"value={formData.email}onChange={handleChange} />
+      <InputField label="Date of Birth" name="dob" type="date" value={formData.dob}/>
+      <InputField label="Password" name="password" type="password" value={formData.password} onChange={handleChange}/>
+      <InputField label="B-Form Number" name="bformNumber"  type="text" value={formData.bformNumber} onChange={handleChange}/>
       <div className="sm:col-span-2">
         <label className="block text-sm text-gray-700 mb-1">B-Form Image</label>
         <input type="file" name="bformImage" accept="image/*" onChange={handleFileChange} required className="w-full p-2 border border-gray-300 rounded-md" />
@@ -884,8 +884,8 @@ for (const key in formData) {
   <div className="mb-6">
     <h3 className="text-xl font-semibold text-green-700 border-b mb-4 pb-1">👪 Parent Details</h3>
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <InputField label="Parent/Guardian Name" name="parent" type="text" />
-      <InputField label="CNIC Number" name="CnicNumber" type="text" />
+      <InputField label="Parent/Guardian Name" name="parent" type="text" value={formData.parent} onChange={handleChange}/>
+      <InputField label="CNIC Number" name="CnicNumber" type="text"value={formData.CnicNumber} onChange={handleChange}/>
       <div>
         <label className="block text-sm text-gray-700 mb-1">CNIC Front Image</label>
         <input type="file" name="CnicFrontImage" accept="image/*" onChange={handleFileChange} required className="w-full p-2 border border-gray-300 rounded-md" />
@@ -894,8 +894,8 @@ for (const key in formData) {
         <label className="block text-sm text-gray-700 mb-1">CNIC Back Image</label>
         <input type="file" name="CnicBackImage" accept="image/*" onChange={handleFileChange} required className="w-full p-2 border border-gray-300 rounded-md" />
       </div>
-      <InputField label="Contact No" name="phone" type="tel" />
-      <InputField label="Address" name="adress" type="text" />
+      <InputField label="Contact No" name="phone" type="tel" value={formData.phone} onChange={handleChange}/>
+      <InputField label="Address" name="adress" type="text" value={formData.adress} onChange={handleChange}/>
     </div>
   </div>
 
@@ -903,9 +903,9 @@ for (const key in formData) {
   <div className="mb-6">
     <h3 className="text-xl font-semibold text-green-700 border-b mb-4 pb-1">🏫 Previous School</h3>
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <InputField label="School Name" name="prevschoolName" type="text" />
-      <InputField label="Class" name="prevClass" type="text" />
-      <InputField label="School Address" name="prevSchoolAddress" type="text" />
+      <InputField label="School Name" name="prevschoolName" type="text" value={formData.prevschoolName} onChange={handleChange}/>
+      <InputField label="Class" name="prevClass" type="text" value={formData.prevClass} onChange={handleChange}/>
+      <InputField label="School Address" name="prevSchoolAddress" type="text" value={formData.prevSchoolAddress} onChange={handleChange}/>
     </div>
   </div>
 

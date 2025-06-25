@@ -503,7 +503,7 @@ const handleFileChange = async (e) => {
      <div className="bg-white rounded-2xl max-w-3xl shadow-2xl mt-32 sm:mt-8 mx-auto p-8 w-full sm:max-w-5xl transform transition-all duration-500 hover:scale-[1.02]">
   <h2 className="text-3xl font-bold text-center text-blue-800 mb-6">Add New Teacher 👩‍🏫</h2>
 
-  <form className="space-y-5" onSubmit={handleSubmit}>
+  <form className="space-y-5" onSubmit={handleSubmit} encType="multipart/form-data">
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
 
       {/* Name */}
@@ -680,7 +680,7 @@ const handleFileChange = async (e) => {
           <option value="" disabled>Select Assigned Class</option>
           {classes.map((item) => (
             <option key={item._id} value={item._id}>
-              {item.name} {item.section}
+              {item.name} - {item.section}
             </option>
           ))}
         </select>
