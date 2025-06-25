@@ -854,7 +854,7 @@ for (const key in formData) {
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <InputField label="Full Name" name="name" type="text" value={formData.name} onChange={handleChange}/>
       <InputField label="Email" name="email" type="email"value={formData.email}onChange={handleChange} />
-      <InputField label="Date of Birth" name="dob" type="date" value={formData.dob}/>
+      <InputField label="Date of Birth" name="dob" type="date" value={formData.dob} onChange={handleChange}/>
       <InputField label="Password" name="password" type="password" value={formData.password} onChange={handleChange}/>
       <InputField label="B-Form Number" name="bformNumber"  type="text" value={formData.bformNumber} onChange={handleChange}/>
       <div className="sm:col-span-2">
