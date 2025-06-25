@@ -362,7 +362,7 @@ export default function AddStudent() {
   const { adminData } = useContext(adminDataContext);
 //  const { classes = [] } = adminData?.admin || {};
   const { serverUrl } = useContext(authDataContext);
-const { classes = [], sessions = [] } = adminData?.admin || {};
+
 
 
 // FaUserCircle
@@ -377,9 +377,11 @@ const { classes = [], sessions = [] } = adminData?.admin || {};
   //   Adress: '',
   //   Class: '',
   // });
+useEffect(()=>{
+ fetchAdminData();
+},[adminData,fetchAdminData])
 
-
-
+const { classes = [], sessions = [] } = adminData?.admin || {};
 
 const [formData, setFormData] = useState({
   name: '',
@@ -882,7 +884,7 @@ for (const key in formData) {
   onChange={handleChange}
   options={sessions.map(s => ({
     value: s._id,
-    label: `${s.name} (${s.startYear}-${s.endYear})`,
+    label: `${s.name} (${s.startDate}-${s.endDate})`,
   }))}
 />
 
