@@ -98,7 +98,7 @@ const handleSubmit = async (e) => {
 
   return (
     <AdminLayout adminName='Bright Future'>
-      <div className="w-full mt-4 max-w-xl bg-white text-[rgb(1,1,93)]   rounded-xl shadow-lg p-8">
+      <div className="w-full block mt-4 sm:mx-auto max-w-xl bg-white text-[rgb(1,1,93)]   rounded-xl shadow-lg p-8">
         <h2 className="text-3xl font-bold mb-6 text-center">Add Staff</h2>
         <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-0">
           <div>
