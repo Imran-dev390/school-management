@@ -212,7 +212,7 @@ const handleSubmit = async (e) => {
 {/* Profile Image*/}
           <button
             type="submit"
-            className="w-full block mt-6 bg-[rgb(193,151,5)] text-white py-3 rounded font-semibold  transition"
+            className="w-full block mt-[16px] bg-[rgb(193,151,5)] text-white py-3 rounded font-semibold  transition"
           >
             Add Staff
           </button>
