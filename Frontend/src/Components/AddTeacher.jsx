@@ -501,7 +501,7 @@ const [submitted,setSubmitted] = useState(false);
 
 
      <div className="bg-white rounded-2xl max-w-3xl shadow-2xl mt-32 sm:mt-8 mx-auto p-8 w-full sm:max-w-5xl transform transition-all duration-500 hover:scale-[1.02]">
-  <h2 className="text-3xl font-bold text-center text-blue-800 mb-6">Add New Teacher 👩‍🏫</h2>
+  <h2 className="text-3xl font-bold text-center text-[rgb(1,1,93)] mb-6">Add New Teacher 👩‍🏫</h2>
  {submitted ? (
           <div className="text-green-600 text-center text-lg font-medium">
             ✅ Student registered successfully!
@@ -521,7 +521,7 @@ const [submitted,setSubmitted] = useState(false);
           className="peer w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-blue-500"
           placeholder=" "
         />
-        <label className="absolute left-3 top-3 text-gray-500 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-blue-500">
+        <label className="absolute left-3 top-3  text-[rgb(1,1,93)] text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-blue-500">
           Full Name
         </label>
       </div>
@@ -538,7 +538,7 @@ const [submitted,setSubmitted] = useState(false);
           className="peer w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-blue-500"
           placeholder=" "
         />
-        <label className="absolute left-3 top-3 text-gray-500 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-blue-500">
+        <label className="absolute left-3 top-3  text-[rgb(1,1,93)] text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-blue-500">
           Email
         </label>
       </div>
@@ -566,7 +566,7 @@ const [submitted,setSubmitted] = useState(false);
           value={formData.gender}
           onChange={handleChange}
           required
-          className="w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-blue-500"
+          className="w-full p-3 bg-transparent  text-[rgb(1,1,93)] border-b-2 border-gray-300 focus:outline-none focus:border-blue-500"
         >
           <option value="" disabled>Select Gender</option>
           <option value="male">Male</option>
@@ -586,7 +586,7 @@ const [submitted,setSubmitted] = useState(false);
           className="peer w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-blue-500"
           placeholder=" "
         />
-        <label className="absolute left-3 top-3 text-gray-500 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-blue-500">
+        <label className="absolute left-3 top-3  text-[rgb(1,1,93)] text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-blue-500">
           Phone Number
         </label>
       </div>
@@ -600,7 +600,7 @@ const [submitted,setSubmitted] = useState(false);
           className="peer w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-blue-500"
           placeholder=" "
         />
-        <label className="absolute left-3 top-3 text-gray-500 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-blue-500">
+        <label className="absolute left-3 top-3  text-[rgb(1,1,93)] text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-blue-500">
           Qualifications
         </label>
       </div>
@@ -615,7 +615,7 @@ const [submitted,setSubmitted] = useState(false);
             />
           ) : (
             <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300 hover:border-blue-500">
-              <FaUserCircle className="text-4xl text-gray-500 group-hover:text-blue-600" />
+              <FaUserCircle className="text-4xl text-text-[rgb(1,1,93)] group-hover:text-[rgb(193,151,5)]" />
             </div>
           )}
           <input
@@ -627,7 +627,7 @@ const [submitted,setSubmitted] = useState(false);
             className="hidden"
           />
         </label>
-        <p className="text-xs text-gray-500 mt-2">Click to upload profile</p>
+        <p className="text-xs text-[rgb(1,1,93)] mt-2">Click to upload profile</p>
       </div>
       {/* CNIC Number */}
       <div className="relative w-full">
@@ -681,7 +681,7 @@ const [submitted,setSubmitted] = useState(false);
           className="peer w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-blue-500"
           placeholder=" "
         />
-        <label className="absolute left-3 top-3 text-gray-500 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-blue-500">
+        <label className="absolute left-3 top-3   text-[rgb(1,1,93)] text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-blue-500">
           Salary
         </label>
       </div>
@@ -693,7 +693,7 @@ const [submitted,setSubmitted] = useState(false);
           value={formData.assignedClass}
           onChange={handleChange}
           required
-          className="w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-blue-500"
+          className="w-full p-3 bg-transparent  text-[rgb(1,1,93)] border-b-2 border-gray-300 focus:outline-none focus:border-blue-500"
         >
           <option value="" disabled>Select Assigned Class</option>
           {classes.map((item) => (
@@ -702,7 +702,7 @@ const [submitted,setSubmitted] = useState(false);
             </option>
           ))}
         </select>
-        <label className="absolute left-3 -top-2 text-sm text-blue-500 bg-white px-1">Class</label>
+        <label className="absolute left-3 -top-2 text-sm  text-[rgb(1,1,93)] bg-white px-1">Class</label>
       </div>
 
       {/* Subject */}
@@ -712,7 +712,7 @@ const [submitted,setSubmitted] = useState(false);
           value={formData.teachSubject}
           onChange={handleChange}
           required
-          className="w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-blue-500"
+          className="w-full p-3 bg-transparent  text-[rgb(1,1,93)]  border-b-2 border-gray-300 focus:outline-none focus:border-blue-500"
         >
           <option value="" disabled>Select Subject</option>
           {subjects.map((item) => (
@@ -721,7 +721,7 @@ const [submitted,setSubmitted] = useState(false);
             </option>
           ))}
         </select>
-        <label className="absolute left-3 -top-2 text-sm text-blue-500 bg-white px-1">Subject</label>
+        <label className="absolute left-3 -top-2 text-sm  text-[rgb(1,1,93)] bg-white px-1">Subject</label>
       </div>
     </div>
 
@@ -735,7 +735,7 @@ const [submitted,setSubmitted] = useState(false);
         onChange={handleChange}
         className="w-5 h-5"
       />
-      <label htmlFor="incharge" className="text-gray-700 font-medium">
+      <label htmlFor="incharge" className=" text-[rgb(1,1,93)] font-medium">
         Is In-Charge of the Class?
       </label>
     </div>
@@ -743,7 +743,7 @@ const [submitted,setSubmitted] = useState(false);
     {/* Submit */}
     <button
       type="submit"
-      className="w-full py-3 mt-4 bg-blue-600 text-white rounded-xl shadow-lg hover:bg-blue-700 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
+      className="w-full py-3 mt-4 bg-[rgb(193,151,5)] text-white rounded-xl shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
     >
       ➕ Add Teacher
     </button>
