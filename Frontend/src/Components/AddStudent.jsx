@@ -850,17 +850,17 @@ for (const key in formData) {
 <form onSubmit={handleSubmit} encType="multipart/form-data">
   {/* Student Details Section */}
   <div className="mb-6">
-    <h3 className="text-xl font-semibold text-green-700 border-b mb-4 pb-1">👤 Student Details</h3>
+    <h3 className="text-xl font-semibold text-[rgb(1,1,93)] border-b mb-4 pb-1">👤 Student Details</h3>
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="sm:col-span-2">
+        <label className="block text-sm text-[rgb(1,1,93)] mb-1">B-Form Image</label>
+        <input type="file" name="bformImage" accept="image/*" onChange={handleFileChange} required className="w-full p-2 border border-gray-300 rounded-md" />
+      </div>
       <InputField label="Full Name" name="name" type="text" value={formData.name} onChange={handleChange}/>
       <InputField label="Email" name="email" type="email"value={formData.email}onChange={handleChange} />
       <InputField label="Date of Birth" name="dob" type="date" value={formData.dob} onChange={handleChange}/>
       <InputField label="Password" name="password" type="password" value={formData.password} onChange={handleChange}/>
       <InputField label="B-Form Number" name="bformNumber"  type="text" value={formData.bformNumber} onChange={handleChange}/>
-      <div className="sm:col-span-2">
-        <label className="block text-sm text-gray-700 mb-1">B-Form Image</label>
-        <input type="file" name="bformImage" accept="image/*" onChange={handleFileChange} required className="w-full p-2 border border-gray-300 rounded-md" />
-      </div>
       <SelectField label="Gender" name="gender" value={formData.gender} onChange={handleChange} options={["Male", "Female"]} />
       <SelectField label="Class" name="Class" value={formData.Class} onChange={handleChange} options={classes.map(c => ({ value: c._id, label: `${c.name} - ${c.section}` }))} />
       {/* Profile Picture */}
@@ -870,47 +870,45 @@ for (const key in formData) {
             <img src={URL.createObjectURL(images.profileImage)} alt="Profile" className="w-24 h-24 rounded-full object-cover border-2 border-green-500" />
           ) : (
             <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300 hover:border-green-500">
-              <FaUserCircle className="text-4xl text-gray-500 group-hover:text-green-600" />
+              <FaUserCircle className="text-4xl text-[rgb(1,1,93)] group-hover:text-[rgb(193,151,5)]" />
             </div>
           )}
           <input type="file" id="profileImage" name="profileImage" accept="image/*" onChange={handleFileChange} required className="hidden" />
         </label>
-        <p className="text-xs text-gray-500 mt-2">Profile Image</p>
+        <p className="text-xs text-[rgb(1,1,93)] mt-2">Profile Image</p>
       </div>
     </div>
   </div>
 
   {/* Parent Details Section */}
   <div className="mb-6">
-    <h3 className="text-xl font-semibold text-green-700 border-b mb-4 pb-1">👪 Parent Details</h3>
+    <h3 className="text-xl font-semibold text-[rgb(1,1,93)] border-b mb-4 pb-1">👪 Parent Details</h3>
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <InputField label="Parent/Guardian Name" name="parent" type="text" value={formData.parent} onChange={handleChange}/>
       <InputField label="CNIC Number" name="CnicNumber" type="text"value={formData.CnicNumber} onChange={handleChange}/>
       <div>
-        <label className="block text-sm text-gray-700 mb-1">CNIC Front Image</label>
+        <label className="block text-sm text-[rgb(1,1,93)] mb-1">CNIC Front Image</label>
         <input type="file" name="CnicFrontImage" accept="image/*" onChange={handleFileChange} required className="w-full p-2 border border-gray-300 rounded-md" />
       </div>
       <div>
-        <label className="block text-sm text-gray-700 mb-1">CNIC Back Image</label>
+        <label className="block text-sm text-[rgb(1,1,93)] mb-1">CNIC Back Image</label>
         <input type="file" name="CnicBackImage" accept="image/*" onChange={handleFileChange} required className="w-full p-2 border border-gray-300 rounded-md" />
       </div>
       <InputField label="Contact No" name="phone" type="tel" value={formData.phone} onChange={handleChange}/>
       <InputField label="Address" name="adress" type="text" value={formData.adress} onChange={handleChange}/>
     </div>
   </div>
-
   {/* Previous School Section */}
   <div className="mb-6">
-    <h3 className="text-xl font-semibold text-green-700 border-b mb-4 pb-1">🏫 Previous School</h3>
+    <h3 className="text-xl font-semibold text-[rgb(1,1,93)] border-b mb-4 pb-1">🏫 Previous School</h3>
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <InputField label="School Name" name="prevschoolName" type="text" value={formData.prevschoolName} onChange={handleChange}/>
       <InputField label="Class" name="prevClass" type="text" value={formData.prevClass} onChange={handleChange}/>
       <InputField label="School Address" name="prevSchoolAddress" type="text" value={formData.prevSchoolAddress} onChange={handleChange}/>
     </div>
   </div>
-
   {/* Submit Button */}
-  <button type="submit" className="w-full mt-4 py-3 bg-green-600 text-white rounded-xl shadow-lg hover:bg-green-700 transition-transform hover:scale-105">
+  <button type="submit" className="w-[50%] mt-4 py-3 bg-[rgb(193,151,5)] text-white rounded-xl shadow-lg  transition-transform hover:scale-105">
     ➕ Add Student
   </button>
 </form>
