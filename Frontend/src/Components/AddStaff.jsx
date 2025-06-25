@@ -189,7 +189,7 @@ const handleSubmit = async (e) => {
             <input
               type="text"
               name="address"
-              className="w-full border px-4 py-2 rounded focus:outline-none focus:ring"
+              className="w-full block border px-4 py-2 rounded focus:outline-none focus:ring"
               value={formData.address}
               onChange={handleChange}
             />
@@ -212,7 +212,7 @@ const handleSubmit = async (e) => {
 {/* Profile Image*/}
           <button
             type="submit"
-            className="w-full block mt-4 bg-[rgb(193,151,5)] text-white py-3 rounded font-semibold  transition"
+            className="w-full block mt-6 bg-[rgb(193,151,5)] text-white py-3 rounded font-semibold  transition"
           >
             Add Staff
           </button>
