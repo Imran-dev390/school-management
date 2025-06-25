@@ -592,14 +592,19 @@ const AddTeacher = async (req, res) => {
       teachSubject,
       assignedClass,
       incharge,
-      CnicNumber
+      CnicNumber,
+      sessionId
     } = req.body;
 
     // 🔒 Input Sanitization
     email = email.trim().toLowerCase();
     name = name.trim();
     teachSubject = teachSubject.trim();
-
+// Validate Session Id From Client_Side 
+const session = await Session.findById(sessionId);
+if (!session) {
+  return res.status(404).json({ message: "Session Not Found" });
+}
     // ✅ Validate Required Fields
     if (!CnicNumber || CnicNumber.length < 11) {
       return res.status(400).json({ message: "CNIC Number is required and must be at least 11 digits" });
@@ -626,7 +631,7 @@ const AddTeacher = async (req, res) => {
     if (!subjectDoc) {
       return res.status(400).json({ message: "Subject not found: " + teachSubject });
     }
-
+        
     const admin = await Admin.findById(req.userId);
     if (!admin) {
       return res.status(404).json({ message: "Admin not found" });
@@ -645,6 +650,7 @@ const AddTeacher = async (req, res) => {
       gender,
       qualifications,
       CnicNumber,
+      session:session._id,
       profileImage: profileImage
         ? {
             data: profileImage.buffer,
@@ -671,8 +677,9 @@ const AddTeacher = async (req, res) => {
         }
       ]
     });
-
     await newTeacher.save();
+    session.Teachers.push(newTeacher._id);
+    await session.save();
     classDoc.teacher.push(newTeacher._id);
     await classDoc.save();
     admin.teachers.push(newTeacher._id);
@@ -797,9 +804,12 @@ const AdminSignIn = async (req, res, next) => {
 
 const AddStaff  = async (req,res)=>{
    try {
-    const { name, role, email, password, phone,address } = req.body;
+    const { name, role, email, password, phone,address,sessionId } = req.body;
     const file = req.file;
-
+const session = await Session.findById(sessionId);
+if (!session) {
+  return res.status(404).json({ message: "Session Not Found" });
+}
     // Validate required fields
     if (!name || !role) {
       return res.status(400).json({ message: 'Name and role are required.' });
@@ -810,6 +820,7 @@ const AddStaff  = async (req,res)=>{
       role,
       phone,
       address,
+      session:session._id
     };
 const admin = await Admin.findById(req.userId);
     // Add login fields only for Accountant
@@ -838,6 +849,8 @@ if (await isEmailTaken(email)) {
     }
     const newStaff = new Staff(staffData);
     await newStaff.save();
+    session.Staffs.push(newStaff._id);
+    await session.save();
     admin.staff.push(newStaff._id);
     await admin.save();
     res.status(201).json({ message: 'Staff registered successfully', staff: newStaff });

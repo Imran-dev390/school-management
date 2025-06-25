@@ -46,6 +46,9 @@ export default function AddTeacher() {
   teachSubject: '',
   incharge: false,
   CnicNumber: '', // ✅ New
+  dob: '',
+  sessionId: '',
+
 });
 
 const [images, setImages] = useState({
@@ -509,7 +512,31 @@ const [submitted,setSubmitted] = useState(false);
         ) : (
   <form className="space-y-5" onSubmit={handleSubmit} encType="multipart/form-data">
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-
+ {/* Profile Image */}
+      <div className="w-full flex flex-col items-center sm:col-span-2">
+        <label htmlFor="profileImage" className="cursor-pointer relative group">
+          {images.profileImage ? (
+            <img
+              src={URL.createObjectURL(images.profileImage)}
+              alt="Profile"
+              className="w-24 h-24 rounded-full object-cover border-2 border-blue-500"
+            />
+          ) : (
+            <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300 hover:border-blue-500">
+              <FaUserCircle className="text-4xl text-text-[rgb(1,1,93)] group-hover:text-[rgb(193,151,5)]" />
+            </div>
+          )}
+          <input
+            type="file"
+            id="profileImage"
+            name="profileImage"
+            accept="image/*"
+            onChange={handleFileChange}
+            className="hidden"
+          />
+        </label>
+        <p className="text-xs text-[rgb(1,1,93)] mt-2">Click to upload profile</p>
+      </div>
       {/* Name */}
       <div className="relative w-full">
         <input
@@ -574,6 +601,21 @@ const [submitted,setSubmitted] = useState(false);
         </select>
         <label className="absolute left-3 -top-2 text-sm text-blue-500 bg-white px-1">Gender</label>
       </div>
+ {/* DOB*/}
+<div className="relative w-full">
+  <input
+    type="date"
+    name="dob"
+    value={formData.dob}
+    onChange={handleChange}
+    required
+    className="peer w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-blue-500"
+    placeholder=" "
+  />
+  <label className="absolute left-3 top-3 text-[rgb(1,1,93)] text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-blue-500">
+    Date of Birth
+  </label>
+</div>
 
       {/* Phone Number */}
       <div className="relative w-full">
@@ -604,31 +646,28 @@ const [submitted,setSubmitted] = useState(false);
           Qualifications
         </label>
       </div>
- {/* Profile Image */}
-      <div className="w-full flex flex-col items-center sm:col-span-2">
-        <label htmlFor="profileImage" className="cursor-pointer relative group">
-          {images.profileImage ? (
-            <img
-              src={URL.createObjectURL(images.profileImage)}
-              alt="Profile"
-              className="w-24 h-24 rounded-full object-cover border-2 border-blue-500"
-            />
-          ) : (
-            <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300 hover:border-blue-500">
-              <FaUserCircle className="text-4xl text-text-[rgb(1,1,93)] group-hover:text-[rgb(193,151,5)]" />
-            </div>
-          )}
-          <input
-            type="file"
-            id="profileImage"
-            name="profileImage"
-            accept="image/*"
-            onChange={handleFileChange}
-            className="hidden"
-          />
-        </label>
-        <p className="text-xs text-[rgb(1,1,93)] mt-2">Click to upload profile</p>
-      </div>
+
+      <div className="relative w-full">
+  <select
+    name="sessionId"
+    value={formData.sessionId}
+    onChange={handleChange}
+    required
+    className="w-full p-3 bg-transparent text-[rgb(1,1,93)] border-b-2 border-gray-300 focus:outline-none focus:border-blue-500"
+  >
+    <option value="" disabled>Select Session</option>
+    {adminData?.admin?.sessions?.map((session) => (
+      <option key={session._id} value={session._id}>
+  {session.name} (
+    {new Date(session.startDate).toLocaleDateString('en-GB', { timeZone: 'UTC' })} - 
+    {new Date(session.endDate).toLocaleDateString('en-GB', { timeZone: 'UTC' })}
+  )
+</option>
+
+    ))}
+  </select>
+  <label className="absolute left-3 -top-2 text-sm text-[rgb(1,1,93)] bg-white px-1">Session</label>
+</div>
       {/* CNIC Number */}
       <div className="relative w-full">
         <input

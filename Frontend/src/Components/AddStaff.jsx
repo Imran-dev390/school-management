@@ -1,13 +1,16 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { authDataContext } from '../Context-Api/AuthContext';
 import { Sidebar } from './Sidebar';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from './AdminLayout';
 import { FaUserCircle } from 'react-icons/fa';
+import { adminDataContext } from '../Context-Api/AdminContext';
 const AddStaff = () => {
     const navigate = useNavigate();
     const {serverUrl }  = useContext(authDataContext);
+     const { adminData } = useContext(adminDataContext);
+       const { fetchAdminData } = useContext(adminDataContext);
     const [formData, setFormData] = useState({
     name: '',
     role: '',
@@ -15,13 +18,17 @@ const AddStaff = () => {
     password: '',
     phone: '',
     address:"",
+    sessionId:"",
     profileImage: "",
   });
-
+  useEffect(() => {
+    fetchAdminData().finally(() => setIsLoading(false));
+  }, [fetchAdminData]);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
+
 
   const handleFileChange = (e) => {
     setFormData(prev => ({ ...prev, profileImage: e.target.files[0] }));
@@ -206,7 +213,27 @@ const handleSubmit = async (e) => {
             />
           </div> */}
 
+ <div className="relative w-full">
+  <select
+    name="sessionId"
+    value={formData.sessionId}
+    onChange={handleChange}
+    required
+    className="w-full p-3 bg-transparent text-[rgb(1,1,93)] border-b-2 border-gray-300 focus:outline-none focus:border-blue-500"
+  >
+    <option value="" disabled>Select Session</option>
+    {adminData?.admin?.sessions?.map((session) => (
+      <option key={session._id} value={session._id}>
+  {session.name} (
+    {new Date(session.startDate).toLocaleDateString('en-GB', { timeZone: 'UTC' })} - 
+    {new Date(session.endDate).toLocaleDateString('en-GB', { timeZone: 'UTC' })}
+  )
+</option>
 
+    ))}
+  </select>
+  <label className="absolute left-3 -top-2 text-sm text-[rgb(1,1,93)] bg-white px-1">Session</label>
+</div>
 
 
 {/* Profile Image*/}
