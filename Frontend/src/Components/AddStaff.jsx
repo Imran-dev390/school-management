@@ -213,13 +213,13 @@ const handleSubmit = async (e) => {
             />
           </div> */}
 
- <div className="w-full mt-2">
+ <div className="mt-2">
   <select
     name="sessionId"
     value={formData.sessionId}
     onChange={handleChange}
     required
-    className="w-full p-3 bg-transparent text-[rgb(1,1,93)] border-b-2 border-gray-300 focus:outline-none focus:border-blue-500"
+    className="w-full block border px-4 py-2 text-[rgb(1,1,93)] rounded focus:outline-none focus:ring"
   >
     <option value="" disabled>Select Session</option>
     {adminData?.admin?.sessions?.map((session) => (
@@ -237,7 +237,7 @@ const handleSubmit = async (e) => {
 {/* Profile Image*/}
           <button
             type="submit"
-            className="w-full block mt-[20px] bg-[rgb(193,151,5)] text-white py-3 rounded font-semibold  transition"
+            className="w-full block mt-[32px] bg-[rgb(193,151,5)] text-white py-3 rounded font-semibold  transition"
           >
             Add Staff
           </button>
