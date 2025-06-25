@@ -213,7 +213,7 @@ const handleSubmit = async (e) => {
             />
           </div> */}
 
- <div className="relative w-full">
+ <div className="w-full mt-2">
   <select
     name="sessionId"
     value={formData.sessionId}
@@ -229,17 +229,15 @@ const handleSubmit = async (e) => {
     {new Date(session.endDate).toLocaleDateString('en-GB', { timeZone: 'UTC' })}
   )
 </option>
-
     ))}
   </select>
-  <label className="absolute left-3 -top-2 text-sm text-[rgb(1,1,93)] bg-white px-1">Session</label>
 </div>
 
 
 {/* Profile Image*/}
           <button
             type="submit"
-            className="w-full block mt-[16px] bg-[rgb(193,151,5)] text-white py-3 rounded font-semibold  transition"
+            className="w-full block mt-[20px] bg-[rgb(193,151,5)] text-white py-3 rounded font-semibold  transition"
           >
             Add Staff
           </button>

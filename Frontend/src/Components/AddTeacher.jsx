@@ -663,10 +663,8 @@ const [submitted,setSubmitted] = useState(false);
     {new Date(session.endDate).toLocaleDateString('en-GB', { timeZone: 'UTC' })}
   )
 </option>
-
     ))}
   </select>
-  <label className="absolute left-3 -top-2 text-sm text-[rgb(1,1,93)] bg-white px-1">Session</label>
 </div>
       {/* CNIC Number */}
       <div className="relative w-full">
