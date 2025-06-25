@@ -16,6 +16,10 @@ const staffSchema = new mongoose.Schema({
    ref:"Announcement",
    default:null,
      }],
+  session: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: 'Session'
+},
   address: { type: String },
   dob: { type: Date }
 }, { timestamps: true });

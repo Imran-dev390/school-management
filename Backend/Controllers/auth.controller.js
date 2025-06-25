@@ -88,14 +88,20 @@ const AddStudent = async (req, res) => {
   const { 
     name, email, password, phone, gender, dob, adress, parent, 
    Classs: classId, prevschoolName,prevClass,prevSchoolAddress, 
-    bformNumber, CnicNumber, feesPaid 
+    bformNumber, CnicNumber, feesPaid ,sessionId
   } = req.body;
-
   try {
+    if (!mongoose.Types.ObjectId.isValid(sessionId)) {
+  return res.status(400).json({ message: "Invalid session ID format" });
+}
+
+const session = await Session.findById(sessionId);
+if (!session) {
+  return res.status(404).json({ message: "Session Not Found" });
+}
     if (!mongoose.Types.ObjectId.isValid(classId)) {
       return res.status(400).json({ message: "Invalid class ID format" });
     }
-
     // Check if email or phone already exists
     // const existingEmail = await User.findOne({ email });
     const existingPhone = await User.findOne({ phone });
@@ -138,6 +144,7 @@ if (await isEmailTaken(email)) {
       bformNumber,
       CnicNumber,
       feesPaid: feesPaid || null,
+      session: session._id,
 
       // Images as Buffer
       profileImage: profileImage ? {
@@ -169,7 +176,8 @@ if (await isEmailTaken(email)) {
     if (!admin) {
       return res.status(404).json({ message: "Admin Not Found" });
     }
-
+     session.Students.push(user._id);
+     await session.save();
     admin.students.push(user._id);
     await admin.save();
 

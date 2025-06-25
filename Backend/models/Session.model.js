@@ -16,6 +16,18 @@ const sessionSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
+  Students:[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Student"
+  }],
+  Teachers:[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Teacher"
+  }],
+  Staffs:[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Staff"
+  }],
   isActive: {
     type: Boolean,
     default: false

@@ -360,8 +360,9 @@ export default function AddStudent() {
   const navigate = useNavigate();
   const { fetchAdminData } = useContext(adminDataContext);
   const { adminData } = useContext(adminDataContext);
-  const { classes = [] } = adminData?.admin || {};
+//  const { classes = [] } = adminData?.admin || {};
   const { serverUrl } = useContext(authDataContext);
+const { classes = [], sessions = [] } = adminData?.admin || {};
 
 
 // FaUserCircle
@@ -395,6 +396,7 @@ const [formData, setFormData] = useState({
   prevSchoolAddress: '',
   bformNumber: '',
   CnicNumber: '',
+   sessionId: '', // 🔥 ADD THIS
 });
 
 const [images, setImages] = useState({
@@ -873,6 +875,17 @@ for (const key in formData) {
       <InputField label="B-Form Number" name="bformNumber"  type="text" value={formData.bformNumber} onChange={handleChange}/>
       <SelectField label="Gender" name="gender" value={formData.gender} onChange={handleChange} options={["Male", "Female"]} />
       <SelectField label="Class" name="Class" value={formData.Class} onChange={handleChange} options={classes.map(c => ({ value: c._id, label: `${c.name} - ${c.section}` }))} />
+       <SelectField
+  label="Session"
+  name="sessionId"
+  value={formData.sessionId}
+  onChange={handleChange}
+  options={sessions.map(s => ({
+    value: s._id,
+    label: `${s.name} (${s.startYear}-${s.endYear})`,
+  }))}
+/>
+
        <div className="sm:col-span-2">
         <label className="block text-sm text-[rgb(1,1,93)] mb-1">B-Form Image</label>
         <input type="file" name="bformImage" accept="image/*" onChange={handleFileChange} required className="w-full p-2 border border-gray-300 rounded-md" />

@@ -47,6 +47,11 @@ const studentSchema = new mongoose.Schema({
     type:mongoose.Schema.Types.ObjectId,
     ref:"Leave",
   }],
+  session: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: 'Session'
+},
+
   prevschoolName:{
     type:String,
     required:true,

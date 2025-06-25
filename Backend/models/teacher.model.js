@@ -77,7 +77,10 @@ assignedClass: [{
   class:[{type: mongoose.Schema.Types.ObjectId, ref: 'class' }],
   incharge: { type: Boolean, default: false }
 }],
-
+session: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: 'Session'
+},
 announcements:[
   {
   type:mongoose.Schema.Types.ObjectId,
