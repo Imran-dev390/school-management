@@ -107,7 +107,7 @@ const handleSubmit = async (e) => {
     <AdminLayout adminName='Bright Future'>
       <div className="w-full  mt-20 sm:mt-8 sm:mx-auto max-w-xl bg-white text-[rgb(1,1,93)]   rounded-xl shadow-lg p-8">
         <h2 className="text-3xl font-bold mb-6 text-center">Add Staff</h2>
-        <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-0">
+        <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-3">
         {/* Profile Image*/}
         <div className="sm:col-span-2 flex flex-col items-center mt-2">
         <label htmlFor="profileImage" className="cursor-pointer relative group">
@@ -213,7 +213,7 @@ const handleSubmit = async (e) => {
             />
           </div> */}
 
- <div className="mt-8 mb-4">
+ <div className="mt-8 block mb-4">
   <select
     name="sessionId"
     value={formData.sessionId}
@@ -237,7 +237,7 @@ const handleSubmit = async (e) => {
 {/* Profile Image*/}
           <button
             type="submit"
-            className="w-full mt-[32px] bg-[rgb(193,151,5)] text-white py-3 rounded font-semibold  transition"
+            className="w-full block mt-[30px] bg-[rgb(193,151,5)] text-white py-3 rounded font-semibold  transition"
           >
             Add Staff
           </button>
