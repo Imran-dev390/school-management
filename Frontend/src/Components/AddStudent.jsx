@@ -908,7 +908,7 @@ for (const key in formData) {
     </div>
   </div>
   {/* Submit Button */}
-  <button type="submit" className="w-[50%] mt-4 py-3 bg-[rgb(193,151,5)] text-white rounded-xl shadow-lg  transition-transform hover:scale-105">
+  <button type="submit" className="w-[50%] mt-4 mx-auto py-3 bg-[rgb(193,151,5)] text-white rounded-xl shadow-lg  transition-transform hover:scale-105">
     ➕ Add Student
   </button>
 </form>
