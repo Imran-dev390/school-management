@@ -56,13 +56,13 @@ const {fetchAdminData} = useContext(adminDataContext);
 
   return (
     <AdminLayout adminName='Bright Future'>
-      <div className="bg-white shadow-2xl rounded-xl w-full max-w-2xl p-8">
-        <h1 className="text-3xl font-extrabold text-gray-800 mb-6 text-center">
+      <div className="bg-white mt-4  sm:mt-0 shadow-2xl rounded-xl w-full max-w-2xl p-8">
+        <h1 className="text-3xl font-extrabold text-[rgb(1,1,93)] mb-6 text-center">
           Create New Session
         </h1>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="name" className="block text-sm font-medium text-[rgb(1,1,93)] mb-1">
               Session Name
             </label>
             <input
@@ -79,7 +79,7 @@ const {fetchAdminData} = useContext(adminDataContext);
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label htmlFor="startDate" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="startDate" className="block text-sm font-medium text-[rgb(1,1,93)] mb-1">
                 Start Date
               </label>
               <input
@@ -94,7 +94,7 @@ const {fetchAdminData} = useContext(adminDataContext);
             </div>
 
             <div>
-              <label htmlFor="endDate" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="endDate" className="block text-sm font-medium text-[rgb(1,1,93)] mb-1">
                 End Date
               </label>
               <input
@@ -108,10 +108,9 @@ const {fetchAdminData} = useContext(adminDataContext);
               />
             </div>
           </div>
-
           <button
             type="submit"
-            className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold rounded-lg transition duration-300"
+            className="w-full py-3 bg-[rgb(193,151,5)]  text-white text-lg font-semibold rounded-lg transition duration-300"
           >
             Add Session
           </button>
