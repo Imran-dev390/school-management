@@ -213,7 +213,7 @@ const handleSubmit = async (e) => {
             />
           </div> */}
 
- <div className="mt-2">
+ <div className="mt-8 mb-4">
   <select
     name="sessionId"
     value={formData.sessionId}
@@ -237,7 +237,7 @@ const handleSubmit = async (e) => {
 {/* Profile Image*/}
           <button
             type="submit"
-            className="w-full block mt-[32px] bg-[rgb(193,151,5)] text-white py-3 rounded font-semibold  transition"
+            className="w-full mt-[32px] bg-[rgb(193,151,5)] text-white py-3 rounded font-semibold  transition"
           >
             Add Staff
           </button>
