@@ -98,9 +98,24 @@ const handleSubmit = async (e) => {
 
   return (
     <AdminLayout adminName='Bright Future'>
-      <div className="w-full  mt-4 sm:mt-8 sm:mx-auto max-w-xl bg-white text-[rgb(1,1,93)]   rounded-xl shadow-lg p-8">
+      <div className="w-full  mt-8 sm:mt-8 sm:mx-auto max-w-xl bg-white text-[rgb(1,1,93)]   rounded-xl shadow-lg p-8">
         <h2 className="text-3xl font-bold mb-6 text-center">Add Staff</h2>
         <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-0">
+        {/* Profile Image*/}
+        <div className="sm:col-span-2 flex flex-col items-center mt-2">
+        <label htmlFor="profileImage" className="cursor-pointer relative group">
+          {formData.profileImage ? (
+            <img src={URL.createObjectURL(formData.profileImage)} alt="Profile" className="w-24 h-24 rounded-full object-cover border-2 border-green-500" />
+          ) : (
+            <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300 hover:border-green-500">
+              <FaUserCircle className="text-4xl text-[rgb(1,1,93)] group-hover:text-[rgb(193,151,5)]" />
+            </div>
+          )}
+          <input type="file" id="profileImage" name="profileImage" accept="image/*" onChange={handleFileChange} required className="hidden" />
+        </label>
+        <p className="text-xs text-[rgb(1,1,93)] mt-2">Profile Image</p>
+      </div>
+        {/* profile Image */}
           <div>
             <label className="block font-semibold mb-1">Name</label>
             <input
@@ -192,19 +207,7 @@ const handleSubmit = async (e) => {
           </div> */}
 
 
-<div className="sm:col-span-2 flex flex-col items-center mt-2">
-        <label htmlFor="profileImage" className="cursor-pointer relative group">
-          {formData.profileImage ? (
-            <img src={URL.createObjectURL(formData.profileImage)} alt="Profile" className="w-24 h-24 rounded-full object-cover border-2 border-green-500" />
-          ) : (
-            <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300 hover:border-green-500">
-              <FaUserCircle className="text-4xl text-[rgb(1,1,93)] group-hover:text-[rgb(193,151,5)]" />
-            </div>
-          )}
-          <input type="file" id="profileImage" name="profileImage" accept="image/*" onChange={handleFileChange} required className="hidden" />
-        </label>
-        <p className="text-xs text-[rgb(1,1,93)] mt-2">Profile Image</p>
-      </div>
+
 
 {/* Profile Image*/}
           <button
