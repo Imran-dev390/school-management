@@ -586,6 +586,20 @@ const handleFileChange = async (e) => {
           Phone Number
         </label>
       </div>
+        <div className="relative w-full">
+        <input
+          type="password"
+          name="qualifications"
+          value={formData.qualifications}
+          onChange={handleChange}
+          required
+          className="peer w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-blue-500"
+          placeholder=" "
+        />
+        <label className="absolute left-3 top-3 text-gray-500 text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-blue-500">
+          Qualifications
+        </label>
+      </div>
  {/* Profile Image */}
       <div className="w-full flex flex-col items-center sm:col-span-2">
         <label htmlFor="profileImage" className="cursor-pointer relative group">
