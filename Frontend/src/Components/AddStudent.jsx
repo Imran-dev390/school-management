@@ -884,7 +884,7 @@ for (const key in formData) {
   onChange={handleChange}
   options={sessions.map(s => ({
     value: s._id,
-    label: `${s.name} (${s.startDate}-${s.endDate})`,
+    label: `${s.name} (${new Date(s.startDate).toLocaleDateString()} - ${new Date(s.endDate).toLocaleDateString()})`
   }))}
 />
 
