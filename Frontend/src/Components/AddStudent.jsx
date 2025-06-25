@@ -852,17 +852,6 @@ for (const key in formData) {
   <div className="mb-6">
     <h3 className="text-xl font-semibold text-[rgb(1,1,93)] border-b mb-4 pb-1">👤 Student Details</h3>
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <div className="sm:col-span-2">
-        <label className="block text-sm text-[rgb(1,1,93)] mb-1">B-Form Image</label>
-        <input type="file" name="bformImage" accept="image/*" onChange={handleFileChange} required className="w-full p-2 border border-gray-300 rounded-md" />
-      </div>
-      <InputField label="Full Name" name="name" type="text" value={formData.name} onChange={handleChange}/>
-      <InputField label="Email" name="email" type="email"value={formData.email}onChange={handleChange} />
-      <InputField label="Date of Birth" name="dob" type="date" value={formData.dob} onChange={handleChange}/>
-      <InputField label="Password" name="password" type="password" value={formData.password} onChange={handleChange}/>
-      <InputField label="B-Form Number" name="bformNumber"  type="text" value={formData.bformNumber} onChange={handleChange}/>
-      <SelectField label="Gender" name="gender" value={formData.gender} onChange={handleChange} options={["Male", "Female"]} />
-      <SelectField label="Class" name="Class" value={formData.Class} onChange={handleChange} options={classes.map(c => ({ value: c._id, label: `${c.name} - ${c.section}` }))} />
       {/* Profile Picture */}
       <div className="sm:col-span-2 flex flex-col items-center mt-2">
         <label htmlFor="profileImage" className="cursor-pointer relative group">
@@ -876,6 +865,17 @@ for (const key in formData) {
           <input type="file" id="profileImage" name="profileImage" accept="image/*" onChange={handleFileChange} required className="hidden" />
         </label>
         <p className="text-xs text-[rgb(1,1,93)] mt-2">Profile Image</p>
+      </div>
+      <InputField label="Full Name" name="name" type="text" value={formData.name} onChange={handleChange}/>
+      <InputField label="Email" name="email" type="email"value={formData.email}onChange={handleChange} />
+      <InputField label="Date of Birth" name="dob" type="date" value={formData.dob} onChange={handleChange}/>
+      <InputField label="Password" name="password" type="password" value={formData.password} onChange={handleChange}/>
+      <InputField label="B-Form Number" name="bformNumber"  type="text" value={formData.bformNumber} onChange={handleChange}/>
+      <SelectField label="Gender" name="gender" value={formData.gender} onChange={handleChange} options={["Male", "Female"]} />
+      <SelectField label="Class" name="Class" value={formData.Class} onChange={handleChange} options={classes.map(c => ({ value: c._id, label: `${c.name} - ${c.section}` }))} />
+       <div className="sm:col-span-2">
+        <label className="block text-sm text-[rgb(1,1,93)] mb-1">B-Form Image</label>
+        <input type="file" name="bformImage" accept="image/*" onChange={handleFileChange} required className="w-full p-2 border border-gray-300 rounded-md" />
       </div>
     </div>
   </div>
