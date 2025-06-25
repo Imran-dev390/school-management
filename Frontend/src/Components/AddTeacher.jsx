@@ -106,7 +106,7 @@ const handleFileChange = async (e) => {
   //     console.error(err);
   //   }
   // };
-
+const [submitted,setSubmitted] = useState(false);
   const handleSubmit = async (e) => {
   e.preventDefault();
   const data = new FormData();
@@ -128,10 +128,10 @@ const handleFileChange = async (e) => {
         headers: { 'Content-Type': 'multipart/form-data' },
       }
     );
-
-    toast.success('Teacher Successfully Registered');
+  toast.success('Teacher Successfully Registered');
     await fetchAdminData();
     navigate('/admin/dash');
+    setSubmitted(true);
   } catch (err) {
     toast.error(err?.response?.data?.message || 'Error registering teacher');
     console.error(err);
@@ -502,7 +502,11 @@ const handleFileChange = async (e) => {
 
      <div className="bg-white rounded-2xl max-w-3xl shadow-2xl mt-32 sm:mt-8 mx-auto p-8 w-full sm:max-w-5xl transform transition-all duration-500 hover:scale-[1.02]">
   <h2 className="text-3xl font-bold text-center text-blue-800 mb-6">Add New Teacher 👩‍🏫</h2>
-
+ {submitted ? (
+          <div className="text-green-600 text-center text-lg font-medium">
+            ✅ Student registered successfully!
+          </div>
+        ) : (
   <form className="space-y-5" onSubmit={handleSubmit} encType="multipart/form-data">
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
 
@@ -744,6 +748,7 @@ const handleFileChange = async (e) => {
       ➕ Add Teacher
     </button>
   </form>
+        )};
 
   <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} theme="colored" />
 </div>
