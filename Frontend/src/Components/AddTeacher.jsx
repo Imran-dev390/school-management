@@ -743,7 +743,7 @@ const [submitted,setSubmitted] = useState(false);
     {/* Submit */}
     <button
       type="submit"
-      className="w-full py-3 mt-4 bg-[rgb(193,151,5)] text-white rounded-xl shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
+      className="w-[50%] py-3 mt-4 bg-[rgb(193,151,5)] text-white rounded-xl shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:scale-105"
     >
       ➕ Add Teacher
     </button>
