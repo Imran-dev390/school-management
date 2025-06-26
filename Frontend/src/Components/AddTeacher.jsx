@@ -42,6 +42,7 @@ export default function AddTeacher() {
   salary: '',
   password: '',
   qualifications: '',
+  address:'',
   assignedClass: '',
   teachSubject: '',
   incharge: false,
@@ -632,9 +633,24 @@ const [submitted,setSubmitted] = useState(false);
           Phone Number
         </label>
       </div>
+       <div className="relative w-full">
+        <input
+          type="text"
+          name="address"
+          value={formData.address}
+          onChange={handleChange}
+          required
+          className="peer w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-blue-500"
+          placeholder=" "
+        />
+        <label className="absolute left-3 top-3  text-[rgb(1,1,93)] text-sm peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-blue-500">
+          Address
+        </label>
+      </div>
+
         <div className="relative w-full">
         <input
-          type="password"
+          type="text"
           name="qualifications"
           value={formData.qualifications}
           onChange={handleChange}
@@ -646,7 +662,6 @@ const [submitted,setSubmitted] = useState(false);
           Qualifications
         </label>
       </div>
-
       <div className="relative w-full">
   <select
     name="sessionId"

@@ -627,6 +627,7 @@ const filteredTeachers = totalTeachers.filter((t) => {
                   <th className="px-3 py-2 border">Name</th>
                   <th className="px-3 py-2 border">Class</th>
                   <th className="px-3 py-2 border">Section</th>
+                   <th className="px-3 py-2 border">Subject</th>
                   <th className="px-3 py-2 border hidden sm:table-cell">Phone</th>
                   <th className="px-3 py-2 border hidden md:table-cell">DOB</th>
                   <th className="px-3 py-2 border hidden lg:table-cell">Address</th>
@@ -639,12 +640,19 @@ const filteredTeachers = totalTeachers.filter((t) => {
                   <tr key={teacher._id} className="border-t">
                     <td className="px-3 py-2 border">{indexOfFirst + i + 1}</td>
                     <td className="px-3 py-2 border">{teacher.name}</td>
-                    <td className="px-3 py-2 border">
+                    {/* <td className="px-3 py-2 border">
                       {teacher.assignedClass?.map(cls => cls.name || "Fetching...").join(", ")}
                     </td>
                     <td className="px-3 py-2 border">
                       {teacher.assignedClass?.map(cls => cls.section || "Searching...").join(", ")}
-                    </td>
+                    </td> */}
+                    <td className="px-3 py-2 border">
+  {teacher.assignedClass?.map(cls => cls.class?.class || "N/A").join(", ")}
+</td>
+<td className="px-3 py-2 border">
+  {teacher.assignedClass?.map(cls => cls.class?.section || "N/A").join(", ")}
+</td>
+<td className="px-3 py-2 border">{teacher.teachSubject?.name || "N/A"}</td>
                     <td className="px-3 py-2 border hidden sm:table-cell">{teacher.phone}</td>
                     <td className="px-3 py-2 border hidden md:table-cell">{new Date(teacher.dob).toLocaleDateString()}</td>
                     <td className="px-3 py-2 border hidden lg:table-cell">{teacher.adress}</td>

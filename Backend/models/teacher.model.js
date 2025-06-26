@@ -73,8 +73,12 @@ studentleave:[{
   type:mongoose.Schema.Types.ObjectId,
   ref:"Leave"
 }],
+// assignedClass: [{
+//   class:[{type: mongoose.Schema.Types.ObjectId, ref: 'class' }],
+//   incharge: { type: Boolean, default: false }
+// }],
 assignedClass: [{
-  class:[{type: mongoose.Schema.Types.ObjectId, ref: 'class' }],
+  class: { type: mongoose.Schema.Types.ObjectId, ref: 'class' },
   incharge: { type: Boolean, default: false }
 }],
 session: {

@@ -589,11 +589,12 @@ const AddTeacher = async (req, res) => {
       dob,
       gender,
       qualifications,
+       address,
       teachSubject,
       assignedClass,
       incharge,
       CnicNumber,
-      sessionId
+      sessionId,
     } = req.body;
 
     // 🔒 Input Sanitization
@@ -649,6 +650,7 @@ if (!session) {
       dob,
       gender,
       qualifications,
+      address,
       CnicNumber,
       session:session._id,
       profileImage: profileImage
@@ -676,6 +678,7 @@ if (!session) {
           incharge: incharge || false,
         }
       ]
+      
     });
     await newTeacher.save();
     session.Teachers.push(newTeacher._id);

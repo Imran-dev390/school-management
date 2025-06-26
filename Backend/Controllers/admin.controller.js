@@ -111,10 +111,21 @@ const getAdminProfile = async (req, res) => {
       .lean();
 
     // STEP 3: Manually fetch and populate teachers with teachSubject and assignedClass
+    // const populatedTeachers = await Teacher.find({ _id: { $in: admin.teachers } })
+    //   .populate("teachSubject")
+    //   .populate("assignedClass")
+    //   .lean();
     const populatedTeachers = await Teacher.find({ _id: { $in: admin.teachers } })
-      .populate("teachSubject")
-      .populate("assignedClass")
-      .lean();
+  .populate({
+    path: 'teachSubject',
+    select: 'name'
+  })
+  .populate({
+    path: 'assignedClass.class',
+    select: 'class section'
+  })
+  .lean();
+
 console.log("teachers at admin",populatedTeachers)
     // STEP 4: Populate classes and subjects
     const populatedClasses = await Class.find({ _id: { $in: admin.classes } })
@@ -122,7 +133,6 @@ console.log("teachers at admin",populatedTeachers)
   .populate("teacher")
   .populate("students")
   .lean();
-
     const populatedSubjects = await Subject.find({ _id: { $in: admin.subjects } })
     .populate("")
     .lean();
