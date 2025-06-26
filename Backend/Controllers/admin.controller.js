@@ -122,7 +122,7 @@ const getAdminProfile = async (req, res) => {
   })
   .populate({
     path: 'assignedClass.class',
-    select: 'class section'
+    select: 'name section'
   })
   .lean();
 

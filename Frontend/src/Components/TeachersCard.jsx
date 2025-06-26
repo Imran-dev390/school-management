@@ -647,12 +647,17 @@ const filteredTeachers = totalTeachers.filter((t) => {
                       {teacher.assignedClass?.map(cls => cls.section || "Searching...").join(", ")}
                     </td> */}
                     <td className="px-3 py-2 border">
-  {teacher.assignedClass?.map(cls => cls.class?.class || "N/A").join(", ")}
+  {teacher.assignedClass?.map(cls => cls.class?.name || "N/A").join(", ")}
 </td>
 <td className="px-3 py-2 border">
   {teacher.assignedClass?.map(cls => cls.class?.section || "N/A").join(", ")}
 </td>
-<td className="px-3 py-2 border">{teacher.teachSubject?.name || "N/A"}</td>
+{teacher.teachSubject?.map((subject,idx)=>{
+  return (
+<td className="px-3 py-2 border" key={idx}>{subject.name || "N/A"}</td>
+  )
+})
+                }
                     <td className="px-3 py-2 border hidden sm:table-cell">{teacher.phone}</td>
                     <td className="px-3 py-2 border hidden md:table-cell">{new Date(teacher.dob).toLocaleDateString()}</td>
                     <td className="px-3 py-2 border hidden lg:table-cell">{teacher.adress}</td>
