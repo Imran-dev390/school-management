@@ -85,6 +85,11 @@ session: {
   type: mongoose.Schema.Types.ObjectId,
   ref: 'Session'
 },
+address:{
+  type:String,
+  minLength:8,
+  required:true,
+},
 announcements:[
   {
   type:mongoose.Schema.Types.ObjectId,
