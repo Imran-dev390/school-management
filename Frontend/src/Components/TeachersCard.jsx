@@ -625,6 +625,7 @@ const filteredTeachers = totalTeachers.filter((t) => {
                 <tr>
                   <th className="px-3 py-2 border">#</th>
                   <th className="px-3 py-2 border">Name</th>
+                   <th className="px-3 py-2 border">Profile</th>
                   <th className="px-3 py-2 border">Class</th>
                   <th className="px-3 py-2 border">Section</th>
                    <th className="px-3 py-2 border">Incharge</th>
@@ -637,53 +638,78 @@ const filteredTeachers = totalTeachers.filter((t) => {
                 </tr>
               </thead>
               <tbody>
-                {currentData.length > 0 ? currentData.map((teacher, i) => (
-                  <tr key={teacher._id} className="border-t">
-                    <td className="px-3 py-2 border">{indexOfFirst + i + 1}</td>
-                    <td className="px-3 py-2 border">{teacher.name}</td>
-                    {/* <td className="px-3 py-2 border">
-                      {teacher.assignedClass?.map(cls => cls.name || "Fetching...").join(", ")}
-                    </td>
-                    <td className="px-3 py-2 border">
-                      {teacher.assignedClass?.map(cls => cls.section || "Searching...").join(", ")}
-                    </td> */}
-                    <td className="px-3 py-2 border">
-  {teacher.assignedClass?.map(cls => cls.class?.name || "N/A").join(", ")}
-</td>
-<td className="px-3 py-2 border">
-  {teacher.assignedClass?.map(cls => cls.class?.section || "N/A").join(", ")}
-</td>
-<td className="px-3 py-2 border">
-  {teacher.assignedClass?.map(cls => cls.incharge === false ? "false" : "true"  || "N/A").join(", ")}
-</td>
-{teacher.teachSubject?.map((subject,idx)=>{
+              {currentData.length > 0 ? currentData.map((teacher, i) => {
+  const { profileImage } = teacher;
+  const imageSrc = profileImage?.data
+    ? `data:${profileImage.contentType};base64,${profileImage.data}`
+    : 'https://via.placeholder.com/50';
+
   return (
-<td className="px-3 py-2 border" key={idx}>{subject.name || "N/A"}</td>
-  )
-})
-                }
-                    <td className="px-3 py-2 border hidden sm:table-cell">{teacher.phone}</td>
-                    <td className="px-3 py-2 border hidden md:table-cell">{new Date(teacher.dob).toLocaleDateString()}</td>
-                    <td className="px-3 py-2 border hidden lg:table-cell">{teacher.address}</td>
-                    <td className="px-3 py-2 border">{teacher.salary}</td>
-                    <td className="px-3 py-2 border space-x-1">
-                      <button className="bg-blue-500 text-white px-2 py-1 rounded text-xs">View</button>
-                      <button className="bg-yellow-500 text-white px-2 py-1 rounded text-xs">Edit</button>
-                      <button
-                        onClick={() => handleDelete(teacher._id)}
-                        className="bg-red-500 text-white px-2 py-1 rounded text-xs"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                )) : (
-                  <tr>
-                    <td colSpan="9" className="text-center py-4 text-gray-500">
-                      No teachers found.
-                    </td>
-                  </tr>
-                )}
+    <tr key={teacher._id} className="border-t">
+      <td className="px-3 py-2 border">{indexOfFirst + i + 1}</td>
+      <td className="px-3 py-2 border">{teacher.name}</td>
+       <td className="px-3 py-2 border">
+            <img
+              src={imageSrc}
+              alt={teacher.name}
+              className="w-10 h-10 rounded-full object-cover"
+            />
+          </td>
+      {/* Class Name */}
+      <td className="px-3 py-2 border">
+        {teacher.assignedClass?.map(cls => cls.class?.name || "N/A").join(", ")}
+      </td>
+
+      {/* Section */}
+      <td className="px-3 py-2 border">
+        {teacher.assignedClass?.map(cls => cls.class?.section || "N/A").join(", ")}
+      </td>
+
+      {/* Incharge */}
+      <td className="px-3 py-2 border">
+        {teacher.assignedClass?.map(cls => cls.incharge ? "true" : "false").join(", ")}
+      </td>
+
+      {/* Subjects */}
+      <td className="px-3 py-2 border">
+        {teacher.teachSubject?.map(subject => subject.name || "N/A").join(", ")}
+      </td>
+
+      {/* Phone */}
+      <td className="px-3 py-2 border hidden sm:table-cell">{teacher.phone}</td>
+
+      {/* DOB */}
+      <td className="px-3 py-2 border hidden md:table-cell">
+        {new Date(teacher.dob).toLocaleDateString()}
+      </td>
+
+      {/* Address */}
+      <td className="px-3 py-2 border hidden lg:table-cell">{teacher.address}</td>
+
+      {/* Salary */}
+      <td className="px-3 py-2 border">{teacher.salary}</td>
+
+      {/* Actions */}
+      <td className="px-3 py-2 border space-x-1">
+        <button className="bg-blue-500 text-white px-2 py-1 rounded text-xs">View</button>
+        <button className="bg-yellow-500 text-white px-2 py-1 rounded text-xs">Edit</button>
+        <button
+          onClick={() => handleDelete(teacher._id)}
+          className="bg-red-500 text-white px-2 py-1 rounded text-xs"
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
+  );
+}) : (
+  <tr>
+    <td colSpan="12" className="text-center py-4 text-gray-500">
+      No teachers found.
+    </td>
+  </tr>
+)}
+
               </tbody>
             </table>
           </div>
