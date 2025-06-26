@@ -627,6 +627,7 @@ const filteredTeachers = totalTeachers.filter((t) => {
                   <th className="px-3 py-2 border">Name</th>
                   <th className="px-3 py-2 border">Class</th>
                   <th className="px-3 py-2 border">Section</th>
+                   <th className="px-3 py-2 border">Incharge</th>
                    <th className="px-3 py-2 border">Subject</th>
                   <th className="px-3 py-2 border hidden sm:table-cell">Phone</th>
                   <th className="px-3 py-2 border hidden md:table-cell">DOB</th>
@@ -652,6 +653,9 @@ const filteredTeachers = totalTeachers.filter((t) => {
 <td className="px-3 py-2 border">
   {teacher.assignedClass?.map(cls => cls.class?.section || "N/A").join(", ")}
 </td>
+<td className="px-3 py-2 border">
+  {teacher.assignedClass?.map(cls => cls.incharge === false ? "false" : "true"  || "N/A").join(", ")}
+</td>
 {teacher.teachSubject?.map((subject,idx)=>{
   return (
 <td className="px-3 py-2 border" key={idx}>{subject.name || "N/A"}</td>
@@ -660,7 +664,7 @@ const filteredTeachers = totalTeachers.filter((t) => {
                 }
                     <td className="px-3 py-2 border hidden sm:table-cell">{teacher.phone}</td>
                     <td className="px-3 py-2 border hidden md:table-cell">{new Date(teacher.dob).toLocaleDateString()}</td>
-                    <td className="px-3 py-2 border hidden lg:table-cell">{teacher.adress}</td>
+                    <td className="px-3 py-2 border hidden lg:table-cell">{teacher.address}</td>
                     <td className="px-3 py-2 border">{teacher.salary}</td>
                     <td className="px-3 py-2 border space-x-1">
                       <button className="bg-blue-500 text-white px-2 py-1 rounded text-xs">View</button>
