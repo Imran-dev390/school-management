@@ -506,6 +506,7 @@ const TeachersCard = () => {
   const { teachers = [] } = adminData?.admin || {};
   const [totalTeachers,setTotalTeachers] = useState([]);
   const [filterName, setFilterName] = useState("");
+  const {classes = [] } = adminData?.admin || {};
   const [filterPhone, setFilterPhone] = useState("");
   const [filterClass, setFilterClass] = useState("");
   const [filterSection, setFilterSection] = useState("");
@@ -558,10 +559,7 @@ useEffect(() => {
     setTotalTeachers(teachers);
   }
   setCurrentPage(1);
-}, [teachers]); // instead of including filterName, filterPhone, etc.
-
-
-
+}, [teachers,classes]); // instead of including filterName, filterPhone, etc.
   const filteredTeachers = totalTeachers.filter((t) => {
   const nameMatch = filterName === "" || t.name?.toLowerCase().includes(filterName.toLowerCase());
   const phoneMatch = filterPhone === "" || t.phone?.toString().includes(filterPhone);
