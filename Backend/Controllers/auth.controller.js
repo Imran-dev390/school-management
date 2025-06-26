@@ -589,7 +589,7 @@ const AddTeacher = async (req, res) => {
       dob,
       gender,
       qualifications,
-       address,
+      address,
       teachSubject,
       assignedClass,
       incharge,

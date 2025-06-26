@@ -14,7 +14,11 @@ router.post('/Add/staff', isAuth, upload.single('profileImage'), AddStaff);
 router.post("/Add/timetable",isAuth,AddTimeTable);
 router.post("/Add/session",isAuth,AddSession);
 router.put("/student/:id",isAuth,UpdateStudent);
-router.put("/teacher/:id",isAuth,UpdateTeacher);
+router.put("/teacher/:id",isAuth,upload.fields({
+  name:"profileImage",
+  name:"CnicFrontImage",
+  name:"CnicBackImage",
+}),UpdateTeacher);
 router.delete("/teacher/:id",isAuth,DeleteTeacher);
 router.delete('/students/:id',isAuth,DeleteStudent);
 //router.post("/Add/Student",isAuth,AddStudent);

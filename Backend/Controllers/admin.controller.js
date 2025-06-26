@@ -377,8 +377,8 @@ console.log("updatedData",req.body);
 const UpdateTeacher = async (req, res) => {
   try {
     const { id } = req.params;
-    let updateData = req.body;
-
+    //let updateData = req.body;
+ const updateData = JSON.parse(req.body.data);
     // Convert assignedClass from name to ObjectId if present
     if (updateData.assignedClass && typeof updateData.assignedClass === "string") {
       const classDoc = await Class.findOne({ name: updateData.assignedClass });
@@ -386,6 +386,33 @@ const UpdateTeacher = async (req, res) => {
         return res.status(400).json({ message: "Class not found: " + updateData.assignedClass });
       }
       updateData.assignedClass = classDoc._id;
+    }
+    if (updateData.teachSubject && Array.isArray(updateData.teachSubject)) {
+  updateData.teachSubject = await Subject.find({
+    name: { $in: updateData.teachSubject }
+  }).select('_id'); // or convert if you're already sending IDs
+}
+
+if (req.files?.CnicFrontImage) {
+  updateData.CnicFrontImage = {
+    data: req.files.CnicFrontImage[0].buffer,
+    contentType: req.files.CnicFrontImage[0].mimetype
+  };
+}
+if (req.files?.CnicBackImage) {
+  updateData.CnicBackImage = {
+    data: req.files.CnicBackImage[0].buffer,
+    contentType: req.files.CnicBackImage[0].mimetype
+  };
+}
+
+
+     // ✅ Handle profile image if uploaded
+    if (req.file) {
+      updateData.profileImage = {
+        data: req.file.buffer,
+        contentType: req.file.mimetype
+      };
     }
 
     // Optional: Validate name/email/phone etc. here if needed

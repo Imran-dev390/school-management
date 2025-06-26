@@ -7,6 +7,9 @@
  import "react-toastify/dist/ReactToastify.css"; // Ensure this is imported
 import { FaBars, FaUserCircle } from 'react-icons/fa';
 import AdminLayout from './AdminLayout';
+
+
+
 //  const TeachersCard = () => {
 //  const { adminData } = useContext(adminDataContext);
 //  const { serverUrl } = useContext(authDataContext);
@@ -507,17 +510,31 @@ const TeachersCard = () => {
   const [filterClass, setFilterClass] = useState("");
   const [filterSection, setFilterSection] = useState("");
   const [filterDOB, setFilterDOB] = useState("");
+  const [showEditModal, setShowEditModal] = useState(false);
+const [editingTeacher, setEditingTeacher] = useState(null);
+const [formData, setFormData] = useState({
+  name: "",
+  phone: "",
+  dob: "",
+  address: "",
+  salary: "",
+  sessionId:"",
+  assignedClass: [],
+  teachSubject: [],
+  profileImageFile: null,
+});
+
 
   const [entriesPerPage, setEntriesPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
 
-  useEffect(() => {
-   if (Array.isArray(teachers)) {
-    setTotalTeachers(teachers);
-    console.log("teachers",teachers);
-  }
-    setCurrentPage(1); // Reset to page 1 on filter change
-  }, [filterName, filterPhone, filterClass, filterSection, filterDOB,teachers]);
+  // useEffect(() => {
+  //  if (Array.isArray(teachers)) {
+  //   setTotalTeachers(teachers);
+  //   console.log("teachers",teachers);
+  // }
+  //   setCurrentPage(1); // Reset to page 1 on filter change
+  // }, [filterName, filterPhone, filterClass, filterSection, filterDOB,teachers]);
 
   // const filteredTeachers = totalTeachers.filter((t) => {
   //   const nameMatch = t.name?.toLowerCase().includes(filterName.toLowerCase());
@@ -534,7 +551,18 @@ const TeachersCard = () => {
 
   //   return nameMatch && phoneMatch && classMatch && sectionMatch && dobMatch;
   // });
-const filteredTeachers = totalTeachers.filter((t) => {
+
+
+useEffect(() => {
+  if (Array.isArray(teachers)) {
+    setTotalTeachers(teachers);
+  }
+  setCurrentPage(1);
+}, [teachers]); // instead of including filterName, filterPhone, etc.
+
+
+
+  const filteredTeachers = totalTeachers.filter((t) => {
   const nameMatch = filterName === "" || t.name?.toLowerCase().includes(filterName.toLowerCase());
   const phoneMatch = filterPhone === "" || t.phone?.toString().includes(filterPhone);
   const classMatch = filterClass === "" || t.assignedClass?.some(cls =>
@@ -548,12 +576,167 @@ const filteredTeachers = totalTeachers.filter((t) => {
   return nameMatch && phoneMatch && classMatch && sectionMatch && dobMatch;
 });
 
+const handleChange = (e) => {
+  const { name, value, type, checked } = e.target;
+  setFormData((prev) => ({
+    ...prev,
+    [name]: type === 'checkbox' ? checked : value,
+  }));
+};
+
+const handleFileChange = (e) => {
+  const { name, files } = e.target;
+  setFormData((prev) => ({
+    ...prev,
+    [name]: files[0],
+  }));
+};
+
   const indexOfLast = currentPage * entriesPerPage;
   const indexOfFirst = indexOfLast - entriesPerPage;
   const currentData = filteredTeachers.slice(indexOfFirst, indexOfLast);
   const totalPages = Math.ceil(filteredTeachers.length / entriesPerPage);
 
+  // Update Teacher Backend Api 
+  // const handleUpdateTeacher  = async (e)=>{
+  //   e.preventDefault();
+  //     const data = new FormData();
+  //     data.append('data', JSON.stringify({
+  //       name: formData.name,
+  //       phone: formData.phone,
+  //       dob: formData.dob,
+  //       address: formData.address,
+  //       salary: formData.salary,
+  //       assignedClass: formData.assignedClass,
+  //       teachSubject: formData.teachSubject,
+  //     }));
+  //     if (formData.profileImageFile) {
+  //       data.append('profileImage', formData.profileImageFile);
+  //     }
+  //     try {
+  //       const res = await axios.put(
+  //         `${serverUrl}/api/admin/teacher/${editingTeacher._id}`,
+  //         data,
+  //         { withCredentials: true, headers: { 'Content-Type': 'multipart/form-data' } }
+  //       );
+  //       if (res.status === 200) {
+  //         toast.success('Teacher updated!');
+  //         await fetchAdminData();
+  //         setShowEditModal(false);
+  //       }
+  //     } catch (err) {
+  //       toast.error(err.response?.data?.message || err.message);
+  //     }
+  // }
+//   const handleUpdateTeacher = async (e) => {
+//   e.preventDefault();
+
+//   const data = new FormData();
+
+//   // Send all fields
+//   data.append('data', JSON.stringify({
+//     name: formData.name,
+//     phone: formData.phone,
+//     dob: formData.dob,
+//     address: formData.address,
+//     salary: formData.salary,
+//     gender: formData.gender,
+//     qualifications: formData.qualifications,
+//     sessionId: formData.sessionId,
+//     email: formData.email,
+//     password: formData.password,
+//     CnicNumber: formData.CnicNumber,
+//     assignedClass: formData.assignedClass, // send actual class ID
+//     teachSubject: formData.teachSubject, // send subject ID(s)
+//     incharge: formData.incharge,
+//   }));
+
+//   if (formData.profileImageFile) {
+//     data.append('profileImage', formData.profileImageFile);
+//   }
+//   if (formData.CnicFrontImage) {
+//     data.append('CnicFrontImage', formData.CnicFrontImage);
+//   }
+//   if (formData.CnicBackImage) {
+//     data.append('CnicBackImage', formData.CnicBackImage);
+//   }
+
+//   try {
+//     const res = await axios.put(
+//       `${serverUrl}/api/admin/teacher/${editingTeacher._id}`,
+//       data,
+//       { withCredentials: true, headers: { 'Content-Type': 'multipart/form-data' } }
+//     );
+//     if (res.status === 200) {
+//       toast.success('Teacher updated!');
+//       await fetchAdminData();
+//       setShowEditModal(false);
+     
+//     }
+//   } catch (err) {
+//     toast.error(err.response?.data?.message || err.message);
+//   }
+// };
+const handleUpdateTeacher = async (e) => {
+  e.preventDefault();
+
+  const data = new FormData();
+  data.append('data', JSON.stringify({
+    name: formData.name,
+    phone: formData.phone,
+    dob: formData.dob,
+    address: formData.address,
+    salary: formData.salary,
+    gender: formData.gender,
+    qualifications: formData.qualifications,
+    sessionId: formData.sessionId,
+    email: formData.email,
+    password: formData.password,
+    CnicNumber: formData.CnicNumber,
+    assignedClass: formData.assignedClass,
+    teachSubject: formData.teachSubject,
+    incharge: formData.incharge,
+  }));
+
+  if (formData.profileImageFile) data.append('profileImage', formData.profileImageFile);
+  if (formData.CnicFrontImage) data.append('CnicFrontImage', formData.CnicFrontImage);
+  if (formData.CnicBackImage) data.append('CnicBackImage', formData.CnicBackImage);
+
+  try {
+    const res = await axios.put(
+      `${serverUrl}/api/admin/teacher/${editingTeacher._id}`,
+      data,
+      {
+        withCredentials: true,
+        headers: { 'Content-Type': 'multipart/form-data' }
+      }
+    );
+
+    if (res.status === 200) {
+      toast.success('Teacher updated!');
+
+      const updatedTeacher = res.data?.updatedTeacher || res.data?.teacher || {}; // adapt based on your backend response
+
+      // ✅ Update local state immediately
+      setTotalTeachers(prev =>
+        prev.map(t => t._id === editingTeacher._id ? { ...t, ...updatedTeacher } : t)
+      );
+
+      setShowEditModal(false);
+      setEditingTeacher(null);
+
+      // Optional: Refresh full data from server
+      await fetchAdminData();
+    }
+  } catch (err) {
+    toast.error(err.response?.data?.message || err.message);
+  }
+};
+
+
   const handleDelete = async (id) => {
+      // Optimistically update UI
+  setTotalTeachers((prev) => prev.filter((t) => t._id !== id));
     try {
       const res = await axios.delete(`${serverUrl}/api/admin/teacher/${id}`, { withCredentials: true });
       if (res.status === 200) {
@@ -692,7 +875,23 @@ const filteredTeachers = totalTeachers.filter((t) => {
       {/* Actions */}
       <td className="px-3 py-2 border space-x-1">
         <button className="bg-blue-500 text-white px-2 py-1 rounded text-xs">View</button>
-        <button className="bg-yellow-500 text-white px-2 py-1 rounded text-xs">Edit</button>
+        <button onClick={() => {
+  setEditingTeacher(teacher);
+  setFormData({
+    name: teacher.name,
+    phone: teacher.phone,
+    dob: teacher.dob.split('T')[0],
+    address: teacher.address,
+    salary: teacher.salary,
+    assignedClass: teacher.assignedClass.map(cls => ({
+      className: cls.class.name, section: cls.class.section, incharge: cls.incharge
+    })),
+    teachSubject: teacher.teachSubject.map(s => s.name),
+    profileImageFile: null,
+  });
+  setShowEditModal(true);
+}}
+         className="bg-yellow-500 text-white px-2 py-1 rounded text-xs">Edit</button>
         <button
           onClick={() => handleDelete(teacher._id)}
           className="bg-red-500 text-white px-2 py-1 rounded text-xs"
@@ -713,6 +912,137 @@ const filteredTeachers = totalTeachers.filter((t) => {
               </tbody>
             </table>
           </div>
+
+{showEditModal && (
+  <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
+    <div className="bg-white max-h-[90vh] overflow-y-auto w-full max-w-3xl rounded-xl shadow-lg p-6">
+      <h2 className="text-xl font-semibold text-[rgb(1,1,93)] mb-4">Edit Teacher</h2>
+
+      <form onSubmit={handleUpdateTeacher} className="space-y-5" encType="multipart/form-data">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {/* Profile Image */}
+          <div className="w-full flex flex-col items-center sm:col-span-2">
+            <label htmlFor="editProfileImage" className="cursor-pointer relative group">
+              {editingTeacher?.profileImage?.data ? (
+                <img
+                  src={`data:${editingTeacher.profileImage.contentType};base64,${editingTeacher.profileImage.data}`}
+                  alt="Profile"
+                  className="w-24 h-24 rounded-full object-cover border-2 border-blue-500"
+                />
+              ) : (
+                <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300 hover:border-blue-500">
+                  <FaUserCircle className="text-4xl text-[rgb(1,1,93)] group-hover:text-[rgb(193,151,5)]" />
+                </div>
+              )}
+              <input
+                type="file"
+                id="editProfileImage"
+                accept="image/*"
+                onChange={e => setFormData(prev => ({
+                  ...prev, profileImageFile: e.target.files[0]
+                }))}
+                className="hidden"
+              />
+            </label>
+            <p className="text-xs text-[rgb(1,1,93)] mt-2">Click to upload profile</p>
+          </div>
+
+          {/* Name */}
+          <InputField label="Full Name" name="name" value={formData.name} onChange={handleChange} />
+          {/* Phone */}
+          <InputField label="Phone" name="phone" value={formData.phone} onChange={handleChange} />
+          {/* DOB */}
+          <InputField label="DOB" type="date" name="dob" value={formData.dob} onChange={handleChange} />
+          {/* Address */}
+          <InputField label="Address" name="address" value={formData.address} onChange={handleChange} />
+          {/* Salary */}
+          <InputField label="Salary" type="number" name="salary" value={formData.salary} onChange={handleChange} />
+
+          {/* Gender */}
+          <SelectField label="Gender" name="gender" value={formData.gender} onChange={handleChange} options={[
+            { value: "", label: "Select Gender" },
+            { value: "male", label: "Male" },
+            { value: "female", label: "Female" }
+          ]} />
+
+          {/* Email */}
+          <InputField label="Email" type="email" name="email" value={formData.email} onChange={handleChange} />
+
+          {/* Password */}
+          <InputField label="Password" type="password" name="password" value={formData.password} onChange={handleChange} />
+
+          {/* CNIC */}
+          <InputField label="CNIC Number" name="CnicNumber" value={formData.CnicNumber} onChange={handleChange} minLength={13} />
+
+          {/* Qualifications */}
+          <InputField label="Qualifications" name="qualifications" value={formData.qualifications} onChange={handleChange} />
+
+          {/* Session */}
+          <SelectField label="Session" name="sessionId" value={formData.sessionId} onChange={handleChange}
+            options={[
+              { value: "", label: "Select Session" },
+              ...adminData.admin.sessions.map(s => ({
+                value: s._id,
+                label: `${s.name} (${new Date(s.startDate).toLocaleDateString()} - ${new Date(s.endDate).toLocaleDateString()})`
+              }))
+            ]} />
+
+          {/* Class */}
+          <SelectField label="Assigned Class" name="assignedClass" value={formData.assignedClass} onChange={handleChange}
+            options={classes.map(cls => ({
+              value: cls._id,
+              label: `${cls.name} - ${cls.section}`
+            }))} />
+
+          {/* Subject */}
+          <SelectField label="Subject" name="teachSubject" value={formData.teachSubject} onChange={handleChange}
+            options={subjects.map(s => ({ value: s._id, label: s.name }))} />
+
+          {/* CNIC Front & Back Image */}
+          <div className="sm:col-span-2 space-y-2">
+            <label className="text-sm text-gray-700">CNIC Front</label>
+            <input type="file" accept="image/*" name="CnicFrontImage" onChange={handleFileChange} />
+            <label className="text-sm text-gray-700">CNIC Back</label>
+            <input type="file" accept="image/*" name="CnicBackImage" onChange={handleFileChange} />
+          </div>
+
+          {/* Incharge Checkbox */}
+          <div className="flex items-center space-x-3 sm:col-span-2">
+            <input
+              type="checkbox"
+              id="incharge"
+              name="incharge"
+              checked={formData.incharge}
+              onChange={handleChange}
+              className="w-5 h-5"
+            />
+            <label htmlFor="incharge" className="text-[rgb(1,1,93)] font-medium">
+              Is In-Charge of the Class?
+            </label>
+          </div>
+        </div>
+
+        {/* Buttons */}
+        <div className="flex justify-end space-x-3 mt-6">
+          <button
+            type="button"
+            onClick={() => setShowEditModal(false)}
+            className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="bg-[rgb(193,151,5)] text-white px-4 py-2 rounded hover:bg-yellow-600"
+          >
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
+
 
           {/* Pagination */}
           <div className="flex flex-col md:flex-row justify-between items-center mt-4">
@@ -752,3 +1082,45 @@ const filteredTeachers = totalTeachers.filter((t) => {
 };
 
 export default TeachersCard;
+
+
+const InputField= ({ label, name, type, value, onChange }) => (
+  <div className="relative">
+    <input
+      type={type}
+      name={name}
+      value={value}
+      onChange={onChange}
+      required
+      className="peer w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
+      placeholder=" "
+    />
+    <label
+      htmlFor={name}
+      className="absolute left-3 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-green-600"
+    >
+      {label}
+    </label>
+  </div>
+);
+
+
+const SelectField = ({ label, name, value, onChange, options }) => (
+  <div className="relative">
+    <select
+      name={name}
+      value={value}
+      onChange={onChange}
+      required
+      className="w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
+    >
+      <option value="" disabled>Select {label}</option>
+      {options.map(opt =>
+        typeof opt === 'string'
+          ? <option key={opt} value={opt}>{opt}</option>
+          : <option key={opt.value} value={opt.value}>{opt.label}</option>
+      )}
+    </select>
+    <label className="absolute left-3 -top-2 text-sm text-green-600 bg-white px-1">{label}</label>
+  </div>
+);
