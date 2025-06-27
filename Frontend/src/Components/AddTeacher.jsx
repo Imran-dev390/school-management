@@ -47,7 +47,6 @@ export default function AddTeacher() {
   teachSubject: '',
   incharge: false,
   CnicNumber: '', // ✅ New
-  dob: '',
   sessionId: '',
 
 });
