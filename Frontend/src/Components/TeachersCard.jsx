@@ -1,13 +1,4 @@
- import React, { useContext, useEffect, useState } from 'react';
- import { Sidebar } from './Sidebar';
- import { adminDataContext } from '../Context-Api/AdminContext';
- import { authDataContext } from '../Context-Api/AuthContext';
- import axios from 'axios';
- import { ToastContainer,toast } from 'react-toastify';
-// import "react-toastify/dist/ReactToastify.css"; // Ensure this is imported
-import { FaBars, FaUserCircle } from 'react-icons/fa';
-import AdminLayout from './AdminLayout';
-import imageCompression from 'browser-image-compression';
+
 
 
 
@@ -500,7 +491,16 @@ import imageCompression from 'browser-image-compression';
 
 
 
-
+ import React, { useContext, useEffect, useState } from 'react';
+ import { Sidebar } from './Sidebar';
+ import { adminDataContext } from '../Context-Api/AdminContext';
+ import { authDataContext } from '../Context-Api/AuthContext';
+ import axios from 'axios';
+ import { ToastContainer,toast } from 'react-toastify';
+ import "react-toastify/dist/ReactToastify.css"; // Ensure this is imported
+import { FaBars, FaUserCircle } from 'react-icons/fa';
+import AdminLayout from './AdminLayout';
+import imageCompression from 'browser-image-compression';
 const TeachersCard = () => {
   const { adminData, fetchAdminData } = useContext(adminDataContext);
   const { serverUrl } = useContext(authDataContext);
