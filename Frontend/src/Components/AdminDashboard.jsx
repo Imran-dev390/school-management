@@ -232,6 +232,7 @@ export default function AdminDashboard({ recentActivity, setRecentActivity }) {
   const [adminName,setName] = useState("Bright Future");
   const { adminData, loading, fetchAdminData } = useContext(adminDataContext);
 //  const [showSidebar, setShowSidebar] = useState(false);
+const fuckrey = "moview";
 const [hasUserToggled, setHasUserToggled] = useState(false);
 
  const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
