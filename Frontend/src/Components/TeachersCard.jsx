@@ -7,6 +7,7 @@
  import "react-toastify/dist/ReactToastify.css"; // Ensure this is imported
 import { FaBars, FaUserCircle } from 'react-icons/fa';
 import AdminLayout from './AdminLayout';
+import imageCompression from 'browser-image-compression';
 
 
 
@@ -527,6 +528,8 @@ const TeachersCard = () => {
   profileImageFile: null,
   CnicFrontImage: null,
   CnicBackImage: null,
+  CnicFrontPreview: null,
+  CnicBackPreview: null,
 
 });
 
@@ -587,13 +590,57 @@ const handleChange = (e) => {
   }));
 };
 
-const handleFileChange = (e) => {
+// const handleFileChange = (e) => {
+//   const { name, files } = e.target;
+//   setFormData((prev) => ({
+//     ...prev,
+//     [name]: files[0],
+//   }));
+// };
+
+
+// const handleFileChange = async (e) => {
+//   const { name, files } = e.target;
+//   const file = files[0];
+
+//   if (file) {
+//     const previewURL = URL.createObjectURL(file);
+
+//     setFormData(prev => ({
+//       ...prev,
+//       [name]: file,
+//       [`${name}Preview`]: previewURL
+//     }));
+//   }
+// };
+
+
+
+const handleFileChange = async (e) => {
   const { name, files } = e.target;
-  setFormData((prev) => ({
-    ...prev,
-    [name]: files[0],
-  }));
+  if (!files || files.length === 0) return;
+
+  try {
+    const compressedFile = await imageCompression(files[0], {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1024,
+      useWebWorker: true,
+    });
+
+    const previewURL = URL.createObjectURL(compressedFile);
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: compressedFile,
+      [`${name}Preview`]: previewURL,
+    }));
+  } catch (error) {
+    console.error("Image compression error:", error);
+    toast.error("Failed to compress image. Please try a smaller file.");
+  }
 };
+
+
 
   const indexOfLast = currentPage * entriesPerPage;
   const indexOfFirst = indexOfLast - entriesPerPage;
@@ -704,7 +751,6 @@ const handleUpdateTeacher = async (e) => {
   if (formData.profileImageFile) data.append('profileImage', formData.profileImageFile);
   if (formData.CnicFrontImage) data.append('CnicFrontImage', formData.CnicFrontImage);
   if (formData.CnicBackImage) data.append('CnicBackImage', formData.CnicBackImage);
-
   try {
     const res = await axios.put(
       `${serverUrl}/api/admin/teacher/${editingTeacher._id}`,
@@ -716,7 +762,7 @@ const handleUpdateTeacher = async (e) => {
     );
 
     if (res.status === 200) {
-      toast.success('Teacher updated!');
+      toast.success('Teacher updated SuccessFully!');
 
       const updatedTeacher = res.data?.updatedTeacher || res.data?.teacher || {}; // adapt based on your backend response
 
@@ -1025,7 +1071,7 @@ const handleUpdateTeacher = async (e) => {
             {/* <label className="text-sm text-gray-700">CNIC Back</label>
             <input type="file" accept="image/*" name="CnicBackImage" onChange={handleFileChange} />
           </div> */}
-<div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+{/* <div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
   <div>
     <label className="text-sm text-gray-700">CNIC Front</label>
     {editingTeacher?.CnicFrontImage?.data && (
@@ -1049,7 +1095,60 @@ const handleUpdateTeacher = async (e) => {
     )}
     <input type="file" accept="image/*" name="CnicBackImage" onChange={handleFileChange} />
   </div>
+</div> */}
+{/* CNIC Front & Back Image Upload */}
+<div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-5">
+  {/* CNIC Front */}
+  <div className="flex flex-col">
+    <label className="text-sm font-medium text-[rgb(1,1,93)] mb-1">CNIC Front</label>
+    {formData.CnicFrontPreview ? (
+      <img
+        src={formData.CnicFrontPreview}
+        alt="CNIC Front Preview"
+        className="w-28 h-20 object-cover rounded border mb-2"
+      />
+    ) : editingTeacher?.CnicFrontImage?.data && (
+      <img
+        src={`data:${editingTeacher.CnicFrontImage.contentType};base64,${editingTeacher.CnicFrontImage.data}`}
+        alt="CNIC Front"
+        className="w-28 h-20 object-cover rounded border mb-2"
+      />
+    )}
+    <input
+      type="file"
+      name="CnicFrontImage"
+      accept="image/*"
+      onChange={handleFileChange}
+      className="text-sm"
+    />
+  </div>
+
+  {/* CNIC Back */}
+  <div className="flex flex-col">
+    <label className="text-sm font-medium text-[rgb(1,1,93)] mb-1">CNIC Back</label>
+    {formData.CnicBackPreview ? (
+      <img
+        src={formData.CnicBackPreview}
+        alt="CNIC Back Preview"
+        className="w-28 h-20 object-cover rounded border mb-2"
+      />
+    ) : editingTeacher?.CnicBackImage?.data && (
+      <img
+        src={`data:${editingTeacher.CnicBackImage.contentType};base64,${editingTeacher.CnicBackImage.data}`}
+        alt="CNIC Back"
+        className="w-28 h-20 object-cover rounded border mb-2"
+      />
+    )}
+    <input
+      type="file"
+      name="CnicBackImage"
+      accept="image/*"
+      onChange={handleFileChange}
+      className="text-sm"
+    />
+  </div>
 </div>
+
 
           {/* Incharge Checkbox */}
           <div className="flex items-center space-x-3 sm:col-span-2">
