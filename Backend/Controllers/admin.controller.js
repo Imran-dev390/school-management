@@ -380,13 +380,48 @@ const UpdateTeacher = async (req, res) => {
     //let updateData = req.body;
  const updateData = JSON.parse(req.body.data);
     // Convert assignedClass from name to ObjectId if present
-    if (updateData.assignedClass && typeof updateData.assignedClass === "string") {
-      const classDoc = await Class.findOne({ name: updateData.assignedClass });
-      if (!classDoc) {
-        return res.status(400).json({ message: "Class not found: " + updateData.assignedClass });
-      }
-      updateData.assignedClass = classDoc._id;
+    // if (updateData.assignedClass && typeof updateData.assignedClass === "string") {
+    //   const classDoc = await Class.findOne({ name: updateData.assignedClass });
+    //   if (!classDoc) {
+    //     return res.status(400).json({ message: "Class not found: " + updateData.assignedClass });
+    //   }
+    //   updateData.assignedClass = classDoc._id;
+    // }
+//     if (updateData.assignedClass && Array.isArray(updateData.assignedClass)) {
+//   updateData.assignedClass = await Promise.all(
+//     updateData.assignedClass.map(async (classId) => {
+//       return {
+//         class: classId,
+//         incharge: updateData.incharge || false // or get per-class incharge status
+//       };
+//     })
+//   );
+// }
+
+// if (updateData.assignedClass && Array.isArray(updateData.assignedClass)) {
+//   updateData.assignedClass = updateData.assignedClass.map(classId => ({
+//     class: classId,
+//     incharge: updateData.incharge || false
+//   }));
+// }
+
+if (updateData.assignedClass && Array.isArray(updateData.assignedClass)) {
+  updateData.assignedClass = updateData.assignedClass.map(item => {
+    if (typeof item === 'object' && item.class) {
+      return {
+        class: item.class,
+        incharge: item.incharge || false
+      };
     }
+    return {
+      class: item,
+      incharge: updateData.incharge || false
+    };
+  });
+}
+
+
+
     if (updateData.teachSubject && Array.isArray(updateData.teachSubject)) {
   updateData.teachSubject = await Subject.find({
     name: { $in: updateData.teachSubject }

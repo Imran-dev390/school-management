@@ -604,12 +604,80 @@ const handleFileChange = async (e) => {
 
 
 
+// const handleUpdateTeacher = async (e) => {
+//   e.preventDefault();
+
+//   const data = new FormData();
+
+//   // 1. Whitelisted fields to update
+//   const allowedKeys = [
+//     "name", "phone", "dob", "address", "salary", "gender",
+//     "qualifications", "sessionId", "email", "password",
+//     "CnicNumber", "assignedClass", "teachSubject", "incharge"
+//   ];
+
+//   const updatedFields = {};
+//   allowedKeys.forEach((key) => {
+//     const value = formData[key];
+//     if (
+//       value !== undefined &&
+//       value !== null &&
+//       !(typeof value === 'string' && value.trim() === '') &&
+//       !(Array.isArray(value) && value.length === 0)
+//     ) {
+//       updatedFields[key] = value;
+//     }
+//   });
+
+//   // 2. Add text/structured fields
+//   data.append("data", JSON.stringify(updatedFields));
+
+//   // 3. Append images/files only if provided
+//   if (formData.profileImageFile) {
+//     data.append("profileImage", formData.profileImageFile);
+//   }
+//   if (formData.CnicFrontImage) {
+//     data.append("CnicFrontImage", formData.CnicFrontImage);
+//   }
+//   if (formData.CnicBackImage) {
+//     data.append("CnicBackImage", formData.CnicBackImage);
+//   }
+
+//   // 4. Send request
+//   try {
+//     const res = await axios.put(
+//       `${serverUrl}/api/admin/teacher/${editingTeacher._id}`,
+//       data,
+//       {
+//         withCredentials: true,
+//         headers: { "Content-Type": "multipart/form-data" }
+//       }
+//     );
+
+//     if (res.status === 200) {
+//       toast.success("Teacher updated successfully!");
+//       const updatedTeacher = res.data?.updatedTeacher || res.data?.teacher || {};
+
+//       // Update UI with new teacher data
+//       setTotalTeachers(prev =>
+//         prev.map(t => t._id === editingTeacher._id ? { ...t, ...updatedTeacher } : t)
+//       );
+
+//       // Close modal & refresh data
+//       setShowEditModal(false);
+//       setEditingTeacher(null);
+//       await fetchAdminData();
+//     }
+//   } catch (err) {
+//     toast.error(err.response?.data?.message || err.message);
+//   }
+// };
+
 const handleUpdateTeacher = async (e) => {
   e.preventDefault();
 
   const data = new FormData();
 
-  // 1. Whitelisted fields to update
   const allowedKeys = [
     "name", "phone", "dob", "address", "salary", "gender",
     "qualifications", "sessionId", "email", "password",
@@ -617,22 +685,52 @@ const handleUpdateTeacher = async (e) => {
   ];
 
   const updatedFields = {};
+
   allowedKeys.forEach((key) => {
     const value = formData[key];
+
+    // Skip if value is empty
     if (
-      value !== undefined &&
-      value !== null &&
-      !(typeof value === 'string' && value.trim() === '') &&
-      !(Array.isArray(value) && value.length === 0)
-    ) {
-      updatedFields[key] = value;
-    }
+      value === undefined ||
+      value === null ||
+      (typeof value === 'string' && value.trim() === '') ||
+      (Array.isArray(value) && value.length === 0)
+    ) return;
+
+    // Special handling for assignedClass
+    // if (key === "assignedClass") {
+    //   updatedFields[key] = value.map(classId => ({
+    //     class: classId,
+    //     incharge: formData.incharge || false
+    //   }));
+    //   return;
+    // }
+if (key === "assignedClass") {
+  if (Array.isArray(value)) {
+    updatedFields[key] = value.map(classId => ({
+      class: classId,
+      incharge: formData.incharge || false
+    }));
+  } else if (typeof value === "string" && value.trim() !== "") {
+    // If it's a single string value, convert it to array with one element
+    updatedFields[key] = [{
+      class: value,
+      incharge: formData.incharge || false
+    }];
+  } else {
+    // assignedClass is empty or invalid, skip it or assign empty array
+    updatedFields[key] = [];
+  }
+  return;
+}
+
+    updatedFields[key] = value;
   });
 
-  // 2. Add text/structured fields
+  // Add structured fields
   data.append("data", JSON.stringify(updatedFields));
 
-  // 3. Append images/files only if provided
+  // Append images if present
   if (formData.profileImageFile) {
     data.append("profileImage", formData.profileImageFile);
   }
@@ -643,7 +741,7 @@ const handleUpdateTeacher = async (e) => {
     data.append("CnicBackImage", formData.CnicBackImage);
   }
 
-  // 4. Send request
+  // Send request
   try {
     const res = await axios.put(
       `${serverUrl}/api/admin/teacher/${editingTeacher._id}`,
@@ -658,12 +756,10 @@ const handleUpdateTeacher = async (e) => {
       toast.success("Teacher updated successfully!");
       const updatedTeacher = res.data?.updatedTeacher || res.data?.teacher || {};
 
-      // Update UI with new teacher data
       setTotalTeachers(prev =>
         prev.map(t => t._id === editingTeacher._id ? { ...t, ...updatedTeacher } : t)
       );
 
-      // Close modal & refresh data
       setShowEditModal(false);
       setEditingTeacher(null);
       await fetchAdminData();
@@ -672,7 +768,6 @@ const handleUpdateTeacher = async (e) => {
     toast.error(err.response?.data?.message || err.message);
   }
 };
-
 
   const handleDelete = async (id) => {
       // Optimistically update UI
