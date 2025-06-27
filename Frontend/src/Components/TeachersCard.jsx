@@ -935,7 +935,7 @@ if (key === "assignedClass") {
       {/* Actions */}
       <td className="px-3 py-2 border space-x-1">
         <button className="bg-blue-500 text-white px-2 py-1 rounded text-xs">View</button>
-        {/* <button onClick={() => {
+        <button onClick={() => {
   setEditingTeacher(teacher);
   setFormData({
     name: teacher.name,
@@ -967,8 +967,7 @@ if (key === "assignedClass") {
   setShowEditModal(true);
 }}
 
-         className="bg-yellow-500 text-white px-2 py-1 rounded text-xs">Edit</button> */}
-         <button className="bg-yellow-500 text-white px-2 py-1 rounded text-xs" onClick={()=>alert("Coming Soon Edit Feature")}>Edit</button>
+         className="bg-yellow-500 text-white px-2 py-1 rounded text-xs">Edit</button>
         <button
           onClick={() => handleDelete(teacher._id)}
           className="bg-red-500 text-white px-2 py-1 rounded text-xs"
