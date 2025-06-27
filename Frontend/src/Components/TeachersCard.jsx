@@ -521,9 +521,13 @@ const TeachersCard = () => {
   address: "",
   salary: "",
   sessionId:"",
+  CnicNumber: '',
   assignedClass: [],
   teachSubject: [],
   profileImageFile: null,
+  CnicFrontImage: null,
+  CnicBackImage: null,
+
 });
 
 
@@ -887,6 +891,8 @@ const handleUpdateTeacher = async (e) => {
     })),
     teachSubject: teacher.teachSubject.map(s => s.name),
     profileImageFile: null,
+    CnicFrontImage: null,  // ✅ add
+    CnicBackImage: null,   // ✅ add
   });
   setShowEditModal(true);
 }}
@@ -998,12 +1004,52 @@ const handleUpdateTeacher = async (e) => {
             options={subjects.map(s => ({ value: s._id, label: s.name }))} />
 
           {/* CNIC Front & Back Image */}
-          <div className="sm:col-span-2 space-y-2">
+          {/* {editingTeacher?.CnicFrontImage?.data && (
+  <img
+    src={`data:${editingTeacher.CnicFrontImage.contentType};base64,${editingTeacher.CnicFrontImage.data}`}
+    alt="CNIC Front"
+    className="w-24 h-16 object-cover rounded border"
+  />
+)} */}
+          {/* <div className="sm:col-span-2 space-y-2">
             <label className="text-sm text-gray-700">CNIC Front</label>
-            <input type="file" accept="image/*" name="CnicFrontImage" onChange={handleFileChange} />
-            <label className="text-sm text-gray-700">CNIC Back</label>
+            <input type="file" accept="image/*" name="CnicFrontImage" onChange={handleFileChange} /> */}
+
+            {/* {editingTeacher?.CnicBackImage?.data && (
+  <img
+    src={`data:${editingTeacher.CnicBackImage.contentType};base64,${editingTeacher.CnicBackImage.data}`}
+    alt="CNIC BACKEND"
+    className="w-24 h-16 object-cover rounded border"
+  />
+)} */}
+            {/* <label className="text-sm text-gray-700">CNIC Back</label>
             <input type="file" accept="image/*" name="CnicBackImage" onChange={handleFileChange} />
-          </div>
+          </div> */}
+<div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+  <div>
+    <label className="text-sm text-gray-700">CNIC Front</label>
+    {editingTeacher?.CnicFrontImage?.data && (
+      <img
+        src={`data:${editingTeacher.CnicFrontImage.contentType};base64,${editingTeacher.CnicFrontImage.data}`}
+        alt="CNIC Front"
+        className="w-24 h-16 object-cover rounded border my-1"
+      />
+    )}
+    <input type="file" accept="image/*" name="CnicFrontImage" onChange={handleFileChange} />
+  </div>
+
+  <div>
+    <label className="text-sm text-gray-700">CNIC Back</label>
+    {editingTeacher?.CnicBackImage?.data && (
+      <img
+        src={`data:${editingTeacher.CnicBackImage.contentType};base64,${editingTeacher.CnicBackImage.data}`}
+        alt="CNIC Back"
+        className="w-24 h-16 object-cover rounded border my-1"
+      />
+    )}
+    <input type="file" accept="image/*" name="CnicBackImage" onChange={handleFileChange} />
+  </div>
+</div>
 
           {/* Incharge Checkbox */}
           <div className="flex items-center space-x-3 sm:col-span-2">
