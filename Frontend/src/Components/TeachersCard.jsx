@@ -504,6 +504,7 @@ const TeachersCard = () => {
   const { adminData, fetchAdminData } = useContext(adminDataContext);
   const { serverUrl } = useContext(authDataContext);
   const { teachers = [] } = adminData?.admin || {};
+  const { subjects = [] } = adminData?.admin || {};
   const [totalTeachers,setTotalTeachers] = useState([]);
   const [filterName, setFilterName] = useState("");
   const {classes = [] } = adminData?.admin || {};
@@ -512,8 +513,8 @@ const TeachersCard = () => {
   const [filterSection, setFilterSection] = useState("");
   const [filterDOB, setFilterDOB] = useState("");
   const [showEditModal, setShowEditModal] = useState(false);
-const [editingTeacher, setEditingTeacher] = useState(null);
-const [formData, setFormData] = useState({
+  const [editingTeacher, setEditingTeacher] = useState(null);
+  const [formData, setFormData] = useState({
   name: "",
   phone: "",
   dob: "",
