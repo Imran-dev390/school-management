@@ -1629,8 +1629,8 @@ export function Sidebar({ isOpen, setIsOpen, adminName ,hasUserToggled,onToggleS
 
 
         {/* Logo */}
-<div class="bg-white p-4">
-  <img src="/logo.jpg" alt="Logo" class="w-full h-8 object-cover">
+<div className="bg-white p-4">
+  <img src="/logo.jpg" alt="Logo" className="w-full h-8 object-cover">
   </img>
   </div>
         {/* Menu Items */}

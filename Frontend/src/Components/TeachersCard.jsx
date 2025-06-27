@@ -525,7 +525,7 @@
   salary: "",
   sessionId:"",
   CnicNumber: '',
-  assignedClass: [],
+  assignedClass: "" ,
   teachSubject: [],
   profileImageFile: null,
   CnicFrontImage: null,
@@ -561,15 +561,39 @@ useEffect(() => {
   return nameMatch && phoneMatch && classMatch && sectionMatch && dobMatch;
 });
 
+// const handleChange = (e) => {
+//   const { name, value, type, checked } = e.target;
+//   setFormData((prev) => ({
+//     ...prev,
+//     [name]: type === 'checkbox' ? checked : value,
+//   }));
+// };
+
+
+
+// const handleChange = (e) => {
+//   const { name, value, type, checked, multiple, options } = e.target;
+//   if (multiple) {
+//     const selectedOptions = Array.from(options).filter(o => o.selected).map(o => o.value);
+//     setFormData(prev => ({ ...prev, [name]: selectedOptions }));
+//   } else {
+//     setFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+//   }
+// };
+
+
 const handleChange = (e) => {
-  const { name, value, type, checked } = e.target;
-  setFormData((prev) => ({
-    ...prev,
-    [name]: type === 'checkbox' ? checked : value,
-  }));
+  const { name, value, selectedOptions, multiple } = e.target;
+
+  if (multiple) {
+    // get array of selected values
+    const values = Array.from(selectedOptions).map(option => option.value);
+    setFormData(prev => ({ ...prev, [name]: values }));
+  } else {
+    // set scalar value
+    setFormData(prev => ({ ...prev, [name]: value }));
+  }
 };
-
-
 
 const handleFileChange = async (e) => {
   const { name, files } = e.target;
@@ -912,7 +936,7 @@ if (key === "assignedClass") {
       {/* Actions */}
       <td className="px-3 py-2 border space-x-1">
         <button className="bg-blue-500 text-white px-2 py-1 rounded text-xs">View</button>
-        <button onClick={() => {
+        {/* <button onClick={() => {
   setEditingTeacher(teacher);
   setFormData({
     name: teacher.name,
@@ -944,7 +968,8 @@ if (key === "assignedClass") {
   setShowEditModal(true);
 }}
 
-         className="bg-yellow-500 text-white px-2 py-1 rounded text-xs">Edit</button>
+         className="bg-yellow-500 text-white px-2 py-1 rounded text-xs">Edit</button> */}
+         <button className="bg-yellow-500 text-white px-2 py-1 rounded text-xs" onClick={()=>alert("Coming Soon Edit Feature")}>Edit</button>
         <button
           onClick={() => handleDelete(teacher._id)}
           className="bg-red-500 text-white px-2 py-1 rounded text-xs"
@@ -961,7 +986,6 @@ if (key === "assignedClass") {
     </td>
   </tr>
 )}
-
               </tbody>
             </table>
           </div>
@@ -1041,11 +1065,34 @@ if (key === "assignedClass") {
             ]} />
 
           {/* Class */}
-          <SelectField label="Assigned Class" name="assignedClass" value={formData.assignedClass} onChange={handleChange}
+          {/* <SelectField label="Assigned Class" name="assignedClass" value={formData.assignedClass} onChange={handleChange}
             options={classes.map(cls => ({
               value: cls._id,
               label: `${cls.name} - ${cls.section}`
-            }))} />
+            }))} /> */}
+{/* <SelectField
+  label="Assigned Class"
+  name="assignedClass"
+  value={formData.assignedClass || ""}
+  onChange={handleChange}
+  options={classes.map(cls => ({
+    value: String(cls._id),
+    label: `${cls.name} - ${cls.section}`
+  }))}
+  multiple={false}
+/> */}
+<SelectField
+  label="Assigned Class"
+  name="assignedClass"
+  value={formData.assignedClass || ""}
+  onChange={handleChange}
+  options={classes.map(cls => ({
+    value: String(cls._id),
+    label: `${cls.name} - ${cls.section}`
+  }))}
+  multiple={false}
+/>
+
 
           {/* Subject */}
           <SelectField label="Subject" name="teachSubject" value={formData.teachSubject} onChange={handleChange}
@@ -1178,10 +1225,7 @@ if (key === "assignedClass") {
     </AdminLayout>
   );
 };
-
 export default TeachersCard;
-
-
 
 const InputField= ({ label, name, type, value, onChange }) => (
   <div className="relative">
@@ -1202,24 +1246,108 @@ const InputField= ({ label, name, type, value, onChange }) => (
     </label>
   </div>
 );
+const SelectField = ({ label, name, value, onChange, options, multiple = false }) => {
+  console.log(`[SelectField] value for ${name}:`, value, typeof value);
+
+  const val = value ?? "";
+
+  return (
+    <div className="relative">
+      <select
+        name={name}
+        id={name}
+        value={val}
+        onChange={onChange}
+        multiple={multiple}
+        className="w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
+      >
+        {!multiple && <option value="" disabled>Select {label}</option>}
+        {options.map(opt =>
+          typeof opt === 'string'
+            ? <option key={opt} value={opt}>{opt}</option>
+            : <option key={opt.value} value={opt.value}>{opt.label}</option>
+        )}
+      </select>
+      <label className="absolute left-3 -top-2 text-sm text-green-600 bg-white px-1">{label}</label>
+    </div>
+  );
+};
+// const SelectField = ({ label, name, value, onChange, options }) => (
+
+//   <div className="relative">
+//     <select
+//       name={name}
+//       id={name}
+//       value={value}
+//       onChange={onChange}
+//       className="w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
+//     >
+//       <option value="" disabled>Select {label}</option>
+//       {options.map(opt =>
+//         typeof opt === 'string'
+//           ? <option key={opt} value={opt}>{opt}</option>
+//           : <option key={opt.value} value={opt.value}>{opt.label}</option>
+//       )}
+//     </select>
+//     <label className="absolute left-3 -top-2 text-sm text-green-600 bg-white px-1">{label}</label>
+//   </div>
+// );
 
 
-const SelectField = ({ label, name, value, onChange, options }) => (
-  <div className="relative">
-    <select
-      name={name}
-      id={name}
-      value={value}
-      onChange={onChange}
-      className="w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
-    >
-      <option value="" disabled>Select {label}</option>
-      {options.map(opt =>
-        typeof opt === 'string'
-          ? <option key={opt} value={opt}>{opt}</option>
-          : <option key={opt.value} value={opt.value}>{opt.label}</option>
-      )}
-    </select>
-    <label className="absolute left-3 -top-2 text-sm text-green-600 bg-white px-1">{label}</label>
-  </div>
-);
+
+
+
+
+
+
+
+
+// const SelectField = ({ label, name, value, onChange, options, multiple = false }) => (
+//   <div className="relative">
+//     <select
+//       name={name}
+//       id={name}
+//       value={value}
+//       onChange={onChange}
+//       multiple={multiple}
+//       className="w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
+//     >
+//       {!multiple && <option value="" disabled>Select {label}</option>}
+//       {options.map(opt =>
+//         typeof opt === 'string'
+//           ? <option key={opt} value={opt}>{opt}</option>
+//           : <option key={opt.value} value={opt.value}>{opt.label}</option>
+//       )}
+//     </select>
+//     <label className="absolute left-3 -top-2 text-sm text-green-600 bg-white px-1">{label}</label>
+//   </div>
+// );
+
+
+
+
+
+// const SelectField = ({ label, name, value, onChange, options, multiple = false }) => {
+//   const val = value ?? "";  // fallback to empty string if null/undefined
+
+//   return (
+//     <div className="relative">
+//       <select
+//         name={name}
+//         id={name}
+//         value={val}
+//         onChange={onChange}
+//         multiple={multiple}
+//         className="w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
+//       >
+//         {!multiple && <option value="" disabled>Select {label}</option>}
+//         {options.map(opt =>
+//           typeof opt === 'string'
+//             ? <option key={opt} value={opt}>{opt}</option>
+//             : <option key={opt.value} value={opt.value}>{opt.label}</option>
+//         )}
+//       </select>
+//       <label className="absolute left-3 -top-2 text-sm text-green-600 bg-white px-1">{label}</label>
+//     </div>
+//   );
+// };
