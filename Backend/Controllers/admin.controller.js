@@ -5,6 +5,7 @@ const Class = require("../models/class.model");
 const Staff  = require("../models/addStaff.model");
 const Subject = require("../models/Subjects.model");
 const ExamSchedule = require("../models/examSchedule.model");
+const anguler  = "angu";
 //const Subjects = require("../models/Subjects.model");
 // ✅ Get Admin Profile
 /*const getAdminProfile = async (req, res) => {

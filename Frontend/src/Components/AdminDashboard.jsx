@@ -229,7 +229,7 @@ import { Sidebar } from './Sidebar';
 import { FaUserCircle } from 'react-icons/fa';
 export default function AdminDashboard({ recentActivity, setRecentActivity }) {
   const { userData } = useContext(userDataContext);
-  const [adminName,setName] = useState("Bright Future");
+  const [adminName,setName] = useState("Bright Futureees");
   const { adminData, loading, fetchAdminData } = useContext(adminDataContext);
 //  const [showSidebar, setShowSidebar] = useState(false);
 const fuckrey = "moview";

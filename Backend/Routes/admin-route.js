@@ -4,6 +4,7 @@ const isAuth = require("../middlewares/isAuth");
 const {getAdminProfile,DeleteStudent, UpdateStudent, UpdateTeacher, DeleteTeacher, ExamTimetable} = require("../Controllers/admin.controller");
 const getCurrentUser = require("../Controllers/user.controller");
 const upload = require('../middlewares/upload') // multer middleware
+const mern = "mern";
 const router =  expess.Router();
 
 router.get("/",isAuth, getAdminProfile);

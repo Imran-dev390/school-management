@@ -5,7 +5,6 @@ const path = require("path");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const mern = "mern stack";
 const db = require("./Db/db");
 const authRouter = require("./Routes/auth-route");
 const adminRouter = require("./Routes/admin-route");
