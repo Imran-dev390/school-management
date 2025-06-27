@@ -502,7 +502,7 @@
 // import "react-toastify/dist/ReactToastify.css"; // Ensure this is imported
  import { FaBars, FaUserCircle } from 'react-icons/fa';
  import AdminLayout from './AdminLayout';
-// import imageCompression from 'browser-image-compression';
+ import imageCompression from 'browser-image-compression';
  const TeachersCard = () => {
   const { adminData, fetchAdminData } = useContext(adminDataContext);
   const { serverUrl } = useContext(authDataContext);
@@ -598,24 +598,24 @@ const handleFileChange = async (e) => {
   const { name, files } = e.target;
   if (!files || files.length === 0) return;
 
-  // try {
-  //   const compressedFile = await imageCompression(files[0], {
-  //     maxSizeMB: 1,
-  //     maxWidthOrHeight: 1024,
-  //     useWebWorker: true,
-  //   });
+  try {
+    const compressedFile = await imageCompression(files[0], {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1024,
+      useWebWorker: true,
+    });
 
-  //   const previewURL = URL.createObjectURL(compressedFile);
+    const previewURL = URL.createObjectURL(compressedFile);
 
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     [name]: compressedFile,
-  //     [`${name}Preview`]: previewURL,
-  //   }));
-  // } catch (error) {
-  //   console.error("Image compression error:", error);
-  //   toast.error("Failed to compress image. Please try a smaller file.");
-  // }
+    setFormData((prev) => ({
+      ...prev,
+      [name]: compressedFile,
+      [`${name}Preview`]: previewURL,
+    }));
+  } catch (error) {
+    console.error("Image compression error:", error);
+    toast.error("Failed to compress image. Please try a smaller file.");
+  }
 };
 
 
