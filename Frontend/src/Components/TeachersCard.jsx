@@ -544,6 +544,7 @@ const TeachersCard = () => {
   useEffect(() => {
     if (Array.isArray(teachers)) {
       setTotalTeachers(teachers);
+      console.log("teachers",totalTeachers);
     }
     setCurrentPage(1);
   }, [teachers]);
