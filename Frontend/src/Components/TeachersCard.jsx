@@ -503,747 +503,206 @@
  import { FaBars, FaUserCircle } from 'react-icons/fa';
  import AdminLayout from './AdminLayout';
  import imageCompression from 'browser-image-compression';
- const TeachersCard = () => {
+// new code grok
+const TeachersCard = () => {
   const { adminData, fetchAdminData } = useContext(adminDataContext);
   const { serverUrl } = useContext(authDataContext);
-  const { teachers = [] } = adminData?.admin || {};
-  const { subjects = [] } = adminData?.admin || {};
-  const [totalTeachers,setTotalTeachers] = useState([]);
+  const { teachers = [], subjects = [], classes = [] } = adminData?.admin || {};
+  const [totalTeachers, setTotalTeachers] = useState([]);
   const [filterName, setFilterName] = useState("");
-  const {classes = [] } = adminData?.admin || {};
   const [filterPhone, setFilterPhone] = useState("");
   const [filterClass, setFilterClass] = useState("");
   const [filterSection, setFilterSection] = useState("");
   const [filterDOB, setFilterDOB] = useState("");
   const [showEditModal, setShowEditModal] = useState(false);
   const [editingTeacher, setEditingTeacher] = useState(null);
-//   const [formData, setFormData] = useState({
-//   name: "",
-//   phone: "",
-//   dob: "",
-//   address: "",
-//   salary: "",
-//   sessionId:"",
-//   CnicNumber: '',
-//   assignedClass: "" ,
-//   teachSubject: [],
-//   profileImage: null,
-//   profileImageFile: null,
-//   profileImagePreview: null,
-//   CnicFrontImage: null,
-//   CnicBackImage: null,
-//   CnicFrontPreview: null,
-//   CnicBackPreview: null,
-
-// });
-
-
-
-const [formData, setFormData] = useState({
-  name: "",
-  phone: "",
-  dob: "",
-  address: "",
-  salary: "",
-  sessionId: "",
-  CnicNumber: "",
-  assignedClass: [], // Changed to array for multiple selections
-  teachSubject: [],
-  profileImage: null, // Use profileImageFile consistently
-  profileImagePreview: null,
-  CnicFrontImage: null,
-  CnicFrontPreview: null,
-  CnicBackImage: null,
-  CnicBackPreview: null,
-  gender: "",
-  email: "",
-  password: "",
-  qualifications: "",
-  incharge: false,
-});
-
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    dob: "",
+    address: "",
+    salary: "",
+    sessionId: "",
+    CnicNumber: "",
+    assignedClass: [],
+    teachSubject: [],
+    profileImageFile: null,
+    profileImagePreview: null,
+    CnicFrontImageFile: null,
+    CnicFrontPreview: null,
+    CnicBackImageFile: null,
+    CnicBackPreview: null,
+    gender: "",
+    email: "",
+    password: "",
+    qualifications: "",
+    incharge: false,
+  });
   const [entriesPerPage, setEntriesPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
 
+  useEffect(() => {
+    if (Array.isArray(teachers)) {
+      setTotalTeachers(teachers);
+    }
+    setCurrentPage(1);
+  }, [teachers]);
 
-
-useEffect(() => {
-  if (Array.isArray(teachers)) {
-    setTotalTeachers(teachers);
-  }
-  setCurrentPage(1);
-}, [teachers,classes]); // instead of including filterName, filterPhone, etc.
   const filteredTeachers = totalTeachers.filter((t) => {
-  const nameMatch = filterName === "" || t.name?.toLowerCase().includes(filterName.toLowerCase());
-  const phoneMatch = filterPhone === "" || t.phone?.toString().includes(filterPhone);
-  const classMatch = filterClass === "" || t.assignedClass?.some(cls =>
-    cls.name?.toLowerCase().includes(filterClass.toLowerCase())
-  );
-  const sectionMatch = filterSection === "" || t.assignedClass?.some(cls =>
-    cls.section?.toLowerCase().includes(filterSection.toLowerCase())
-  );
-  const dobMatch = filterDOB === "" || new Date(t.dob).toLocaleDateString().includes(filterDOB);
-
-  return nameMatch && phoneMatch && classMatch && sectionMatch && dobMatch;
-});
-
-// const handleChange = (e) => {
-//   const { name, value, type, checked } = e.target;
-//   setFormData((prev) => ({
-//     ...prev,
-//     [name]: type === 'checkbox' ? checked : value,
-//   }));
-// };
-
-
-
-// const handleChange = (e) => {
-//   const { name, value, type, checked, multiple, options } = e.target;
-//   if (multiple) {
-//     const selectedOptions = Array.from(options).filter(o => o.selected).map(o => o.value);
-//     setFormData(prev => ({ ...prev, [name]: selectedOptions }));
-//   } else {
-//     setFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
-//   }
-// };
-
-// const handleChange = (e) => {
-//   const { name, value, selectedOptions, multiple } = e.target;
-
-//   if (multiple) {
-//     // get array of selected values
-//     const values = Array.from(selectedOptions).map(option => option.value);
-//     setFormData(prev => ({ ...prev, [name]: values }));
-//   } else {
-//     // set scalar value
-//     setFormData(prev => ({ ...prev, [name]: value }));
-//   }
-// };
-
-
-
-
-const handleChange = (e) => {
-  const { name, value, selectedOptions, multiple } = e.target;
-
-  console.log(`[handleChange] name: ${name}, value:`, value, "multiple:", multiple);
-
-  if (multiple) {
-    const values = Array.from(selectedOptions).map(option => option.value);
-    setFormData(prev => ({ ...prev, [name]: values }));
-  } else {
-    setFormData(prev => ({ ...prev, [name]: value }));
-  }
-};
-
-// const handleFileChange = async (e) => {
-//   const { name, files } = e.target;
-//   if (!files || files.length === 0) return;
-
-//   try {
-//     const compressedFile = await imageCompression(files[0], {
-//       maxSizeMB: 1,
-//       maxWidthOrHeight: 1024,
-//       useWebWorker: true,
-//     });
-//     const previewURL = URL.createObjectURL(compressedFile);
-// // if (name === 'profileImage') {
-// //   setFormData(prev => ({
-// //     ...prev,
-// //     profileImageFile: compressedFile,
-// //     profileImagePreview: previewURL
-// //   }));
-// // } else {
-// //   setFormData(prev => ({
-// //     ...prev,
-// //     [name]: compressedFile,
-// //     [`${name}Preview`]: previewURL
-// //   }));
-
-// //const previewURL = URL.createObjectURL(compressedFile);
-// setFormData(prev => {
-//   if (prev[`${name}Preview`]) {
-//     URL.revokeObjectURL(prev[`${name}Preview`]);
-//   }
-//   return {
-//     ...prev,
-//     [name]: compressedFile,
-//     [`${name}Preview`]: previewURL
-//   };
-// });
-//     // setFormData((prev) => ({
-//     //   ...prev,
-//     //   [name]: compressedFile,
-//     //   [`${name}Preview`]: previewURL,
-//     // }));
-//   } catch (error) {
-//     console.error("Image compression error:", error);
-//     toast.error("Failed to compress image. Please try a smaller file.");
-//   }
-// };
-
-// const handleFileChange = async (e) => {
-//   const { name, files } = e.target;
-//   if (!files || files.length === 0) return;
-
-//   try {
-//     const compressedFile = await imageCompression(files[0], {
-//       maxSizeMB: 1,
-//       maxWidthOrHeight: 1024,
-//       useWebWorker: true,
-//     });
-//     const previewURL = URL.createObjectURL(compressedFile);
-
-//     setFormData(prev => {
-//       // Revoke old preview URL to prevent memory leaks
-//       if (prev[`${name}Preview`]) {
-//         URL.revokeObjectURL(prev[`${name}Preview`]);
-//       }
-//       return {
-//         ...prev,
-//         [`${name}File`]: compressedFile, // Store the file
-//         [`${name}Preview`]: previewURL, // Store the preview URL
-//       };
-//     });
-//   } catch (error) {
-//     console.error("Image compression error:", error);
-//     toast.error("Failed to compress image. Please try a smaller file.");
-//   }
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-const handleFileChange = async (e) => {
-  const { name, files } = e.target;
-  if (!files || files.length === 0) return;
-
-  try {
-    const compressedFile = await imageCompression(files[0], {
-      maxSizeMB: 1,
-      maxWidthOrHeight: 1024,
-      useWebWorker: true,
-    });
-    const previewURL = URL.createObjectURL(compressedFile);
-
-    setFormData(prev => {
-      if (prev[`${name}Preview`]) {
-        URL.revokeObjectURL(prev[`${name}Preview`]);
-      }
-      return {
-        ...prev,
-        [`${name}File`]: compressedFile, // Store as profileImageFile, CnicFrontImageFile, etc.
-        [`${name}Preview`]: previewURL,
-      };
-    });
-  } catch (error) {
-    console.error("Image compression error:", error);
-    toast.error("Failed to compress image. Please try a smaller file.");
-  }
-};
-
-
-
-  const indexOfLast = currentPage * entriesPerPage;
-  const indexOfFirst = indexOfLast - entriesPerPage;
-  const currentData = filteredTeachers.slice(indexOfFirst, indexOfLast);
-  const totalPages = Math.ceil(filteredTeachers.length / entriesPerPage);
-
-
-
-
-
-// const handleUpdateTeacher = async (e) => {
-//   e.preventDefault();
-
-//   const data = new FormData();
-
-//   // 1. Whitelisted fields to update
-//   const allowedKeys = [
-//     "name", "phone", "dob", "address", "salary", "gender",
-//     "qualifications", "sessionId", "email", "password",
-//     "CnicNumber", "assignedClass", "teachSubject", "incharge"
-//   ];
-
-//   const updatedFields = {};
-//   allowedKeys.forEach((key) => {
-//     const value = formData[key];
-//     if (
-//       value !== undefined &&
-//       value !== null &&
-//       !(typeof value === 'string' && value.trim() === '') &&
-//       !(Array.isArray(value) && value.length === 0)
-//     ) {
-//       updatedFields[key] = value;
-//     }
-//   });
-
-//   // 2. Add text/structured fields
-//   data.append("data", JSON.stringify(updatedFields));
-
-//   // 3. Append images/files only if provided
-//   if (formData.profileImageFile) {
-//     data.append("profileImage", formData.profileImageFile);
-//   }
-//   if (formData.CnicFrontImage) {
-//     data.append("CnicFrontImage", formData.CnicFrontImage);
-//   }
-//   if (formData.CnicBackImage) {
-//     data.append("CnicBackImage", formData.CnicBackImage);
-//   }
-
-//   // 4. Send request
-//   try {
-//     const res = await axios.put(
-//       `${serverUrl}/api/admin/teacher/${editingTeacher._id}`,
-//       data,
-//       {
-//         withCredentials: true,
-//         headers: { "Content-Type": "multipart/form-data" }
-//       }
-//     );
-
-//     if (res.status === 200) {
-//       toast.success("Teacher updated successfully!");
-//       const updatedTeacher = res.data?.updatedTeacher || res.data?.teacher || {};
-
-//       // Update UI with new teacher data
-//       setTotalTeachers(prev =>
-//         prev.map(t => t._id === editingTeacher._id ? { ...t, ...updatedTeacher } : t)
-//       );
-
-//       // Close modal & refresh data
-//       setShowEditModal(false);
-//       setEditingTeacher(null);
-//       await fetchAdminData();
-//     }
-//   } catch (err) {
-//     toast.error(err.response?.data?.message || err.message);
-//   }
-// };
-
-// const handleUpdateTeacher = async (e) => {
-//   e.preventDefault();
-
-//   const data = new FormData();
-
-//   const allowedKeys = [
-//     "name", "phone", "dob", "address", "salary", "gender",
-//     "qualifications", "sessionId", "email", "password",
-//     "CnicNumber", "assignedClass", "teachSubject", "incharge"
-//   ];
-
-//   const updatedFields = {};
-
-// //   allowedKeys.forEach((key) => {
-// //     const value = formData[key];
-
-// //     // Skip if value is empty
-// //     if (
-// //       value === undefined ||
-// //       value === null ||
-// //       (typeof value === 'string' && value.trim() === '') ||
-// //       (Array.isArray(value) && value.length === 0)
-// //     ) return;
-
-// //     // Special handling for assignedClass
-// //     // if (key === "assignedClass") {
-// //     //   updatedFields[key] = value.map(classId => ({
-// //     //     class: classId,
-// //     //     incharge: formData.incharge || false
-// //     //   }));
-// //     //   return;
-// //     // }
-// // if (key === "assignedClass") {
-// //   if (Array.isArray(value)) {
-// //     updatedFields[key] = value.map(classId => ({
-// //       class: classId,
-// //       incharge: formData.incharge || false
-// //     }));
-// //   } else if (typeof value === "string" && value.trim() !== "") {
-// //     // If it's a single string value, convert it to array with one element
-// //     updatedFields[key] = [{
-// //       class: value,
-// //       incharge: formData.incharge || false
-// //     }];
-// //   } else {
-// //     // assignedClass is empty or invalid, skip it or assign empty array
-// //     updatedFields[key] = [];
-// //   }
-// //   return;
-// // }
-
-// //     updatedFields[key] = value;
-// //   });
-
-
-
-
-
-
-// allowedKeys.forEach((key) => {
-//   const newValue = formData[key];
-
-//   // If nothing was changed, fall back to the existing value
-//   const value =
-//     newValue !== undefined &&
-//     newValue !== null &&
-//     !(typeof newValue === 'string' && newValue.trim() === '') &&
-//     !(Array.isArray(newValue) && newValue.length === 0)
-//       ? newValue
-//       : editingTeacher[key];
-
-//   // if (key === "assignedClass") {
-//   //   if (Array.isArray(value)) {
-//   //     updatedFields[key] = value.map(classId => ({
-//   //       class: classId,
-//   //       incharge: formData.incharge || false
-//   //     }));
-//   //   } else {
-//   //     updatedFields[key] = [{
-//   //       class: value,
-//   //       incharge: formData.incharge || false
-//   //     }];
-//   //   }
-//   // } else {
-//   //   updatedFields[key] = value;
-//   // }
-
-
-
-// if (key === "assignedClass") {
-//   const assignedClass = Array.isArray(newValue) && newValue.length > 0
-//     ? newValue
-//     : editingTeacher?.assignedClass?.map(cls => cls.class?._id) || [];
-
-//   updatedFields[key] = assignedClass.map(classId => ({
-//     class: classId,
-//     incharge: formData.incharge || false
-//   }));
-// } else if (key === "teachSubject") {
-//   const subjects = Array.isArray(newValue) && newValue.length > 0
-//     ? newValue
-//     : editingTeacher?.teachSubject?.map(s => s._id) || [];
-
-//   updatedFields[key] = subjects;
-// } else {
-//   const fallback = (
-//     newValue !== undefined &&
-//     newValue !== null &&
-//     !(typeof newValue === 'string' && newValue.trim() === '') &&
-//     !(Array.isArray(newValue) && newValue.length === 0)
-//   ) ? newValue : editingTeacher[key];
-
-//   updatedFields[key] = fallback;
-// }
-
-
-// });
-
-
-
-//   // Add structured fields
-//   data.append("data", JSON.stringify(updatedFields));
-
-//   // Append images if present
-//   // if (formData.profileImageFile) {
-//   //   data.append("profileImage", formData.profileImageFile);
-//   // }
-//   // if (formData.CnicFrontImage) {
-//   //   data.append("CnicFrontImage", formData.CnicFrontImage);
-//   // }
-//   // if (formData.CnicBackImage) {
-//   //   data.append("CnicBackImage", formData.CnicBackImage);
-//   // }
-
-
-
-
-
-
-
-// if (name === "profileImage") {
-//   setFormData(prev => ({
-//     ...prev,
-//     profileImage: compressedFile,
-//     profileImagePreview: previewURL
-//   }));
-// } else if (name === "CnicFrontImage" || name === "CnicBackImage") {
-//   setFormData(prev => ({
-//     ...prev,
-//     [name]: compressedFile,
-//     [`${name}Preview`]: previewURL
-//   }));
-// }
-
-
-
-
-
-
-//   // Send request
-//   try {
-//     const res = await axios.put(
-//       `${serverUrl}/api/admin/teacher/${editingTeacher._id}`,
-//       data,
-//       {
-//         withCredentials: true,
-//         headers: { "Content-Type": "multipart/form-data" }
-//       }
-//     );
-
-//     if (res.status === 200) {
-//       toast.success("Teacher updated successfully!");
-//       const updatedTeacher = res.data?.updatedTeacher || res.data?.teacher || {};
-
-//       setTotalTeachers(prev =>
-//         prev.map(t => t._id === editingTeacher._id ? { ...t, ...updatedTeacher } : t)
-//       );
-
-//       setShowEditModal(false);
-//       setEditingTeacher(null);
-//       await fetchAdminData();
-//     }
-//   } catch (err) {
-//     toast.error(err.response?.data?.message || err.message);
-//   }
-// };
-
-
-
-
-
-// const handleUpdateTeacher = async (e) => {
-//   e.preventDefault();
-//   const data = new FormData();
-
-//   const allowedKeys = [
-//     "name",
-//     "phone",
-//     "dob",
-//     "address",
-//     "salary",
-//     "gender",
-//     "qualifications",
-//     "sessionId",
-//     "email",
-//     "password",
-//     "CnicNumber",
-//     "assignedClass",
-//     "teachSubject",
-//     "incharge",
-//   ];
-
-//   const updatedFields = {};
-
-//   allowedKeys.forEach((key) => {
-//     let value = formData[key];
-
-//     // Use existing teacher data as fallback if the field is empty or unchanged
-//     if (
-//       value === undefined ||
-//       value === null ||
-//       (typeof value === "string" && value.trim() === "") ||
-//       (Array.isArray(value) && value.length === 0)
-//     ) {
-//       value = editingTeacher[key];
-//     }
-
-//     // Handle assignedClass specifically
-//     if (key === "assignedClass") {
-//       const assignedClasses = Array.isArray(value) && value.length > 0
-//         ? value
-//         : editingTeacher?.assignedClass?.map(cls => cls.class?._id) || [];
-//       updatedFields[key] = assignedClasses.map(classId => ({
-//         class: classId,
-//         incharge: formData.incharge || false,
-//       }));
-//     }
-//     // Handle teachSubject specifically
-//     else if (key === "teachSubject") {
-//       updatedFields[key] = Array.isArray(value) && value.length > 0
-//         ? value
-//         : editingTeacher?.teachSubject?.map(s => s._id) || [];
-//     }
-//     // Handle other fields
-//     else {
-//       updatedFields[key] = value;
-//     }
-//   });
-
-//   // Add structured fields
-//   data.append("data", JSON.stringify(updatedFields));
-
-//   // Append images if present
-//   if (formData.profileImageFile) {
-//     data.append("profileImage", formData.profileImageFile);
-//   }
-//   if (formData.CnicFrontImage) {
-//     data.append("CnicFrontImage", formData.CnicFrontImage);
-//   }
-//   if (formData.CnicBackImage) {
-//     data.append("CnicBackImage", formData.CnicBackImage);
-//   }
-
-//   // Send request
-//   try {
-//     const res = await axios.put(
-//       `${serverUrl}/api/admin/teacher/${editingTeacher._id}`,
-//       data,
-//       {
-//         withCredentials: true,
-//         headers: { "Content-Type": "multipart/form-data" },
-//       }
-//     );
-
-//     if (res.status === 200) {
-//       toast.success("Teacher updated successfully!");
-//       const updatedTeacher = res.data?.updatedTeacher || res.data?.teacher || {};
-
-//       setTotalTeachers(prev =>
-//         prev.map(t => (t._id === editingTeacher._id ? { ...t, ...updatedTeacher } : t))
-//       );
-//       setShowEditModal(false);
-//       setEditingTeacher(null);
-//       await fetchAdminData();
-//     }
-// }
-//    catch (err) {
-//     toast.error(err.response?.data?.message || err.message);
-//   }
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const handleUpdateTeacher = async (e) => {
-  e.preventDefault();
-  const data = new FormData();
-
-  const allowedKeys = [
-    "name",
-    "phone",
-    "dob",
-    "address",
-    "salary",
-    "gender",
-    "qualifications",
-    "sessionId",
-    "email",
-    "password",
-    "CnicNumber",
-    "assignedClass",
-    "teachSubject",
-    "incharge",
-  ];
-
-  const updatedFields = {};
-
-  allowedKeys.forEach((key) => {
-    let value = formData[key];
-
-    if (
-      value === undefined ||
-      value === null ||
-      (typeof value === "string" && value.trim() === "") ||
-      (Array.isArray(value) && value.length === 0)
-    ) {
-      value = editingTeacher[key];
-    }
-
-    if (key === "assignedClass") {
-      const assignedClasses = Array.isArray(value) && value.length > 0
-        ? value
-        : editingTeacher?.assignedClass?.map(cls => cls.class?._id) || [];
-      updatedFields[key] = assignedClasses.map(classId => ({
-        class: classId,
-        incharge: formData.incharge || false,
-      }));
-    } else if (key === "teachSubject") {
-      updatedFields[key] = Array.isArray(value) && value.length > 0
-        ? value
-        : editingTeacher?.teachSubject?.map(s => s._id) || [];
-    } else {
-      updatedFields[key] = value;
-    }
+    const nameMatch = filterName === "" || t.name?.toLowerCase().includes(filterName.toLowerCase());
+    const phoneMatch = filterPhone === "" || t.phone?.toString().includes(filterPhone);
+    const classMatch = filterClass === "" || t.assignedClass?.some(cls =>
+      cls.class?.name?.toLowerCase().includes(filterClass.toLowerCase())
+    );
+    const sectionMatch = filterSection === "" || t.assignedClass?.some(cls =>
+      cls.class?.section?.toLowerCase().includes(filterSection.toLowerCase())
+    );
+    const dobMatch = filterDOB === "" || new Date(t.dob).toLocaleDateString().includes(filterDOB);
+
+    return nameMatch && phoneMatch && classMatch && sectionMatch && dobMatch;
   });
 
-  console.log("[handleUpdateTeacher] updatedFields:", updatedFields);
+  const handleChange = (e) => {
+    const { name, value, selectedOptions, multiple } = e.target;
+    console.log(`[handleChange] name: ${name}, value:`, value, "multiple:", multiple);
 
-  data.append("data", JSON.stringify(updatedFields));
-
-  // Append images
-  if (formData.profileImage) {
-    console.log("[handleUpdateTeacher] Appending profileImageFile:", formData.profileImage);
-    data.append("profileImage", formData.profileImage); // Ensure backend expects 'profileImage'
-  }
-  if (formData.CnicFrontImage) {
-    console.log("[handleUpdateTeacher] Appending CnicFrontImageFile:", formData.CnicFrontImage);
-    data.append("CnicFrontImage", formData.CnicFrontImage);
-  }
-  if (formData.CnicBackImage) {
-    console.log("[handleUpdateTeacher] Appending CnicBackImageFile:", formData.CnicBackImage);
-    data.append("CnicBackImage", formData.CnicBackImage);
-  }
-
-  try {
-    const res = await axios.put(
-      `${serverUrl}/api/admin/teacher/${editingTeacher._id}`,
-      data,
-      {
-        withCredentials: true,
-        headers: { "Content-Type": "multipart/form-data" },
-      }
-    );
-
-    if (res.status === 200) {
-      toast.success("Teacher updated successfully!");
-      const updatedTeacher = res.data?.updatedTeacher || res.data?.teacher || {};
-      console.log("[handleUpdateTeacher] Response:", updatedTeacher);
-
-      setTotalTeachers(prev =>
-        prev.map(t => (t._id === editingTeacher._id ? { ...t, ...updatedTeacher } : t))
-      );
-      setShowEditModal(false);
-      setEditingTeacher(null);
-      await fetchAdminData();
+    if (multiple) {
+      const values = Array.from(selectedOptions).map(option => option.value);
+      setFormData(prev => ({ ...prev, [name]: values }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
     }
-  } catch (err) {
-    console.error("[handleUpdateTeacher] Error:", err.response?.data || err.message);
-    toast.error(err.response?.data?.message || err.message);
-  }
-};
+  };
 
+  const handleFileChange = async (e) => {
+    const { name, files } = e.target;
+    if (!files || files.length === 0) return;
 
+    try {
+      const compressedFile = await imageCompression(files[0], {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1024,
+        useWebWorker: true,
+      });
+      const previewURL = URL.createObjectURL(compressedFile);
+      console.log("[handleFileChange] Setting file for", name, ":", compressedFile);
 
+      setFormData(prev => {
+        if (prev[`${name}Preview`]) {
+          URL.revokeObjectURL(prev[`${name}Preview`]);
+        }
+        return {
+          ...prev,
+          [`${name}File`]: compressedFile,
+          [`${name}Preview`]: previewURL,
+        };
+      });
+    } catch (error) {
+      console.error("[handleFileChange] Image compression error:", error);
+      toast.error("Failed to compress image. Please try a smaller file.");
+    }
+  };
 
+  const handleUpdateTeacher = async (e) => {
+    e.preventDefault();
+    const data = new FormData();
+
+    const allowedKeys = [
+      "name",
+      "phone",
+      "dob",
+      "address",
+      "salary",
+      "gender",
+      "qualifications",
+      "sessionId",
+      "email",
+      "password",
+      "CnicNumber",
+      "assignedClass",
+      "teachSubject",
+      "incharge",
+    ];
+
+    const updatedFields = {};
+
+    allowedKeys.forEach((key) => {
+      let value = formData[key];
+
+      if (
+        value === undefined ||
+        value === null ||
+        (typeof value === "string" && value.trim() === "") ||
+        (Array.isArray(value) && value.length === 0)
+      ) {
+        value = editingTeacher[key];
+      }
+
+      if (key === "assignedClass") {
+        const assignedClasses = Array.isArray(value) && value.length > 0
+          ? value
+          : editingTeacher?.assignedClass?.map(cls => cls.class?._id) || [];
+        updatedFields[key] = assignedClasses.map(classId => ({
+          class: classId,
+          incharge: formData.incharge || false,
+        }));
+      } else if (key === "teachSubject") {
+        const subjects = Array.isArray(value) && value.length > 0
+          ? value
+          : editingTeacher?.teachSubject?.map(s => s._id) || [];
+        updatedFields[key] = subjects;
+        console.log("[handleUpdateTeacher] teachSubject:", subjects);
+      } else {
+        updatedFields[key] = value;
+      }
+    });
+
+    console.log("[handleUpdateTeacher] updatedFields:", updatedFields);
+    data.append("data", JSON.stringify(updatedFields));
+
+    if (formData.profileImageFile) {
+      console.log("[handleUpdateTeacher] Appending profileImageFile:", formData.profileImageFile);
+      data.append("profileImage", formData.profileImageFile);
+    }
+    if (formData.CnicFrontImageFile) {
+      console.log("[handleUpdateTeacher] Appending CnicFrontImageFile:", formData.CnicFrontImageFile);
+      data.append("CnicFrontImage", formData.CnicFrontImageFile);
+    }
+    if (formData.CnicBackImageFile) {
+      console.log("[handleUpdateTeacher] Appending CnicBackImageFile:", formData.CnicBackImageFile);
+      data.append("CnicBackImage", formData.CnicBackImageFile);
+    }
+
+    try {
+      const res = await axios.put(
+        `${serverUrl}/api/admin/teacher/${editingTeacher._id}`,
+        data,
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+      if (res.status === 200) {
+        toast.success("Teacher updated successfully!");
+        const updatedTeacher = res.data?.updatedTeacher || res.data?.teacher || {};
+        console.log("[handleUpdateTeacher] Response:", updatedTeacher);
+
+        setTotalTeachers(prev =>
+          prev.map(t => (t._id === editingTeacher._id ? { ...t, ...updatedTeacher } : t))
+        );
+        setShowEditModal(false);
+        setEditingTeacher(null);
+        await fetchAdminData();
+      }
+    } catch (err) {
+      console.error("[handleUpdateTeacher] Error:", err.response?.data || err.message);
+      toast.error(err.response?.data?.message || err.message);
+    }
+  };
 
   const handleDelete = async (id) => {
-      // Optimistically update UI
-  setTotalTeachers((prev) => prev.filter((t) => t._id !== id));
+    setTotalTeachers(prev => prev.filter(t => t._id !== id));
     try {
       const res = await axios.delete(`${serverUrl}/api/admin/teacher/${id}`, { withCredentials: true });
       if (res.status === 200) {
@@ -1255,12 +714,16 @@ const handleUpdateTeacher = async (e) => {
     }
   };
 
+  const indexOfLast = currentPage * entriesPerPage;
+  const indexOfFirst = indexOfLast - entriesPerPage;
+  const currentData = filteredTeachers.slice(indexOfFirst, indexOfLast);
+  const totalPages = Math.ceil(filteredTeachers.length / entriesPerPage);
+
   return (
     <AdminLayout adminName="Bright Future">
       <ToastContainer />
       <div className="p-6">
         <div className="bg-white shadow rounded p-4">
-          {/* Top Filter Controls */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
             <div className="text-sm font-medium">
               Show
@@ -1278,29 +741,38 @@ const handleUpdateTeacher = async (e) => {
               </select>
               entries
             </div>
-
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2 w-full">
-              <input type="text" placeholder="Name"
+              <input
+                type="text"
+                placeholder="Name"
                 className="border px-3 py-1 rounded text-sm"
                 value={filterName}
                 onChange={(e) => setFilterName(e.target.value)}
               />
-              <input type="text" placeholder="Phone"
+              <input
+                type="text"
+                placeholder="Phone"
                 className="border px-3 py-1 rounded text-sm"
                 value={filterPhone}
                 onChange={(e) => setFilterPhone(e.target.value)}
               />
-              <input type="text" placeholder="Class"
+              <input
+                type="text"
+                placeholder="Class"
                 className="border px-3 py-1 rounded text-sm"
                 value={filterClass}
                 onChange={(e) => setFilterClass(e.target.value)}
               />
-              <input type="text" placeholder="Section"
+              <input
+                type="text"
+                placeholder="Section"
                 className="border px-3 py-1 rounded text-sm"
                 value={filterSection}
                 onChange={(e) => setFilterSection(e.target.value)}
               />
-              <input type="text" placeholder="DOB (e.g. 6/25/2025)"
+              <input
+                type="text"
+                placeholder="DOB (e.g. 6/25/2025)"
                 className="border px-3 py-1 rounded text-sm"
                 value={filterDOB}
                 onChange={(e) => setFilterDOB(e.target.value)}
@@ -1308,18 +780,17 @@ const handleUpdateTeacher = async (e) => {
             </div>
           </div>
 
-          {/* Table */}
           <div className="overflow-auto">
             <table className="w-full border border-gray-200 text-sm">
               <thead className="bg-gray-100">
                 <tr>
                   <th className="px-3 py-2 border">#</th>
                   <th className="px-3 py-2 border">Name</th>
-                   <th className="px-3 py-2 border">Profile</th>
+                  <th className="px-3 py-2 border">Profile</th>
                   <th className="px-3 py-2 border">Class</th>
                   <th className="px-3 py-2 border">Section</th>
-                   <th className="px-3 py-2 border">Incharge</th>
-                   <th className="px-3 py-2 border">Subject</th>
+                  <th className="px-3 py-2 border">Incharge</th>
+                  <th className="px-3 py-2 border">Subject</th>
                   <th className="px-3 py-2 border hidden sm:table-cell">Phone</th>
                   <th className="px-3 py-2 border hidden md:table-cell">DOB</th>
                   <th className="px-3 py-2 border hidden lg:table-cell">Address</th>
@@ -1328,461 +799,281 @@ const handleUpdateTeacher = async (e) => {
                 </tr>
               </thead>
               <tbody>
-              {currentData.length > 0 ? currentData.map((teacher, i) => {
-  const { profileImage } = teacher;
-  const imageSrc = profileImage?.data
-    ? `data:${profileImage.contentType};base64,${profileImage.data}`
-    : 'https://via.placeholder.com/50';
+                {currentData.length > 0 ? currentData.map((teacher, i) => {
+                  const { profileImage } = teacher;
+                  const imageSrc = profileImage?.data
+                    ? `data:${profileImage.contentType};base64,${profileImage.data}`
+                    : 'https://via.placeholder.com/50';
 
-  return (
-    <tr key={teacher._id} className="border-t">
-      <td className="px-3 py-2 border">{indexOfFirst + i + 1}</td>
-      <td className="px-3 py-2 border">{teacher.name}</td>
-       <td className="px-3 py-2 border">
-            <img
-              src={imageSrc}
-              alt={teacher.name}
-              className="w-10 h-10 rounded-full object-cover"
-            />
-          </td>
-      {/* Class Name */}
-      <td className="px-3 py-2 border">
-        {teacher.assignedClass?.map(cls => cls.class?.name || "N/A").join(", ")}
-      </td>
-
-      {/* Section */}
-      <td className="px-3 py-2 border">
-        {teacher.assignedClass?.map(cls => cls.class?.section || "N/A").join(", ")}
-      </td>
-
-      {/* Incharge */}
-      <td className="px-3 py-2 border">
-        {teacher.assignedClass?.map(cls => cls.incharge ? "true" : "false").join(", ")}
-      </td>
-
-      {/* Subjects */}
-      <td className="px-3 py-2 border">
-        {teacher.teachSubject?.map(subject => subject.name || "N/A").join(", ")}
-      </td>
-
-      {/* Phone */}
-      <td className="px-3 py-2 border hidden sm:table-cell">{teacher.phone}</td>
-
-      {/* DOB */}
-      <td className="px-3 py-2 border hidden md:table-cell">
-        {new Date(teacher.dob).toLocaleDateString()}
-      </td>
-
-      {/* Address */}
-      <td className="px-3 py-2 border hidden lg:table-cell">{teacher.address}</td>
-
-      {/* Salary */}
-      <td className="px-3 py-2 border">{teacher.salary}</td>
-
-      {/* Actions */}
-      <td className="px-3 py-2 border space-x-1">
-        <button className="bg-blue-500 text-white px-2 py-1 rounded text-xs">View</button>
-        {/* <button onClick={() => {
-  setEditingTeacher(teacher);
-  setFormData({
-    name: teacher.name,
-    phone: teacher.phone,
-    dob: teacher.dob.split('T')[0],
-    address: teacher.address,
-    salary: teacher.salary,
-    gender: teacher.gender,
-    email: teacher.email,
-    password: "", // don't preload password
-    qualifications: teacher.qualifications,
-    sessionId: teacher.sessionId || "",
-    CnicNumber: teacher.CnicNumber,
-    assignedClass: teacher.assignedClass.map(cls => cls.class._id),
-    teachSubject: teacher.teachSubject.map(s => s._id),
-    profileImageFile: null,
-    CnicFrontImage: null,
-    CnicBackImage: null,
-    incharge: teacher.assignedClass?.some(cls => cls.incharge) || false,
-
-    // ✅ Preview setup
-    CnicFrontPreview: teacher.CnicFrontImage?.data
-      ? `data:${teacher.CnicFrontImage.contentType};base64,${teacher.CnicFrontImage.data}`
-      : null,
-    CnicBackPreview: teacher.CnicBackImage?.data
-      ? `data:${teacher.CnicBackImage.contentType};base64,${teacher.CnicBackImage.data}`
-      : null,
-  });
-  setShowEditModal(true);
-}}
-         className="bg-yellow-500 text-white px-2 py-1 rounded text-xs">Edit</button> */}
-
-
-
-         {/* <button
-  onClick={() => {
-    setEditingTeacher(teacher);
-    setFormData({
-      name: teacher.name || "",
-      phone: teacher.phone || "",
-      dob: teacher.dob ? teacher.dob.split("T")[0] : "",
-      address: teacher.address || "",
-      salary: teacher.salary || "",
-      gender: teacher.gender || "",
-      email: teacher.email || "",
-      password: "", // Don't preload password
-      qualifications: teacher.qualifications || "",
-      sessionId: teacher.sessionId || "",
-      CnicNumber: teacher.CnicNumber || "",
-      assignedClass: Array.isArray(teacher.assignedClass)
-        ? teacher.assignedClass.map(cls => cls.class?._id).filter(Boolean)
-        : [],
-      teachSubject: Array.isArray(teacher.teachSubject)
-        ? teacher.teachSubject.map(s => s._id).filter(Boolean)
-        : [],
-      incharge: teacher.assignedClass?.some(cls => cls.incharge) || false,
-      profileImageFile: null,
-      profileImagePreview: teacher.profileImage?.data
-        ? `data:${teacher.profileImage.contentType};base64,${teacher.profileImage.data}`
-        : null,
-      CnicFrontImage: null,
-      CnicFrontPreview: teacher.CnicFrontImage?.data
-        ? `data:${teacher.CnicFrontImage.contentType};base64,${teacher.CnicFrontImage.data}`
-        : null,
-      CnicBackImage: null,
-      CnicBackPreview: teacher.CnicBackImage?.data
-        ? `data:${teacher.CnicBackImage.contentType};base64,${teacher.CnicBackImage.data}`
-        : null,
-    });
-    setShowEditModal(true);
-  }}
-  className="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
->
-  Edit
-</button> */}
-
-
-
-
-
-<button
-  onClick={() => {
-    const newFormData = {
-      name: teacher.name || "",
-      phone: teacher.phone || "",
-      dob: teacher.dob ? teacher.dob.split("T")[0] : "",
-      address: teacher.address || "",
-      salary: teacher.salary || "",
-      gender: teacher.gender || "",
-      email: teacher.email || "",
-      password: "",
-      qualifications: teacher.qualifications || "",
-      sessionId: teacher.sessionId || "",
-      CnicNumber: teacher.CnicNumber || "",
-      assignedClass: Array.isArray(teacher.assignedClass)
-        ? teacher.assignedClass.map(cls => cls.class?._id).filter(Boolean)
-        : [],
-      teachSubject: Array.isArray(teacher.teachSubject)
-        ? teacher.teachSubject.map(s => s._id).filter(Boolean)
-        : [],
-      incharge: teacher.assignedClass?.some(cls => cls.incharge) || false,
-      profileImageFile: null,
-      profileImagePreview: teacher.profileImage?.data
-        ? `data:${teacher.profileImage.contentType};base64,${teacher.profileImage.data}`
-        : null,
-      CnicFrontImageFile: null,
-      CnicFrontPreview: teacher.CnicFrontImage?.data
-        ? `data:${teacher.CnicFrontImage.contentType};base64,${teacher.CnicFrontImage.data}`
-        : null,
-      CnicBackImageFile: null,
-      CnicBackPreview: teacher.CnicBackImage?.data
-        ? `data:${teacher.CnicBackImage.contentType};base64,${teacher.CnicBackImage.data}`
-        : null,
-    };
-    console.log("[Edit Button] Initializing formData:", newFormData);
-    setFormData(newFormData);
-    setEditingTeacher(teacher);
-    setShowEditModal(true);
-  }}
-  className="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
->
-  Edit
-</button>
-        <button
-          onClick={() => handleDelete(teacher._id)}
-          className="bg-red-500 text-white px-2 py-1 rounded text-xs"
-        >
-          Delete
-        </button>
-      </td>
-    </tr>
-  );
-}) : (
-  <tr>
-    <td colSpan="12" className="text-center py-4 text-gray-500">
-      No teachers found.
-    </td>
-  </tr>
-)}
+                  return (
+                    <tr key={teacher._id} className="border-t">
+                      <td className="px-3 py-2 border">{indexOfFirst + i + 1}</td>
+                      <td className="px-3 py-2 border">{teacher.name}</td>
+                      <td className="px-3 py-2 border">
+                        <img
+                          src={imageSrc}
+                          alt={teacher.name}
+                          className="w-10 h-10 rounded-full object-cover"
+                        />
+                      </td>
+                      <td className="px-3 py-2 border">
+                        {teacher.assignedClass?.map(cls => cls.class?.name || "N/A").join(", ")}
+                      </td>
+                      <td className="px-3 py-2 border">
+                        {teacher.assignedClass?.map(cls => cls.class?.section || "N/A").join(", ")}
+                      </td>
+                      <td className="px-3 py-2 border">
+                        {teacher.assignedClass?.map(cls => cls.incharge ? "true" : "false").join(", ")}
+                      </td>
+                      <td className="px-3 py-2 border">
+                        {teacher.teachSubject?.map(subject => subject.name || "N/A").join(", ")}
+                      </td>
+                      <td className="px-3 py-2 border hidden sm:table-cell">{teacher.phone}</td>
+                      <td className="px-3 py-2 border hidden md:table-cell">
+                        {new Date(teacher.dob).toLocaleDateString()}
+                      </td>
+                      <td className="px-3 py-2 border hidden lg:table-cell">{teacher.address}</td>
+                      <td className="px-3 py-2 border">{teacher.salary}</td>
+                      <td className="px-3 py-2 border space-x-1">
+                        <button className="bg-blue-500 text-white px-2 py-1 rounded text-xs">View</button>
+                        <button
+                          onClick={() => {
+                            const newFormData = {
+                              name: teacher.name || "",
+                              phone: teacher.phone || "",
+                              dob: teacher.dob ? teacher.dob.split("T")[0] : "",
+                              address: teacher.address || "",
+                              salary: teacher.salary || "",
+                              gender: teacher.gender || "",
+                              email: teacher.email || "",
+                              password: "",
+                              qualifications: teacher.qualifications || "",
+                              sessionId: teacher.sessionId || "",
+                              CnicNumber: teacher.CnicNumber || "",
+                              assignedClass: Array.isArray(teacher.assignedClass)
+                                ? teacher.assignedClass.map(cls => cls.class?._id).filter(Boolean)
+                                : [],
+                              teachSubject: Array.isArray(teacher.teachSubject)
+                                ? teacher.teachSubject.map(s => s._id).filter(Boolean)
+                                : [],
+                              incharge: teacher.assignedClass?.some(cls => cls.incharge) || false,
+                              profileImageFile: null,
+                              profileImagePreview: teacher.profileImage?.data
+                                ? `data:${teacher.profileImage.contentType};base64,${teacher.profileImage.data}`
+                                : null,
+                              CnicFrontImageFile: null,
+                              CnicFrontPreview: teacher.CnicFrontImage?.data
+                                ? `data:${teacher.CnicFrontImage.contentType};base64,${teacher.CnicFrontImage.data}`
+                                : null,
+                              CnicBackImageFile: null,
+                              CnicBackPreview: teacher.CnicBackImage?.data
+                                ? `data:${teacher.CnicBackImage.contentType};base64,${teacher.CnicBackImage.data}`
+                                : null,
+                            };
+                            console.log("[Edit Button] Initializing formData:", newFormData);
+                            console.log("[Edit Button] Teacher data:", teacher);
+                            setFormData(newFormData);
+                            setEditingTeacher(teacher);
+                            setShowEditModal(true);
+                          }}
+                          className="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => handleDelete(teacher._id)}
+                          className="bg-red-500 text-white px-2 py-1 rounded text-xs"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                }) : (
+                  <tr>
+                    <td colSpan="12" className="text-center py-4 text-gray-500">
+                      No teachers found.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
 
-{showEditModal && (
-  <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
-    <div className="bg-white max-h-[90vh] overflow-y-auto w-full max-w-3xl rounded-xl shadow-lg p-6">
-      <h2 className="text-xl font-semibold text-[rgb(1,1,93)] mb-4">Edit Teacher</h2>
+          {showEditModal && (
+            <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
+              <div className="bg-white max-h-[90vh] overflow-y-auto w-full max-w-3xl rounded-xl shadow-lg p-6">
+                <h2 className="text-xl font-semibold text-[rgb(1,1,93)] mb-4">Edit Teacher</h2>
+                <form onSubmit={handleUpdateTeacher} className="space-y-5" encType="multipart/form-data">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div className="w-full flex flex-col items-center sm:col-span-2">
+                      <label htmlFor="editProfileImage" className="cursor-pointer relative group">
+                        {formData.profileImagePreview ? (
+                          <img
+                            src={formData.profileImagePreview}
+                            alt="New Preview"
+                            className="w-24 h-24 rounded-full object-cover border-2 border-blue-500"
+                          />
+                        ) : editingTeacher?.profileImage?.data ? (
+                          <img
+                            src={`data:${editingTeacher.profileImage.contentType};base64,${editingTeacher.profileImage.data}`}
+                            alt="Current"
+                            className="w-24 h-24 rounded-full object-cover border-2 border-blue-500"
+                          />
+                        ) : (
+                          <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300 hover:border-blue-500">
+                            <FaUserCircle className="text-4xl text-[rgb(1,1,93)] group-hover:text-[rgb(193,151,5)]" />
+                          </div>
+                        )}
+                        <input
+                          type="file"
+                          id="editProfileImage"
+                          name="profileImage"
+                          accept="image/*"
+                          onChange={handleFileChange}
+                          className="hidden"
+                        />
+                      </label>
+                      <p className="text-xs text-[rgb(1,1,93)] mt-2">Click to upload profile</p>
+                    </div>
 
-      <form onSubmit={handleUpdateTeacher} className="space-y-5" encType="multipart/form-data">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          {/* Profile Image */}
-          <div className="w-full flex flex-col items-center sm:col-span-2">
-            {/* <label htmlFor="editProfileImage" className="cursor-pointer relative group">
-              {editingTeacher?.profileImage?.data ? (
-                <img
-                  src={`data:${editingTeacher.profileImage.contentType};base64,${editingTeacher.profileImage.data}`}
-                  alt="Profile"
-                  className="w-24 h-24 rounded-full object-cover border-2 border-blue-500"
-                />
-              ) : (
-                <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300 hover:border-blue-500">
-                  <FaUserCircle className="text-4xl text-[rgb(1,1,93)] group-hover:text-[rgb(193,151,5)]" />
-                </div>
-              )}
-              <input
-                type="file"
-                id="editProfileImage"
-                name='profileImage'
-                accept="image/*"
-                onChange={handleFileChange}
-                // onChange={e => setFormData(prev => ({
-                //   ...prev, profileImageFile: e.target.files[0]
-                // }))}
-                className="hidden"
-              />
-            </label> */}
+                    <InputField label="Full Name" name="name" value={formData.name} onChange={handleChange} />
+                    <InputField label="Phone" name="phone" value={formData.phone} onChange={handleChange} />
+                    <InputField label="DOB" type="date" name="dob" value={formData.dob} onChange={handleChange} />
+                    <InputField label="Address" name="address" value={formData.address} onChange={handleChange} />
+                    <InputField label="Salary" type="number" name="salary" value={formData.salary} onChange={handleChange} />
+                    <SelectField
+                      label="Gender"
+                      name="gender"
+                      value={formData.gender}
+                      onChange={handleChange}
+                      options={[
+                        { value: "", label: "Select Gender" },
+                        { value: "male", label: "Male" },
+                        { value: "female", label: "Female" },
+                      ]}
+                    />
+                    <InputField label="Email" type="email" name="email" value={formData.email} onChange={handleChange} />
+                    <InputField label="Password" type="password" name="password" value={formData.password} onChange={handleChange} />
+                    <InputField label="CNIC Number" name="CnicNumber" value={formData.CnicNumber} onChange={handleChange} minLength={13} />
+                    <InputField label="Qualifications" name="qualifications" value={formData.qualifications} onChange={handleChange} />
+                    <SelectField
+                      label="Session"
+                      name="sessionId"
+                      value={formData.sessionId}
+                      onChange={handleChange}
+                      options={[
+                        { value: "", label: "Select Session" },
+                        ...adminData.admin.sessions.map(s => ({
+                          value: s._id,
+                          label: `${s.name} (${new Date(s.startDate).toLocaleDateString()} - ${new Date(s.endDate).toLocaleDateString()})`,
+                        })),
+                      ]}
+                    />
+                    <SelectField
+                      label="Assigned Class"
+                      name="assignedClass"
+                      value={formData.assignedClass || []}
+                      onChange={handleChange}
+                      options={classes.map(cls => ({
+                        value: String(cls._id),
+                        label: `${cls.name} - ${cls.section}`,
+                      }))}
+                      multiple={true}
+                    />
+                    <SelectField
+                      label="Subject"
+                      name="teachSubject"
+                      value={formData.teachSubject || []}
+                      onChange={handleChange}
+                      options={subjects.map(s => ({
+                        value: s._id,
+                        label: s.name,
+                      }))}
+                      multiple={true}
+                    />
+                    <div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-5">
+                      <div className="flex flex-col">
+                        <label className="text-sm font-medium text-[rgb(1,1,93)] mb-1">CNIC Front</label>
+                        {formData.CnicFrontPreview ? (
+                          <img
+                            src={formData.CnicFrontPreview}
+                            alt="CNIC Front Preview"
+                            className="w-28 h-20 object-cover rounded border mb-2"
+                          />
+                        ) : editingTeacher?.CnicFrontImage?.data && (
+                          <img
+                            src={`data:${editingTeacher.CnicFrontImage.contentType};base64,${editingTeacher.CnicFrontImage.data}`}
+                            alt="CNIC Front"
+                            className="w-28 h-20 object-cover rounded border mb-2"
+                          />
+                        )}
+                        <input
+                          type="file"
+                          name="CnicFrontImage"
+                          accept="image/*"
+                          onChange={handleFileChange}
+                          className="text-sm"
+                        />
+                      </div>
+                      <div className="flex flex-col">
+                        <label className="text-sm font-medium text-[rgb(1,1,93)] mb-1">CNIC Back</label>
+                        {formData.CnicBackPreview ? (
+                          <img
+                            src={formData.CnicBackPreview}
+                            alt="CNIC Back Preview"
+                            className="w-28 h-20 object-cover rounded border mb-2"
+                          />
+                        ) : editingTeacher?.CnicBackImage?.data && (
+                          <img
+                            src={`data:${editingTeacher.CnicBackImage.contentType};base64,${editingTeacher.CnicBackImage.data}`}
+                            alt="CNIC Back"
+                            className="w-28 h-20 object-cover rounded border mb-2"
+                          />
+                        )}
+                        <input
+                          type="file"
+                          name="CnicBackImage"
+                          accept="image/*"
+                          onChange={handleFileChange}
+                          className="text-sm"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-3 sm:col-span-2">
+                      <input
+                        type="checkbox"
+                        id="incharge"
+                        name="incharge"
+                        checked={formData.incharge}
+                        onChange={handleChange}
+                        className="w-5 h-5"
+                      />
+                      <label htmlFor="incharge" className="text-[rgb(1,1,93)] font-medium">
+                        Is In-Charge of the Class?
+                      </label>
+                    </div>
+                  </div>
+                  <div className="flex justify-end space-x-3 mt-6">
+                    <button
+                      type="button"
+                      onClick={() => setShowEditModal(false)}
+                      className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="bg-[rgb(193,151,5)] text-white px-4 py-2 rounded hover:bg-yellow-600"
+                    >
+                      Save Changes
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
 
-            <label htmlFor="editProfileImage" className="cursor-pointer relative group">
-  {formData.profileImagePreview ? (
-    // 🔹 Show newly selected preview
-    <img
-      src={formData.profileImagePreview}
-      alt="New Preview"
-      className="w-24 h-24 rounded-full object-cover border-2 border-blue-500"
-    />
-  ) : editingTeacher?.profileImage?.data ? (
-    // 🔹 Show original profile image
-    <img
-      src={`data:${editingTeacher.profileImage.contentType};base64,${editingTeacher.profileImage.data}`}
-      alt="Current"
-      className="w-24 h-24 rounded-full object-cover border-2 border-blue-500"
-    />
-  ) : (
-    // 🔹 Show default fallback
-    <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300 hover:border-blue-500">
-      <FaUserCircle className="text-4xl text-[rgb(1,1,93)] group-hover:text-[rgb(193,151,5)]" />
-    </div>
-  )}
-  <input
-    type="file"
-    id="editProfileImage"
-    name="profileImage"
-    accept="image/*"
-    onChange={handleFileChange}
-    className="hidden"
-  />
-</label>
-
-            <p className="text-xs text-[rgb(1,1,93)] mt-2">Click to upload profile</p>
-          </div>
-
-          {/* Name */}
-          <InputField label="Full Name" name="name" value={formData.name} onChange={handleChange} />
-          {/* Phone */}
-          <InputField label="Phone" name="phone" value={formData.phone} onChange={handleChange} />
-          {/* DOB */}
-          <InputField label="DOB" type="date" name="dob" value={formData.dob} onChange={handleChange} />
-          {/* Address */}
-          <InputField label="Address" name="address" value={formData.address} onChange={handleChange} />
-          {/* Salary */}
-          <InputField label="Salary" type="number" name="salary" value={formData.salary} onChange={handleChange} />
-
-          {/* Gender */}
-          <SelectField label="Gender" name="gender" value={formData.gender} onChange={handleChange} options={[
-            { value: "", label: "Select Gender" },
-            { value: "male", label: "Male" },
-            { value: "female", label: "Female" }
-          ]} />
-
-          {/* Email */}
-          <InputField label="Email" type="email" name="email" value={formData.email} onChange={handleChange} />
-
-          {/* Password */}
-          <InputField label="Password" type="password" name="password" value={formData.password} onChange={handleChange} />
-
-          {/* CNIC */}
-          <InputField label="CNIC Number" name="CnicNumber" value={formData.CnicNumber} onChange={handleChange} minLength={13} />
-
-          {/* Qualifications */}
-          <InputField label="Qualifications" name="qualifications" value={formData.qualifications} onChange={handleChange} />
-
-          {/* Session */}
-          <SelectField label="Session" name="sessionId" value={formData.sessionId} onChange={handleChange}
-            options={[
-              { value: "", label: "Select Session" },
-              ...adminData.admin.sessions.map(s => ({
-                value: s._id,
-                label: `${s.name} (${new Date(s.startDate).toLocaleDateString()} - ${new Date(s.endDate).toLocaleDateString()})`
-              }))
-            ]} />
-
-          {/* Class */}
-          {/* <SelectField label="Assigned Class" name="assignedClass" value={formData.assignedClass} onChange={handleChange}
-            options={classes.map(cls => ({
-              value: cls._id,
-              label: `${cls.name} - ${cls.section}`
-            }))} /> */}
-{/* <SelectField
-  label="Assigned Class"
-  name="assignedClass"
-  value={formData.assignedClass || ""}
-  onChange={handleChange}
-  options={classes.map(cls => ({
-    value: String(cls._id),
-    label: `${cls.name} - ${cls.section}`
-  }))}
-  multiple={false}
-/> */}
-{/* <SelectField
-  label="Assigned Class"
-  name="assignedClass"
-  value={formData.assignedClass || ""}
-  onChange={handleChange}
-  options={classes.map(cls => ({
-    value: String(cls._id),
-    label: `${cls.name} - ${cls.section}`
-  }))}
-  multiple={false}
-/> */}
-
-<SelectField
-  label="Assigned Class"
-  name="assignedClass"
-  value={formData.assignedClass || []} // Ensure it's an array
-  onChange={handleChange}
-  options={classes.map(cls => ({
-    value: String(cls._id),
-    label: `${cls.name} - ${cls.section}`,
-  }))}
-  multiple={true} // Allow multiple selections
-/>
-          {/* Subject */}
-          {/* <SelectField label="Subject" name="teachSubject" value={formData.teachSubject} onChange={handleChange}
-            options={subjects.map(s => ({ value: s._id, label: s.name }))} /> */}
-
-<SelectField
-  label="Subject"
-  name="teachSubject"
-  value={formData.teachSubject || []} // Ensure it's an array
-  onChange={handleChange}
-  options={subjects.map(s => ({
-    value: s._id,
-    label: s.name,
-  }))}
-  multiple={true} // Allow multiple selections
-/>
-
-{/* CNIC Front & Back Image Upload */}
-<div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-5">
-  {/* CNIC Front */}
-  <div className="flex flex-col">
-    <label className="text-sm font-medium text-[rgb(1,1,93)] mb-1">CNIC Front</label>
-    {formData.CnicFrontPreview ? (
-      <img
-        src={formData.CnicFrontPreview}
-        alt="CNIC Front Preview"
-        className="w-28 h-20 object-cover rounded border mb-2"
-      />
-    ) : editingTeacher?.CnicFrontImage?.data && (
-      <img
-        src={`data:${editingTeacher.CnicFrontImage.contentType};base64,${editingTeacher.CnicFrontImage.data}`}
-        alt="CNIC Front"
-        className="w-28 h-20 object-cover rounded border mb-2"
-      />
-    )}
-    <input
-      type="file"
-      name="CnicFrontImage"
-      accept="image/*"
-      onChange={handleFileChange}
-      className="text-sm"
-    />
-  </div>
-
-  {/* CNIC Back */}
-  <div className="flex flex-col">
-    <label className="text-sm font-medium text-[rgb(1,1,93)] mb-1">CNIC Back</label>
-    {formData.CnicBackPreview ? (
-      <img
-        src={formData.CnicBackPreview}
-        alt="CNIC Back Preview"
-        className="w-28 h-20 object-cover rounded border mb-2"
-      />
-    ) : editingTeacher?.CnicBackImage?.data && (
-      <img
-        src={`data:${editingTeacher.CnicBackImage.contentType};base64,${editingTeacher.CnicBackImage.data}`}
-        alt="CNIC Back"
-        className="w-28 h-20 object-cover rounded border mb-2"
-      />
-    )}
-    <input
-      type="file"
-      name="CnicBackImage"
-      accept="image/*"
-      onChange={handleFileChange}
-      className="text-sm"
-    />
-  </div>
-</div>
-
-
-          {/* Incharge Checkbox */}
-          <div className="flex items-center space-x-3 sm:col-span-2">
-            <input
-              type="checkbox"
-              id="incharge"
-              name="incharge"
-              checked={formData.incharge}
-              onChange={handleChange}
-              className="w-5 h-5"
-            />
-            <label htmlFor="incharge" className="text-[rgb(1,1,93)] font-medium">
-              Is In-Charge of the Class?
-            </label>
-          </div>
-        </div>
-
-        {/* Buttons */}
-        <div className="flex justify-end space-x-3 mt-6">
-          <button
-            type="button"
-            onClick={() => setShowEditModal(false)}
-            className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className="bg-[rgb(193,151,5)] text-white px-4 py-2 rounded hover:bg-yellow-600"
-          >
-            Save Changes
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-)}
-
-
-          {/* Pagination */}
           <div className="flex flex-col md:flex-row justify-between items-center mt-4">
             <div className="text-sm">
               Showing {indexOfFirst + 1} to {Math.min(indexOfLast, filteredTeachers.length)} of {filteredTeachers.length} entries
@@ -1818,9 +1109,8 @@ const handleUpdateTeacher = async (e) => {
     </AdminLayout>
   );
 };
-export default TeachersCard;
 
-const InputField= ({ label, name, type, value, onChange }) => (
+const InputField = ({ label, name, type, value, onChange }) => (
   <div className="relative">
     <input
       type={type}
@@ -1839,6 +1129,1406 @@ const InputField= ({ label, name, type, value, onChange }) => (
     </label>
   </div>
 );
+
+const SelectField = ({ label, name, value, onChange, options, multiple = false }) => {
+  console.log(`[SelectField] value for ${name}:`, value, typeof value);
+
+  const val = multiple ? (Array.isArray(value) ? value : []) : (value ?? "");
+
+  return (
+    <div className="relative">
+      <select
+        name={name}
+        id={name}
+        value={val}
+        onChange={onChange}
+        multiple={multiple}
+        className={`w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500 ${
+          multiple ? "h-24" : ""
+        }`}
+      >
+        {!multiple && <option value="" disabled>Select {label}</option>}
+        {options.map(opt => (
+          <option key={opt.value} value={opt.value}>
+            {opt.label}
+          </option>
+        ))}
+      </select>
+      <label className="absolute left-3 -top-2 text-sm text-green-600 bg-white px-1">{label}</label>
+    </div>
+  );
+};
+
+export default TeachersCard;
+
+// end here
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//  const TeachersCard = () => {
+
+//   const { adminData, fetchAdminData } = useContext(adminDataContext);
+//   const { serverUrl } = useContext(authDataContext);
+//   const { teachers = [] } = adminData?.admin || {};
+//   const { subjects = [] } = adminData?.admin || {};
+//   const [totalTeachers,setTotalTeachers] = useState([]);
+//   const [filterName, setFilterName] = useState("");
+//   const {classes = [] } = adminData?.admin || {};
+//   const [filterPhone, setFilterPhone] = useState("");
+//   const [filterClass, setFilterClass] = useState("");
+//   const [filterSection, setFilterSection] = useState("");
+//   const [filterDOB, setFilterDOB] = useState("");
+//   const [showEditModal, setShowEditModal] = useState(false);
+//   const [editingTeacher, setEditingTeacher] = useState(null);
+// //   const [formData, setFormData] = useState({
+// //   name: "",
+// //   phone: "",
+// //   dob: "",
+// //   address: "",
+// //   salary: "",
+// //   sessionId:"",
+// //   CnicNumber: '',
+// //   assignedClass: "" ,
+// //   teachSubject: [],
+// //   profileImage: null,
+// //   profileImageFile: null,
+// //   profileImagePreview: null,
+// //   CnicFrontImage: null,
+// //   CnicBackImage: null,
+// //   CnicFrontPreview: null,
+// //   CnicBackPreview: null,
+
+// // });
+
+
+
+// const [formData, setFormData] = useState({
+//   name: "",
+//   phone: "",
+//   dob: "",
+//   address: "",
+//   salary: "",
+//   sessionId: "",
+//   CnicNumber: "",
+//   assignedClass: [], // Changed to array for multiple selections
+//   teachSubject: [],
+//   profileImage: null, // Use profileImageFile consistently
+//   profileImagePreview: null,
+//   CnicFrontImage: null,
+//   CnicFrontPreview: null,
+//   CnicBackImage: null,
+//   CnicBackPreview: null,
+//   gender: "",
+//   email: "",
+//   password: "",
+//   qualifications: "",
+//   incharge: false,
+// });
+
+//   const [entriesPerPage, setEntriesPerPage] = useState(10);
+//   const [currentPage, setCurrentPage] = useState(1);
+
+
+
+// useEffect(() => {
+//   if (Array.isArray(teachers)) {
+//     setTotalTeachers(teachers);
+//   }
+//   setCurrentPage(1);
+// }, [teachers,classes]); // instead of including filterName, filterPhone, etc.
+//   const filteredTeachers = totalTeachers.filter((t) => {
+//   const nameMatch = filterName === "" || t.name?.toLowerCase().includes(filterName.toLowerCase());
+//   const phoneMatch = filterPhone === "" || t.phone?.toString().includes(filterPhone);
+//   const classMatch = filterClass === "" || t.assignedClass?.some(cls =>
+//     cls.name?.toLowerCase().includes(filterClass.toLowerCase())
+//   );
+//   const sectionMatch = filterSection === "" || t.assignedClass?.some(cls =>
+//     cls.section?.toLowerCase().includes(filterSection.toLowerCase())
+//   );
+//   const dobMatch = filterDOB === "" || new Date(t.dob).toLocaleDateString().includes(filterDOB);
+
+//   return nameMatch && phoneMatch && classMatch && sectionMatch && dobMatch;
+// });
+
+// // const handleChange = (e) => {
+// //   const { name, value, type, checked } = e.target;
+// //   setFormData((prev) => ({
+// //     ...prev,
+// //     [name]: type === 'checkbox' ? checked : value,
+// //   }));
+// // };
+
+
+
+// // const handleChange = (e) => {
+// //   const { name, value, type, checked, multiple, options } = e.target;
+// //   if (multiple) {
+// //     const selectedOptions = Array.from(options).filter(o => o.selected).map(o => o.value);
+// //     setFormData(prev => ({ ...prev, [name]: selectedOptions }));
+// //   } else {
+// //     setFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+// //   }
+// // };
+
+// // const handleChange = (e) => {
+// //   const { name, value, selectedOptions, multiple } = e.target;
+
+// //   if (multiple) {
+// //     // get array of selected values
+// //     const values = Array.from(selectedOptions).map(option => option.value);
+// //     setFormData(prev => ({ ...prev, [name]: values }));
+// //   } else {
+// //     // set scalar value
+// //     setFormData(prev => ({ ...prev, [name]: value }));
+// //   }
+// // };
+
+
+
+
+// const handleChange = (e) => {
+//   const { name, value, selectedOptions, multiple } = e.target;
+
+//   console.log(`[handleChange] name: ${name}, value:`, value, "multiple:", multiple);
+
+//   if (multiple) {
+//     const values = Array.from(selectedOptions).map(option => option.value);
+//     setFormData(prev => ({ ...prev, [name]: values }));
+//   } else {
+//     setFormData(prev => ({ ...prev, [name]: value }));
+//   }
+// };
+
+// // const handleFileChange = async (e) => {
+// //   const { name, files } = e.target;
+// //   if (!files || files.length === 0) return;
+
+// //   try {
+// //     const compressedFile = await imageCompression(files[0], {
+// //       maxSizeMB: 1,
+// //       maxWidthOrHeight: 1024,
+// //       useWebWorker: true,
+// //     });
+// //     const previewURL = URL.createObjectURL(compressedFile);
+// // // if (name === 'profileImage') {
+// // //   setFormData(prev => ({
+// // //     ...prev,
+// // //     profileImageFile: compressedFile,
+// // //     profileImagePreview: previewURL
+// // //   }));
+// // // } else {
+// // //   setFormData(prev => ({
+// // //     ...prev,
+// // //     [name]: compressedFile,
+// // //     [`${name}Preview`]: previewURL
+// // //   }));
+
+// // //const previewURL = URL.createObjectURL(compressedFile);
+// // setFormData(prev => {
+// //   if (prev[`${name}Preview`]) {
+// //     URL.revokeObjectURL(prev[`${name}Preview`]);
+// //   }
+// //   return {
+// //     ...prev,
+// //     [name]: compressedFile,
+// //     [`${name}Preview`]: previewURL
+// //   };
+// // });
+// //     // setFormData((prev) => ({
+// //     //   ...prev,
+// //     //   [name]: compressedFile,
+// //     //   [`${name}Preview`]: previewURL,
+// //     // }));
+// //   } catch (error) {
+// //     console.error("Image compression error:", error);
+// //     toast.error("Failed to compress image. Please try a smaller file.");
+// //   }
+// // };
+
+// // const handleFileChange = async (e) => {
+// //   const { name, files } = e.target;
+// //   if (!files || files.length === 0) return;
+
+// //   try {
+// //     const compressedFile = await imageCompression(files[0], {
+// //       maxSizeMB: 1,
+// //       maxWidthOrHeight: 1024,
+// //       useWebWorker: true,
+// //     });
+// //     const previewURL = URL.createObjectURL(compressedFile);
+
+// //     setFormData(prev => {
+// //       // Revoke old preview URL to prevent memory leaks
+// //       if (prev[`${name}Preview`]) {
+// //         URL.revokeObjectURL(prev[`${name}Preview`]);
+// //       }
+// //       return {
+// //         ...prev,
+// //         [`${name}File`]: compressedFile, // Store the file
+// //         [`${name}Preview`]: previewURL, // Store the preview URL
+// //       };
+// //     });
+// //   } catch (error) {
+// //     console.error("Image compression error:", error);
+// //     toast.error("Failed to compress image. Please try a smaller file.");
+// //   }
+// // };
+
+
+
+
+
+
+
+
+
+
+
+
+// const handleFileChange = async (e) => {
+//   const { name, files } = e.target;
+//   if (!files || files.length === 0) return;
+
+//   try {
+//     const compressedFile = await imageCompression(files[0], {
+//       maxSizeMB: 1,
+//       maxWidthOrHeight: 1024,
+//       useWebWorker: true,
+//     });
+//     const previewURL = URL.createObjectURL(compressedFile);
+
+//     setFormData(prev => {
+//       if (prev[`${name}Preview`]) {
+//         URL.revokeObjectURL(prev[`${name}Preview`]);
+//       }
+//       return {
+//         ...prev,
+//         [`${name}File`]: compressedFile, // Store as profileImageFile, CnicFrontImageFile, etc.
+//         [`${name}Preview`]: previewURL,
+//       };
+//     });
+//   } catch (error) {
+//     console.error("Image compression error:", error);
+//     toast.error("Failed to compress image. Please try a smaller file.");
+//   }
+// };
+
+
+
+//   const indexOfLast = currentPage * entriesPerPage;
+//   const indexOfFirst = indexOfLast - entriesPerPage;
+//   const currentData = filteredTeachers.slice(indexOfFirst, indexOfLast);
+//   const totalPages = Math.ceil(filteredTeachers.length / entriesPerPage);
+
+
+
+
+
+// // const handleUpdateTeacher = async (e) => {
+// //   e.preventDefault();
+
+// //   const data = new FormData();
+
+// //   // 1. Whitelisted fields to update
+// //   const allowedKeys = [
+// //     "name", "phone", "dob", "address", "salary", "gender",
+// //     "qualifications", "sessionId", "email", "password",
+// //     "CnicNumber", "assignedClass", "teachSubject", "incharge"
+// //   ];
+
+// //   const updatedFields = {};
+// //   allowedKeys.forEach((key) => {
+// //     const value = formData[key];
+// //     if (
+// //       value !== undefined &&
+// //       value !== null &&
+// //       !(typeof value === 'string' && value.trim() === '') &&
+// //       !(Array.isArray(value) && value.length === 0)
+// //     ) {
+// //       updatedFields[key] = value;
+// //     }
+// //   });
+
+// //   // 2. Add text/structured fields
+// //   data.append("data", JSON.stringify(updatedFields));
+
+// //   // 3. Append images/files only if provided
+// //   if (formData.profileImageFile) {
+// //     data.append("profileImage", formData.profileImageFile);
+// //   }
+// //   if (formData.CnicFrontImage) {
+// //     data.append("CnicFrontImage", formData.CnicFrontImage);
+// //   }
+// //   if (formData.CnicBackImage) {
+// //     data.append("CnicBackImage", formData.CnicBackImage);
+// //   }
+
+// //   // 4. Send request
+// //   try {
+// //     const res = await axios.put(
+// //       `${serverUrl}/api/admin/teacher/${editingTeacher._id}`,
+// //       data,
+// //       {
+// //         withCredentials: true,
+// //         headers: { "Content-Type": "multipart/form-data" }
+// //       }
+// //     );
+
+// //     if (res.status === 200) {
+// //       toast.success("Teacher updated successfully!");
+// //       const updatedTeacher = res.data?.updatedTeacher || res.data?.teacher || {};
+
+// //       // Update UI with new teacher data
+// //       setTotalTeachers(prev =>
+// //         prev.map(t => t._id === editingTeacher._id ? { ...t, ...updatedTeacher } : t)
+// //       );
+
+// //       // Close modal & refresh data
+// //       setShowEditModal(false);
+// //       setEditingTeacher(null);
+// //       await fetchAdminData();
+// //     }
+// //   } catch (err) {
+// //     toast.error(err.response?.data?.message || err.message);
+// //   }
+// // };
+
+// // const handleUpdateTeacher = async (e) => {
+// //   e.preventDefault();
+
+// //   const data = new FormData();
+
+// //   const allowedKeys = [
+// //     "name", "phone", "dob", "address", "salary", "gender",
+// //     "qualifications", "sessionId", "email", "password",
+// //     "CnicNumber", "assignedClass", "teachSubject", "incharge"
+// //   ];
+
+// //   const updatedFields = {};
+
+// // //   allowedKeys.forEach((key) => {
+// // //     const value = formData[key];
+
+// // //     // Skip if value is empty
+// // //     if (
+// // //       value === undefined ||
+// // //       value === null ||
+// // //       (typeof value === 'string' && value.trim() === '') ||
+// // //       (Array.isArray(value) && value.length === 0)
+// // //     ) return;
+
+// // //     // Special handling for assignedClass
+// // //     // if (key === "assignedClass") {
+// // //     //   updatedFields[key] = value.map(classId => ({
+// // //     //     class: classId,
+// // //     //     incharge: formData.incharge || false
+// // //     //   }));
+// // //     //   return;
+// // //     // }
+// // // if (key === "assignedClass") {
+// // //   if (Array.isArray(value)) {
+// // //     updatedFields[key] = value.map(classId => ({
+// // //       class: classId,
+// // //       incharge: formData.incharge || false
+// // //     }));
+// // //   } else if (typeof value === "string" && value.trim() !== "") {
+// // //     // If it's a single string value, convert it to array with one element
+// // //     updatedFields[key] = [{
+// // //       class: value,
+// // //       incharge: formData.incharge || false
+// // //     }];
+// // //   } else {
+// // //     // assignedClass is empty or invalid, skip it or assign empty array
+// // //     updatedFields[key] = [];
+// // //   }
+// // //   return;
+// // // }
+
+// // //     updatedFields[key] = value;
+// // //   });
+
+
+
+
+
+
+// // allowedKeys.forEach((key) => {
+// //   const newValue = formData[key];
+
+// //   // If nothing was changed, fall back to the existing value
+// //   const value =
+// //     newValue !== undefined &&
+// //     newValue !== null &&
+// //     !(typeof newValue === 'string' && newValue.trim() === '') &&
+// //     !(Array.isArray(newValue) && newValue.length === 0)
+// //       ? newValue
+// //       : editingTeacher[key];
+
+// //   // if (key === "assignedClass") {
+// //   //   if (Array.isArray(value)) {
+// //   //     updatedFields[key] = value.map(classId => ({
+// //   //       class: classId,
+// //   //       incharge: formData.incharge || false
+// //   //     }));
+// //   //   } else {
+// //   //     updatedFields[key] = [{
+// //   //       class: value,
+// //   //       incharge: formData.incharge || false
+// //   //     }];
+// //   //   }
+// //   // } else {
+// //   //   updatedFields[key] = value;
+// //   // }
+
+
+
+// // if (key === "assignedClass") {
+// //   const assignedClass = Array.isArray(newValue) && newValue.length > 0
+// //     ? newValue
+// //     : editingTeacher?.assignedClass?.map(cls => cls.class?._id) || [];
+
+// //   updatedFields[key] = assignedClass.map(classId => ({
+// //     class: classId,
+// //     incharge: formData.incharge || false
+// //   }));
+// // } else if (key === "teachSubject") {
+// //   const subjects = Array.isArray(newValue) && newValue.length > 0
+// //     ? newValue
+// //     : editingTeacher?.teachSubject?.map(s => s._id) || [];
+
+// //   updatedFields[key] = subjects;
+// // } else {
+// //   const fallback = (
+// //     newValue !== undefined &&
+// //     newValue !== null &&
+// //     !(typeof newValue === 'string' && newValue.trim() === '') &&
+// //     !(Array.isArray(newValue) && newValue.length === 0)
+// //   ) ? newValue : editingTeacher[key];
+
+// //   updatedFields[key] = fallback;
+// // }
+
+
+// // });
+
+
+
+// //   // Add structured fields
+// //   data.append("data", JSON.stringify(updatedFields));
+
+// //   // Append images if present
+// //   // if (formData.profileImageFile) {
+// //   //   data.append("profileImage", formData.profileImageFile);
+// //   // }
+// //   // if (formData.CnicFrontImage) {
+// //   //   data.append("CnicFrontImage", formData.CnicFrontImage);
+// //   // }
+// //   // if (formData.CnicBackImage) {
+// //   //   data.append("CnicBackImage", formData.CnicBackImage);
+// //   // }
+
+
+
+
+
+
+
+// // if (name === "profileImage") {
+// //   setFormData(prev => ({
+// //     ...prev,
+// //     profileImage: compressedFile,
+// //     profileImagePreview: previewURL
+// //   }));
+// // } else if (name === "CnicFrontImage" || name === "CnicBackImage") {
+// //   setFormData(prev => ({
+// //     ...prev,
+// //     [name]: compressedFile,
+// //     [`${name}Preview`]: previewURL
+// //   }));
+// // }
+
+
+
+
+
+
+// //   // Send request
+// //   try {
+// //     const res = await axios.put(
+// //       `${serverUrl}/api/admin/teacher/${editingTeacher._id}`,
+// //       data,
+// //       {
+// //         withCredentials: true,
+// //         headers: { "Content-Type": "multipart/form-data" }
+// //       }
+// //     );
+
+// //     if (res.status === 200) {
+// //       toast.success("Teacher updated successfully!");
+// //       const updatedTeacher = res.data?.updatedTeacher || res.data?.teacher || {};
+
+// //       setTotalTeachers(prev =>
+// //         prev.map(t => t._id === editingTeacher._id ? { ...t, ...updatedTeacher } : t)
+// //       );
+
+// //       setShowEditModal(false);
+// //       setEditingTeacher(null);
+// //       await fetchAdminData();
+// //     }
+// //   } catch (err) {
+// //     toast.error(err.response?.data?.message || err.message);
+// //   }
+// // };
+
+
+
+
+
+// // const handleUpdateTeacher = async (e) => {
+// //   e.preventDefault();
+// //   const data = new FormData();
+
+// //   const allowedKeys = [
+// //     "name",
+// //     "phone",
+// //     "dob",
+// //     "address",
+// //     "salary",
+// //     "gender",
+// //     "qualifications",
+// //     "sessionId",
+// //     "email",
+// //     "password",
+// //     "CnicNumber",
+// //     "assignedClass",
+// //     "teachSubject",
+// //     "incharge",
+// //   ];
+
+// //   const updatedFields = {};
+
+// //   allowedKeys.forEach((key) => {
+// //     let value = formData[key];
+
+// //     // Use existing teacher data as fallback if the field is empty or unchanged
+// //     if (
+// //       value === undefined ||
+// //       value === null ||
+// //       (typeof value === "string" && value.trim() === "") ||
+// //       (Array.isArray(value) && value.length === 0)
+// //     ) {
+// //       value = editingTeacher[key];
+// //     }
+
+// //     // Handle assignedClass specifically
+// //     if (key === "assignedClass") {
+// //       const assignedClasses = Array.isArray(value) && value.length > 0
+// //         ? value
+// //         : editingTeacher?.assignedClass?.map(cls => cls.class?._id) || [];
+// //       updatedFields[key] = assignedClasses.map(classId => ({
+// //         class: classId,
+// //         incharge: formData.incharge || false,
+// //       }));
+// //     }
+// //     // Handle teachSubject specifically
+// //     else if (key === "teachSubject") {
+// //       updatedFields[key] = Array.isArray(value) && value.length > 0
+// //         ? value
+// //         : editingTeacher?.teachSubject?.map(s => s._id) || [];
+// //     }
+// //     // Handle other fields
+// //     else {
+// //       updatedFields[key] = value;
+// //     }
+// //   });
+
+// //   // Add structured fields
+// //   data.append("data", JSON.stringify(updatedFields));
+
+// //   // Append images if present
+// //   if (formData.profileImageFile) {
+// //     data.append("profileImage", formData.profileImageFile);
+// //   }
+// //   if (formData.CnicFrontImage) {
+// //     data.append("CnicFrontImage", formData.CnicFrontImage);
+// //   }
+// //   if (formData.CnicBackImage) {
+// //     data.append("CnicBackImage", formData.CnicBackImage);
+// //   }
+
+// //   // Send request
+// //   try {
+// //     const res = await axios.put(
+// //       `${serverUrl}/api/admin/teacher/${editingTeacher._id}`,
+// //       data,
+// //       {
+// //         withCredentials: true,
+// //         headers: { "Content-Type": "multipart/form-data" },
+// //       }
+// //     );
+
+// //     if (res.status === 200) {
+// //       toast.success("Teacher updated successfully!");
+// //       const updatedTeacher = res.data?.updatedTeacher || res.data?.teacher || {};
+
+// //       setTotalTeachers(prev =>
+// //         prev.map(t => (t._id === editingTeacher._id ? { ...t, ...updatedTeacher } : t))
+// //       );
+// //       setShowEditModal(false);
+// //       setEditingTeacher(null);
+// //       await fetchAdminData();
+// //     }
+// // }
+// //    catch (err) {
+// //     toast.error(err.response?.data?.message || err.message);
+// //   }
+// // };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const handleUpdateTeacher = async (e) => {
+//   e.preventDefault();
+//   const data = new FormData();
+
+//   const allowedKeys = [
+//     "name",
+//     "phone",
+//     "dob",
+//     "address",
+//     "salary",
+//     "gender",
+//     "qualifications",
+//     "sessionId",
+//     "email",
+//     "password",
+//     "CnicNumber",
+//     "assignedClass",
+//     "teachSubject",
+//     "incharge",
+//   ];
+
+//   const updatedFields = {};
+
+//   allowedKeys.forEach((key) => {
+//     let value = formData[key];
+
+//     if (
+//       value === undefined ||
+//       value === null ||
+//       (typeof value === "string" && value.trim() === "") ||
+//       (Array.isArray(value) && value.length === 0)
+//     ) {
+//       value = editingTeacher[key];
+//     }
+
+//     if (key === "assignedClass") {
+//       const assignedClasses = Array.isArray(value) && value.length > 0
+//         ? value
+//         : editingTeacher?.assignedClass?.map(cls => cls.class?._id) || [];
+//       updatedFields[key] = assignedClasses.map(classId => ({
+//         class: classId,
+//         incharge: formData.incharge || false,
+//       }));
+//     } else if (key === "teachSubject") {
+//       updatedFields[key] = Array.isArray(value) && value.length > 0
+//         ? value
+//         : editingTeacher?.teachSubject?.map(s => s._id) || [];
+//     } else {
+//       updatedFields[key] = value;
+//     }
+//   });
+
+//   console.log("[handleUpdateTeacher] updatedFields:", updatedFields);
+
+//   data.append("data", JSON.stringify(updatedFields));
+
+//   // Append images
+//   if (formData.profileImage) {
+//     console.log("[handleUpdateTeacher] Appending profileImageFile:", formData.profileImage);
+//     data.append("profileImage", formData.profileImage); // Ensure backend expects 'profileImage'
+//   }
+//   if (formData.CnicFrontImage) {
+//     console.log("[handleUpdateTeacher] Appending CnicFrontImageFile:", formData.CnicFrontImage);
+//     data.append("CnicFrontImage", formData.CnicFrontImage);
+//   }
+//   if (formData.CnicBackImage) {
+//     console.log("[handleUpdateTeacher] Appending CnicBackImageFile:", formData.CnicBackImage);
+//     data.append("CnicBackImage", formData.CnicBackImage);
+//   }
+
+//   try {
+//     const res = await axios.put(
+//       `${serverUrl}/api/admin/teacher/${editingTeacher._id}`,
+//       data,
+//       {
+//         withCredentials: true,
+//         headers: { "Content-Type": "multipart/form-data" },
+//       }
+//     );
+
+//     if (res.status === 200) {
+//       toast.success("Teacher updated successfully!");
+//       const updatedTeacher = res.data?.updatedTeacher || res.data?.teacher || {};
+//       console.log("[handleUpdateTeacher] Response:", updatedTeacher);
+
+//       setTotalTeachers(prev =>
+//         prev.map(t => (t._id === editingTeacher._id ? { ...t, ...updatedTeacher } : t))
+//       );
+//       setShowEditModal(false);
+//       setEditingTeacher(null);
+//       await fetchAdminData();
+//     }
+//   } catch (err) {
+//     console.error("[handleUpdateTeacher] Error:", err.response?.data || err.message);
+//     toast.error(err.response?.data?.message || err.message);
+//   }
+// };
+
+
+
+
+
+//   const handleDelete = async (id) => {
+//       // Optimistically update UI
+//   setTotalTeachers((prev) => prev.filter((t) => t._id !== id));
+//     try {
+//       const res = await axios.delete(`${serverUrl}/api/admin/teacher/${id}`, { withCredentials: true });
+//       if (res.status === 200) {
+//         toast.success("Teacher deleted");
+//         await fetchAdminData();
+//       }
+//     } catch (err) {
+//       toast.error(err?.response?.data?.message || "Delete failed");
+//     }
+//   };
+
+//   return (
+//     <AdminLayout adminName="Bright Future">
+//       <ToastContainer />
+//       <div className="p-6">
+//         <div className="bg-white shadow rounded p-4">
+//           {/* Top Filter Controls */}
+//           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
+//             <div className="text-sm font-medium">
+//               Show
+//               <select
+//                 className="ml-2 px-2 py-1 border rounded text-sm"
+//                 value={entriesPerPage}
+//                 onChange={(e) => {
+//                   setEntriesPerPage(parseInt(e.target.value));
+//                   setCurrentPage(1);
+//                 }}
+//               >
+//                 {[10, 25, 50, 100].map(num => (
+//                   <option key={num} value={num}>{num}</option>
+//                 ))}
+//               </select>
+//               entries
+//             </div>
+
+//             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2 w-full">
+//               <input type="text" placeholder="Name"
+//                 className="border px-3 py-1 rounded text-sm"
+//                 value={filterName}
+//                 onChange={(e) => setFilterName(e.target.value)}
+//               />
+//               <input type="text" placeholder="Phone"
+//                 className="border px-3 py-1 rounded text-sm"
+//                 value={filterPhone}
+//                 onChange={(e) => setFilterPhone(e.target.value)}
+//               />
+//               <input type="text" placeholder="Class"
+//                 className="border px-3 py-1 rounded text-sm"
+//                 value={filterClass}
+//                 onChange={(e) => setFilterClass(e.target.value)}
+//               />
+//               <input type="text" placeholder="Section"
+//                 className="border px-3 py-1 rounded text-sm"
+//                 value={filterSection}
+//                 onChange={(e) => setFilterSection(e.target.value)}
+//               />
+//               <input type="text" placeholder="DOB (e.g. 6/25/2025)"
+//                 className="border px-3 py-1 rounded text-sm"
+//                 value={filterDOB}
+//                 onChange={(e) => setFilterDOB(e.target.value)}
+//               />
+//             </div>
+//           </div>
+
+//           {/* Table */}
+//           <div className="overflow-auto">
+//             <table className="w-full border border-gray-200 text-sm">
+//               <thead className="bg-gray-100">
+//                 <tr>
+//                   <th className="px-3 py-2 border">#</th>
+//                   <th className="px-3 py-2 border">Name</th>
+//                    <th className="px-3 py-2 border">Profile</th>
+//                   <th className="px-3 py-2 border">Class</th>
+//                   <th className="px-3 py-2 border">Section</th>
+//                    <th className="px-3 py-2 border">Incharge</th>
+//                    <th className="px-3 py-2 border">Subject</th>
+//                   <th className="px-3 py-2 border hidden sm:table-cell">Phone</th>
+//                   <th className="px-3 py-2 border hidden md:table-cell">DOB</th>
+//                   <th className="px-3 py-2 border hidden lg:table-cell">Address</th>
+//                   <th className="px-3 py-2 border">Salary</th>
+//                   <th className="px-3 py-2 border">Actions</th>
+//                 </tr>
+//               </thead>
+//               <tbody>
+//               {currentData.length > 0 ? currentData.map((teacher, i) => {
+//   const { profileImage } = teacher;
+//   const imageSrc = profileImage?.data
+//     ? `data:${profileImage.contentType};base64,${profileImage.data}`
+//     : 'https://via.placeholder.com/50';
+
+//   return (
+//     <tr key={teacher._id} className="border-t">
+//       <td className="px-3 py-2 border">{indexOfFirst + i + 1}</td>
+//       <td className="px-3 py-2 border">{teacher.name}</td>
+//        <td className="px-3 py-2 border">
+//             <img
+//               src={imageSrc}
+//               alt={teacher.name}
+//               className="w-10 h-10 rounded-full object-cover"
+//             />
+//           </td>
+//       {/* Class Name */}
+//       <td className="px-3 py-2 border">
+//         {teacher.assignedClass?.map(cls => cls.class?.name || "N/A").join(", ")}
+//       </td>
+
+//       {/* Section */}
+//       <td className="px-3 py-2 border">
+//         {teacher.assignedClass?.map(cls => cls.class?.section || "N/A").join(", ")}
+//       </td>
+
+//       {/* Incharge */}
+//       <td className="px-3 py-2 border">
+//         {teacher.assignedClass?.map(cls => cls.incharge ? "true" : "false").join(", ")}
+//       </td>
+
+//       {/* Subjects */}
+//       <td className="px-3 py-2 border">
+//         {teacher.teachSubject?.map(subject => subject.name || "N/A").join(", ")}
+//       </td>
+
+//       {/* Phone */}
+//       <td className="px-3 py-2 border hidden sm:table-cell">{teacher.phone}</td>
+
+//       {/* DOB */}
+//       <td className="px-3 py-2 border hidden md:table-cell">
+//         {new Date(teacher.dob).toLocaleDateString()}
+//       </td>
+
+//       {/* Address */}
+//       <td className="px-3 py-2 border hidden lg:table-cell">{teacher.address}</td>
+
+//       {/* Salary */}
+//       <td className="px-3 py-2 border">{teacher.salary}</td>
+
+//       {/* Actions */}
+//       <td className="px-3 py-2 border space-x-1">
+//         <button className="bg-blue-500 text-white px-2 py-1 rounded text-xs">View</button>
+//         {/* <button onClick={() => {
+//   setEditingTeacher(teacher);
+//   setFormData({
+//     name: teacher.name,
+//     phone: teacher.phone,
+//     dob: teacher.dob.split('T')[0],
+//     address: teacher.address,
+//     salary: teacher.salary,
+//     gender: teacher.gender,
+//     email: teacher.email,
+//     password: "", // don't preload password
+//     qualifications: teacher.qualifications,
+//     sessionId: teacher.sessionId || "",
+//     CnicNumber: teacher.CnicNumber,
+//     assignedClass: teacher.assignedClass.map(cls => cls.class._id),
+//     teachSubject: teacher.teachSubject.map(s => s._id),
+//     profileImageFile: null,
+//     CnicFrontImage: null,
+//     CnicBackImage: null,
+//     incharge: teacher.assignedClass?.some(cls => cls.incharge) || false,
+
+//     // ✅ Preview setup
+//     CnicFrontPreview: teacher.CnicFrontImage?.data
+//       ? `data:${teacher.CnicFrontImage.contentType};base64,${teacher.CnicFrontImage.data}`
+//       : null,
+//     CnicBackPreview: teacher.CnicBackImage?.data
+//       ? `data:${teacher.CnicBackImage.contentType};base64,${teacher.CnicBackImage.data}`
+//       : null,
+//   });
+//   setShowEditModal(true);
+// }}
+//          className="bg-yellow-500 text-white px-2 py-1 rounded text-xs">Edit</button> */}
+
+
+
+//          {/* <button
+//   onClick={() => {
+//     setEditingTeacher(teacher);
+//     setFormData({
+//       name: teacher.name || "",
+//       phone: teacher.phone || "",
+//       dob: teacher.dob ? teacher.dob.split("T")[0] : "",
+//       address: teacher.address || "",
+//       salary: teacher.salary || "",
+//       gender: teacher.gender || "",
+//       email: teacher.email || "",
+//       password: "", // Don't preload password
+//       qualifications: teacher.qualifications || "",
+//       sessionId: teacher.sessionId || "",
+//       CnicNumber: teacher.CnicNumber || "",
+//       assignedClass: Array.isArray(teacher.assignedClass)
+//         ? teacher.assignedClass.map(cls => cls.class?._id).filter(Boolean)
+//         : [],
+//       teachSubject: Array.isArray(teacher.teachSubject)
+//         ? teacher.teachSubject.map(s => s._id).filter(Boolean)
+//         : [],
+//       incharge: teacher.assignedClass?.some(cls => cls.incharge) || false,
+//       profileImageFile: null,
+//       profileImagePreview: teacher.profileImage?.data
+//         ? `data:${teacher.profileImage.contentType};base64,${teacher.profileImage.data}`
+//         : null,
+//       CnicFrontImage: null,
+//       CnicFrontPreview: teacher.CnicFrontImage?.data
+//         ? `data:${teacher.CnicFrontImage.contentType};base64,${teacher.CnicFrontImage.data}`
+//         : null,
+//       CnicBackImage: null,
+//       CnicBackPreview: teacher.CnicBackImage?.data
+//         ? `data:${teacher.CnicBackImage.contentType};base64,${teacher.CnicBackImage.data}`
+//         : null,
+//     });
+//     setShowEditModal(true);
+//   }}
+//   className="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
+// >
+//   Edit
+// </button> */}
+
+
+
+
+
+// <button
+//   onClick={() => {
+//     const newFormData = {
+//       name: teacher.name || "",
+//       phone: teacher.phone || "",
+//       dob: teacher.dob ? teacher.dob.split("T")[0] : "",
+//       address: teacher.address || "",
+//       salary: teacher.salary || "",
+//       gender: teacher.gender || "",
+//       email: teacher.email || "",
+//       password: "",
+//       qualifications: teacher.qualifications || "",
+//       sessionId: teacher.sessionId || "",
+//       CnicNumber: teacher.CnicNumber || "",
+//       assignedClass: Array.isArray(teacher.assignedClass)
+//         ? teacher.assignedClass.map(cls => cls.class?._id).filter(Boolean)
+//         : [],
+//       teachSubject: Array.isArray(teacher.teachSubject)
+//         ? teacher.teachSubject.map(s => s._id).filter(Boolean)
+//         : [],
+//       incharge: teacher.assignedClass?.some(cls => cls.incharge) || false,
+//       profileImageFile: null,
+//       profileImagePreview: teacher.profileImage?.data
+//         ? `data:${teacher.profileImage.contentType};base64,${teacher.profileImage.data}`
+//         : null,
+//       CnicFrontImageFile: null,
+//       CnicFrontPreview: teacher.CnicFrontImage?.data
+//         ? `data:${teacher.CnicFrontImage.contentType};base64,${teacher.CnicFrontImage.data}`
+//         : null,
+//       CnicBackImageFile: null,
+//       CnicBackPreview: teacher.CnicBackImage?.data
+//         ? `data:${teacher.CnicBackImage.contentType};base64,${teacher.CnicBackImage.data}`
+//         : null,
+//     };
+//     console.log("[Edit Button] Initializing formData:", newFormData);
+//     setFormData(newFormData);
+//     setEditingTeacher(teacher);
+//     setShowEditModal(true);
+//   }}
+//   className="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
+// >
+//   Edit
+// </button>
+//         <button
+//           onClick={() => handleDelete(teacher._id)}
+//           className="bg-red-500 text-white px-2 py-1 rounded text-xs"
+//         >
+//           Delete
+//         </button>
+//       </td>
+//     </tr>
+//   );
+// }) : (
+//   <tr>
+//     <td colSpan="12" className="text-center py-4 text-gray-500">
+//       No teachers found.
+//     </td>
+//   </tr>
+// )}
+//               </tbody>
+//             </table>
+//           </div>
+
+// {showEditModal && (
+//   <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-4">
+//     <div className="bg-white max-h-[90vh] overflow-y-auto w-full max-w-3xl rounded-xl shadow-lg p-6">
+//       <h2 className="text-xl font-semibold text-[rgb(1,1,93)] mb-4">Edit Teacher</h2>
+
+//       <form onSubmit={handleUpdateTeacher} className="space-y-5" encType="multipart/form-data">
+//         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+//           {/* Profile Image */}
+//           <div className="w-full flex flex-col items-center sm:col-span-2">
+//             {/* <label htmlFor="editProfileImage" className="cursor-pointer relative group">
+//               {editingTeacher?.profileImage?.data ? (
+//                 <img
+//                   src={`data:${editingTeacher.profileImage.contentType};base64,${editingTeacher.profileImage.data}`}
+//                   alt="Profile"
+//                   className="w-24 h-24 rounded-full object-cover border-2 border-blue-500"
+//                 />
+//               ) : (
+//                 <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300 hover:border-blue-500">
+//                   <FaUserCircle className="text-4xl text-[rgb(1,1,93)] group-hover:text-[rgb(193,151,5)]" />
+//                 </div>
+//               )}
+//               <input
+//                 type="file"
+//                 id="editProfileImage"
+//                 name='profileImage'
+//                 accept="image/*"
+//                 onChange={handleFileChange}
+//                 // onChange={e => setFormData(prev => ({
+//                 //   ...prev, profileImageFile: e.target.files[0]
+//                 // }))}
+//                 className="hidden"
+//               />
+//             </label> */}
+
+//             <label htmlFor="editProfileImage" className="cursor-pointer relative group">
+//   {formData.profileImagePreview ? (
+//     // 🔹 Show newly selected preview
+//     <img
+//       src={formData.profileImagePreview}
+//       alt="New Preview"
+//       className="w-24 h-24 rounded-full object-cover border-2 border-blue-500"
+//     />
+//   ) : editingTeacher?.profileImage?.data ? (
+//     // 🔹 Show original profile image
+//     <img
+//       src={`data:${editingTeacher.profileImage.contentType};base64,${editingTeacher.profileImage.data}`}
+//       alt="Current"
+//       className="w-24 h-24 rounded-full object-cover border-2 border-blue-500"
+//     />
+//   ) : (
+//     // 🔹 Show default fallback
+//     <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300 hover:border-blue-500">
+//       <FaUserCircle className="text-4xl text-[rgb(1,1,93)] group-hover:text-[rgb(193,151,5)]" />
+//     </div>
+//   )}
+//   <input
+//     type="file"
+//     id="editProfileImage"
+//     name="profileImage"
+//     accept="image/*"
+//     onChange={handleFileChange}
+//     className="hidden"
+//   />
+// </label>
+
+//             <p className="text-xs text-[rgb(1,1,93)] mt-2">Click to upload profile</p>
+//           </div>
+
+//           {/* Name */}
+//           <InputField label="Full Name" name="name" value={formData.name} onChange={handleChange} />
+//           {/* Phone */}
+//           <InputField label="Phone" name="phone" value={formData.phone} onChange={handleChange} />
+//           {/* DOB */}
+//           <InputField label="DOB" type="date" name="dob" value={formData.dob} onChange={handleChange} />
+//           {/* Address */}
+//           <InputField label="Address" name="address" value={formData.address} onChange={handleChange} />
+//           {/* Salary */}
+//           <InputField label="Salary" type="number" name="salary" value={formData.salary} onChange={handleChange} />
+
+//           {/* Gender */}
+//           <SelectField label="Gender" name="gender" value={formData.gender} onChange={handleChange} options={[
+//             { value: "", label: "Select Gender" },
+//             { value: "male", label: "Male" },
+//             { value: "female", label: "Female" }
+//           ]} />
+
+//           {/* Email */}
+//           <InputField label="Email" type="email" name="email" value={formData.email} onChange={handleChange} />
+
+//           {/* Password */}
+//           <InputField label="Password" type="password" name="password" value={formData.password} onChange={handleChange} />
+
+//           {/* CNIC */}
+//           <InputField label="CNIC Number" name="CnicNumber" value={formData.CnicNumber} onChange={handleChange} minLength={13} />
+
+//           {/* Qualifications */}
+//           <InputField label="Qualifications" name="qualifications" value={formData.qualifications} onChange={handleChange} />
+
+//           {/* Session */}
+//           <SelectField label="Session" name="sessionId" value={formData.sessionId} onChange={handleChange}
+//             options={[
+//               { value: "", label: "Select Session" },
+//               ...adminData.admin.sessions.map(s => ({
+//                 value: s._id,
+//                 label: `${s.name} (${new Date(s.startDate).toLocaleDateString()} - ${new Date(s.endDate).toLocaleDateString()})`
+//               }))
+//             ]} />
+
+//           {/* Class */}
+//           {/* <SelectField label="Assigned Class" name="assignedClass" value={formData.assignedClass} onChange={handleChange}
+//             options={classes.map(cls => ({
+//               value: cls._id,
+//               label: `${cls.name} - ${cls.section}`
+//             }))} /> */}
+// {/* <SelectField
+//   label="Assigned Class"
+//   name="assignedClass"
+//   value={formData.assignedClass || ""}
+//   onChange={handleChange}
+//   options={classes.map(cls => ({
+//     value: String(cls._id),
+//     label: `${cls.name} - ${cls.section}`
+//   }))}
+//   multiple={false}
+// /> */}
+// {/* <SelectField
+//   label="Assigned Class"
+//   name="assignedClass"
+//   value={formData.assignedClass || ""}
+//   onChange={handleChange}
+//   options={classes.map(cls => ({
+//     value: String(cls._id),
+//     label: `${cls.name} - ${cls.section}`
+//   }))}
+//   multiple={false}
+// /> */}
+
+// <SelectField
+//   label="Assigned Class"
+//   name="assignedClass"
+//   value={formData.assignedClass || []} // Ensure it's an array
+//   onChange={handleChange}
+//   options={classes.map(cls => ({
+//     value: String(cls._id),
+//     label: `${cls.name} - ${cls.section}`,
+//   }))}
+//   multiple={true} // Allow multiple selections
+// />
+//           {/* Subject */}
+//           {/* <SelectField label="Subject" name="teachSubject" value={formData.teachSubject} onChange={handleChange}
+//             options={subjects.map(s => ({ value: s._id, label: s.name }))} /> */}
+
+// <SelectField
+//   label="Subject"
+//   name="teachSubject"
+//   value={formData.teachSubject || []} // Ensure it's an array
+//   onChange={handleChange}
+//   options={subjects.map(s => ({
+//     value: s._id,
+//     label: s.name,
+//   }))}
+//   multiple={true} // Allow multiple selections
+// />
+
+// {/* CNIC Front & Back Image Upload */}
+// <div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-5">
+//   {/* CNIC Front */}
+//   <div className="flex flex-col">
+//     <label className="text-sm font-medium text-[rgb(1,1,93)] mb-1">CNIC Front</label>
+//     {formData.CnicFrontPreview ? (
+//       <img
+//         src={formData.CnicFrontPreview}
+//         alt="CNIC Front Preview"
+//         className="w-28 h-20 object-cover rounded border mb-2"
+//       />
+//     ) : editingTeacher?.CnicFrontImage?.data && (
+//       <img
+//         src={`data:${editingTeacher.CnicFrontImage.contentType};base64,${editingTeacher.CnicFrontImage.data}`}
+//         alt="CNIC Front"
+//         className="w-28 h-20 object-cover rounded border mb-2"
+//       />
+//     )}
+//     <input
+//       type="file"
+//       name="CnicFrontImage"
+//       accept="image/*"
+//       onChange={handleFileChange}
+//       className="text-sm"
+//     />
+//   </div>
+
+//   {/* CNIC Back */}
+//   <div className="flex flex-col">
+//     <label className="text-sm font-medium text-[rgb(1,1,93)] mb-1">CNIC Back</label>
+//     {formData.CnicBackPreview ? (
+//       <img
+//         src={formData.CnicBackPreview}
+//         alt="CNIC Back Preview"
+//         className="w-28 h-20 object-cover rounded border mb-2"
+//       />
+//     ) : editingTeacher?.CnicBackImage?.data && (
+//       <img
+//         src={`data:${editingTeacher.CnicBackImage.contentType};base64,${editingTeacher.CnicBackImage.data}`}
+//         alt="CNIC Back"
+//         className="w-28 h-20 object-cover rounded border mb-2"
+//       />
+//     )}
+//     <input
+//       type="file"
+//       name="CnicBackImage"
+//       accept="image/*"
+//       onChange={handleFileChange}
+//       className="text-sm"
+//     />
+//   </div>
+// </div>
+
+
+//           {/* Incharge Checkbox */}
+//           <div className="flex items-center space-x-3 sm:col-span-2">
+//             <input
+//               type="checkbox"
+//               id="incharge"
+//               name="incharge"
+//               checked={formData.incharge}
+//               onChange={handleChange}
+//               className="w-5 h-5"
+//             />
+//             <label htmlFor="incharge" className="text-[rgb(1,1,93)] font-medium">
+//               Is In-Charge of the Class?
+//             </label>
+//           </div>
+//         </div>
+
+//         {/* Buttons */}
+//         <div className="flex justify-end space-x-3 mt-6">
+//           <button
+//             type="button"
+//             onClick={() => setShowEditModal(false)}
+//             className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+//           >
+//             Cancel
+//           </button>
+//           <button
+//             type="submit"
+//             className="bg-[rgb(193,151,5)] text-white px-4 py-2 rounded hover:bg-yellow-600"
+//           >
+//             Save Changes
+//           </button>
+//         </div>
+//       </form>
+//     </div>
+//   </div>
+// )}
+
+
+//           {/* Pagination */}
+//           <div className="flex flex-col md:flex-row justify-between items-center mt-4">
+//             <div className="text-sm">
+//               Showing {indexOfFirst + 1} to {Math.min(indexOfLast, filteredTeachers.length)} of {filteredTeachers.length} entries
+//             </div>
+//             <div className="flex gap-1 mt-2 md:mt-0">
+//               <button
+//                 className={`px-2 py-1 border rounded text-sm ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""}`}
+//                 onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+//                 disabled={currentPage === 1}
+//               >
+//                 Prev
+//               </button>
+//               {[...Array(totalPages)].map((_, i) => (
+//                 <button
+//                   key={i}
+//                   className={`px-3 py-1 border rounded text-sm ${currentPage === i + 1 ? "bg-blue-500 text-white" : ""}`}
+//                   onClick={() => setCurrentPage(i + 1)}
+//                 >
+//                   {i + 1}
+//                 </button>
+//               ))}
+//               <button
+//                 className={`px-2 py-1 border rounded text-sm ${currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""}`}
+//                 onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+//                 disabled={currentPage === totalPages}
+//               >
+//                 Next
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </AdminLayout>
+//   );
+// };
+// export default TeachersCard;
+
+// const InputField= ({ label, name, type, value, onChange }) => (
+//   <div className="relative">
+//     <input
+//       type={type}
+//       id={name}
+//       name={name}
+//       value={value || ""}
+//       onChange={onChange}
+//       className="peer w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
+//       placeholder=" "
+//     />
+//     <label
+//       htmlFor={name}
+//       className="absolute left-3 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-green-600"
+//     >
+//       {label}
+//     </label>
+//   </div>
+// );
 // const SelectField = ({ label, name, value, onChange, options, multiple = false }) => {
 //   console.log(`[SelectField] value for ${name}:`, value, typeof value);
 
@@ -1947,29 +2637,29 @@ const InputField= ({ label, name, type, value, onChange }) => (
 
 
 
-const SelectField = ({ label, name, value, onChange, options, multiple = false }) => {
-  console.log(`[SelectField] value for ${name}:`, value, typeof value);
+// const SelectField = ({ label, name, value, onChange, options, multiple = false }) => {
+//   console.log(`[SelectField] value for ${name}:`, value, typeof value);
 
-  const val = multiple ? (Array.isArray(value) ? value : []) : (value ?? "");
+//   const val = multiple ? (Array.isArray(value) ? value : []) : (value ?? "");
 
-  return (
-    <div className="relative">
-      <select
-        name={name}
-        id={name}
-        value={val}
-        onChange={onChange}
-        multiple={multiple}
-        className="w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
-      >
-        {!multiple && <option value="" disabled>Select {label}</option>}
-        {options.map(opt => (
-          <option key={opt.value} value={opt.value}>
-            {opt.label}
-          </option>
-        ))}
-      </select>
-      <label className="absolute left-3 -top-2 text-sm text-green-600 bg-white px-1">{label}</label>
-    </div>
-  );
-};
+//   return (
+//     <div className="relative">
+//       <select
+//         name={name}
+//         id={name}
+//         value={val}
+//         onChange={onChange}
+//         multiple={multiple}
+//         className="w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
+//       >
+//         {!multiple && <option value="" disabled>Select {label}</option>}
+//         {options.map(opt => (
+//           <option key={opt.value} value={opt.value}>
+//             {opt.label}
+//           </option>
+//         ))}
+//       </select>
+//       <label className="absolute left-3 -top-2 text-sm text-green-600 bg-white px-1">{label}</label>
+//     </div>
+//   );
+// };
