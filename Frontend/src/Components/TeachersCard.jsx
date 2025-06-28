@@ -874,7 +874,7 @@ allowedKeys.forEach((key) => {
                         {teacher.assignedClass?.map(cls => cls.incharge ? "true" : "false").join(", ")}
                       </td>
                       <td className="px-3 py-2 border">
-                        {teacher.assignedClass?.teachSubject?.map(subject => subject.name || "N/A").join(", ")}
+                        {teacher.teachSubject?.map(subject => subject.name || "N/A").join(", ")}
                       </td>
                       <td className="px-3 py-2 border hidden sm:table-cell">{teacher.phone}</td>
                       <td className="px-3 py-2 border hidden md:table-cell">
@@ -901,9 +901,15 @@ allowedKeys.forEach((key) => {
                               assignedClass: Array.isArray(teacher.assignedClass)
                                 ? teacher.assignedClass.map(cls => cls.class?._id).filter(Boolean)
                                 : [],
+                              // teachSubject: Array.isArray(teacher.teachSubject)
+                              //   ? teacher.teachSubject.map(s => s._id).filter(Boolean)
+                              //   : [],
+
+
                               teachSubject: Array.isArray(teacher.teachSubject)
-                                ? teacher.teachSubject.map(s => s._id).filter(Boolean)
-                                : [],
+  ? teacher.teachSubject.map(s => s?._id || s)
+  : [],
+
                               incharge: teacher.assignedClass?.some(cls => cls.incharge) || false,
                               profileImageFile: null,
                               profileImagePreview: teacher.profileImage?.data
@@ -1005,7 +1011,7 @@ allowedKeys.forEach((key) => {
                     <InputField label="Password" type="password" name="password" value={formData.password} onChange={handleChange} />
                     <InputField label="CNIC Number" name="CnicNumber" value={formData.CnicNumber} onChange={handleChange} minLength={13} />
                     <InputField label="Qualifications" name="qualifications" value={formData.qualifications} onChange={handleChange} />
-                    <SelectField
+                    {/* <SelectField
                       label="Session"
                       name="sessionId"
                       value={formData.sessionId}
@@ -1017,7 +1023,22 @@ allowedKeys.forEach((key) => {
                           label: `${s.name} (${new Date(s.startDate).toLocaleDateString()} - ${new Date(s.endDate).toLocaleDateString()})`,
                         })),
                       ]}
-                    />
+                    /> */}
+
+
+                    <SelectField
+  name="sessionId"
+  value={formData.sessionId}
+  onChange={handleChange}
+  options={[
+    { value: "", label: "Select Session" },
+    ...adminData.admin.sessions.map(s => ({
+      value: s._id,
+      label: `${s.name} (${new Date(s.startDate).toLocaleDateString()} - ${new Date(s.endDate).toLocaleDateString()})`,
+    })),
+  ]}
+/>
+
                     <SelectField
                       label="Assigned Class"
                       name="assignedClass"
