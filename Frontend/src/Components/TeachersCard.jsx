@@ -677,10 +677,18 @@ allowedKeys.forEach((key) => {
     (Array.isArray(value) && value.length === 0);
 
   if (isEmpty) {
+    // if (key === "teachSubject") {
+    //   // Default to existing subject IDs
+    //   value = editingTeacher?.teachSubject?.map(subject => subject._id) || [];
+    // }
     if (key === "teachSubject") {
-      // Default to existing subject IDs
-      value = editingTeacher?.teachSubject?.map(subject => subject._id) || [];
-    } else if (key === "assignedClass") {
+  console.log("[teachSubject] Value before appending:", value);
+  if (!Array.isArray(value) || value.some(v => typeof v !== "string")) {
+    console.warn("[teachSubject] Malformed subject IDs:", value);
+  }
+  updatedFields[key] = value.filter(Boolean); // defensive
+}
+      else if (key === "assignedClass") {
       value = editingTeacher?.assignedClass?.map(cls => cls.class?._id) || [];
     } else if (key === "sessionId") {
       value = editingTeacher?.sessionId || "";
@@ -896,7 +904,7 @@ allowedKeys.forEach((key) => {
                               email: teacher.email || "",
                               password: "",
                               qualifications: teacher.qualifications || "",
-                              sessionId: teacher.sessionId || "",
+                              sessionId: teacher.session || "",
                               CnicNumber: teacher.CnicNumber || "",
                               assignedClass: Array.isArray(teacher.assignedClass)
                                 ? teacher.assignedClass.map(cls => cls.class?._id).filter(Boolean)
@@ -1050,7 +1058,7 @@ allowedKeys.forEach((key) => {
                       }))}
                       multiple={true}
                     />
-                    <SelectField
+                    {/* <SelectField
                       label="Subject"
                       name="teachSubject"
                       value={formData.teachSubject || []}
@@ -1060,7 +1068,20 @@ allowedKeys.forEach((key) => {
                         label: s.name,
                       }))}
                       multiple={true}
-                    />
+                    /> */}
+
+                    <SelectField
+  label="Subject"
+  name="teachSubject"
+  value={formData.teachSubject || []}
+  onChange={handleChange}
+  options={subjects.map(s => ({
+    value: s._id, // must match what's expected
+    label: s.name,
+  }))}
+  multiple={true}
+/>
+
                     <div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-5">
                       <div className="flex flex-col">
                         <label className="text-sm font-medium text-[rgb(1,1,93)] mb-1">CNIC Front</label>
