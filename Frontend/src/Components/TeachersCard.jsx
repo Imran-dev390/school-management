@@ -517,26 +517,50 @@
   const [filterDOB, setFilterDOB] = useState("");
   const [showEditModal, setShowEditModal] = useState(false);
   const [editingTeacher, setEditingTeacher] = useState(null);
-  const [formData, setFormData] = useState({
+//   const [formData, setFormData] = useState({
+//   name: "",
+//   phone: "",
+//   dob: "",
+//   address: "",
+//   salary: "",
+//   sessionId:"",
+//   CnicNumber: '',
+//   assignedClass: "" ,
+//   teachSubject: [],
+//   profileImage: null,
+//   profileImageFile: null,
+//   profileImagePreview: null,
+//   CnicFrontImage: null,
+//   CnicBackImage: null,
+//   CnicFrontPreview: null,
+//   CnicBackPreview: null,
+
+// });
+
+
+
+const [formData, setFormData] = useState({
   name: "",
   phone: "",
   dob: "",
   address: "",
   salary: "",
-  sessionId:"",
-  CnicNumber: '',
-  assignedClass: "" ,
+  sessionId: "",
+  CnicNumber: "",
+  assignedClass: [], // Changed to array for multiple selections
   teachSubject: [],
-  profileImage: null,
-  profileImageFile: null,
+  profileImage: null, // Use profileImageFile consistently
   profileImagePreview: null,
   CnicFrontImage: null,
-  CnicBackImage: null,
   CnicFrontPreview: null,
+  CnicBackImage: null,
   CnicBackPreview: null,
-
+  gender: "",
+  email: "",
+  password: "",
+  qualifications: "",
+  incharge: false,
 });
-
 
   const [entriesPerPage, setEntriesPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
@@ -583,18 +607,120 @@ useEffect(() => {
 //   }
 // };
 
+// const handleChange = (e) => {
+//   const { name, value, selectedOptions, multiple } = e.target;
+
+//   if (multiple) {
+//     // get array of selected values
+//     const values = Array.from(selectedOptions).map(option => option.value);
+//     setFormData(prev => ({ ...prev, [name]: values }));
+//   } else {
+//     // set scalar value
+//     setFormData(prev => ({ ...prev, [name]: value }));
+//   }
+// };
+
+
+
+
 const handleChange = (e) => {
   const { name, value, selectedOptions, multiple } = e.target;
 
+  console.log(`[handleChange] name: ${name}, value:`, value, "multiple:", multiple);
+
   if (multiple) {
-    // get array of selected values
     const values = Array.from(selectedOptions).map(option => option.value);
     setFormData(prev => ({ ...prev, [name]: values }));
   } else {
-    // set scalar value
     setFormData(prev => ({ ...prev, [name]: value }));
   }
 };
+
+// const handleFileChange = async (e) => {
+//   const { name, files } = e.target;
+//   if (!files || files.length === 0) return;
+
+//   try {
+//     const compressedFile = await imageCompression(files[0], {
+//       maxSizeMB: 1,
+//       maxWidthOrHeight: 1024,
+//       useWebWorker: true,
+//     });
+//     const previewURL = URL.createObjectURL(compressedFile);
+// // if (name === 'profileImage') {
+// //   setFormData(prev => ({
+// //     ...prev,
+// //     profileImageFile: compressedFile,
+// //     profileImagePreview: previewURL
+// //   }));
+// // } else {
+// //   setFormData(prev => ({
+// //     ...prev,
+// //     [name]: compressedFile,
+// //     [`${name}Preview`]: previewURL
+// //   }));
+
+// //const previewURL = URL.createObjectURL(compressedFile);
+// setFormData(prev => {
+//   if (prev[`${name}Preview`]) {
+//     URL.revokeObjectURL(prev[`${name}Preview`]);
+//   }
+//   return {
+//     ...prev,
+//     [name]: compressedFile,
+//     [`${name}Preview`]: previewURL
+//   };
+// });
+//     // setFormData((prev) => ({
+//     //   ...prev,
+//     //   [name]: compressedFile,
+//     //   [`${name}Preview`]: previewURL,
+//     // }));
+//   } catch (error) {
+//     console.error("Image compression error:", error);
+//     toast.error("Failed to compress image. Please try a smaller file.");
+//   }
+// };
+
+// const handleFileChange = async (e) => {
+//   const { name, files } = e.target;
+//   if (!files || files.length === 0) return;
+
+//   try {
+//     const compressedFile = await imageCompression(files[0], {
+//       maxSizeMB: 1,
+//       maxWidthOrHeight: 1024,
+//       useWebWorker: true,
+//     });
+//     const previewURL = URL.createObjectURL(compressedFile);
+
+//     setFormData(prev => {
+//       // Revoke old preview URL to prevent memory leaks
+//       if (prev[`${name}Preview`]) {
+//         URL.revokeObjectURL(prev[`${name}Preview`]);
+//       }
+//       return {
+//         ...prev,
+//         [`${name}File`]: compressedFile, // Store the file
+//         [`${name}Preview`]: previewURL, // Store the preview URL
+//       };
+//     });
+//   } catch (error) {
+//     console.error("Image compression error:", error);
+//     toast.error("Failed to compress image. Please try a smaller file.");
+//   }
+// };
+
+
+
+
+
+
+
+
+
+
+
 
 const handleFileChange = async (e) => {
   const { name, files } = e.target;
@@ -607,35 +733,17 @@ const handleFileChange = async (e) => {
       useWebWorker: true,
     });
     const previewURL = URL.createObjectURL(compressedFile);
-// if (name === 'profileImage') {
-//   setFormData(prev => ({
-//     ...prev,
-//     profileImageFile: compressedFile,
-//     profileImagePreview: previewURL
-//   }));
-// } else {
-//   setFormData(prev => ({
-//     ...prev,
-//     [name]: compressedFile,
-//     [`${name}Preview`]: previewURL
-//   }));
 
-//const previewURL = URL.createObjectURL(compressedFile);
-setFormData(prev => {
-  if (prev[`${name}Preview`]) {
-    URL.revokeObjectURL(prev[`${name}Preview`]);
-  }
-  return {
-    ...prev,
-    [name]: compressedFile,
-    [`${name}Preview`]: previewURL
-  };
-});
-    // setFormData((prev) => ({
-    //   ...prev,
-    //   [name]: compressedFile,
-    //   [`${name}Preview`]: previewURL,
-    // }));
+    setFormData(prev => {
+      if (prev[`${name}Preview`]) {
+        URL.revokeObjectURL(prev[`${name}Preview`]);
+      }
+      return {
+        ...prev,
+        [`${name}File`]: compressedFile, // Store as profileImageFile, CnicFrontImageFile, etc.
+        [`${name}Preview`]: previewURL,
+      };
+    });
   } catch (error) {
     console.error("Image compression error:", error);
     toast.error("Failed to compress image. Please try a smaller file.");
@@ -722,137 +830,416 @@ setFormData(prev => {
 //   }
 // };
 
+// const handleUpdateTeacher = async (e) => {
+//   e.preventDefault();
+
+//   const data = new FormData();
+
+//   const allowedKeys = [
+//     "name", "phone", "dob", "address", "salary", "gender",
+//     "qualifications", "sessionId", "email", "password",
+//     "CnicNumber", "assignedClass", "teachSubject", "incharge"
+//   ];
+
+//   const updatedFields = {};
+
+// //   allowedKeys.forEach((key) => {
+// //     const value = formData[key];
+
+// //     // Skip if value is empty
+// //     if (
+// //       value === undefined ||
+// //       value === null ||
+// //       (typeof value === 'string' && value.trim() === '') ||
+// //       (Array.isArray(value) && value.length === 0)
+// //     ) return;
+
+// //     // Special handling for assignedClass
+// //     // if (key === "assignedClass") {
+// //     //   updatedFields[key] = value.map(classId => ({
+// //     //     class: classId,
+// //     //     incharge: formData.incharge || false
+// //     //   }));
+// //     //   return;
+// //     // }
+// // if (key === "assignedClass") {
+// //   if (Array.isArray(value)) {
+// //     updatedFields[key] = value.map(classId => ({
+// //       class: classId,
+// //       incharge: formData.incharge || false
+// //     }));
+// //   } else if (typeof value === "string" && value.trim() !== "") {
+// //     // If it's a single string value, convert it to array with one element
+// //     updatedFields[key] = [{
+// //       class: value,
+// //       incharge: formData.incharge || false
+// //     }];
+// //   } else {
+// //     // assignedClass is empty or invalid, skip it or assign empty array
+// //     updatedFields[key] = [];
+// //   }
+// //   return;
+// // }
+
+// //     updatedFields[key] = value;
+// //   });
+
+
+
+
+
+
+// allowedKeys.forEach((key) => {
+//   const newValue = formData[key];
+
+//   // If nothing was changed, fall back to the existing value
+//   const value =
+//     newValue !== undefined &&
+//     newValue !== null &&
+//     !(typeof newValue === 'string' && newValue.trim() === '') &&
+//     !(Array.isArray(newValue) && newValue.length === 0)
+//       ? newValue
+//       : editingTeacher[key];
+
+//   // if (key === "assignedClass") {
+//   //   if (Array.isArray(value)) {
+//   //     updatedFields[key] = value.map(classId => ({
+//   //       class: classId,
+//   //       incharge: formData.incharge || false
+//   //     }));
+//   //   } else {
+//   //     updatedFields[key] = [{
+//   //       class: value,
+//   //       incharge: formData.incharge || false
+//   //     }];
+//   //   }
+//   // } else {
+//   //   updatedFields[key] = value;
+//   // }
+
+
+
+// if (key === "assignedClass") {
+//   const assignedClass = Array.isArray(newValue) && newValue.length > 0
+//     ? newValue
+//     : editingTeacher?.assignedClass?.map(cls => cls.class?._id) || [];
+
+//   updatedFields[key] = assignedClass.map(classId => ({
+//     class: classId,
+//     incharge: formData.incharge || false
+//   }));
+// } else if (key === "teachSubject") {
+//   const subjects = Array.isArray(newValue) && newValue.length > 0
+//     ? newValue
+//     : editingTeacher?.teachSubject?.map(s => s._id) || [];
+
+//   updatedFields[key] = subjects;
+// } else {
+//   const fallback = (
+//     newValue !== undefined &&
+//     newValue !== null &&
+//     !(typeof newValue === 'string' && newValue.trim() === '') &&
+//     !(Array.isArray(newValue) && newValue.length === 0)
+//   ) ? newValue : editingTeacher[key];
+
+//   updatedFields[key] = fallback;
+// }
+
+
+// });
+
+
+
+//   // Add structured fields
+//   data.append("data", JSON.stringify(updatedFields));
+
+//   // Append images if present
+//   // if (formData.profileImageFile) {
+//   //   data.append("profileImage", formData.profileImageFile);
+//   // }
+//   // if (formData.CnicFrontImage) {
+//   //   data.append("CnicFrontImage", formData.CnicFrontImage);
+//   // }
+//   // if (formData.CnicBackImage) {
+//   //   data.append("CnicBackImage", formData.CnicBackImage);
+//   // }
+
+
+
+
+
+
+
+// if (name === "profileImage") {
+//   setFormData(prev => ({
+//     ...prev,
+//     profileImage: compressedFile,
+//     profileImagePreview: previewURL
+//   }));
+// } else if (name === "CnicFrontImage" || name === "CnicBackImage") {
+//   setFormData(prev => ({
+//     ...prev,
+//     [name]: compressedFile,
+//     [`${name}Preview`]: previewURL
+//   }));
+// }
+
+
+
+
+
+
+//   // Send request
+//   try {
+//     const res = await axios.put(
+//       `${serverUrl}/api/admin/teacher/${editingTeacher._id}`,
+//       data,
+//       {
+//         withCredentials: true,
+//         headers: { "Content-Type": "multipart/form-data" }
+//       }
+//     );
+
+//     if (res.status === 200) {
+//       toast.success("Teacher updated successfully!");
+//       const updatedTeacher = res.data?.updatedTeacher || res.data?.teacher || {};
+
+//       setTotalTeachers(prev =>
+//         prev.map(t => t._id === editingTeacher._id ? { ...t, ...updatedTeacher } : t)
+//       );
+
+//       setShowEditModal(false);
+//       setEditingTeacher(null);
+//       await fetchAdminData();
+//     }
+//   } catch (err) {
+//     toast.error(err.response?.data?.message || err.message);
+//   }
+// };
+
+
+
+
+
+// const handleUpdateTeacher = async (e) => {
+//   e.preventDefault();
+//   const data = new FormData();
+
+//   const allowedKeys = [
+//     "name",
+//     "phone",
+//     "dob",
+//     "address",
+//     "salary",
+//     "gender",
+//     "qualifications",
+//     "sessionId",
+//     "email",
+//     "password",
+//     "CnicNumber",
+//     "assignedClass",
+//     "teachSubject",
+//     "incharge",
+//   ];
+
+//   const updatedFields = {};
+
+//   allowedKeys.forEach((key) => {
+//     let value = formData[key];
+
+//     // Use existing teacher data as fallback if the field is empty or unchanged
+//     if (
+//       value === undefined ||
+//       value === null ||
+//       (typeof value === "string" && value.trim() === "") ||
+//       (Array.isArray(value) && value.length === 0)
+//     ) {
+//       value = editingTeacher[key];
+//     }
+
+//     // Handle assignedClass specifically
+//     if (key === "assignedClass") {
+//       const assignedClasses = Array.isArray(value) && value.length > 0
+//         ? value
+//         : editingTeacher?.assignedClass?.map(cls => cls.class?._id) || [];
+//       updatedFields[key] = assignedClasses.map(classId => ({
+//         class: classId,
+//         incharge: formData.incharge || false,
+//       }));
+//     }
+//     // Handle teachSubject specifically
+//     else if (key === "teachSubject") {
+//       updatedFields[key] = Array.isArray(value) && value.length > 0
+//         ? value
+//         : editingTeacher?.teachSubject?.map(s => s._id) || [];
+//     }
+//     // Handle other fields
+//     else {
+//       updatedFields[key] = value;
+//     }
+//   });
+
+//   // Add structured fields
+//   data.append("data", JSON.stringify(updatedFields));
+
+//   // Append images if present
+//   if (formData.profileImageFile) {
+//     data.append("profileImage", formData.profileImageFile);
+//   }
+//   if (formData.CnicFrontImage) {
+//     data.append("CnicFrontImage", formData.CnicFrontImage);
+//   }
+//   if (formData.CnicBackImage) {
+//     data.append("CnicBackImage", formData.CnicBackImage);
+//   }
+
+//   // Send request
+//   try {
+//     const res = await axios.put(
+//       `${serverUrl}/api/admin/teacher/${editingTeacher._id}`,
+//       data,
+//       {
+//         withCredentials: true,
+//         headers: { "Content-Type": "multipart/form-data" },
+//       }
+//     );
+
+//     if (res.status === 200) {
+//       toast.success("Teacher updated successfully!");
+//       const updatedTeacher = res.data?.updatedTeacher || res.data?.teacher || {};
+
+//       setTotalTeachers(prev =>
+//         prev.map(t => (t._id === editingTeacher._id ? { ...t, ...updatedTeacher } : t))
+//       );
+//       setShowEditModal(false);
+//       setEditingTeacher(null);
+//       await fetchAdminData();
+//     }
+// }
+//    catch (err) {
+//     toast.error(err.response?.data?.message || err.message);
+//   }
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const handleUpdateTeacher = async (e) => {
   e.preventDefault();
-
   const data = new FormData();
 
   const allowedKeys = [
-    "name", "phone", "dob", "address", "salary", "gender",
-    "qualifications", "sessionId", "email", "password",
-    "CnicNumber", "assignedClass", "teachSubject", "incharge"
+    "name",
+    "phone",
+    "dob",
+    "address",
+    "salary",
+    "gender",
+    "qualifications",
+    "sessionId",
+    "email",
+    "password",
+    "CnicNumber",
+    "assignedClass",
+    "teachSubject",
+    "incharge",
   ];
 
   const updatedFields = {};
 
-//   allowedKeys.forEach((key) => {
-//     const value = formData[key];
+  allowedKeys.forEach((key) => {
+    let value = formData[key];
 
-//     // Skip if value is empty
-//     if (
-//       value === undefined ||
-//       value === null ||
-//       (typeof value === 'string' && value.trim() === '') ||
-//       (Array.isArray(value) && value.length === 0)
-//     ) return;
-
-//     // Special handling for assignedClass
-//     // if (key === "assignedClass") {
-//     //   updatedFields[key] = value.map(classId => ({
-//     //     class: classId,
-//     //     incharge: formData.incharge || false
-//     //   }));
-//     //   return;
-//     // }
-// if (key === "assignedClass") {
-//   if (Array.isArray(value)) {
-//     updatedFields[key] = value.map(classId => ({
-//       class: classId,
-//       incharge: formData.incharge || false
-//     }));
-//   } else if (typeof value === "string" && value.trim() !== "") {
-//     // If it's a single string value, convert it to array with one element
-//     updatedFields[key] = [{
-//       class: value,
-//       incharge: formData.incharge || false
-//     }];
-//   } else {
-//     // assignedClass is empty or invalid, skip it or assign empty array
-//     updatedFields[key] = [];
-//   }
-//   return;
-// }
-
-//     updatedFields[key] = value;
-//   });
-
-
-
-
-
-
-allowedKeys.forEach((key) => {
-  const newValue = formData[key];
-
-  // If nothing was changed, fall back to the existing value
-  const value =
-    newValue !== undefined &&
-    newValue !== null &&
-    !(typeof newValue === 'string' && newValue.trim() === '') &&
-    !(Array.isArray(newValue) && newValue.length === 0)
-      ? newValue
-      : editingTeacher[key];
-
-  if (key === "assignedClass") {
-    if (Array.isArray(value)) {
-      updatedFields[key] = value.map(classId => ({
-        class: classId,
-        incharge: formData.incharge || false
-      }));
-    } else {
-      updatedFields[key] = [{
-        class: value,
-        incharge: formData.incharge || false
-      }];
+    if (
+      value === undefined ||
+      value === null ||
+      (typeof value === "string" && value.trim() === "") ||
+      (Array.isArray(value) && value.length === 0)
+    ) {
+      value = editingTeacher[key];
     }
-  } else {
-    updatedFields[key] = value;
-  }
-});
 
+    if (key === "assignedClass") {
+      const assignedClasses = Array.isArray(value) && value.length > 0
+        ? value
+        : editingTeacher?.assignedClass?.map(cls => cls.class?._id) || [];
+      updatedFields[key] = assignedClasses.map(classId => ({
+        class: classId,
+        incharge: formData.incharge || false,
+      }));
+    } else if (key === "teachSubject") {
+      updatedFields[key] = Array.isArray(value) && value.length > 0
+        ? value
+        : editingTeacher?.teachSubject?.map(s => s._id) || [];
+    } else {
+      updatedFields[key] = value;
+    }
+  });
 
+  console.log("[handleUpdateTeacher] updatedFields:", updatedFields);
 
-  // Add structured fields
   data.append("data", JSON.stringify(updatedFields));
 
-  // Append images if present
-  if (formData.profileImageFile) {
-    data.append("profileImage", formData.profileImageFile);
+  // Append images
+  if (formData.profileImage) {
+    console.log("[handleUpdateTeacher] Appending profileImageFile:", formData.profileImage);
+    data.append("profileImage", formData.profileImage); // Ensure backend expects 'profileImage'
   }
   if (formData.CnicFrontImage) {
+    console.log("[handleUpdateTeacher] Appending CnicFrontImageFile:", formData.CnicFrontImage);
     data.append("CnicFrontImage", formData.CnicFrontImage);
   }
   if (formData.CnicBackImage) {
+    console.log("[handleUpdateTeacher] Appending CnicBackImageFile:", formData.CnicBackImage);
     data.append("CnicBackImage", formData.CnicBackImage);
   }
 
-  // Send request
   try {
     const res = await axios.put(
       `${serverUrl}/api/admin/teacher/${editingTeacher._id}`,
       data,
       {
         withCredentials: true,
-        headers: { "Content-Type": "multipart/form-data" }
+        headers: { "Content-Type": "multipart/form-data" },
       }
     );
 
     if (res.status === 200) {
       toast.success("Teacher updated successfully!");
       const updatedTeacher = res.data?.updatedTeacher || res.data?.teacher || {};
+      console.log("[handleUpdateTeacher] Response:", updatedTeacher);
 
       setTotalTeachers(prev =>
-        prev.map(t => t._id === editingTeacher._id ? { ...t, ...updatedTeacher } : t)
+        prev.map(t => (t._id === editingTeacher._id ? { ...t, ...updatedTeacher } : t))
       );
-
       setShowEditModal(false);
       setEditingTeacher(null);
       await fetchAdminData();
     }
   } catch (err) {
+    console.error("[handleUpdateTeacher] Error:", err.response?.data || err.message);
     toast.error(err.response?.data?.message || err.message);
   }
 };
+
+
+
+
 
   const handleDelete = async (id) => {
       // Optimistically update UI
@@ -995,7 +1382,7 @@ allowedKeys.forEach((key) => {
       {/* Actions */}
       <td className="px-3 py-2 border space-x-1">
         <button className="bg-blue-500 text-white px-2 py-1 rounded text-xs">View</button>
-        <button onClick={() => {
+        {/* <button onClick={() => {
   setEditingTeacher(teacher);
   setFormData({
     name: teacher.name,
@@ -1026,7 +1413,99 @@ allowedKeys.forEach((key) => {
   });
   setShowEditModal(true);
 }}
-         className="bg-yellow-500 text-white px-2 py-1 rounded text-xs">Edit</button>
+         className="bg-yellow-500 text-white px-2 py-1 rounded text-xs">Edit</button> */}
+
+
+
+         {/* <button
+  onClick={() => {
+    setEditingTeacher(teacher);
+    setFormData({
+      name: teacher.name || "",
+      phone: teacher.phone || "",
+      dob: teacher.dob ? teacher.dob.split("T")[0] : "",
+      address: teacher.address || "",
+      salary: teacher.salary || "",
+      gender: teacher.gender || "",
+      email: teacher.email || "",
+      password: "", // Don't preload password
+      qualifications: teacher.qualifications || "",
+      sessionId: teacher.sessionId || "",
+      CnicNumber: teacher.CnicNumber || "",
+      assignedClass: Array.isArray(teacher.assignedClass)
+        ? teacher.assignedClass.map(cls => cls.class?._id).filter(Boolean)
+        : [],
+      teachSubject: Array.isArray(teacher.teachSubject)
+        ? teacher.teachSubject.map(s => s._id).filter(Boolean)
+        : [],
+      incharge: teacher.assignedClass?.some(cls => cls.incharge) || false,
+      profileImageFile: null,
+      profileImagePreview: teacher.profileImage?.data
+        ? `data:${teacher.profileImage.contentType};base64,${teacher.profileImage.data}`
+        : null,
+      CnicFrontImage: null,
+      CnicFrontPreview: teacher.CnicFrontImage?.data
+        ? `data:${teacher.CnicFrontImage.contentType};base64,${teacher.CnicFrontImage.data}`
+        : null,
+      CnicBackImage: null,
+      CnicBackPreview: teacher.CnicBackImage?.data
+        ? `data:${teacher.CnicBackImage.contentType};base64,${teacher.CnicBackImage.data}`
+        : null,
+    });
+    setShowEditModal(true);
+  }}
+  className="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
+>
+  Edit
+</button> */}
+
+
+
+
+
+<button
+  onClick={() => {
+    const newFormData = {
+      name: teacher.name || "",
+      phone: teacher.phone || "",
+      dob: teacher.dob ? teacher.dob.split("T")[0] : "",
+      address: teacher.address || "",
+      salary: teacher.salary || "",
+      gender: teacher.gender || "",
+      email: teacher.email || "",
+      password: "",
+      qualifications: teacher.qualifications || "",
+      sessionId: teacher.sessionId || "",
+      CnicNumber: teacher.CnicNumber || "",
+      assignedClass: Array.isArray(teacher.assignedClass)
+        ? teacher.assignedClass.map(cls => cls.class?._id).filter(Boolean)
+        : [],
+      teachSubject: Array.isArray(teacher.teachSubject)
+        ? teacher.teachSubject.map(s => s._id).filter(Boolean)
+        : [],
+      incharge: teacher.assignedClass?.some(cls => cls.incharge) || false,
+      profileImageFile: null,
+      profileImagePreview: teacher.profileImage?.data
+        ? `data:${teacher.profileImage.contentType};base64,${teacher.profileImage.data}`
+        : null,
+      CnicFrontImageFile: null,
+      CnicFrontPreview: teacher.CnicFrontImage?.data
+        ? `data:${teacher.CnicFrontImage.contentType};base64,${teacher.CnicFrontImage.data}`
+        : null,
+      CnicBackImageFile: null,
+      CnicBackPreview: teacher.CnicBackImage?.data
+        ? `data:${teacher.CnicBackImage.contentType};base64,${teacher.CnicBackImage.data}`
+        : null,
+    };
+    console.log("[Edit Button] Initializing formData:", newFormData);
+    setFormData(newFormData);
+    setEditingTeacher(teacher);
+    setShowEditModal(true);
+  }}
+  className="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
+>
+  Edit
+</button>
         <button
           onClick={() => handleDelete(teacher._id)}
           className="bg-red-500 text-white px-2 py-1 rounded text-xs"
@@ -1172,7 +1651,7 @@ allowedKeys.forEach((key) => {
   }))}
   multiple={false}
 /> */}
-<SelectField
+{/* <SelectField
   label="Assigned Class"
   name="assignedClass"
   value={formData.assignedClass || ""}
@@ -1182,12 +1661,35 @@ allowedKeys.forEach((key) => {
     label: `${cls.name} - ${cls.section}`
   }))}
   multiple={false}
+/> */}
+
+<SelectField
+  label="Assigned Class"
+  name="assignedClass"
+  value={formData.assignedClass || []} // Ensure it's an array
+  onChange={handleChange}
+  options={classes.map(cls => ({
+    value: String(cls._id),
+    label: `${cls.name} - ${cls.section}`,
+  }))}
+  multiple={true} // Allow multiple selections
+/>
+          {/* Subject */}
+          {/* <SelectField label="Subject" name="teachSubject" value={formData.teachSubject} onChange={handleChange}
+            options={subjects.map(s => ({ value: s._id, label: s.name }))} /> */}
+
+<SelectField
+  label="Subject"
+  name="teachSubject"
+  value={formData.teachSubject || []} // Ensure it's an array
+  onChange={handleChange}
+  options={subjects.map(s => ({
+    value: s._id,
+    label: s.name,
+  }))}
+  multiple={true} // Allow multiple selections
 />
 
-
-          {/* Subject */}
-          <SelectField label="Subject" name="teachSubject" value={formData.teachSubject} onChange={handleChange}
-            options={subjects.map(s => ({ value: s._id, label: s.name }))} />
 {/* CNIC Front & Back Image Upload */}
 <div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-5">
   {/* CNIC Front */}
@@ -1337,32 +1839,32 @@ const InputField= ({ label, name, type, value, onChange }) => (
     </label>
   </div>
 );
-const SelectField = ({ label, name, value, onChange, options, multiple = false }) => {
-  console.log(`[SelectField] value for ${name}:`, value, typeof value);
+// const SelectField = ({ label, name, value, onChange, options, multiple = false }) => {
+//   console.log(`[SelectField] value for ${name}:`, value, typeof value);
 
-  const val = value ?? "";
+//   const val = value ?? "";
 
-  return (
-    <div className="relative">
-      <select
-        name={name}
-        id={name}
-        value={val}
-        onChange={onChange}
-        multiple={multiple}
-        className="w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
-      >
-        {!multiple && <option value="" disabled>Select {label}</option>}
-        {options.map(opt =>
-          typeof opt === 'string'
-            ? <option key={opt} value={opt}>{opt}</option>
-            : <option key={opt.value} value={opt.value}>{opt.label}</option>
-        )}
-      </select>
-      <label className="absolute left-3 -top-2 text-sm text-green-600 bg-white px-1">{label}</label>
-    </div>
-  );
-};
+//   return (
+//     <div className="relative">
+//       <select
+//         name={name}
+//         id={name}
+//         value={val}
+//         onChange={onChange}
+//         multiple={multiple}
+//         className="w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
+//       >
+//         {!multiple && <option value="" disabled>Select {label}</option>}
+//         {options.map(opt =>
+//           typeof opt === 'string'
+//             ? <option key={opt} value={opt}>{opt}</option>
+//             : <option key={opt.value} value={opt.value}>{opt.label}</option>
+//         )}
+//       </select>
+//       <label className="absolute left-3 -top-2 text-sm text-green-600 bg-white px-1">{label}</label>
+//     </div>
+//   );
+// };
 // const SelectField = ({ label, name, value, onChange, options }) => (
 
 //   <div className="relative">
@@ -1442,3 +1944,32 @@ const SelectField = ({ label, name, value, onChange, options, multiple = false }
 //     </div>
 //   );
 // };
+
+
+
+const SelectField = ({ label, name, value, onChange, options, multiple = false }) => {
+  console.log(`[SelectField] value for ${name}:`, value, typeof value);
+
+  const val = multiple ? (Array.isArray(value) ? value : []) : (value ?? "");
+
+  return (
+    <div className="relative">
+      <select
+        name={name}
+        id={name}
+        value={val}
+        onChange={onChange}
+        multiple={multiple}
+        className="w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
+      >
+        {!multiple && <option value="" disabled>Select {label}</option>}
+        {options.map(opt => (
+          <option key={opt.value} value={opt.value}>
+            {opt.label}
+          </option>
+        ))}
+      </select>
+      <label className="absolute left-3 -top-2 text-sm text-green-600 bg-white px-1">{label}</label>
+    </div>
+  );
+};
