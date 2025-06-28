@@ -626,36 +626,83 @@ const TeachersCard = () => {
 
     const updatedFields = {};
 
-    allowedKeys.forEach((key) => {
-      let value = formData[key];
+    // allowedKeys.forEach((key) => {
+    //   let value = formData[key];
 
-      if (
-        value === undefined ||
-        value === null ||
-        (typeof value === "string" && value.trim() === "") ||
-        (Array.isArray(value) && value.length === 0)
-      ) {
-        value = editingTeacher[key];
-      }
+    //   if (
+    //     value === undefined ||
+    //     value === null ||
+    //     (typeof value === "string" && value.trim() === "") ||
+    //     (Array.isArray(value) && value.length === 0)
+    //   ) {
+    //     value = editingTeacher[key];
+    //   }
 
-      if (key === "assignedClass") {
-        const assignedClasses = Array.isArray(value) && value.length > 0
-          ? value
-          : editingTeacher?.assignedClass?.map(cls => cls.class?._id) || [];
-        updatedFields[key] = assignedClasses.map(classId => ({
-          class: classId,
-          incharge: formData.incharge || false,
-        }));
-      } else if (key === "teachSubject") {
-        const subjects = Array.isArray(value) && value.length > 0
-          ? value
-          : editingTeacher?.teachSubject?.map(s => s._id) || [];
-        updatedFields[key] = subjects;
-        console.log("[handleUpdateTeacher] teachSubject:", subjects);
-      } else {
-        updatedFields[key] = value;
-      }
-    });
+    //   if (key === "assignedClass") {
+    //     const assignedClasses = Array.isArray(value) && value.length > 0
+    //       ? value
+    //       : editingTeacher?.assignedClass?.map(cls => cls.class?._id) || [];
+    //     updatedFields[key] = assignedClasses.map(classId => ({
+    //       class: classId,
+    //       incharge: formData.incharge || false,
+    //     }));
+    //   } else if (key === "teachSubject") {
+    //     const subjects = Array.isArray(value) && value.length > 0
+    //       ? value
+    //       : editingTeacher?.teachSubject?.map(s => s._id) || [];
+    //     updatedFields[key] = subjects;
+    //     console.log("[handleUpdateTeacher] teachSubject:", subjects);
+    //   } else {
+    //     updatedFields[key] = value;
+    //   }
+    // });
+
+
+
+
+
+
+
+
+
+
+allowedKeys.forEach((key) => {
+  let value = formData[key];
+
+  const isEmpty =
+    value === undefined ||
+    value === null ||
+    (typeof value === "string" && value.trim() === "") ||
+    (Array.isArray(value) && value.length === 0);
+
+  if (isEmpty) {
+    if (key === "teachSubject") {
+      // Default to existing subject IDs
+      value = editingTeacher?.teachSubject?.map(subject => subject._id) || [];
+    } else if (key === "assignedClass") {
+      value = editingTeacher?.assignedClass?.map(cls => cls.class?._id) || [];
+    } else if (key === "sessionId") {
+      value = editingTeacher?.sessionId || "";
+    } else {
+      value = editingTeacher?.[key];
+    }
+  }
+
+  // Special handling
+  if (key === "assignedClass") {
+    updatedFields[key] = value.map(classId => ({
+      class: classId,
+      incharge: formData.incharge || false,
+    }));
+  } else if (key === "teachSubject") {
+    updatedFields[key] = value;
+  } else {
+    updatedFields[key] = value;
+  }
+});
+
+
+
 
     console.log("[handleUpdateTeacher] updatedFields:", updatedFields);
     data.append("data", JSON.stringify(updatedFields));

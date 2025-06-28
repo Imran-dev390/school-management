@@ -6,6 +6,7 @@ const Staff  = require("../models/addStaff.model");
 const Subject = require("../models/Subjects.model");
 const ExamSchedule = require("../models/examSchedule.model");
 const anguler  = "angu";
+const bcrypt = require("bcrypt");
 //const Subjects = require("../models/Subjects.model");
 // ✅ Get Admin Profile
 /*const getAdminProfile = async (req, res) => {
@@ -444,12 +445,20 @@ if (req.files?.CnicBackImage) {
 
 
      // ✅ Handle profile image if uploaded
-    if (req.file) {
-      updateData.profileImage = {
-        data: req.file.buffer,
-        contentType: req.file.mimetype
-      };
-    }
+   // ✅ Handle profile image if uploaded
+if (req.files?.profileImage) {
+  updateData.profileImage = {
+    data: req.files.profileImage[0].buffer,
+    contentType: req.files.profileImage[0].mimetype
+  };
+}
+
+// ✅ Hash password if provided
+if (updateData.password) {
+  const salt = await bcrypt.genSalt(10);
+  updateData.password = await bcrypt.hash(updateData.password, salt);
+}
+
 
     // Optional: Validate name/email/phone etc. here if needed
 
