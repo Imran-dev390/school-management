@@ -873,7 +873,7 @@ allowedKeys.forEach((key) => {
                         {teacher.assignedClass?.map(cls => cls.incharge ? "true" : "false").join(", ")}
                       </td>
                       <td className="px-3 py-2 border">
-                        {teacher.teachSubject?.map(subject => subject.name || "N/A").join(", ")}
+                        {teacher.assignedClass?.teachSubject?.map(subject => subject.name || "N/A").join(", ")}
                       </td>
                       <td className="px-3 py-2 border hidden sm:table-cell">{teacher.phone}</td>
                       <td className="px-3 py-2 border hidden md:table-cell">
