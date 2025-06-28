@@ -527,7 +527,9 @@
   CnicNumber: '',
   assignedClass: "" ,
   teachSubject: [],
+  profileImage: null,
   profileImageFile: null,
+  profileImagePreview: null,
   CnicFrontImage: null,
   CnicBackImage: null,
   CnicFrontPreview: null,
@@ -604,14 +606,36 @@ const handleFileChange = async (e) => {
       maxWidthOrHeight: 1024,
       useWebWorker: true,
     });
-
     const previewURL = URL.createObjectURL(compressedFile);
+// if (name === 'profileImage') {
+//   setFormData(prev => ({
+//     ...prev,
+//     profileImageFile: compressedFile,
+//     profileImagePreview: previewURL
+//   }));
+// } else {
+//   setFormData(prev => ({
+//     ...prev,
+//     [name]: compressedFile,
+//     [`${name}Preview`]: previewURL
+//   }));
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: compressedFile,
-      [`${name}Preview`]: previewURL,
-    }));
+//const previewURL = URL.createObjectURL(compressedFile);
+setFormData(prev => {
+  if (prev[`${name}Preview`]) {
+    URL.revokeObjectURL(prev[`${name}Preview`]);
+  }
+  return {
+    ...prev,
+    [name]: compressedFile,
+    [`${name}Preview`]: previewURL
+  };
+});
+    // setFormData((prev) => ({
+    //   ...prev,
+    //   [name]: compressedFile,
+    //   [`${name}Preview`]: previewURL,
+    // }));
   } catch (error) {
     console.error("Image compression error:", error);
     toast.error("Failed to compress image. Please try a smaller file.");
@@ -711,46 +735,82 @@ const handleUpdateTeacher = async (e) => {
 
   const updatedFields = {};
 
-  allowedKeys.forEach((key) => {
-    const value = formData[key];
+//   allowedKeys.forEach((key) => {
+//     const value = formData[key];
 
-    // Skip if value is empty
-    if (
-      value === undefined ||
-      value === null ||
-      (typeof value === 'string' && value.trim() === '') ||
-      (Array.isArray(value) && value.length === 0)
-    ) return;
+//     // Skip if value is empty
+//     if (
+//       value === undefined ||
+//       value === null ||
+//       (typeof value === 'string' && value.trim() === '') ||
+//       (Array.isArray(value) && value.length === 0)
+//     ) return;
 
-    // Special handling for assignedClass
-    // if (key === "assignedClass") {
-    //   updatedFields[key] = value.map(classId => ({
-    //     class: classId,
-    //     incharge: formData.incharge || false
-    //   }));
-    //   return;
-    // }
-if (key === "assignedClass") {
-  if (Array.isArray(value)) {
-    updatedFields[key] = value.map(classId => ({
-      class: classId,
-      incharge: formData.incharge || false
-    }));
-  } else if (typeof value === "string" && value.trim() !== "") {
-    // If it's a single string value, convert it to array with one element
-    updatedFields[key] = [{
-      class: value,
-      incharge: formData.incharge || false
-    }];
+//     // Special handling for assignedClass
+//     // if (key === "assignedClass") {
+//     //   updatedFields[key] = value.map(classId => ({
+//     //     class: classId,
+//     //     incharge: formData.incharge || false
+//     //   }));
+//     //   return;
+//     // }
+// if (key === "assignedClass") {
+//   if (Array.isArray(value)) {
+//     updatedFields[key] = value.map(classId => ({
+//       class: classId,
+//       incharge: formData.incharge || false
+//     }));
+//   } else if (typeof value === "string" && value.trim() !== "") {
+//     // If it's a single string value, convert it to array with one element
+//     updatedFields[key] = [{
+//       class: value,
+//       incharge: formData.incharge || false
+//     }];
+//   } else {
+//     // assignedClass is empty or invalid, skip it or assign empty array
+//     updatedFields[key] = [];
+//   }
+//   return;
+// }
+
+//     updatedFields[key] = value;
+//   });
+
+
+
+
+
+
+allowedKeys.forEach((key) => {
+  const newValue = formData[key];
+
+  // If nothing was changed, fall back to the existing value
+  const value =
+    newValue !== undefined &&
+    newValue !== null &&
+    !(typeof newValue === 'string' && newValue.trim() === '') &&
+    !(Array.isArray(newValue) && newValue.length === 0)
+      ? newValue
+      : editingTeacher[key];
+
+  if (key === "assignedClass") {
+    if (Array.isArray(value)) {
+      updatedFields[key] = value.map(classId => ({
+        class: classId,
+        incharge: formData.incharge || false
+      }));
+    } else {
+      updatedFields[key] = [{
+        class: value,
+        incharge: formData.incharge || false
+      }];
+    }
   } else {
-    // assignedClass is empty or invalid, skip it or assign empty array
-    updatedFields[key] = [];
-  }
-  return;
-}
-
     updatedFields[key] = value;
-  });
+  }
+});
+
+
 
   // Add structured fields
   data.append("data", JSON.stringify(updatedFields));
@@ -966,7 +1026,6 @@ if (key === "assignedClass") {
   });
   setShowEditModal(true);
 }}
-
          className="bg-yellow-500 text-white px-2 py-1 rounded text-xs">Edit</button>
         <button
           onClick={() => handleDelete(teacher._id)}
@@ -997,7 +1056,7 @@ if (key === "assignedClass") {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           {/* Profile Image */}
           <div className="w-full flex flex-col items-center sm:col-span-2">
-            <label htmlFor="editProfileImage" className="cursor-pointer relative group">
+            {/* <label htmlFor="editProfileImage" className="cursor-pointer relative group">
               {editingTeacher?.profileImage?.data ? (
                 <img
                   src={`data:${editingTeacher.profileImage.contentType};base64,${editingTeacher.profileImage.data}`}
@@ -1012,13 +1071,47 @@ if (key === "assignedClass") {
               <input
                 type="file"
                 id="editProfileImage"
+                name='profileImage'
                 accept="image/*"
-                onChange={e => setFormData(prev => ({
-                  ...prev, profileImageFile: e.target.files[0]
-                }))}
+                onChange={handleFileChange}
+                // onChange={e => setFormData(prev => ({
+                //   ...prev, profileImageFile: e.target.files[0]
+                // }))}
                 className="hidden"
               />
-            </label>
+            </label> */}
+
+            <label htmlFor="editProfileImage" className="cursor-pointer relative group">
+  {formData.profileImagePreview ? (
+    // 🔹 Show newly selected preview
+    <img
+      src={formData.profileImagePreview}
+      alt="New Preview"
+      className="w-24 h-24 rounded-full object-cover border-2 border-blue-500"
+    />
+  ) : editingTeacher?.profileImage?.data ? (
+    // 🔹 Show original profile image
+    <img
+      src={`data:${editingTeacher.profileImage.contentType};base64,${editingTeacher.profileImage.data}`}
+      alt="Current"
+      className="w-24 h-24 rounded-full object-cover border-2 border-blue-500"
+    />
+  ) : (
+    // 🔹 Show default fallback
+    <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300 hover:border-blue-500">
+      <FaUserCircle className="text-4xl text-[rgb(1,1,93)] group-hover:text-[rgb(193,151,5)]" />
+    </div>
+  )}
+  <input
+    type="file"
+    id="editProfileImage"
+    name="profileImage"
+    accept="image/*"
+    onChange={handleFileChange}
+    className="hidden"
+  />
+</label>
+
             <p className="text-xs text-[rgb(1,1,93)] mt-2">Click to upload profile</p>
           </div>
 
