@@ -1235,8 +1235,9 @@ const StudentCard = () => {
   }, [students]);
 
   const handleDeleteById = async (id) => {
+     setTotalStudents(prev => prev.filter(t => t._id !== id));
     try {
-      const response = await axios.delete(`${serverUrl}/admin/students/${id}`, {
+      const response = await axios.delete(`${serverUrl}/api/admin/students/${id}`, {
         withCredentials: true,
       });
       if (response.status === 200) {
@@ -1608,6 +1609,7 @@ console.log("students",students)
     <th className="px-3 py-2 border">#</th>
     <th className="px-3 py-2 border">Name</th>
     <th className="px-3 py-2 border">Class</th>
+    <th className="px-3 py-2 border">Section</th>
     <th className="px-3 py-2 border">Parent</th>
     {/* <th className="px-3 py-2 border">Phone</th>
     <th className="px-3 py-2 border">DOB</th>
@@ -1713,12 +1715,15 @@ console.log("students",students)
       <td className="px-3 py-2 border">{indexOfFirst + i + 1}</td>
       <td className="px-3 py-2 border">{student.name}</td>
       <td className="px-3 py-2 border">
-        {student.Classs?.name} ({student.Classs?.section || "not found"})
+        {student.Classs?.name}
       </td>
-      <td className="px-3 py-2 border hidden sm:table-cell">{student.phone}</td>
+       <td className="px-3 py-2 border">
+        ({student.Classs?.section || "not found"})
+      </td>
+      <td className="px-3 py-2 border hidden sm:table-cell">{student.parent}</td>
+        <td className="px-3 py-2 border">{student.phone}</td>
       <td className="px-3 py-2 border hidden md:table-cell">{new Date(student.dob).toLocaleDateString()}</td>
       <td className="px-3 py-2 border hidden lg:table-cell">{student.feesPaid ?? 0}</td>
-      <td className="px-3 py-2 border">{student.parent}</td>
       <td className="px-3 py-2 border content-center space-y-2 sm:space-x-2">
         <button className="bg-blue-500 text-white px-2 py-1 rounded text-xs">View</button>
         <button
