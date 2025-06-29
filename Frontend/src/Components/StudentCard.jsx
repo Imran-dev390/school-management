@@ -2001,7 +2001,7 @@ return (
       </div>
 
 
-{showEditModal && (
+{/* {showEditModal && (
   <div className="modal-overlay">
     <form onSubmit={handleUpdateStudent} encType="multipart/form-data">
       <input name="name" value={formData.name} onChange={handleInput} />
@@ -2017,7 +2017,7 @@ return (
       </select>
 
       {/* File inputs + previews */}
-      <FileField label="Profile" name="profileImage" handleInput={handleInput} previews={previews}/>
+      {/* <FileField label="Profile" name="profileImage" handleInput={handleInput} previews={previews}/>
       <FileField label="CNIC Front" name="CnicFrontImage" handleInput={handleInput} previews={previews}/>
       <FileField label="CNIC Back" name="CnicBackImage" handleInput={handleInput} previews={previews}/>
 
@@ -2025,7 +2025,91 @@ return (
       <button type="submit">Save Changes</button>
     </form>
   </div>
+)} */} 
+
+
+
+
+{showEditModal && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-xl overflow-y-auto max-h-[90vh]">
+      <h2 className="text-xl font-semibold mb-4">Edit Student</h2>
+      <form onSubmit={handleUpdateStudent} encType="multipart/form-data" className="space-y-4">
+        <input
+          name="name"
+          value={formData.name}
+          onChange={handleInput}
+          className="w-full border px-3 py-2 rounded"
+          placeholder="Name"
+        />
+        <input
+          name="parent"
+          value={formData.parent}
+          onChange={handleInput}
+          className="w-full border px-3 py-2 rounded"
+          placeholder="Parent"
+        />
+        <input
+          name="phone"
+          value={formData.phone}
+          onChange={handleInput}
+          className="w-full border px-3 py-2 rounded"
+          placeholder="Phone"
+        />
+        <input
+          name="dob"
+          type="date"
+          value={formData.dob}
+          onChange={handleInput}
+          className="w-full border px-3 py-2 rounded"
+        />
+        <input
+          name="feesPaid"
+          type="number"
+          value={formData.feesPaid}
+          onChange={handleInput}
+          className="w-full border px-3 py-2 rounded"
+          placeholder="Fees Paid"
+        />
+
+        <select
+          name="Classs"
+          value={formData.Classs}
+          onChange={handleInput}
+          className="w-full border px-3 py-2 rounded"
+        >
+          {adminData.admin.classes.map((c) => (
+            <option key={c._id} value={c._id}>
+              {c.name} - {c.section}
+            </option>
+          ))}
+        </select>
+
+        {/* FileField Components */}
+        <FileField label="Profile" name="profileImage" handleInput={handleInput} previews={previews} />
+        <FileField label="CNIC Front" name="CnicFrontImage" handleInput={handleInput} previews={previews} />
+        <FileField label="CNIC Back" name="CnicBackImage" handleInput={handleInput} previews={previews} />
+
+        <div className="flex justify-end gap-2 pt-4">
+          <button
+            type="button"
+            onClick={() => setShowEditModal(false)}
+            className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 )}
+
 
 
 
