@@ -1235,12 +1235,13 @@ const StudentCard = () => {
   }, [students]);
 
   const handleDeleteById = async (id) => {
-     setTotalStudents(prev => prev.filter(t => t._id !== id));
-    try {
+     toast.success("Performing Action Wait for few Seconds")
+     try {
       const response = await axios.delete(`${serverUrl}/api/admin/students/${id}`, {
         withCredentials: true,
       });
       if (response.status === 200) {
+         setTotalStudents(prev => prev.filter(t => t._id !== id));
         await fetchAdminData();
         toast.success("Student deleted successfully.");
       }

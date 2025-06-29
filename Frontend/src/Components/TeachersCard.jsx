@@ -564,15 +564,27 @@ const TeachersCard = () => {
   });
 
   const handleChange = (e) => {
-    const { name, value, selectedOptions, multiple } = e.target;
-    console.log(`[handleChange] name: ${name}, value:`, value, "multiple:", multiple);
+    // const { name, value, selectedOptions, multiple } = e.target;
+    // console.log(`[handleChange] name: ${name}, value:`, value, "multiple:", multiple);
 
-    if (multiple) {
-      const values = Array.from(selectedOptions).map(option => option.value);
-      setFormData(prev => ({ ...prev, [name]: values }));
-    } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
-    }
+    // if (multiple) {
+    //   const values = Array.from(selectedOptions).map(option => option.value);
+    //   setFormData(prev => ({ ...prev, [name]: values }));
+    // } else {
+    //   setFormData(prev => ({ ...prev, [name]: value }));
+    // }
+
+    const { name, type, value, selectedOptions } = e.target;
+
+if (selectedOptions) {
+  const values = Array.from(selectedOptions).map(option => option.value);
+  setFormData(prev => ({ ...prev, [name]: values }));
+} else if (type === "checkbox") {
+  setFormData(prev => ({ ...prev, [name]: e.target.checked }));
+} else {
+  setFormData(prev => ({ ...prev, [name]: value }));
+}
+
   };
 
   const handleFileChange = async (e) => {
@@ -606,6 +618,7 @@ const TeachersCard = () => {
 
   const handleUpdateTeacher = async (e) => {
     e.preventDefault();
+     toast.success("Performing Action Wait for few Seconds")
     const data = new FormData();
 
     const allowedKeys = [
@@ -758,12 +771,13 @@ allowedKeys.forEach((key) => {
   };
 
   const handleDelete = async (id) => {
-    setTotalTeachers(prev => prev.filter(t => t._id !== id));
+    toast.success("Performing Action Wait for few Seconds");
     try {
       const res = await axios.delete(`${serverUrl}/api/admin/teacher/${id}`, { withCredentials: true });
       if (res.status === 200) {
+        setTotalTeachers(prev => prev.filter(t => t._id !== id));
+         await fetchAdminData();
         toast.success("Teacher deleted");
-        await fetchAdminData();
       }
     } catch (err) {
       toast.error(err?.response?.data?.message || "Delete failed");
@@ -1208,7 +1222,7 @@ const InputField = ({ label, name, type, value, onChange }) => (
       name={name}
       value={value || ""}
       onChange={onChange}
-      className="peer w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
+      className="peer w-full p-3 bg-transparent border-b-2 border-gray-300  focus:border-green-500"
       placeholder=" "
     />
     <label

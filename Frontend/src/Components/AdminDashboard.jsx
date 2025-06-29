@@ -224,6 +224,7 @@ import {
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { userDataContext } from '../Context-Api/UserContext';
+
 import { adminDataContext } from '../Context-Api/AdminContext';
 import { Sidebar } from './Sidebar';
 import { FaUserCircle } from 'react-icons/fa';
@@ -232,7 +233,6 @@ export default function AdminDashboard({ recentActivity, setRecentActivity }) {
   const [adminName,setName] = useState("Bright Futureees");
   const { adminData, loading, fetchAdminData } = useContext(adminDataContext);
 //  const [showSidebar, setShowSidebar] = useState(false);
-const fuckrey = "moview";
 const [hasUserToggled, setHasUserToggled] = useState(false);
 
  const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
