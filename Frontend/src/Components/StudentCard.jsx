@@ -1218,6 +1218,29 @@ import "react-toastify/dist/ReactToastify.css";
 import AdminLayout from "./AdminLayout";
 import { authDataContext } from "../Context-Api/AuthContext";
 import { adminDataContext } from "../Context-Api/AdminContext";
+
+
+
+
+const FileField = ({ label, name, previews, handleInput }) => (
+  <div className="mb-4">
+    <label className="block text-sm font-medium">{label}</label>
+    <input
+      type="file"
+      name={name}
+      onChange={handleInput}
+      className="mt-1 block w-full border rounded text-sm"
+      accept="image/*"
+    />
+    {previews[name] && (
+      <img
+        src={previews[name]}
+        alt={`${label} preview`}
+        className="mt-2 h-20 w-20 object-cover rounded"
+      />
+    )}
+  </div>
+);
 const StudentCard = () => {
   const { adminData, fetchAdminData } = useContext(adminDataContext);
   const { serverUrl } = useContext(authDataContext);
@@ -1899,28 +1922,29 @@ const handleUpdateStudent = async (e) => {
   );
 };
 
-function FileField({ label, name }) {
-  return (
-    <div>
-      <label>{label}</label>
-      <input
-        type="file"
-        accept="image/*"
-        onChange={e => {
-          const file = e.target.files[0];
-          setFormData(prev => ({ ...prev, [name]: file }));
-          setPreviews(prev => ({
-            ...prev,
-            [name]: file ? URL.createObjectURL(file) : null
-          }));
-        }}
-      />
-      {previews[name] && (
-        <img src={previews[name]} alt={`${label} preview`} className="w-32 object-cover mt-2" />
-      )}
-    </div>
-  );
-}
+// function FileField({ label, name }) {
+//   return (
+//     <div>
+//       <label>{label}</label>
+//       <input
+//         type="file"
+//         accept="image/*"
+//         onChange={e => {
+//           const file = e.target.files[0];
+//           setFormData(prev => ({ ...prev, [name]: file }));
+//           setPreviews(prev => ({
+//             ...prev,
+//             [name]: file ? URL.createObjectURL(file) : null
+//           }));
+//         }}
+//       />
+//       {previews[name] && (
+//         <img src={previews[name]} alt={`${label} preview`} className="w-32 object-cover mt-2" />
+//       )}
+//     </div>
+//   );
+// }
+
 
 
 export default StudentCard;
