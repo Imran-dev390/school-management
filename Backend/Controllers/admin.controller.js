@@ -424,11 +424,17 @@ if (updateData.assignedClass && Array.isArray(updateData.assignedClass)) {
 
 
 
-    if (updateData.teachSubject && Array.isArray(updateData.teachSubject)) {
-  updateData.teachSubject = await Subject.find({
-    name: { $in: updateData.teachSubject }
-  }).select('_id'); // or convert if you're already sending IDs
+//     if (updateData.teachSubject && Array.isArray(updateData.teachSubject)) {
+//   updateData.teachSubject = await Subject.find({
+//     name: { $in: updateData.teachSubject }
+//   }).select('_id'); // or convert if you're already sending IDs
+// }
+
+if (updateData.teachSubject && Array.isArray(updateData.teachSubject)) {
+  const validSubjects = await Subject.find({ _id: { $in: updateData.teachSubject } }).select('_id');
+  updateData.teachSubject = validSubjects.map(s => s._id);
 }
+
 
 if (req.files?.CnicFrontImage) {
   updateData.CnicFrontImage = {
