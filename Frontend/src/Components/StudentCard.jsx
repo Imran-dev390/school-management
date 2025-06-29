@@ -1825,11 +1825,23 @@ const handleUpdateStudent = async (e) => {
       CnicFrontImage: null,
       CnicBackImage: null,
     });
-    setPreviews({
-      profileImage: student.profileImage ? `data:${student.profileImage.contentType};base64,${student.profileImage.data}` : null,
-      CnicFrontImage: student.CnicFrontImage ? `data:${student.CnicFrontImage.contentType};base64,${student.CnicFrontImage.data}` : null,
-      CnicBackImage: student.CnicBackImage ? `data:${student.CnicBackImage.contentType};base64,${student.CnicBackImage.data}` : null,
-    });
+    // setPreviews({
+    //   profileImage: student.profileImage ? `data:${student.profileImage.contentType};base64,${student.profileImage.data}` : null,
+    //   CnicFrontImage: student.CnicFrontImage ? `data:${student.CnicFrontImage.contentType};base64,${student.CnicFrontImage.data}` : null,
+    //   CnicBackImage: student.CnicBackImage ? `data:${student.CnicBackImage.contentType};base64,${student.CnicBackImage.data}` : null,
+    // });
+   setPreviews({
+  profileImage: student.profileImage?.contentType && student.profileImage?.data
+    ? `data:${student.profileImage.contentType};base64,${student.profileImage.data}`
+    : null,
+
+  CnicFrontImage: student.CnicFrontImage?.contentType && student.CnicFrontImage?.data
+    ? `data:${student.CnicFrontImage.contentType};base64,${student.CnicFrontImage.data}`
+    : null,
+  CnicBackImage: student.CnicBackImage?.contentType && student.CnicBackImage?.data
+    ? `data:${student.CnicBackImage.contentType};base64,${student.CnicBackImage.data}`
+    : null,
+});
     setShowEditModal(true);
   }}
         >
