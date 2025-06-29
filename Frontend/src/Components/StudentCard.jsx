@@ -1905,10 +1905,10 @@ return (
   return (
     <tr key={student._id} className="border-t">
       <td className="px-3 py-2 border">{indexOfFirst + i + 1}</td>
-      <td className="px-3 py-2 border flex items-center gap-2">
+      <td className="px-3 py-2 border">
         {student.name || "Fecthing..."}
       </td>
-      <td className="px-3 py-2 border flex items-center gap-2">
+      <td className="px-3 py-2 border">
         <img
           src={imageSrc}
           alt="Profile"
