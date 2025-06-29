@@ -1258,7 +1258,14 @@ const SelectField = ({ label, name, value, onChange, options, multiple = false }
           </option>
         ))}
       </select>
-      <label className="absolute left-3 -top-2 text-sm text-green-600 bg-white px-1">{label}</label>
+      {/* <label className="absolute left-3 -top-2 text-sm text-green-600 bg-white px-1">{label}</label> */}
+  <label
+  htmlFor={name}
+  className="absolute left-3 -top-3 text-xs text-green-600 bg-white px-1 pointer-events-none"
+>
+  {label}
+</label>
+
     </div>
   );
 };
