@@ -1227,13 +1227,44 @@ const StudentCard = () => {
   const [filterText, setFilterText] = useState("");
   const [entriesPerPage, setEntriesPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [showEditModal, setShowEditModal] = useState(false);
+const [editingStudent, setEditingStudent] = useState(null);
+const [formData, setFormData] = useState({
+  name: "",
+  parent: "",
+  Classs: "",
+  phone: "",
+  dob: "",
+  feesPaid: "",
+  profileImage: null,
+  CnicFrontImage: null,
+  CnicBackImage: null,
+});
+const [previews, setPreviews] = useState({
+  profileImage: null,
+  CnicFrontImage: null,
+  CnicBackImage: null,
+});
+  
   useEffect(() => {
     if (students.length > 0) {
       setTotalStudents(students);
     }
   }, [students]);
 
+
+  const handleInput = (e) => {
+    const { name, value, files } = e.target;
+    if (files) {
+      setFormData((prev) => ({ ...prev, [name]: files[0] }));
+      setPreviews((prev) => ({
+        ...prev,
+        [name]: URL.createObjectURL(files[0]),
+      }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
+  };
   const handleDeleteById = async (id) => {
      toast.success("Performing Action Wait for few Seconds")
      try {
@@ -1287,6 +1318,35 @@ const indexOfLast = currentPage * entriesPerPage;
 
   const totalPages = Math.ceil(filteredStudents.length / entriesPerPage);
 console.log("students",students)
+
+
+
+const handleUpdateStudent = async (e) => {
+  e.preventDefault();
+  toast.success("Performing Action it took take a few second please wait...");
+  const data = new FormData();
+
+  const payload = {};
+  for (const field of ["name","parent","Classs","phone","dob","feesPaid"]) {
+    if (formData[field] !== editingStudent[field] && formData[field] !== "") {
+      payload[field] = formData[field];
+    }
+  }
+
+  data.append("data", JSON.stringify(payload));
+
+  if (formData.profileImage) data.append("profileImage", formData.profileImage);
+  if (formData.CnicFrontImage) data.append("CnicFrontImage", formData.CnicFrontImage);
+  if (formData.CnicBackImage) data.append("CnicBackImage", formData.CnicBackImage);
+  const res = await axios.put(`${serverUrl}/api/admin/student/${editingStudent._id}`, data, { withCredentials: true,headers: { "Content-Type": "multipart/form-data" }, });
+  if(res.status === 200){
+  toast.success("Student Updated Successfully!");
+  setShowEditModal(false);
+  fetchAdminData(); // reload table
+  }
+};
+
+
   return (
     // <AdminLayout adminName="Bright Future">
     //   <ToastContainer />
@@ -1729,7 +1789,26 @@ console.log("students",students)
         <button className="bg-blue-500 text-white px-2 py-1 rounded text-xs">View</button>
         <button
           className="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
-          onClick={() => alert("Edit modal coming soon")}
+          onClick={() => {
+    setEditingStudent(student);
+    setFormData({
+      name: student.name || "",
+      parent: student.parent || "",
+      Classs: student.Classs?._id || "",
+      phone: student.phone || "",
+      dob: student.dob?.split("T")[0] || "",
+      feesPaid: student.feesPaid || "",
+      profileImage: null,
+      CnicFrontImage: null,
+      CnicBackImage: null,
+    });
+    setPreviews({
+      profileImage: student.profileImage ? `data:${student.profileImage.contentType};base64,${student.profileImage.data}` : null,
+      CnicFrontImage: student.CnicFrontImage ? `data:${student.CnicFrontImage.contentType};base64,${student.CnicFrontImage.data}` : null,
+      CnicBackImage: student.CnicBackImage ? `data:${student.CnicBackImage.contentType};base64,${student.CnicBackImage.data}` : null,
+    });
+    setShowEditModal(true);
+  }}
         >
           Edit
         </button>
@@ -1746,6 +1825,35 @@ console.log("students",students)
 
         </table>
       </div>
+
+
+{showEditModal && (
+  <div className="modal-overlay">
+    <form onSubmit={handleUpdateStudent} encType="multipart/form-data">
+      <input name="name" value={formData.name} onChange={handleInput} />
+      <input name="parent" value={formData.parent} onChange={handleInput} />
+      <input name="phone" value={formData.phone} onChange={handleInput} />
+      <input name="dob" type="date" value={formData.dob} onChange={handleInput} />
+      <input name="feesPaid" type="number" value={formData.feesPaid} onChange={handleInput} />
+
+      <select name="Classs" value={formData.Classs} onChange={handleInput}>
+        {adminData.admin.classes.map(c => (
+          <option value={c._id}>{c.name} - {c.section}</option>
+        ))}
+      </select>
+
+      {/* File inputs + previews */}
+      <FileField label="Profile" name="profileImage" />
+      <FileField label="CNIC Front" name="CnicFrontImage" />
+      <FileField label="CNIC Back" name="CnicBackImage" />
+
+      <button type="button" onClick={() => setShowEditModal(false)}>Cancel</button>
+      <button type="submit">Save Changes</button>
+    </form>
+  </div>
+)}
+
+
 
       {/* Pagination */}
       <div className="flex flex-col md:flex-row justify-between items-center mt-4">
@@ -1791,6 +1899,99 @@ console.log("students",students)
   );
 };
 
+function FileField({ label, name }) {
+  return (
+    <div>
+      <label>{label}</label>
+      <input
+        type="file"
+        accept="image/*"
+        onChange={e => {
+          const file = e.target.files[0];
+          setFormData(prev => ({ ...prev, [name]: file }));
+          setPreviews(prev => ({
+            ...prev,
+            [name]: file ? URL.createObjectURL(file) : null
+          }));
+        }}
+      />
+      {previews[name] && (
+        <img src={previews[name]} alt={`${label} preview`} className="w-32 object-cover mt-2" />
+      )}
+    </div>
+  );
+}
+
+
 export default StudentCard;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

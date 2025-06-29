@@ -305,44 +305,110 @@ const ExamTimetable =  async (req, res) => {
 
 
 
-const UpdateStudent = async (req, res) => {
-  const { id } = req.params;
-  const updatedData = req.body;
-console.log("updatedData",req.body);
-  try {
-    // Check if student exists
-    const existingStudent = await Student.findById(id);
-    if (!existingStudent) {
-      return res.status(404).json({ message: "Student not found" });
-    }
+// const UpdateStudent = async (req, res) => {
+//   const { id } = req.params;
+//   const updatedData = req.body;
+// console.log("updatedData",req.body);
+//   try {
+//     // Check if student exists
+//     const existingStudent = await Student.findById(id);
+//     if (!existingStudent) {
+//       return res.status(404).json({ message: "Student not found" });
+//     }
 
-    // If 'class' is a string (e.g., "grade 4"), we need to look up the corresponding Class ObjectId
-    if (updatedData.Classs && typeof updatedData.Classs === 'string') {
-      // Find the Class by name (assuming 'class' is the grade name like "grade 4")
-      const classObj = await Class.findOne({ name: updatedData.Classs.trim() });
+//     // If 'class' is a string (e.g., "grade 4"), we need to look up the corresponding Class ObjectId
+//     if (updatedData.Classs && typeof updatedData.Classs === 'string') {
+//       // Find the Class by name (assuming 'class' is the grade name like "grade 4")
+//       const classObj = await Class.findOne({ name: updatedData.Classs.trim() });
       
-      if (!classObj) {
+//       if (!classObj) {
+//         return res.status(404).json({ message: "Class not found" });
+//       }
+
+//       // Replace the 'class' field with the corresponding ObjectId of the Class
+//       updatedData.Classs = classObj._id; // Make sure 'Classs' is the correct field in your model
+//       delete updatedData.Classs; // Remove the original 'class' field as it's no longer needed
+//     }
+//     // Update the student with the new data
+//     const updatedStudent = await Student.findByIdAndUpdate(
+//       id,
+//       { $set: updatedData },
+//       { new: true, runValidators: true }
+//     );
+
+//     return res.status(200).json({
+//       message: "Student updated successfully",
+//       student: updatedStudent
+//     });
+//   } catch (err) {
+//     console.error("Error in UpdateStudent:", err);
+//     return res.status(500).json({ message: "Server error while updating student" });
+//   }
+// };
+
+
+
+const UpdateStudent = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedData = JSON.parse(req.body.data);
+
+    // Optional: Convert class name to ObjectId
+    if (updatedData.Classs && typeof updatedData.Classs === 'string') {
+      const classDoc = await Class.findOne({ name: updatedData.Classs.trim() });
+      if (!classDoc) {
         return res.status(404).json({ message: "Class not found" });
       }
-
-      // Replace the 'class' field with the corresponding ObjectId of the Class
-      updatedData.Classs = classObj._id; // Make sure 'Classs' is the correct field in your model
-      delete updatedData.Classs; // Remove the original 'class' field as it's no longer needed
+      updatedData.Classs = classDoc._id;
     }
-    // Update the student with the new data
+
+    // Handle profile image
+    if (req.files?.profileImage) {
+      updatedData.profileImage = {
+        data: req.files.profileImage[0].buffer,
+        contentType: req.files.profileImage[0].mimetype
+      };
+    }
+
+    // Handle CNIC images (if relevant for students)
+    if (req.files?.CnicFrontImage) {
+      updatedData.CnicFrontImage = {
+        data: req.files.CnicFrontImage[0].buffer,
+        contentType: req.files.CnicFrontImage[0].mimetype
+      };
+    }
+
+    if (req.files?.CnicBackImage) {
+      updatedData.CnicBackImage = {
+        data: req.files.CnicBackImage[0].buffer,
+        contentType: req.files.CnicBackImage[0].mimetype
+      };
+    }
+
+    // Hash password if updated
+    if (updatedData.password) {
+      const salt = await bcrypt.genSalt(10);
+      updatedData.password = await bcrypt.hash(updatedData.password, salt);
+    }
+
     const updatedStudent = await Student.findByIdAndUpdate(
       id,
-      { $set: updatedData },
+      updatedData,
       { new: true, runValidators: true }
     );
+
+    if (!updatedStudent) {
+      return res.status(404).json({ message: "Student not found" });
+    }
 
     return res.status(200).json({
       message: "Student updated successfully",
       student: updatedStudent
     });
+
   } catch (err) {
     console.error("Error in UpdateStudent:", err);
-    return res.status(500).json({ message: "Server error while updating student" });
+    return res.status(500).json({ message: "Server error while updating student", error: err.message });
   }
 };
 
