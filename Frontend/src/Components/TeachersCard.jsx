@@ -680,6 +680,54 @@ if (selectedOptions) {
 
 
 
+// allowedKeys.forEach((key) => {
+//   let value = formData[key];
+
+//   const isEmpty =
+//     value === undefined ||
+//     value === null ||
+//     (typeof value === "string" && value.trim() === "") ||
+//     (Array.isArray(value) && value.length === 0);
+
+//   if (isEmpty) {
+//     // if (key === "teachSubject") {
+//     //   // Default to existing subject IDs
+//     //   value = editingTeacher?.teachSubject?.map(subject => subject._id) || [];
+//     // }
+//     if (key === "teachSubject") {
+//   console.log("[teachSubject] Value before appending:", value);
+//   if (!Array.isArray(value) || value.some(v => typeof v !== "string")) {
+//     console.warn("[teachSubject] Malformed subject IDs:", value);
+//   }
+//   updatedFields[key] = value.filter(Boolean); // defensive
+// }
+//       else if (key === "assignedClass") {
+//       value = editingTeacher?.assignedClass?.map(cls => cls.class?._id) || [];
+//     } else if (key === "sessionId") {
+//       value = editingTeacher?.sessionId || "";
+//     } else {
+//       value = editingTeacher?.[key];
+//     }
+//   }
+
+//   // Special handling
+//   if (key === "assignedClass") {
+//     updatedFields[key] = value.map(classId => ({
+//       class: classId,
+//       incharge: formData.incharge || false,
+//     }));
+//   } else if (key === "teachSubject") {
+//     updatedFields[key] = value;
+//   } else {
+//     updatedFields[key] = value;
+//   }
+// });
+
+
+
+
+
+
 allowedKeys.forEach((key) => {
   let value = formData[key];
 
@@ -690,18 +738,7 @@ allowedKeys.forEach((key) => {
     (Array.isArray(value) && value.length === 0);
 
   if (isEmpty) {
-    // if (key === "teachSubject") {
-    //   // Default to existing subject IDs
-    //   value = editingTeacher?.teachSubject?.map(subject => subject._id) || [];
-    // }
-    if (key === "teachSubject") {
-  console.log("[teachSubject] Value before appending:", value);
-  if (!Array.isArray(value) || value.some(v => typeof v !== "string")) {
-    console.warn("[teachSubject] Malformed subject IDs:", value);
-  }
-  updatedFields[key] = value.filter(Boolean); // defensive
-}
-      else if (key === "assignedClass") {
+    if (key === "assignedClass") {
       value = editingTeacher?.assignedClass?.map(cls => cls.class?._id) || [];
     } else if (key === "sessionId") {
       value = editingTeacher?.sessionId || "";
@@ -710,14 +747,14 @@ allowedKeys.forEach((key) => {
     }
   }
 
-  // Special handling
   if (key === "assignedClass") {
     updatedFields[key] = value.map(classId => ({
       class: classId,
       incharge: formData.incharge || false,
     }));
   } else if (key === "teachSubject") {
-    updatedFields[key] = value;
+    // Always update teachSubject regardless of "isEmpty"
+    updatedFields[key] = Array.isArray(value) ? value.filter(Boolean) : [];
   } else {
     updatedFields[key] = value;
   }
