@@ -1222,25 +1222,53 @@ import { adminDataContext } from "../Context-Api/AdminContext";
 
 
 
-const FileField = ({ label, name, previews, handleInput }) => (
-  <div className="mb-4">
-    <label className="block text-sm font-medium">{label}</label>
-    <input
-      type="file"
-      name={name}
-      onChange={handleInput}
-      className="mt-1 block w-full border rounded text-sm"
-      accept="image/*"
-    />
-    {previews[name] && (
-      <img
-        src={previews[name]}
-        alt={`${label} preview`}
-        className="mt-2 h-20 w-20 object-cover rounded"
+// const FileField = ({ label, name, previews, handleInput }) => (
+//   <div className="mb-4">
+//     <label className="block text-sm font-medium">{label}</label>
+//     <input
+//       type="file"
+//       name={name}
+//       onChange={handleInput}
+//       className="mt-1 block w-full border rounded text-sm"
+//       accept="image/*"
+//     />
+//     {previews[name] && (
+//       <img
+//         src={previews[name]}
+//         alt={`${label} preview`}
+//         className="mt-2 h-20 w-20 object-cover rounded"
+//       />
+//     )}
+//   </div>
+// );
+
+
+
+
+const FileField = ({ label, name }) => {
+  return (
+    <div className="my-2">
+      <label>{label} Image:</label>
+      <input
+        type="file"
+        name={name}
+        accept="image/*"
+        onChange={handleInput}
       />
-    )}
-  </div>
-);
+      {previews?.[name] && (
+        <div className="mt-2">
+          <img
+            src={previews[name]}
+            alt={`${label} preview`}
+            className="h-20 w-20 object-cover rounded border"
+          />
+        </div>
+      )}
+    </div>
+  );
+};
+
+
 const StudentCard = () => {
   const { adminData, fetchAdminData } = useContext(adminDataContext);
   const { serverUrl } = useContext(authDataContext);
@@ -1692,6 +1720,7 @@ const handleUpdateStudent = async (e) => {
   <tr>
     <th className="px-3 py-2 border">#</th>
     <th className="px-3 py-2 border">Name</th>
+    <th className="px-3 py-2 border">Profile</th>
     <th className="px-3 py-2 border">Class</th>
     <th className="px-3 py-2 border">Section</th>
     <th className="px-3 py-2 border">Parent</th>
@@ -1794,7 +1823,12 @@ const handleUpdateStudent = async (e) => {
 
 
 <tbody>
-  {currentData.map((student, i) => (
+  {/* {currentData.map((student, i) => {
+     const { profileImage } = student;
+                  const imageSrc = profileImage?.data
+                    ? `data:${profileImage.contentType};base64,${profileImage.data}`
+                    : 'https://via.placeholder.com/50';
+return (
     <tr key={student._id} className="border-t">
       <td className="px-3 py-2 border">{indexOfFirst + i + 1}</td>
       <td className="px-3 py-2 border">{student.name}</td>
@@ -1855,7 +1889,86 @@ const handleUpdateStudent = async (e) => {
         </button>
       </td>
     </tr>
-  ))}
+) }
+  ))} */}
+
+
+
+
+
+
+  {currentData.map((student, i) => {
+  const { profileImage } = student;
+  const imageSrc = profileImage?.data
+    ? `data:${profileImage.contentType};base64,${profileImage.data}`
+    : 'https://via.placeholder.com/50';
+  return (
+    <tr key={student._id} className="border-t">
+      <td className="px-3 py-2 border">{indexOfFirst + i + 1}</td>
+      <td className="px-3 py-2 border flex items-center gap-2">
+        {student.name || "Fecthing..."}
+      </td>
+      <td className="px-3 py-2 border flex items-center gap-2">
+        <img
+          src={imageSrc}
+          alt="Profile"
+          className="w-8 h-8 rounded-full object-cover"
+        />
+      </td>
+      <td className="px-3 py-2 border">{student.Classs?.name || "Fecthing..."}</td>
+      <td className="px-3 py-2 border">({student.Classs?.section || "Fecthing..."})</td>
+      <td className="px-3 py-2 border hidden sm:table-cell">{student.parent || "Fecthing..."}</td>
+      <td className="px-3 py-2 border">{student.phone || "Fecthing..."}</td>
+      <td className="px-3 py-2 border hidden md:table-cell">
+        {new Date(student.dob).toLocaleDateString() || "Fecthing..."}
+      </td>
+      <td className="px-3 py-2 border hidden lg:table-cell">
+        {student.feesPaid ?? 0 }
+      </td>
+      <td className="px-3 py-2 border content-center space-y-2 sm:space-x-2">
+        <button className="bg-blue-500 text-white px-2 py-1 rounded text-xs">View</button>
+        <button
+          className="bg-yellow-500 text-white px-2 py-1 rounded text-xs"
+          onClick={() => {
+            setEditingStudent(student);
+            setFormData({
+              name: student.name || "",
+              parent: student.parent || "",
+              Classs: student.Classs?._id || "",
+              phone: student.phone || "",
+              dob: student.dob?.split("T")[0] || "",
+              feesPaid: student.feesPaid || "",
+              profileImage: null,
+              CnicFrontImage: null,
+              CnicBackImage: null,
+            });
+            setPreviews({
+              profileImage: student.profileImage?.contentType && student.profileImage?.data
+                ? `data:${student.profileImage.contentType};base64,${student.profileImage.data}`
+                : null,
+              CnicFrontImage: student.CnicFrontImage?.contentType && student.CnicFrontImage?.data
+                ? `data:${student.CnicFrontImage.contentType};base64,${student.CnicFrontImage.data}`
+                : null,
+              CnicBackImage: student.CnicBackImage?.contentType && student.CnicBackImage?.data
+                ? `data:${student.CnicBackImage.contentType};base64,${student.CnicBackImage.data}`
+                : null,
+            });
+            setShowEditModal(true);
+          }}
+        >
+          Edit
+        </button>
+        <button
+          className="bg-red-500 text-white px-2 py-1 rounded text-xs"
+          onClick={() => handleDeleteById(student._id)}
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
+  );
+})}
+
 </tbody>
 
         </table>
