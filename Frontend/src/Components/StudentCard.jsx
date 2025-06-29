@@ -1245,7 +1245,33 @@ import { adminDataContext } from "../Context-Api/AdminContext";
 
 
 
-const FileField = ({ label, name }) => {
+// const FileField = ({ label, name }) => {
+//   return (
+//     <div className="my-2">
+//       <label>{label} Image:</label>
+//       <input
+//         type="file"
+//         name={name}
+//         accept="image/*"
+//         onChange={handleInput}
+//       />
+//       {previews?.[name] && (
+//         <div className="mt-2">
+//           <img
+//             src={previews[name]}
+//             alt={`${label} preview`}
+//             className="h-20 w-20 object-cover rounded border"
+//           />
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+
+
+
+const FileField = ({ label, name, handleInput, previews }) => {
   return (
     <div className="my-2">
       <label>{label} Image:</label>
@@ -1991,9 +2017,9 @@ return (
       </select>
 
       {/* File inputs + previews */}
-      <FileField label="Profile" name="profileImage" />
-      <FileField label="CNIC Front" name="CnicFrontImage" />
-      <FileField label="CNIC Back" name="CnicBackImage" />
+      <FileField label="Profile" name="profileImage" handleInput={handleInput} previews={previews}/>
+      <FileField label="CNIC Front" name="CnicFrontImage" handleInput={handleInput} previews={previews}/>
+      <FileField label="CNIC Back" name="CnicBackImage" handleInput={handleInput} previews={previews}/>
 
       <button type="button" onClick={() => setShowEditModal(false)}>Cancel</button>
       <button type="submit">Save Changes</button>
