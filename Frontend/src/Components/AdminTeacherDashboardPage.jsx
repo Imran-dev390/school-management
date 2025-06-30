@@ -101,8 +101,8 @@ const AdminTeacherDashboardPage = () => {
           </div>
 
           {/* Section Heading */}
-          <div className="text-center text-xl font-semibold text-gray-700 flex w-full border-b pb-2">
-            <button className="fas fa-graduation-cap mr-2 text-blue-500 bg-yellow-400 p-2 rounded-md"> Academic</button>
+          <div className="text-center text-xl font-semibold text-gray-700 items-center justify-center flex w-full border-b pb-2">
+            <button className="fas fa-graduation-cap mr-2 text-blue-500 bg-yellow-400 p-2 w-full rounded-md"> Academic</button>
           </div>
 
           {/* Dashboard Grid */}
@@ -137,9 +137,9 @@ const AdminTeacherDashboardPage = () => {
   {sections.map((section, idx) => (
     <div
       key={idx}
-      className="bg-white rounded-lg shadow-md p-12 flex flex-col justify-between h-full border border-gray-200"
+      className="bg-white rounded-lg shadow-md  p-12 w-full flex flex-col justify-between h-full border border-gray-200"
     >
-      <span className="text-lg font-semibold mb-4 text-gray-800">{section.title}</span>
+      <span className="text-xl font-semibold mb-4 text-gray-800">{section.title}</span>
       <div className="flex flex-col gap-3">
         {section.actions.map((action, index) => (
           <a
