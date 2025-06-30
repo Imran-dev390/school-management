@@ -110,7 +110,7 @@ const AdminTeacherDashboardPage = () => {
             {sections.map((section, idx) => (
               <div
                 key={idx}
-                className="bg-white w-[300px] text-[rgb(1,1,93)] rounded-lg shadow-md p-8 flex flex-col justify-between h-full"
+                className="bg-white w-[300px] text-[rgb(1,1,93)] rounded-lg shadow-md p-8 flex flex-col justify-between h-full border-2 border-yellow-400"
               >
                 <span className="text-xl font-semibold mb-4">{section.title}</span>
                 <div className="flex flex-col gap-3">
@@ -118,7 +118,7 @@ const AdminTeacherDashboardPage = () => {
                     <a 
                       key={index}
                       href={action.href}
-                      className="bg-[rgb(1,1,93)] text-white w-fit hover:bg-yellow-400 py-1 px-2 rounded-md text-sm border-2 border-yellow-400 text-center"
+                      className="bg-[rgb(1,1,93)] text-white w-fit hover:bg-yellow-400 py-1 px-2 rounded-md text-sm  text-center"
                     >
                       {action.label}
                     </a>
