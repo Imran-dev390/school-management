@@ -70,7 +70,7 @@ const AdminTeacherDashboardPage = () => {
       <main className="flex-1 p-6 pt-16 transition-all duration-300 md:ml-32 ml-0">
         <div className="flex flex-col gap-6">
           {/* Header Block */}
-          <div className="bg-slate-100 rounded-md p-6 text-center shadow-md">
+          <div className="bg-slate-100 w-52 rounded-md p-6 text-center shadow-md">
             <h1 className="text-3xl font-bold uppercase">
               Bright Future Public High School{' '}
               <small className="block text-sm text-gray-600">
@@ -111,7 +111,7 @@ const AdminTeacherDashboardPage = () => {
             {sections.map((section, idx) => (
               <div
                 key={idx}
-                className="bg-white rounded-lg shadow-md p-4 flex flex-col justify-between h-full border border-gray-200"
+                className="bg-white rounded-lg shadow-md p-6 flex flex-col justify-between h-full border border-gray-200"
               >
                 <span className="text-lg font-semibold mb-3 text-gray-800">{section.title}</span>
                 <div className="flex flex-col gap-2">
