@@ -474,6 +474,7 @@ if(loading){
               <Link to="/admin/add-teacher" className="block p-3  text-black bg-blue-100 dark:bg-blue-700 rounded hover:bg-blue-200 transition">
                 ➕ Register New Teacher
               </Link>
+              <Link to="/admin/teacher/dash" className="block p-3  text-black bg-blue-100 dark:bg-blue-700 rounded hover:bg-blue-200 transition">📊 Teacher Dashboard</Link>
               <Link to="/admin/add-staff" className="block p-3  text-black bg-blue-100 dark:bg-blue-700 rounded hover:bg-blue-200 transition">
                 ➕ Register New Staff
               </Link>

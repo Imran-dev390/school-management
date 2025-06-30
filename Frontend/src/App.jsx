@@ -820,6 +820,7 @@ const StudentDashboard = lazy(() => import("./Components/StudentDashboard"));
 const TeacherDashboard = lazy(() => import("./Components/TeacherDashboard"));
 const AdminDashboard = lazy(() => import("./Components/AdminDashboard"));
 const AddTeacher = lazy(() => import("./Components/AddTeacher"));
+const AdminTeacherDashboardPage = lazy(() => import ("./Components/AdminTeacherDashboardPage"));
 const AddStudent = lazy(() => import("./Components/AddStudent"));
 const ClassRegistrationForm = lazy(() => import("./Components/ClassRegistrationForm"));
 const StudentCard = lazy(() => import("./Components/StudentCard"));
@@ -989,6 +990,7 @@ function App() {
               <Route path="/admin/staff" element={<StaffCard />} />
               <Route path="/admin/classes" element={<CllassCard />} />
               <Route path="/admin/teachers" element={<TeachersCard />} />
+              <Route path="/admin/teacher/dash" element={<AdminTeacherDashboardPage/>} />
               <Route path="/Add/Class/Timetable" element={<ClassTimeTable />} />
               <Route path="/Add/ExamSchedule" element={<AddExamSchedule />} />
               <Route path="/Add/Fee/Voucher" element={<AddFeeVoucher />} />
