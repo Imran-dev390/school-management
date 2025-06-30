@@ -101,7 +101,7 @@ const AdminTeacherDashboardPage = () => {
           </div>
 
           {/* Section Heading */}
-          <div className="w-full text-white  bg-[rgb(1,1,93)]  hover:bg-yellow-400 text-xl font-semibold flex items-center justify-center rounded-md py-3 shadow-md">
+          <div className="w-full text-white  bg-[rgb(1,1,93)]  hover:bg-[#C19703] text-xl font-semibold flex items-center justify-center rounded-md py-3 shadow-md">
             <i className="fas fa-graduation-cap mr-2"></i> Academic
           </div>
 
@@ -110,7 +110,7 @@ const AdminTeacherDashboardPage = () => {
             {sections.map((section, idx) => (
               <div
                 key={idx}
-                className="bg-white w-[300px] text-[rgb(1,1,93)] rounded-lg shadow-md p-8 flex flex-col justify-between h-full border-2 border-yellow-400"
+                className="bg-white w-[300px] text-[rgb(1,1,93)] rounded-lg shadow-md p-8 flex flex-col justify-between h-full border-1 border-[#C19703]"
               >
                 <span className="text-xl font-semibold mb-4">{section.title}</span>
                 <div className="flex flex-col gap-3">
@@ -118,7 +118,7 @@ const AdminTeacherDashboardPage = () => {
                     <a 
                       key={index}
                       href={action.href}
-                      className="bg-[rgb(1,1,93)] text-white w-fit hover:bg-yellow-400 py-1 px-2 rounded-md text-sm  text-center"
+                      className="bg-[rgb(1,1,93)] text-white w-fit hover:bg-[#C19703] py-1 px-2 rounded-md text-sm  text-center"
                     >
                       {action.label}
                     </a>
