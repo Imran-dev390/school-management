@@ -102,7 +102,7 @@ const AdminTeacherDashboardPage = () => {
 
           {/* Section Heading */}
           <div className="text-center text-xl font-semibold text-gray-700 items-center justify-center flex w-full border-b pb-2">
-            <button className="fas fa-graduation-cap mr-2 text-blue-500 bg-yellow-400 p-2 w-full rounded-md"> Academic</button>
+            <button className="fas fa-graduation-cap mr-2 text-[rgb(1,1,93)] bg-yellow-400 p-2 w-full rounded-md"> Academic</button>
           </div>
 
           {/* Dashboard Grid */}
@@ -133,7 +133,7 @@ const AdminTeacherDashboardPage = () => {
           </div> */}
 
           {/* Dashboard Grid */}
-<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+{/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
   {sections.map((section, idx) => (
     <div
       key={idx}
@@ -149,6 +149,32 @@ const AdminTeacherDashboardPage = () => {
               action.variant === 'primary'
                 ? 'bg-blue-600 text-white hover:bg-blue-700'
                 : 'border border-blue-600 text-blue-600 hover:bg-blue-50'
+            } py-2 px-4 rounded-md text-sm text-center`}
+          >
+            {action.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  ))}
+</div> */}
+
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+  {sections.map((section, idx) => (
+    <div
+      key={idx}
+      className="bg-white text-[rgb(1,1,93)] rounded-lg shadow-md p-12 w-[95%] mx-auto flex flex-col justify-between h-full border border-yellow-500"
+    >
+      <span className="text-xl font-semibold mb-4">{section.title}</span>
+      <div className="flex flex-col gap-3">
+        {section.actions.map((action, index) => (
+          <a
+            key={index}
+            href={action.href}
+            className={`btn btn-sm ${
+              action.variant === 'primary'
+                ? 'bg-yellow-300 text-[rgb(1,1,93)] hover:bg-gray-100'
+                : 'border border-white text-[rgb(1,1,93)] hover:bg-yellow-300'
             } py-2 px-4 rounded-md text-sm text-center`}
           >
             {action.label}
