@@ -13,15 +13,27 @@ const AdminTeacherDashboardPage = () => {
 
   return (
     <AdminLayout adminName="Bright Future">
-      <main className="flex-1 p-6 pt-20 transition-all duration-300 md:ml-64 ml-0">
+      <main className="flex-1 p-6 pt-16 transition-all duration-300 md:ml-64 ml-0">
         <div className="flex flex-col gap-3">
-          <div className="bg-grey headingSchooName">
-            <h1>
+          <div className="bg-slate-300 flex flex-col w-fit p-4 rounded-md headingSchooName">
+            <div>
+            <h1 className='text-4xl font-semibold'>
               Bright Future Public High School{' '}
               {`${currentSession.startDate ? new Date(currentSession.startDate).toLocaleDateString() : '2027'} - ${
                 currentSession.endDate ? new Date(currentSession.endDate).toLocaleDateString() : '2045'
               }`}
             </h1>
+            </div>
+             <div>
+           Current Session: <select name="session" id="session" className='bg-white text-black'>
+            {sessions.map((session,idx)=>{
+                return (
+            <option value="" key={idx}>{session}</option>
+                )
+             })
+}
+           </select>
+            </div>
           </div>
         </div>
       </main>
