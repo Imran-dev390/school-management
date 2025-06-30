@@ -110,15 +110,15 @@ const AdminTeacherDashboardPage = () => {
             {sections.map((section, idx) => (
               <div
                 key={idx}
-                className="bg-white w-[370px] text-[rgb(1,1,93)] rounded-lg shadow-md p-8 flex flex-col justify-between h-full"
+                className="bg-white w-[350px] text-[rgb(1,1,93)] rounded-lg shadow-md p-8 flex flex-col justify-between h-full"
               >
                 <span className="text-xl font-semibold mb-4">{section.title}</span>
                 <div className="flex flex-col gap-3">
                   {section.actions.map((action, index) => (
-                    <a
+                    <a 
                       key={index}
                       href={action.href}
-                      className="bg-[rgb(1,1,93)] text-white hover:bg-yellow-400 py-1 px-2 rounded-md text-sm text-center"
+                      className="bg-[rgb(1,1,93)] text-white w-fit hover:bg-yellow-400 py-1 px-2 rounded-md text-sm text-center"
                     >
                       {action.label}
                     </a>
