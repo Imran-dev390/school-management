@@ -69,7 +69,7 @@ const AdminTeacherDashboardPage = () => {
   return (
     <AdminLayout adminName="Bright Future">
       <main className="flex-1 pt-16 transition-all duration-300 md:ml-32 ml-0">
-        <div className="flex flex-col gap-6 w-full px-0">
+        <div className="flex flex-col gap-6 items-center justify-center w-full px-0">
 
           {/* Header */}
           <div className="bg-slate-100 rounded-md p-6 text-center shadow-md w-full">
@@ -106,11 +106,11 @@ const AdminTeacherDashboardPage = () => {
           </div>
 
           {/* Dashboard Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full px-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
             {sections.map((section, idx) => (
               <div
                 key={idx}
-                className="bg-white text-[rgb(1,1,93)] rounded-lg shadow-md p-8 flex flex-col justify-between h-full border border-yellow-500"
+                className="bg-white w-[100%] text-[rgb(1,1,93)] rounded-lg shadow-md p-8 flex flex-col justify-between h-full border border-yellow-500"
               >
                 <span className="text-xl font-semibold mb-4">{section.title}</span>
                 <div className="flex flex-col gap-3">
