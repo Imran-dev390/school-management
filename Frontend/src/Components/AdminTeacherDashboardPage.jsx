@@ -17,17 +17,15 @@ const AdminTeacherDashboardPage = () => {
 
   return (
     <AdminLayout adminName="Bright Future">
-      <main className="flex-1 p-6 pt-16 transition-all duration-300 md:ml-52 ml-0">
+      <main className="flex-1 p-6 pt-16 transition-all duration-300 md:ml-32 ml-0">
         <div className="flex flex-col gap-3">
           <div className="bg-slate-100 flex flex-col items-center justify-center w-fit p-4 rounded-md headingSchooName">
             <div>
-              <h1 className="text-4xl flex gap-3 font-semibold">
+              <h1 className="text-2xl uppercase inline font-semibold">
                 Bright Future Public High School{' '}
-                <span>
                 {`${formatDate(currentSession.startDate) || '2027'} - ${
                   formatDate(currentSession.endDate) || '2045'
                 }`}
-                </span>
               </h1>
             </div>
             <div className="mt-4">
