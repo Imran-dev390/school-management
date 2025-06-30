@@ -68,7 +68,7 @@ const AdminTeacherDashboardPage = () => {
 
   return (
     <AdminLayout adminName="Bright Future">
-      <main className="flex-1 pt-16 transition-all w-full duration-300 md:ml-4 ml-0">
+      <main className="flex-1 pt-16 transition-all  duration-300 md:ml-4 ml-0">
         <div className="flex flex-col gap-6 w-full px-0">
 
           {/* Header */}
@@ -101,7 +101,7 @@ const AdminTeacherDashboardPage = () => {
           </div>
 
           {/* Section Heading */}
-          <div className="w-full text-white  bg-[rgb(1,1,93)]  hover:bg-yellow-300 text-xl font-semibold flex items-center justify-center rounded-md py-3 shadow-md">
+          <div className="w-full text-white  bg-[rgb(1,1,93)]  hover:bg-yellow-400 text-xl font-semibold flex items-center justify-center rounded-md py-3 shadow-md">
             <i className="fas fa-graduation-cap mr-2"></i> Academic
           </div>
 
@@ -112,7 +112,7 @@ const AdminTeacherDashboardPage = () => {
                 key={idx}
                 className="bg-white w-[370px] text-[rgb(1,1,93)] rounded-lg shadow-md p-8 flex flex-col justify-between h-full"
               >
-                <span className="text-2xl font-semibold mb-4">{section.title}</span>
+                <span className="text-xl font-semibold mb-4">{section.title}</span>
                 <div className="flex flex-col gap-3">
                   {section.actions.map((action, index) => (
                     <a
