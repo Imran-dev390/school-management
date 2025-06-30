@@ -1536,7 +1536,8 @@ export function Sidebar({ isOpen, setIsOpen, adminName ,hasUserToggled,onToggleS
     {
       label: "👩‍🏫 Teachers",
       path: "/admin/teachers",
-      children: [{ label: "➕ Register New Teacher", path: "/admin/add-teacher" },
+      children: [
+        { label: "➕ Register New Teacher", path: "/admin/add-teacher"},
         { label: "📊 Dashboard", path: "/admin/teacher/dash" }
       ],
     },
