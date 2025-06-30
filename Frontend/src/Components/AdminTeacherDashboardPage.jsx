@@ -101,24 +101,24 @@ const AdminTeacherDashboardPage = () => {
           </div>
 
           {/* Section Heading */}
-          <div className="w-full bg-yellow-300 text-[rgb(1,1,93)] text-xl font-semibold flex items-center justify-center rounded-md py-3 shadow-md">
+          <div className="w-full  bg-[rgb(1,1,93)]  hover:bg-yellow-300 text-xl font-semibold flex items-center justify-center rounded-md py-3 shadow-md">
             <i className="fas fa-graduation-cap mr-2"></i> Academic
           </div>
 
           {/* Dashboard Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 w-full">
             {sections.map((section, idx) => (
               <div
                 key={idx}
-                className="bg-white w-[350px] text-[rgb(1,1,93)] rounded-lg shadow-md p-8 flex flex-col justify-between h-full"
+                className="bg-white w-[400px] text-[rgb(1,1,93)] rounded-lg shadow-md p-8 flex flex-col justify-between h-full"
               >
-                <span className="text-xl font-semibold mb-4">{section.title}</span>
+                <span className="text-2xl font-semibold mb-4">{section.title}</span>
                 <div className="flex flex-col gap-3">
                   {section.actions.map((action, index) => (
                     <a
                       key={index}
                       href={action.href}
-                      className="bg-yellow-300 hover:bg-yellow-400 text-[rgb(1,1,93)] py-2 px-4 rounded-md text-sm text-center"
+                      className="bg-[rgb(1,1,93)] hover:bg-yellow-400 py-2 px-4 rounded-md text-md text-center"
                     >
                       {action.label}
                     </a>
