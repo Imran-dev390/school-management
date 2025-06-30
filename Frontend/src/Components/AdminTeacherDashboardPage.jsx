@@ -69,7 +69,7 @@ const AdminTeacherDashboardPage = () => {
   return (
     <AdminLayout adminName="Bright Future">
       <main className="flex-1 pt-16 transition-all duration-300 md:ml-32 ml-0">
-        <div className="flex flex-col gap-6 items-center justify-center w-full px-0">
+        <div className="flex flex-col gap-6 w-full px-0">
 
           {/* Header */}
           <div className="bg-slate-100 rounded-md p-6 text-center shadow-md w-full">
