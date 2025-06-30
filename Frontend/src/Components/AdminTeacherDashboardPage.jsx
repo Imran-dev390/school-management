@@ -68,7 +68,7 @@ const AdminTeacherDashboardPage = () => {
 
   return (
     <AdminLayout adminName="Bright Future">
-      <main className="flex-1 pt-16 transition-all  duration-300 md:ml-4 ml-0">
+      <main className="flex-1 pt-12 transition-all  duration-300 md:ml-4 ml-0">
         <div className="flex flex-col gap-6 w-full px-0">
 
           {/* Header */}
@@ -106,7 +106,7 @@ const AdminTeacherDashboardPage = () => {
           </div>
 
           {/* Dashboard Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+          <div className="grid mt-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
             {sections.map((section, idx) => (
               <div
                 key={idx}
