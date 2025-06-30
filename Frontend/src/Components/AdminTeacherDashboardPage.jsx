@@ -70,7 +70,7 @@ const AdminTeacherDashboardPage = () => {
       <main className="flex-1 p-6 pt-16 transition-all duration-300 md:ml-32 ml-0">
         <div className="flex flex-col gap-6">
           {/* Header Block */}
-          <div className="bg-slate-100 w-52 rounded-md p-6 text-center shadow-md">
+          <div className="bg-slate-100  rounded-md p-6 px-12 text-center shadow-md">
             <h1 className="text-3xl font-bold uppercase">
               Bright Future Public High School{' '}
               <small className="block text-sm text-gray-600">
