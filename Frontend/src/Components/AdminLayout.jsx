@@ -20,7 +20,7 @@ export default function AdminLayout({ children, adminName = "Admin" }) {
   };
 
   return (
-    <div className="flex min-h-screen bg-green-100">
+    <div className="flex min-h-screen bg-white">
       {!isSidebarOpen && (
         <button
           onClick={handleSidebarToggle}

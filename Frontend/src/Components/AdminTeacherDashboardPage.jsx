@@ -101,17 +101,16 @@ const AdminTeacherDashboardPage = () => {
           </div>
 
           {/* Section Heading */}
-          <div className="text-center text-xl font-semibold text-gray-700 border-b pb-2">
-            <i className="fas fa-graduation-cap mr-2 text-blue-500"></i>
-            Academic
+          <div className="text-center text-xl font-semibold text-gray-700 flex w-full border-b pb-2">
+            <button className="fas fa-graduation-cap mr-2 text-blue-500 bg-yellow-400 p-2 rounded-md"> Academic</button>
           </div>
 
           {/* Dashboard Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {sections.map((section, idx) => (
               <div
                 key={idx}
-                className="bg-white rounded-lg shadow-md p-6 flex flex-col justify-between h-full border border-gray-200"
+                className="bg-white rounded-lg shadow-md p-8 flex flex-col justify-between h-full border border-gray-200"
               >
                 <span className="text-lg font-semibold mb-3 text-gray-800">{section.title}</span>
                 <div className="flex flex-col gap-2">
@@ -131,7 +130,35 @@ const AdminTeacherDashboardPage = () => {
                 </div>
               </div>
             ))}
-          </div>
+          </div> */}
+
+          {/* Dashboard Grid */}
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+  {sections.map((section, idx) => (
+    <div
+      key={idx}
+      className="bg-white rounded-lg shadow-md p-12 flex flex-col justify-between h-full border border-gray-200"
+    >
+      <span className="text-lg font-semibold mb-4 text-gray-800">{section.title}</span>
+      <div className="flex flex-col gap-3">
+        {section.actions.map((action, index) => (
+          <a
+            key={index}
+            href={action.href}
+            className={`btn btn-sm ${
+              action.variant === 'primary'
+                ? 'bg-blue-600 text-white hover:bg-blue-700'
+                : 'border border-blue-600 text-blue-600 hover:bg-blue-50'
+            } py-2 px-4 rounded-md text-sm text-center`}
+          >
+            {action.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  ))}
+</div>
+
         </div>
       </main>
     </AdminLayout>
