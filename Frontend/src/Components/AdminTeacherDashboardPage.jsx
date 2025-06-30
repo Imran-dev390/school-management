@@ -106,11 +106,11 @@ const AdminTeacherDashboardPage = () => {
           </div>
 
           {/* Dashboard Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 w-full">
             {sections.map((section, idx) => (
               <div
                 key={idx}
-                className="bg-white w-[400px] text-[rgb(1,1,93)] rounded-lg shadow-md p-8 flex flex-col justify-between h-full"
+                className="bg-white w-[370px] text-[rgb(1,1,93)] rounded-lg shadow-md p-8 flex flex-col justify-between h-full"
               >
                 <span className="text-2xl font-semibold mb-4">{section.title}</span>
                 <div className="flex flex-col gap-3">
