@@ -118,7 +118,7 @@ const AdminTeacherDashboardPage = () => {
                     <a 
                       key={index}
                       href={action.href}
-                      className="bg-[rgb(1,1,93)] text-white w-fit hover:bg-yellow-400 py-1 px-2 rounded-md text-sm text-center"
+                      className="bg-[rgb(1,1,93)] text-white w-fit hover:bg-yellow-400 py-1 px-2 rounded-md text-sm border-2 border-yellow-400 text-center"
                     >
                       {action.label}
                     </a>
