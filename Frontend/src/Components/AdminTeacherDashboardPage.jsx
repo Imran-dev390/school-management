@@ -110,7 +110,7 @@ const AdminTeacherDashboardPage = () => {
             {sections.map((section, idx) => (
               <div
                 key={idx}
-                className="bg-white w-[100%] text-[rgb(1,1,93)] rounded-lg shadow-md p-8 flex flex-col justify-between h-full border border-yellow-500"
+                className="bg-white w-[350px] text-[rgb(1,1,93)] rounded-lg shadow-md p-8 flex flex-col justify-between h-full"
               >
                 <span className="text-xl font-semibold mb-4">{section.title}</span>
                 <div className="flex flex-col gap-3">
