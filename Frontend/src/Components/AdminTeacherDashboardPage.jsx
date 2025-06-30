@@ -68,7 +68,7 @@ const AdminTeacherDashboardPage = () => {
 
   return (
     <AdminLayout adminName="Bright Future">
-      <main className="flex-1 pt-16 transition-all w-full duration-300 md:ml-16 ml-0">
+      <main className="flex-1 pt-16 transition-all w-full duration-300 md:ml-4 ml-0">
         <div className="flex flex-col gap-6 w-full px-0">
 
           {/* Header */}
@@ -101,7 +101,7 @@ const AdminTeacherDashboardPage = () => {
           </div>
 
           {/* Section Heading */}
-          <div className="w-full  bg-[rgb(1,1,93)]  hover:bg-yellow-300 text-xl font-semibold flex items-center justify-center rounded-md py-3 shadow-md">
+          <div className="w-full text-white  bg-[rgb(1,1,93)]  hover:bg-yellow-300 text-xl font-semibold flex items-center justify-center rounded-md py-3 shadow-md">
             <i className="fas fa-graduation-cap mr-2"></i> Academic
           </div>
 
