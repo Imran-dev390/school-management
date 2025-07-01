@@ -808,6 +808,7 @@ import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-
 import { userDataContext } from "./Context-Api/UserContext";
 import { adminDataContext } from "./Context-Api/AdminContext";
 import { authDataContext } from "./Context-Api/AuthContext";
+import AddClassManage from "./Components/AddClassManage";
 
 // Lazy loaded components
 const Register = lazy(() => import("./Components/Register"));
@@ -994,6 +995,7 @@ function App() {
               <Route path="/Add/Class/Timetable" element={<ClassTimeTable />} />
               <Route path="/Add/ExamSchedule" element={<AddExamSchedule />} />
               <Route path="/Add/Fee/Voucher" element={<AddFeeVoucher />} />
+              <Route path="/admin/sections" element={<AddClassManage/>}/>
             </>
           )}
 

@@ -1,19 +1,18 @@
 import React, { useContext, useEffect } from 'react';
 import AdminLayout from './AdminLayout';
 import { adminDataContext } from '../Context-Api/AdminContext';
+import AdminTeachDashboardHeader from './AdminTeachDashboardHeader';
+import { Link } from 'react-router-dom';
 
 const AdminTeacherDashboardPage = () => {
   const { fetchAdminData, adminData } = useContext(adminDataContext);
   const { sessions = [] } = adminData?.admin || {};
-  const currentSession = sessions[0] || {};
+ 
 
   useEffect(() => {
     fetchAdminData();
   }, [fetchAdminData]);
 
-  const formatDate = (dateStr) => {
-    return dateStr ? new Date(dateStr).toLocaleDateString() : '';
-  };
 
   const sections = [
     {
@@ -72,33 +71,7 @@ const AdminTeacherDashboardPage = () => {
         <div className="flex flex-col gap-6 w-full px-0">
 
           {/* Header */}
-          <div className="bg-slate-100 rounded-md p-6 text-center shadow-md w-full">
-            <h1 className="text-3xl font-bold uppercase">
-              Bright Future Public High School{' '}
-              <small className="block text-sm text-gray-600">
-                {`${formatDate(currentSession.startDate) || '2027'} - ${formatDate(currentSession.endDate) || '2045'}`}
-              </small>
-            </h1>
-            <div className="mt-4">
-              <label htmlFor="session" className="text-gray-700 font-medium">
-                Current Session:
-              </label>
-              <select
-                name="session"
-                id="session"
-                className="ml-2 px-2 py-1 rounded-md border border-gray-300 bg-white text-black"
-              >
-                {sessions.map((session, idx) => {
-                  const label = `${formatDate(session.startDate)} - ${formatDate(session.endDate)}`;
-                  return (
-                    <option value={session._id || idx} key={session._id || idx}>
-                      {label}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-          </div>
+         <AdminTeachDashboardHeader/>        
 
           {/* Section Heading */}
           <div className="w-full text-white  bg-[rgb(1,1,93)]  hover:bg-[#C19703] text-xl font-semibold flex items-center justify-center rounded-md py-3 shadow-md">
@@ -115,13 +88,13 @@ const AdminTeacherDashboardPage = () => {
                 <span className="text-xl font-semibold mb-4">{section.title}</span>
                 <div className="flex flex-col gap-3">
                   {section.actions.map((action, index) => (
-                    <a 
+                    <Link
                       key={index}
                       href={action.href}
                       className="bg-[rgb(1,1,93)] text-white w-fit hover:bg-[#C19703] py-1 px-2 rounded-md text-sm  text-center"
                     >
                       {action.label}
-                    </a>
+                    </Link>
                   ))}
                 </div>
               </div>
