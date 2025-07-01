@@ -214,6 +214,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { adminDataContext } from '../Context-Api/AdminContext';
 import AdminLayout from './AdminLayout';
 import AdminTeachDashboardHeader from './AdminTeachDashboardHeader';
+import { Link } from 'react-router-dom';
 
 const AddClassManage = () => {
   const { adminData, fetchAdminData } = useContext(adminDataContext);
@@ -373,12 +374,13 @@ const AddClassManage = () => {
               <td className="border border-gray-300 p-3">
                 <span className="font-medium text-gray-800">{cls.name}</span>
                 <span className="ml-4 space-x-2">
-                  <a
-                    href={`/manage-section/${cls._id}`}
+                  <Link
+                  to="/admin/add-class-section"
+                    //href={`/manage-section/${cls._id}`}
                     className="bg-[#c19703] text-white px-2 py-1 font-semibold text-sm rounded"
                   >
                     Add New / Manage
-                  </a>
+                  </Link>
                   <a
                     href={`/view-section/${cls._id}`}
                     className="bg-[rgb(1,1,93)] text-white px-2 py-1 font-semibold text-sm rounded"
@@ -420,10 +422,52 @@ const AddClassManage = () => {
   </table>
 </div>
 
+
+
+
+{/* Add Section Form */}
+                    {/* <div className="bg-gray-50 p-4 rounded border">
+                      <h3 className="text-md font-semibold mb-2 border-b pb-1">
+                        <i className="fas fa-plus-square text-blue-600 mr-1"></i>
+                        Add New Section
+                      </h3>
+                      <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
+                        <div>
+                          <label className="block font-medium mb-1">Section</label>
+                          <input
+                            type="text"
+                            className="w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-blue-500"
+                            placeholder="Enter section name"
+                          />
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <input
+                            type="checkbox"
+                            id="is_default"
+                            className="h-4 w-4 text-blue-600"
+                          />
+                          <label htmlFor="is_default" className="text-gray-700">
+                            Set as default section?
+                          </label>
+                        </div>
+                        <div className="text-right">
+                          <button
+                            type="submit"
+                            className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded"
+                          >
+                            <i className="fas fa-plus-square mr-1"></i>
+                            Add New Section
+                          </button>
+                        </div>
+                      </form>
+                    </div> */}
+
         </main>
       </div>
     </AdminLayout>
   );
 };
+
+
 
 export default AddClassManage;

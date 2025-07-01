@@ -809,6 +809,7 @@ import { userDataContext } from "./Context-Api/UserContext";
 import { adminDataContext } from "./Context-Api/AdminContext";
 import { authDataContext } from "./Context-Api/AuthContext";
 import AddClassManage from "./Components/AddClassManage";
+import AddClassSection from "./Components/AddClassSection";
 
 // Lazy loaded components
 const Register = lazy(() => import("./Components/Register"));
@@ -996,6 +997,7 @@ function App() {
               <Route path="/Add/ExamSchedule" element={<AddExamSchedule />} />
               <Route path="/Add/Fee/Voucher" element={<AddFeeVoucher />} />
               <Route path="/admin/sections" element={<AddClassManage/>}/>
+               <Route path="/admin/add-class-section" element={<AddClassSection/>}/>
             </>
           )}
 
