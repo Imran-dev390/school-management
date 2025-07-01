@@ -14,7 +14,7 @@ const AdminTeachDashboardHeader = () => {
       };
 
   return (
-    <div className="bg-slate-100 rounded-md p-6 text-center shadow-md w-full">
+    <div className="bg-slate-100 rounded-md p-6 mt-4 text-center shadow-md w-full">
             <h1 className="text-3xl font-bold uppercase">
               Bright Future Public High School{' '}
               <small className="block text-sm text-gray-600">
