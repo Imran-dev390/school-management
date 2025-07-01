@@ -125,7 +125,7 @@ const AddClassManage = () => {
                       </a>
                     </span>
                   </td>
-                  <td className="p-3 text-blue-600 font-semibold">{cls.sections_count}</td>
+                  <td className="p-3 text-blue-600 font-semibold">{cls.section}</td>
                 </tr>
               ))
             ) : (
@@ -139,7 +139,7 @@ const AddClassManage = () => {
         </table>
       </div>
     </div>
-    </AdminLayou>
+    </AdminLayout>
   );
 };
 

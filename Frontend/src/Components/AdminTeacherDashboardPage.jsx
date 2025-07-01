@@ -90,7 +90,7 @@ const AdminTeacherDashboardPage = () => {
                   {section.actions.map((action, index) => (
                     <Link
                       key={index}
-                      href={action.href}
+                      to={action.href}
                       className="bg-[rgb(1,1,93)] text-white w-fit hover:bg-[#C19703] py-1 px-2 rounded-md text-sm  text-center"
                     >
                       {action.label}
