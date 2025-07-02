@@ -1537,8 +1537,11 @@ export function Sidebar({ isOpen, setIsOpen, adminName ,hasUserToggled,onToggleS
       label: "👩‍🏫 Teachers",
       path: "/admin/teachers",
       children: [
-        { label: "➕ Register New Teacher", path: "/admin/add-teacher"},
-        { label: "📊 Dashboard", path: "/admin/teacher/dash" }
+          {label:"📊 Dashboard", path:"/admin/teacher/dash"},
+        { label: "➕ Register New Teacher", path:"/admin/add-teacher"},
+        {label:"➕ Add Subject",path:"/Add/Subject/admin"},
+        {label:"➕ Add Class & Section",path:"/admin/add-class-section"},
+        {label:"🏫 All Sections",path:"/admin/sections"},
       ],
     },
     {
@@ -1662,7 +1665,7 @@ export function Sidebar({ isOpen, setIsOpen, adminName ,hasUserToggled,onToggleS
                 </div>
 
                 {item.children && isDropdownOpen && (
-                  <ul className="ml-6 mt-2 space-y-2">
+                  <ul className="ml-6 mt-2 space-y-1">
                     {item.children.map((child, childIdx) => {
                       const isChildActive = location.pathname === child.path;
                       return (

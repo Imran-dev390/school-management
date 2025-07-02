@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const Teacher = require("../models/teacher.model");
 const Class = require("../models/class.model");
 //const User = require("../models/student.model");
+//const Session = require("../models/Session.model");
 const Session = require("../models/Session.model");
 const Staff = require("../models/addStaff.model");
 const Timetable = require('../models/timetable.model');
@@ -246,40 +247,566 @@ if (await isEmailTaken(email)) {
 
 
 
+// const AddClass = async (req, res) => {
+//   const { name,section} = req.body;
+//   try {
+//     // 1. Normalize inputs to avoid duplicates due to case or whitespace
+//     const normalizedName = name.trim();
+//     const normalizedSection = section.trim().toUpperCase();
+
+//     // 2. Allow same name (grade) but NOT same section+name in same year
+//     const duplicateClass = await Class.findOne({
+//       name: normalizedName,
+//       section: normalizedSection,
+//       year
+//     });
+
+//     if (duplicateClass) {
+//       return res.status(409).json({
+//         message: `Section "${normalizedSection}" for "${normalizedName}" in year ${year} already exists.`
+//       });
+//     }
+
+//     // 3. Verify admin user
+//     const admin = await Admin.findById(req.userId);
+//     if (!admin) {
+//       return res.status(401).json({ message: "Only an admin can add a class." });
+//     }
+
+//     // 4. Create the new class
+//     const newClass = await Class.create({
+//       name: normalizedName,
+//       section: normalizedSection,
+//       year,
+//     });
+
+//     // 5. Link class to admin
+//     admin.classes.push(newClass._id);
+//     await admin.save();
+
+//     return res.status(201).json(newClass);
+//   } catch (err) {
+//     console.error("Error in AddClass:", err.message);
+//     return res.status(500).json({ message: "Internal server error while adding class." });
+//   }
+// };
+
+
+
+
+
+
+
+
+// const AddClass = async (req, res) => {
+//   const { name, section } = req.body;
+
+//   try {
+//     // 1. Get active session
+// await Session.updateMany({}, { isActive: false }); // deactivate others
+// await Session.findByIdAndUpdate(sessionIdToActivate, { isActive: true });
+//     const activeSession = await Session.findOne({ isActive: true });
+//     if (!activeSession) {
+//       return res.status(400).json({ message: "No active session found. Please set one before adding classes." });
+//     }
+
+//     const year = activeSession.year;
+
+//     // 2. Normalize inputs
+//     const normalizedName = name.trim();
+//     const normalizedSection = section.trim().toUpperCase();
+
+//     // 3. Check for duplicates
+//     const duplicateClass = await Class.findOne({
+//       name: normalizedName,
+//       section: normalizedSection,
+//       year,
+//     });
+
+//     if (duplicateClass) {
+//       return res.status(409).json({
+//         message: `Section "${normalizedSection}" for "${normalizedName}" in year ${year} already exists.`,
+//       });
+//     }
+
+//     // 4. Verify admin
+//     const admin = await Admin.findById(req.userId);
+//     if (!admin) {
+//       return res.status(401).json({ message: "Only an admin can add a class." });
+//     }
+
+//     // 5. Create class
+//     const newClass = await Class.create({
+//       name: normalizedName,
+//       section: normalizedSection,
+//       year,
+//     });
+
+//     // 6. Link class to admin
+//     admin.classes.push(newClass._id);
+//     await admin.save();
+
+//     return res.status(201).json(newClass);
+//   } catch (err) {
+//     console.error("Error in AddClass:", err.message);
+//     return res.status(500).json({ message: "Internal server error while adding class." });
+//   }
+// };
+
+
+
+
+
+
+// const AddClass = async (req, res) => {
+//   const { name, section } = req.body;
+
+//   try {
+//     // 1. Find the active session
+//     let activeSession = await Session.findOne({ isActive: true });
+
+//     // 2. If no session is active, activate the latest one
+//     if (!activeSession) {
+//       activeSession = await Session.findOne().sort({ createdAt: -1 }); // find latest session
+//       if (!activeSession) {
+//         return res.status(400).json({ message: "No session found. Please create one first." });
+//       }
+
+//       await Session.updateMany({}, { isActive: false }); // deactivate all just in case
+//       activeSession.isActive = true;
+//       await activeSession.save();
+//     }
+
+//     const year = activeSession.year;
+
+//     // 3. Normalize inputs
+//     const normalizedName = name.trim();
+//     const normalizedSection = section.trim().toUpperCase();
+
+//     // 4. Check for duplicates
+//     const duplicateClass = await Class.findOne({
+//       name: normalizedName,
+//       section: normalizedSection,
+//       year,
+//     });
+
+//     if (duplicateClass) {
+//       return res.status(409).json({
+//         message: `Section "${normalizedSection}" for "${normalizedName}" in year ${year} already exists.`,
+//       });
+//     }
+
+//     // 5. Verify admin
+//     const admin = await Admin.findById(req.userId);
+//     if (!admin) {
+//       return res.status(401).json({ message: "Only an admin can add a class." });
+//     }
+
+//     // 6. Create class
+//     const newClass = await Class.create({
+//       name: normalizedName,
+//       section: normalizedSection,
+//       year,
+//     });
+
+//     // 7. Link class to admin
+//     admin.classes.push(newClass._id);
+//     await admin.save();
+
+//     return res.status(201).json(newClass);
+//   } catch (err) {
+//     console.error("Error in AddClass:", err.message);
+//     return res.status(500).json({ message: "Internal server error while adding class." });
+//   }
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const AddClass = async (req, res) => {
+//   const { name, section } = req.body;
+
+//   try {
+//     // Step 1: Check for active session
+//     let activeSession = await Session.findOne({ isActive: true });
+
+//     // Step 2: If no active session, activate the most recent one
+//     if (!activeSession) {
+//       const latestSession = await Session.findOne().sort({ createdAt: -1 });
+//       if (!latestSession) {
+//         return res.status(400).json({ message: "No session found. Please create one first." });
+//       }
+
+//       // Activate it
+//       await Session.updateMany({}, { isActive: false }); // Deactivate others
+//       latestSession.isActive = true;
+//       await latestSession.save();
+
+//       activeSession = latestSession; // Set it as the active session
+//     }
+
+//     const year = activeSession.year;
+
+//     // Step 3: Normalize inputs
+//     const normalizedName = name.trim();
+//     const normalizedSection = section.trim().toUpperCase();
+
+//     // Step 4: Check for duplicates
+//     const duplicateClass = await Class.findOne({
+//       name: normalizedName,
+//       section: normalizedSection,
+//       year,
+//     });
+
+//     if (duplicateClass) {
+//       return res.status(409).json({
+//         message: `Section "${normalizedSection}" for "${normalizedName}" in year ${year} already exists.`,
+//       });
+//     }
+
+//     // Step 5: Verify admin
+//     const admin = await Admin.findById(req.userId);
+//     if (!admin) {
+//       return res.status(401).json({ message: "Only an admin can add a class." });
+//     }
+
+//     // Step 6: Create the class
+//     const newClass = await Class.create({
+//       name: normalizedName,
+//       section: normalizedSection,
+//       year,
+//     });
+
+//     // Step 7: Link class to admin
+//     admin.classes.push(newClass._id);
+//     await admin.save();
+
+//     return res.status(201).json(newClass);
+//   } catch (err) {
+//     console.error("Error in AddClass:", err.message);
+//     return res.status(500).json({ message: "Internal server error while adding class." });
+//   }
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const AddClass = async (req, res) => {
+//   const { name, section } = req.body;
+
+//   try {
+//     // Step 1: Try finding the active session
+//     const Date = new Date();
+//     const currenYear = Date.getfullYear()
+//     let activeSession = await Session.findOne({year});
+
+
+//     if()
+//     // Step 2: If no active session, try to activate the latest session
+//     // if (!activeSession) {
+//     //   // Find the most recently created session (even if it's not active)
+//     //   const latestSession = await Session.findOne().sort({ createdAt: -1 });
+
+//     //   if (!latestSession) {
+//     //     return res.status(400).json({ message: "No session exists. Please create one first." });
+//     //   }
+
+//     //   // Activate the latest session
+//     //   await Session.updateMany({}, { isActive: false }); // Deactivate all
+//     //   latestSession.isActive = true;
+//     //   await latestSession.save();
+
+//     //   // Use this newly activated session
+//     //   activeSession = latestSession;
+//     // }
+
+//     const year = activeSession.year;
+
+//     // Step 3: Normalize class input
+//     const normalizedName = name.trim();
+//     const normalizedSection = section.trim().toUpperCase();
+
+//     // Step 4: Check for existing class with same name, section, and year
+//     const duplicateClass = await Class.findOne({
+//       name: normalizedName,
+//       section: normalizedSection,
+//       year,
+//     });
+
+//     if (duplicateClass) {
+//       return res.status(409).json({
+//         message: `Section "${normalizedSection}" for class "${normalizedName}" in year ${year} already exists.`,
+//       });
+//     }
+
+//     // Step 5: Verify admin
+//     const admin = await Admin.findById(req.userId);
+//     if (!admin) {
+//       return res.status(401).json({ message: "Only an admin can add a class." });
+//     }
+
+//     // Step 6: Create the class
+//     const newClass = await Class.create({
+//       name: normalizedName,
+//       section: normalizedSection,
+//       year,
+//     });
+
+//     // Step 7: Add class to admin's list
+//     admin.classes.push(newClass._id);
+//     await admin.save();
+
+//     return res.status(201).json(newClass);
+//   } catch (err) {
+//     console.error("Error in AddClass:", err.message);
+//     return res.status(500).json({ message: "Internal server error while adding class." });
+//   }
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const AddClass = async (req, res) => {
+//   const { name, section } = req.body;
+
+//   try {
+//     // Step 1: Get current year
+// //    const currentYear = new Date().getFullYear();
+// // const activeSession = await Session.findOne({ name: currentYear.toString() });
+
+
+// const currentYear = new Date().getFullYear();
+// console.log("Looking for session:", currentYear.toString());
+// const activeSession = await Session.findOne({name:"2025"});
+// console.log("Found session:", activeSession);
+//     if (!activeSession) {
+//       return res.status(400).json({
+//         message: `No session found for the year ${currentYear}. Please create it first.`,
+//       });
+//     }
+
+//     const year = activeSession.year;
+
+//     // Step 3: Normalize input
+//     const normalizedName = name.trim();
+//     const normalizedSection = section.trim().toUpperCase();
+
+//     // Step 4: Check for duplicate class
+//     const duplicateClass = await Class.findOne({
+//       name: normalizedName,
+//       section: normalizedSection,
+//       year,
+//     });
+
+//     if (duplicateClass) {
+//       return res.status(409).json({
+//         message: `Section "${normalizedSection}" for class "${normalizedName}" in year ${year} already exists.`,
+//       });
+//     }
+
+//     // Step 5: Verify admin
+//     const admin = await Admin.findById(req.userId);
+//     if (!admin) {
+//       return res.status(401).json({ message: "Only an admin can add a class." });
+//     }
+
+//     // Step 6: Create the class
+//     const newClass = await Class.create({
+//       name: normalizedName,
+//       section: normalizedSection,
+//       year,
+//     });
+
+//     // Step 7: Link class to admin
+//     admin.classes.push(newClass._id);
+//     await admin.save();
+
+//     return res.status(201).json(newClass);
+//   } catch (err) {
+//     console.error("Error in AddClass:", err.message);
+//     return res.status(500).json({ message: "Internal server error while adding class." });
+//   }
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const AddClass = async (req, res) => {
+//   const { name, section } = req.body;
+
+//   try {
+//     // Step 1: Find current session by year
+//     const currentYear = new Date().getFullYear();
+//     console.log("Looking for session:", currentYear);
+//     const activeSession = await Session.findOne({ name: currentYear.toString().trim() });
+//     console.log("Found session:", activeSession);
+//     if (!activeSession) {
+//       return res.status(400).json({
+//         message: `No session found for the year ${currentYear}. Please create it first.`,
+//       });
+//     }
+
+//     // Step 2: Normalize inputs
+//     const normalizedName = name.trim();
+//     const normalizedSection = section.trim().toUpperCase();
+
+//     // Step 3: Check for duplicate class based on name + section + session
+//     const duplicateClass = await Class.findOne({
+//       name: normalizedName,
+//       section: normalizedSection,
+//       session: activeSession._id,
+//     });
+
+//     if (duplicateClass) {
+//       return res.status(409).json({
+//         message: `Section "${normalizedSection}" for class "${normalizedName}" already exists in session ${activeSession.name}.`,
+//       });
+//     }
+
+//     // Step 4: Verify admin
+//     const admin = await Admin.findById(req.userId);
+//     if (!admin) {
+//       return res.status(401).json({ message: "Only an admin can add a class." });
+//     }
+
+//     // Step 5: Create the class
+//     const newClass = await Class.create({
+//       name: normalizedName,
+//       section: normalizedSection,
+//       session: activeSession._id,
+//     });
+
+//     // Step 6: Link class to admin
+//     admin.classes.push(newClass._id);
+//     await admin.save();
+
+//     return res.status(201).json(newClass);
+//   } catch (err) {
+//     console.error("Error in AddClass:", err.message);
+//     return res.status(500).json({ message: "Internal server error while adding class." });
+//   }
+// };
+
+
+
+
+
+  
+
 const AddClass = async (req, res) => {
-  const { name, year, section} = req.body;
+  const { name, section } = req.body;
+
   try {
-    // 1. Normalize inputs to avoid duplicates due to case or whitespace
+    // Step 1: Get the currently active session
+    const activeSession = await Session.findOne({ isActive: true });
+
+    if (!activeSession) {
+      return res.status(400).json({
+        message: "No active session found. Please create or activate a session first.",
+      });
+    }
+
+    // Step 2: Normalize input
     const normalizedName = name.trim();
     const normalizedSection = section.trim().toUpperCase();
 
-    // 2. Allow same name (grade) but NOT same section+name in same year
+    // Step 3: Check for duplicate class
     const duplicateClass = await Class.findOne({
       name: normalizedName,
       section: normalizedSection,
-      year
+      session: activeSession._id,
     });
 
     if (duplicateClass) {
       return res.status(409).json({
-        message: `Section "${normalizedSection}" for "${normalizedName}" in year ${year} already exists.`
+        message: `Class "${normalizedName}" with section "${normalizedSection}" already exists in session ${activeSession.name}.`,
       });
     }
 
-    // 3. Verify admin user
+    // Step 4: Verify admin
     const admin = await Admin.findById(req.userId);
     if (!admin) {
       return res.status(401).json({ message: "Only an admin can add a class." });
     }
 
-    // 4. Create the new class
+    // Step 5: Create the class
     const newClass = await Class.create({
       name: normalizedName,
       section: normalizedSection,
-      year,
+      session: activeSession._id,
     });
 
-    // 5. Link class to admin
+    // Step 6: Link class to admin
     admin.classes.push(newClass._id);
     await admin.save();
 
@@ -291,29 +818,6 @@ const AddClass = async (req, res) => {
 };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
 
 
 const AddSubjects = async (req, res) => {

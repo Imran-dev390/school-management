@@ -67,10 +67,14 @@ import React, { useContext, useEffect, useState } from 'react';
 import { adminDataContext } from '../Context-Api/AdminContext';
 import AdminLayout from './AdminLayout';
 import AdminTeachDashboardHeader from './AdminTeachDashboardHeader';
+import axios from 'axios';
+import { authDataContext } from '../Context-Api/AuthContext';
+import { toast, ToastContainer } from 'react-toastify';
 //import { adminDataContext } from '../Context-Api/AdminContext';
 const AddClassSection = () => {
+  const {serverUrl} = useContext(authDataContext);
   const { adminData, fetchAdminData } = useContext(adminDataContext);
-  const { classes = [], sessions = [] } = adminData?.admin || {};
+  const { classes = [], sessions = [] , subjects = [] } = adminData?.admin || {};
 
   const [selectedClassId, setSelectedClassId] = useState(null);
   const [newSection, setNewSection] = useState('');
@@ -84,6 +88,7 @@ const AddClassSection = () => {
   console.log("Classes:", classes);
 }, [classes]);
 
+
 // useEffect(() => {
 //   if (selectedClassId) {
 //     const cls = classes.find((cls) => cls.id === selectedClassId);
@@ -96,6 +101,7 @@ const AddClassSection = () => {
 useEffect(() => {
   fetchAdminData();
 }, [fetchAdminData]);
+console.log("subjects",subjects);
 
 // Automatically set the first class as selected once classes are loaded
 useEffect(() => {
@@ -106,20 +112,67 @@ useEffect(() => {
 
   const selectedClass = classes.find((cls) => cls.id === selectedClassId);
 
-  const handleAddSection = (e) => {
-    e.preventDefault();
-    if (!newSection || !selectedClassId) return alert("Class and Section are required");
 
-    // TODO: Send this to backend
-    console.log('Add Section:', {
-      classId: selectedClassId,
-      label: newSection,
-      is_default: isDefault,
-    });
+  const [className, setClassName] = useState('');
+//const [classYear, setClassYear] = useState('');
+const [classSection, setClassSection] = useState('');
 
-    setNewSection('');
-    setIsDefault(false);
-  };
+// const handleCreateClass = async (e) => {
+//   e.preventDefault();
+//   if (!className || !classYear || !classSection) return toast.error("All fields required");
+
+//   try {
+//     await axios.post(serverUrl + "/api/admin/Add/Class", {
+//       name: className,
+//       year: classYear,
+//       section: classSection
+//     }, { withCredentials: true });
+
+//     toast.success("Class created successfully");
+//     await fetchAdminData();
+//     setClassName('');
+//     setClassYear('');
+//     setClassSection('');
+//   } catch (err) {
+//     toast.error(err?.response?.data?.message || "Error creating class");
+//   }
+// };
+
+  // const handleAddSection = (e) => {
+  //   e.preventDefault();
+  //   if (!newSection || !selectedClassId) return alert("Class and Section are required");
+
+  //   // TODO: Send this to backend
+  //   console.log('Add Section:', {
+  //     classId: selectedClassId,
+  //     label: newSection,
+  //     is_default: isDefault,
+  //   });
+
+  //   setNewSection('');
+  //   setIsDefault(false);
+  // };
+
+
+const handleCreateClass = async (e) => {
+  e.preventDefault();
+  if (!className || !classSection) return toast.error("Class name and section are required");
+
+  try {
+    await axios.post(serverUrl + "/api/admin/Add/Class", {
+      name: className,
+      section: classSection
+    }, { withCredentials: true });
+
+    toast.success("Class created successfully");
+    await fetchAdminData();
+    setClassName('');
+    setClassSection('');
+  } catch (err) {
+    toast.error(err?.response?.data?.message || "Error creating class");
+  }
+};
+
 
   return (
    <AdminLayout adminName="Bright Future">
@@ -234,12 +287,12 @@ useEffect(() => {
 
           {/* Right: Add New Section */}
           <div>
-            <h3 className="text-lg font-semibold mb-4 text-green-600">
+            <h3 className="text-lg font-semibold mb-4 text-[rgb(1,1,93)]">
               <i className="fas fa-plus-square mr-2"></i>
               Add New Class / Section
             </h3>
 
-            <form onSubmit={handleAddSection} className="space-y-4">
+            {/* <form onSubmit={handleAddSection} className="space-y-4">
               <div>
                 <label htmlFor="sectionLabel" className="block font-medium text-gray-700">
                   Section:
@@ -273,11 +326,56 @@ useEffect(() => {
               >
                 <i className="fas fa-plus-square mr-1"></i> Add New Class / Section
               </button>
-            </form>
+            </form> */}
+            {/* <form onSubmit={handleCreateClass} className="space-y-4">
+  <input value={className} onChange={(e) => setClassName(e.target.value)} placeholder="Class Name" />
+  <input value={classYear} onChange={(e) => setClassYear(e.target.value)} type="number" placeholder="Year" />
+  <input value={classSection} onChange={(e) => setClassSection(e.target.value)} placeholder="Initial Section" />
+  <button type="submit">Create Class</button>
+</form> */}
+
+
+
+<form onSubmit={handleCreateClass} className="space-y-4 border p-4 rounded shadow-md bg-white">
+  <div>
+    <label htmlFor="className" className="block text-sm font-medium text-gray-700">Class Name</label>
+    <input
+      id="className"
+      type="text"
+      value={className}
+      onChange={(e) => setClassName(e.target.value)}
+      placeholder="Enter Class Name"
+      className="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+      required
+    />
+  </div>
+  <div>
+    <label htmlFor="classSection" className="block text-sm font-medium text-gray-700">Initial Section</label>
+    <input
+      id="classSection"
+      type="text"
+      value={classSection}
+      onChange={(e) => setClassSection(e.target.value)}
+      placeholder="Enter Section (e.g., A)"
+      className="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+      required
+    />
+  </div>
+
+  <button
+    type="submit"
+    className="w-full bg-[rgb(193,152,3)] text-white font-semibold py-2 px-4 rounded hover:bg-blue-700 transition duration-200"
+  >
+    <i className="fas fa-plus mr-2"></i>Add Class
+  </button>
+</form>
+
+
           </div>
         </div>
       </div>
     )}
+    <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} theme="colored" />
   </div>
 </AdminLayout>
 

@@ -11,10 +11,6 @@ const classSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
-  year: {
-    type: Number,
-    required: true
-  },
   teacher: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Teacher'
@@ -27,6 +23,7 @@ const classSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+  session: { type: mongoose.Schema.Types.ObjectId, ref: "Session", required: true },
   numFemaleStudents: {
     type: Number,
     default: 0
@@ -60,7 +57,8 @@ const classSchema = new mongoose.Schema({
 });
 
 // Prevent same class name + section duplication in the same year
-classSchema.index({ name: 1, section: 1, year: 1 }, { unique: true });
+// Make sure this enforces uniqueness *per session*
+classSchema.index({ name: 1, section: 1, session: 1 }, { unique: true });
 
 const Class = mongoose.model("class", classSchema);
 
