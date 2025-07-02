@@ -768,7 +768,8 @@ const AddClass = async (req, res) => {
 
   try {
     // Step 1: Get the currently active session
-    const activeSession = await Session.findOne({ isActive: true });
+    const currentYear = new Date().getFullYear();
+    const activeSession = await Session.findOne({ name : currentYear.toString()});
 
     if (!activeSession) {
       return res.status(400).json({
