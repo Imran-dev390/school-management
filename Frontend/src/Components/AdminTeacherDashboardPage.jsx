@@ -25,7 +25,7 @@ const AdminTeacherDashboardPage = () => {
       title: 'Subjects',
       actions: [
         { label: 'View Subjects', href: '/admin/subjects' },
-        { label: 'Add New Subject', href: '/admin/subjects/new' },
+        { label: 'Add New Subject', href: '/Add/Subject/admin' },
       ],
     },
     {

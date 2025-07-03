@@ -812,6 +812,7 @@ import AddClassManage from "./Components/AddClassManage";
 import AddClassSection from "./Components/AddClassSection";
 import AllSubject from "./Components/AllSubject";
 import AddSubjectAdmin from "./Components/AddSubjectAdmin";
+import AssignTeacherForSubject from "./Components/AssignTeacherForSubject";
 
 // Lazy loaded components
 const Register = lazy(() => import("./Components/Register"));
@@ -1001,6 +1002,9 @@ function App() {
               <Route path="/admin/sections" element={<AddClassManage/>}/>
               <Route path="/admin/subjects" element={<AllSubject/>}></Route>
               <Route path="/Add/Subject/admin" element={<AddSubjectAdmin/>}></Route>
+              {/* <Route path="/assign/teacher/${subject._id}" element={<AssignTeacherForSubject/>}></Route> */}
+               <Route path="/assign/teacher/:subjectId" element={<AssignTeacherForSubject />} />
+
                <Route path="/admin/add-class-section" element={<AddClassSection/>}/>
             </>
           )}

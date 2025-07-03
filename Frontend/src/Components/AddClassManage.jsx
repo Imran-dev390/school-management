@@ -354,7 +354,7 @@ const AddClassManage = () => {
         </div> */}
         <div className="overflow-x-auto">
   <table className="table-auto w-[950px] border border-gray-300 border-collapse">
-    <thead className="bg-blue-600 text-white">
+    <thead className="bg-[rgb(1,1,93)] text-white">
       <tr>
         <th className="border border-gray-300 p-3 text-left font-semibold">Class</th>
         <th className="border border-gray-300 p-3 text-center font-semibold">Number of Sections</th>
@@ -377,6 +377,7 @@ const AddClassManage = () => {
                   <Link
                   to="/admin/add-class-section"
                     //href={`/manage-section/${cls._id}`}
+                    state={{ selectedClassId: cls._id }}
                     className="bg-[#c19703] text-white px-2 py-1 font-semibold text-sm rounded"
                   >
                     Add New / Manage

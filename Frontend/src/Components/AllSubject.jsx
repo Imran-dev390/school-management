@@ -733,7 +733,7 @@ const AllSubject = () => {
           <div className="overflow-x-auto">
             <table className="min-w-full border border-gray-300 rounded-md">
               <thead>
-                <tr className="bg-blue-600 text-white">
+                <tr className="bg-[rgb(1,1,93)] text-white">
                   <th className="py-2 px-4 border border-gray-300 text-left">Subject Name</th>
                   <th className="py-2 px-4 border border-gray-300 text-left">Subject Code</th>
                   <th className="py-2 px-4 border border-gray-300 text-left">Department</th>
@@ -760,7 +760,22 @@ const AllSubject = () => {
                         {getClassNames(subject.classes)}
                       </td>
                       <td className="py-2 px-4 border border-gray-200">
-                        {getTeachersForSubject(subject)}
+                        {getTeachersForSubject(subject) === 'Assign Teachers' ? (
+    <Link
+      to={`/assign/teacher/${subject._id}`}
+      className="text-[rgb(1,1,93)] hover:underline"
+    >
+      Assign Teachers
+    </Link>
+  ) : (
+     <Link
+      to={`/assign/teacher/${subject._id}`}
+      className="text-[rgb(1,1,93)] hover:underline"
+    >
+      {getTeachersForSubject(subject)}
+    </Link>
+    
+  )}
                       </td>
                     </tr>
                   ))

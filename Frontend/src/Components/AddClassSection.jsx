@@ -70,23 +70,30 @@ import AdminTeachDashboardHeader from './AdminTeachDashboardHeader';
 import axios from 'axios';
 import { authDataContext } from '../Context-Api/AuthContext';
 import { toast, ToastContainer } from 'react-toastify';
+import { useLocation } from 'react-router-dom';
+import { FaEdit, FaTrashAlt } from 'react-icons/fa';
+
+
+import { FaSadCry } from 'react-icons/fa';
 //import { adminDataContext } from '../Context-Api/AdminContext';
+
 const AddClassSection = () => {
   const {serverUrl} = useContext(authDataContext);
+  const location = useLocation();
+  const initialClassId = location.state?.selectedClassId || null;
   const { adminData, fetchAdminData } = useContext(adminDataContext);
   const { classes = [], sessions = [] , subjects = [] } = adminData?.admin || {};
 
-  const [selectedClassId, setSelectedClassId] = useState(null);
-  const [newSection, setNewSection] = useState('');
+ // const [selectedClassId, setSelectedClassId] = useState(null);
+ const [selectedClassId, setSelectedClassId] = useState(initialClassId); 
+ console.log("selected",selectedClassId);
+ const [newSection, setNewSection] = useState('');
   const [isDefault, setIsDefault] = useState(false);
 
 //   useEffect(() => {
 //     fetchAdminData();
 //   }, [fetchAdminData]);
 
-  useEffect(() => {
-  console.log("Classes:", classes);
-}, [classes]);
 
 
 // useEffect(() => {
@@ -104,15 +111,33 @@ useEffect(() => {
 console.log("subjects",subjects);
 
 // Automatically set the first class as selected once classes are loaded
+// useEffect(() => {
+//   if (classes.length > 0 && !selectedClassId) {
+//     setSelectedClassId(classes[0].id);
+//   }
+// }, [classes, selectedClassId]);
+
+//  useEffect(() => {
+//     if (!selectedClassId && classes.length > 0) {
+//       setSelectedClassId(classes[0].id);
+//     }
+//   }, [classes, selectedClassId]);
+
+
+
+
 useEffect(() => {
-  if (classes.length > 0 && !selectedClassId) {
+  if (initialClassId === null && !selectedClassId && classes.length > 0) {
     setSelectedClassId(classes[0].id);
   }
-}, [classes, selectedClassId]);
-
-  const selectedClass = classes.find((cls) => cls.id === selectedClassId);
+}, [classes]);
 
 
+//  const selectedClass = classes.find((cls) => cls.id === selectedClassId);
+ //const selectedClass = classes.find((cls) => cls.id === selectedClassId);
+const selectedClass = classes.find((cls) => cls._id === selectedClassId);
+console.log("selected class",selectedClass);
+console.log("selected class Id",selectedClassId);
   const [className, setClassName] = useState('');
 //const [classYear, setClassYear] = useState('');
 const [classSection, setClassSection] = useState('');
@@ -202,7 +227,7 @@ const handleCreateClass = async (e) => {
       <div className="card p-4 border shadow-md">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">
-            <span className="text-gray-700">Class:</span>{' '}
+            <span className="text-gray-700">Class:</span> {selectedClass.name || "No Showing"}
             <span className="text-blue-600">{selectedClass.label}</span>
           </h2>
           <a
@@ -239,7 +264,7 @@ const handleCreateClass = async (e) => {
                   <th className="p-2 text-left hidden md:table-cell">Action</th>
                 </tr>
               </thead>
-              <tbody>
+              {/* <tbody>
                 {selectedClass.sections?.length > 0 ? (
                   selectedClass.sections.map((section, idx) => {
                     const { male = 0, female = 0 } = section;
@@ -275,13 +300,110 @@ const handleCreateClass = async (e) => {
                     </td>
                   </tr>
                 )}
-              </tbody>
+              </tbody> */}
+
+              {/* <tbody>
+  {selectedClass.length > 0 ? (
+    selectedClass.map((section, idx) => {
+      const { label, is_default } = section;
+      const students = selectedClass.students?.filter(
+        (student) => student.section === label
+      ) || [];
+      const total = students.length;
+      const male = students.filter((s) => s.gender === 'Male').length;
+      const female = students.filter((s) => s.gender === 'Female').length;
+
+      const classTeacher = selectedClass.teacher?.find((teacher) =>
+        teacher.assignedClass?.some(
+          (ac) => ac.class === selectedClass._id && ac.incharge && section.label === label
+        )
+      );
+
+      return (
+        <tr key={idx} className="border-b hover:bg-gray-50">
+          <td className="p-2">
+            {label}
+            {is_default && (
+              <small className="text-secondary ml-1"> - Default</small>
+            )}
+          </td>
+          <td className="p-2">
+            <span className="badge bg-blue-100 text-blue-800 px-2 rounded">
+              Male: {male}
+            </span>{' '}
+            <span className="badge bg-pink-100 text-pink-800 px-2 rounded">
+              Female: {female}
+            </span>{' '}
+            <span className="badge bg-green-500 text-white px-2 rounded">
+              Total: {total}
+            </span>
+          </td>
+          <td className="p-2 hidden md:table-cell">
+            {classTeacher?.name || '—'}
+          </td>
+          <td className="p-2 hidden md:table-cell">
+            <button className="text-blue-600 hover:text-blue-800 mr-2" title="Edit">
+              <i className="fas fa-edit"></i>
+            </button>
+            <button className="text-red-600 hover:text-red-800" title="Delete">
+              <i className="fas fa-trash-alt"></i>
+            </button>
+          </td>
+        </tr>
+      );
+    })
+  ) : (
+    <tr>
+      <td colSpan="4" className="p-4 text-center text-gray-500">
+        No sections found.
+      </td>
+    </tr>
+  )}
+</tbody> */}
+
+
+
+<tbody>
+  {selectedClass ? (
+    <tr className="border-b hover:bg-gray-50">
+      <td className="p-2">
+        {selectedClass.section}
+      </td>
+      <td className="p-2">
+        <span className="badge text-black px-2 rounded">
+          Total: {(selectedClass.numMaleStudents || 0) + (selectedClass.numFemaleStudents || 0)}
+        </span>
+      </td>
+      <td className="p-2 hidden md:table-cell">
+        {selectedClass.teacher?.[0]?.name || '—'}
+      </td>
+      <td className="p-2 hidden md:table-cell">
+      <button className="text-blue-600 hover:text-blue-800 mr-2" title="Edit">
+  <FaEdit />
+</button>
+
+<button className="text-red-600 hover:text-red-800" title="Delete">
+  <FaTrashAlt />
+</button>
+
+
+      </td>
+    </tr>
+  ) : (
+    <tr>
+      <td colSpan="4" className="p-4 text-center text-gray-500">
+        No data found.
+      </td>
+    </tr>
+  )}
+</tbody>
+
             </table>
 
             {/* Footer: Showing X to X of X */}
             <div className="text-sm text-gray-600 mt-2">
-              Showing 1 to {selectedClass.sections?.length || 0} of{' '}
-              {selectedClass.sections?.length || 0} Records
+              Showing 1 to {selectedClass.length || 0} of{' '}
+              {selectedClass.section?.length || 1} Records
             </div>
           </div>
 
