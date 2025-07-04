@@ -764,6 +764,7 @@ if (await isEmailTaken(email)) {
   
 
 const AddClass = async (req, res) => {
+
   const { name, section } = req.body;
 
   try {
@@ -810,7 +811,6 @@ const AddClass = async (req, res) => {
     // Step 6: Link class to admin
     admin.classes.push(newClass._id);
     await admin.save();
-
     return res.status(201).json(newClass);
   } catch (err) {
     console.error("Error in AddClass:", err.message);

@@ -413,6 +413,40 @@ const UpdateStudent = async (req, res) => {
 };
 
 
+
+
+const AssignTeacherSubject = async (req, res) => {
+  const { teacherId } = req.params;
+  const { subject } = req.body;
+
+  if (!subject || !subject._id || !subject.name) {
+    return res.status(400).json({ message: 'Invalid subject data.' });
+  }
+
+  try {
+    const teacher = await Teacher.findById(teacherId);
+    if (!teacher) return res.status(404).json({ message: 'Teacher not found.' });
+
+    const alreadyAssigned = teacher.teachSubject.some(
+      (subj) => subj._id.toString() === subject._id
+    );
+
+    if (!alreadyAssigned) {
+      teacher.teachSubject.push({
+        _id: subject._id,
+        name: subject.name,
+      });
+
+      await teacher.save();
+    }
+
+    return res.status(200).json({ message: 'Subject assigned successfully.' });
+  } catch (err) {
+    console.error('Error assigning subject:', err);
+    return res.status(500).json({ message: 'Internal server error.' });
+  }
+}
+
 /*const UpdateTeacher = async (req, res) => {
   const { id } = req.params;
   const updatedData = req.body;
@@ -562,6 +596,7 @@ if (updateData.password) {
 module.exports = {
   ExamTimetable,
   UpdateStudent,
+  AssignTeacherSubject,
   DeleteStudent,
   UpdateTeacher,
   DeleteTeacher,

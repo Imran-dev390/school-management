@@ -7,7 +7,7 @@ import { adminDataContext } from '../Context-Api/AdminContext';
 import { toast, ToastContainer } from 'react-toastify';
 import AdminTeachDashboardHeader from './AdminTeachDashboardHeader';
 import AdminLayout from './AdminLayout';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import React, { useState, useRef, useEffect } from "react";
 // const AddSubjectAdmin = () => {
 //     const {serverUrl} = useContext(authDataContext);
@@ -837,25 +837,19 @@ console.log("classoption",classOptions);
       </AdminLayout>
     );
   }
-
   return (
     <AdminLayout adminName="Bright Future">
       <div className="flex flex-col gap-3 w-full  mt-4 px-4 py-6">
         <AdminTeachDashboardHeader />
 
 
-          <div className="flex w-full p-2  bg-[#C19703] text-white justify-between items-center mb-4">
+          <div className="flex w-full p-2  bg-[rgb(1,1,93)] text-white justify-between items-center mb-4">
             <h2 className="text-xl text-center flex-1  font-semibold">
               Add New Subject
             </h2>
-            <a
-              href="https://wpschool.weblizar.com/wp-admin/admin.php?page=sm-staff-subjects"
-              className="text-white border bg-transparent border-white rounded px-3 py-1 text-sm hover:text-white transition"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+           <Link to="/admin/subjects" className='bg-[#C19703] p-1 border border-white'>
               <i className="fas fa-tags mr-1"></i> View All
-            </a>
+            </Link>
           </div>
         <section className="mb-6">
 

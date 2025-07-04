@@ -1,7 +1,7 @@
 const expess = require("express");
 const { AddStudent, AddTeacher, AddClass, AddSubjects, AddSession, AddStaff, AddTimeTable } = require("../Controllers/auth.controller");
 const isAuth = require("../middlewares/isAuth");
-const {getAdminProfile,DeleteStudent, UpdateStudent, UpdateTeacher, DeleteTeacher, ExamTimetable} = require("../Controllers/admin.controller");
+const {getAdminProfile,DeleteStudent, UpdateStudent, UpdateTeacher, DeleteTeacher, ExamTimetable, AssignTeacherSubject} = require("../Controllers/admin.controller");
 const getCurrentUser = require("../Controllers/user.controller");
 const upload = require('../middlewares/upload') // multer middleware
 const mern = "mern";
@@ -34,6 +34,7 @@ router.post("/Add/Student",isAuth,upload.fields([{ name: 'profileImage', maxCoun
   ]),
   AddStudent
 );
+router.patch('/teachers/:teacherId/assign-subject',isAuth,AssignTeacherSubject);
 router.post("/Add/ExamSchedule",isAuth,ExamTimetable);
 router.post("/Add/Teacher",isAuth,upload.fields([
   { name: 'profileImage', maxCount: 1 },
