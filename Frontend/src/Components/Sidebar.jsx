@@ -1541,6 +1541,7 @@ export function Sidebar({ isOpen, setIsOpen, adminName ,hasUserToggled,onToggleS
         { label: "➕ Register New Teacher", path:"/admin/add-teacher"},
         {label:"➕ Subjects",path:"/admin/subjects"},
       //  {label:"➕",path:"/admin/add-class-section"},
+      {label:"➕ Take Attendance",path:"/Take/Attendance"},
         {label:"🏫  Manage Class",path:"/admin/sections"},
       ],
     },

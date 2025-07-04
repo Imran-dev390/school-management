@@ -23,7 +23,7 @@ const classSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
-  session: { type: mongoose.Schema.Types.ObjectId, ref: "Session", required: true },
+  session: { type: mongoose.Schema.Types.ObjectId, ref: "Session",},
   numFemaleStudents: {
     type: Number,
     default: 0

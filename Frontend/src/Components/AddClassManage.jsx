@@ -382,12 +382,13 @@ const AddClassManage = () => {
                   >
                     Add New / Manage
                   </Link>
-                  <a
-                    href={`/view-section/${cls._id}`}
+                  <Link
+                   to="/admin/add-class-section"
+                   state={{ selectedClassId: cls._id }}
                     className="bg-[rgb(1,1,93)] text-white px-2 py-1 font-semibold text-sm rounded"
                   >
                     View
-                  </a>
+                  </Link>
                 </span>
               </td>
               <td className="border border-gray-300 p-3 text-center">
