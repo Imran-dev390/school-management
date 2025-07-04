@@ -191,7 +191,7 @@ try {
 
             <div className="overflow-x-auto">
               <table className="min-w-full text-sm text-left text-gray-700 border">
-                <thead className="bg-blue-500 text-white">
+                <thead className="bg-[rgb(1,1,93)] text-white">
                   <tr>
                     <th className="px-4 py-2 border">Name</th>
                     <th className="px-4 py-2 border">Phone</th>

@@ -462,7 +462,7 @@ const handleManageAttendance = () => {
 
 <div className="mt-2 w-full px-4 flex flex-col gap-4">
   {/* Header */}
-  <div className="bg-blue-600 text-white text-center py-3 rounded relative">
+  <div className="bg-[rgb(1,1,93)] text-white text-center py-3 rounded relative">
     <span className="text-lg font-semibold">
       <i className="fas fa-clock mr-2" />
       Take Attendance
@@ -470,7 +470,7 @@ const handleManageAttendance = () => {
     <span className="absolute right-4 top-3">
       <a
         href="/view-attendance"
-        className="border border-white text-white hover:bg-white hover:text-blue-600 transition px-3 py-1 rounded text-sm"
+        className="border border-white bg-[#C19703] text-white hover:text-blue-600 transition px-3 py-1 rounded text-sm"
       >
         <i className="fas fa-calendar-alt mr-1" />
         View Attendance
@@ -486,7 +486,7 @@ const handleManageAttendance = () => {
       {/* Radio option */}
       <div className="mb-4">
         <label>
-          <input type="radio" name="month" checked id="month" className="mr-2" />
+          <input type="radio" name="month" defaultChecked id="month" className="mr-2" />
           Attendance By Month
         </label>
       </div>
@@ -519,7 +519,7 @@ const handleManageAttendance = () => {
             <option value="">Select Class</option>
             {classes.map(c => (
               <option key={c._id} value={c._id}>
-                {c.name} {c.section && `– ${c.section}`}
+                {c.name}  {c.section && ` –  ${c.section}`}
               </option>
             ))}
           </select>
@@ -550,7 +550,7 @@ const handleManageAttendance = () => {
         <button
           type="button"
           onClick={handleManageAttendance}
-          className="bg-blue-700 text-white px-6 py-2 rounded hover:bg-blue-800 transition"
+          className="bg-[rgb(1,1,93)] text-white px-6 py-2 rounded hover:bg-blue-800 transition"
           disabled={!selectedClass || !date}
         >
           Manage Attendance
@@ -643,7 +643,6 @@ const handleManageAttendance = () => {
     </form>
   </main>
 </div>
-
     </AdminLayout>
   );
 };
