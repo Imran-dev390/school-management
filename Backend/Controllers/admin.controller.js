@@ -134,6 +134,7 @@ console.log("teachers at admin",populatedTeachers)
   .populate("subjects")
   .populate("teacher")
   .populate("students")
+ .populate("attendance")
   .lean();
     const populatedSubjects = await Subject.find({ _id: { $in: admin.subjects } })
     .populate("")

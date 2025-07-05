@@ -31,7 +31,7 @@ const AdminTeacherDashboardPage = () => {
     {
       title: 'Attendance',
       actions: [
-        { label: 'View Attendance', href: '/admin/attendance' },
+        { label: 'View Attendance', href: '/Admin/View/Attendance' },
         { label: 'Take Attendance', href: '/Take/Attendance' },
       ],
     },

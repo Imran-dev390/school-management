@@ -7,6 +7,7 @@
 import { useState } from 'react'
 import { authDataContext } from '../Context-Api/AuthContext'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 // const TakeAttendance = () => {
 //     const {adminData,fetchAdminData} = useContext(adminDataContext);
@@ -267,16 +268,25 @@ const handleManageAttendance = () => {
   };
 
 
-  const markAll = (status) => {
-  const updated = {};
-  students
-    .filter(s => !selectedClass || String(s.classId) === String(selectedClass))
-    .forEach(s => {
-      updated[s._id] = {
-        ...attendanceData[s._id],
-        status,
-      };
-    });
+//   const markAll = (status) => {
+//   const updated = {};
+//   students
+//     .filter(s => !selectedClass || String(s.classId) === String(selectedClass))
+//     .forEach(s => {
+//       updated[s._id] = {
+//         ...attendanceData[s._id],
+//         status,
+//       };
+//     });
+//   setAttendanceData(updated);
+// };
+
+
+const markAll = (status) => {
+  const updated = { ...attendanceData };
+  Object.keys(updated).forEach(id => {
+    updated[id].status = status;
+  });
   setAttendanceData(updated);
 };
 
@@ -468,13 +478,13 @@ const handleManageAttendance = () => {
       Take Attendance
     </span>
     <span className="absolute right-4 top-3">
-      <a
-        href="/view-attendance"
+      <Link
+        to="/Admin/View/Attendance"
         className="border border-white bg-[#C19703] text-white hover:text-blue-600 transition px-3 py-1 rounded text-sm"
       >
         <i className="fas fa-calendar-alt mr-1" />
         View Attendance
-      </a>
+      </Link>
     </span>
   </div>
 
@@ -585,6 +595,14 @@ const handleManageAttendance = () => {
                       >
                         Mark All Absent
                       </button>
+                      <button
+  type="button"
+  className="bg-yellow-500 text-white px-2 py-1 text-xs rounded"
+  onClick={() => markAll("Holiday")}
+>
+  Mark All Holiday
+</button>
+
                     </div>
                   </th>
                 </tr>
@@ -619,6 +637,27 @@ const handleManageAttendance = () => {
                               onChange={() => handleStatusChange(student._id, "Absent")}
                             />
                             <span className="ml-1">Absent</span>
+                          </label>
+                           <label>
+                            <input
+                              type="radio"
+                              name={`status-${student._id}`}
+                              value="Leave"
+                              checked={attendanceData[student._id]?.status === "Leave"}
+                              onChange={() => handleStatusChange(student._id, "Leave")}
+                            />
+                            <span className="ml-1">Leave</span>
+                          </label>
+                          
+                           <label>
+                            <input
+                              type="radio"
+                              name={`status-${student._id}`}
+                              value="Holiday"
+                              checked={attendanceData[student._id]?.status === "Holiday"}
+                              onChange={() => handleStatusChange(student._id, "Holiday")}
+                            />
+                            <span className="ml-1">Holiday</span>
                           </label>
                         </div>
                       </td>

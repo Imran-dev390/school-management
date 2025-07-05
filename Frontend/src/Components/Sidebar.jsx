@@ -1542,6 +1542,7 @@ export function Sidebar({ isOpen, setIsOpen, adminName ,hasUserToggled,onToggleS
         {label:"➕ Subjects",path:"/admin/subjects"},
       //  {label:"➕",path:"/admin/add-class-section"},
       {label:"➕ Take Attendance",path:"/Take/Attendance"},
+      {label:"👥 View Attendance",path:"/Admin/View/Attendance"},
         {label:"🏫  Manage Class",path:"/admin/sections"},
       ],
     },
