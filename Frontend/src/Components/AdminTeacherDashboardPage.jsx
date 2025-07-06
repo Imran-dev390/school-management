@@ -36,10 +36,10 @@ const AdminTeacherDashboardPage = () => {
       ],
     },
     {
-      title: 'Study Materials',
+      title: 'TimeTable',
       actions: [
-        { label: 'Study Materials', href: '/admin/study-materials' },
-        { label: 'Add New Study Material', href: '/admin/study-materials/new' },
+        { label: 'Add Class TimeTable', href: '/admin/Add/Class-TimeTable' },
+        { label: 'View Class TimeTable', href: '/admin/View/Class/Timetable' },
       ],
     },
     {

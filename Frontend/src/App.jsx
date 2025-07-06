@@ -816,6 +816,7 @@ import AssignTeacherForSubject from "./Components/AssignTeacherForSubject";
 import ViewAttendance from "./Components/TakeAttendance";
 import TakeAttendance from "./Components/TakeAttendance";
 import AdminViewAttendance from "./Components/AdminViewAttendance";
+import TDAddClassTimeTable from "./Components/TDAddClassTimeTable";
 
 // Lazy loaded components
 const Register = lazy(() => import("./Components/Register"));
@@ -1009,6 +1010,7 @@ function App() {
                <Route path="/assign/teacher/:subjectId" element={<AssignTeacherForSubject />} />
                  <Route path="/Take/Attendance" element={<TakeAttendance/>}/>
                <Route path="/admin/add-class-section" element={<AddClassSection/>}/>
+               <Route path="/admin/Add/Class-TimeTable" element={<TDAddClassTimeTable/>}></Route>
                <Route path="/Admin/View/Attendance" element={<AdminViewAttendance/>}></Route>
             </>
           )}
