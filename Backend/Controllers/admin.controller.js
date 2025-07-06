@@ -128,7 +128,7 @@ const getAdminProfile = async (req, res) => {
   })
   .lean();
 
-console.log("teachers at admin",populatedTeachers)
+//console.log("teachers at admin",populatedTeachers)
     // STEP 4: Populate classes and subjects
     const populatedClasses = await Class.find({ _id: { $in: admin.classes } })
   .populate("subjects")
@@ -153,7 +153,7 @@ console.log("teachers at admin",populatedTeachers)
     res.status(200).json({ admin: fullAdminProfile });
 
   } catch (err) {
-    console.error("Error fetching admin profile:", err);
+  //  console.error("Error fetching admin profile:", err);
     res.status(500).json({ message: "Server error while fetching admin data" });
   }
 };
@@ -183,7 +183,7 @@ const DeleteStudent = async (req, res) => {
       student: deletedStudent
     });
   } catch (err) {
-    console.error("Error deleting student:", err);
+    //console.error("Error deleting student:", err);
     return res.status(500).json({ message: "Server error while deleting student" });
   }
 };
@@ -211,7 +211,7 @@ const DeleteTeacher = async (req, res) => {
       teacher: deletedteacher
     });
   } catch (err) {
-    console.error("Error deleting student:", err);
+    //console.error("Error deleting student:", err);
     return res.status(500).json({ message: "Server error while deleting Teacher" });
   }
 };
@@ -298,7 +298,7 @@ const ExamTimetable =  async (req, res) => {
     await classDoc.save();
     res.status(201).json(examSchedule);
   } catch (err) {
-    console.log("erron on backend examSchedule",err.message)
+    // console.log("erron on backend examSchedule",err.message)
     res.status(400).json({ error: err.message });
   }
 }

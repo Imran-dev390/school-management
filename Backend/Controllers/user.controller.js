@@ -10,7 +10,7 @@ const getCurrentUser = async function(req,res){
   // user is getting Null Why i am reciving the req.userId from id variable
   try {
   let id = req.userId;
-  console.log("requeste User Id",req.userId);
+ // console.log("requeste User Id",req.userId);
 const user = await User.findOne({ _id: req.userId })
   .select("-password")
   .populate({
@@ -55,13 +55,13 @@ const user = await User.findOne({ _id: req.userId })
   .setOptions({ strictPopulate: false });
 const userRole = req.id;
 const role = userRole;
-console.log("current Role",role);
+//console.log("current Role",role);
   //  console.log("🧪 user with findOne:", user); 
      const admin = await Admin.findOne({_id:req.userId}).select("-password");
-     console.log("🧪 admin with findOne:", admin);
+   //  console.log("🧪 admin with findOne:", admin);
     // const accountant = await Staff.findOne({_id:req.userId}).select("-password");
     const accountant = await Staff.findOne({ _id: req.userId, role: "Accountant" }).select("-password"); 
-    console.log("accountant",accountant);
+   // console.log("accountant",accountant);
 //    const teacher = await Teacher.findOne({ _id: req.userId })
 //    .select("-password")
 //    .populate("teachSubject")
@@ -224,7 +224,7 @@ const teacher = await Teacher.findOne({ _id: req.userId })
   //     }
   //   ]
   // }).exec(); // <- this ensures full population
-    console.log("🧪 teacher with findOne:", teacher);
+ //   console.log("🧪 teacher with findOne:", teacher);
     if (!req.userId) {
       return res.status(400).json({ message: "User ID is missing" });
     }

@@ -77,17 +77,17 @@ const createAnnouncement = async (req, res) => {
     const { title, message, classes, name } = req.body;
 
     const teacher = await Teacher.findOne({ _id: req.userId });
-    console.log("teach name",teacher.name);
+   // console.log("teach name",teacher.name);
     const Admin = await admin.findOne({ _id: req.userId });
     const classe = await Class.findOne({ name: classes });
 
     if (!teacher) {
-      console.log("teacher is not found", teacher);
+     // console.log("teacher is not found", teacher);
       return res.status(404).json({ message: "Teacher Not Found" });
     }
 
     if (!classe) {
-      console.log("class is not found", classe);
+   //   console.log("class is not found", classe);
       return res.status(404).json({ message: "Class Not Found" });
     }
 
@@ -116,7 +116,7 @@ const createAnnouncement = async (req, res) => {
 
     res.status(200).json({ message: "Created Announcement" });
   } catch (err) {
-    console.log("error here announcement", err.message);
+ //   console.log("error here announcement", err.message);
     return res.status(402).json({ message: "Announcement creation failed!" });
   }
 };

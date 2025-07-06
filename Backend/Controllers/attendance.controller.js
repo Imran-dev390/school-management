@@ -306,7 +306,7 @@ endOfDay.setHours(23,59,59,999);
     });
 
   } catch (error) {
-    console.error('Attendance Marking Error:', error);
+    //console.error('Attendance Marking Error:', error);
     return res.status(500).json({ error: 'Internal server error while saving attendance.' });
   }
 };

@@ -2,7 +2,7 @@ const User = require('../models/student.model');
 const Jwt = require("jsonwebtoken");
 const isAuth = async (req, res, next) => {
 const { token } = req.cookies;
-console.log("token",token,"Cookie",req.cookies);
+//console.log("token",token,"Cookie",req.cookies);
   if (!token) {
     return res.status(401).json({ message: "Token not found" });
   }
@@ -10,7 +10,7 @@ console.log("token",token,"Cookie",req.cookies);
    // const existemail = await db.teachers.find({ email: "amir@gmail.com" })
    //console.log(existemail)
     const decoded = Jwt.verify(token, process.env.JWT_KEY);
-    console.log("Decoded token:", decoded);
+ //   console.log("Decoded token:", decoded);
 
     if (!decoded) {
       return res.status(401).json({ message: "Invalid token payload" });
@@ -18,7 +18,7 @@ console.log("token",token,"Cookie",req.cookies);
      req.userId = decoded.id; // contains id and email
     next();
   } catch (err) {
-    console.error("JWT verification error:", err.message);
+   // console.error("JWT verification error:", err.message);
     return res.status(401).json({ message: "Unauthorized" });
   }
 };
