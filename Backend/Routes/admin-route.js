@@ -1,5 +1,5 @@
 const expess = require("express");
-const { AddStudent, AddTeacher, AddClass, AddSubjects, AddSession, AddStaff, AddTimeTable } = require("../Controllers/auth.controller");
+const { AddStudent, AddTeacher, AddClass, AddSubjects, AddSession, AddStaff, AddTimeTable, LeaveAprroval } = require("../Controllers/auth.controller");
 const isAuth = require("../middlewares/isAuth");
 const {getAdminProfile,DeleteStudent, UpdateStudent, UpdateTeacher, DeleteTeacher, ExamTimetable, AssignTeacherSubject} = require("../Controllers/admin.controller");
 const getCurrentUser = require("../Controllers/user.controller");
@@ -34,6 +34,7 @@ router.post("/Add/Student",isAuth,upload.fields([{ name: 'profileImage', maxCoun
   ]),
   AddStudent
 );
+router.patch('/leaves/:id',isAuth,LeaveAprroval);
 router.patch('/teachers/:teacherId/assign-subject',isAuth,AssignTeacherSubject);
 router.post("/Add/ExamSchedule",isAuth,ExamTimetable);
 router.post("/Add/Teacher",isAuth,upload.fields([

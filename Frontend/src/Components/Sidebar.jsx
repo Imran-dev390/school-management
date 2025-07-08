@@ -1543,7 +1543,11 @@ export function Sidebar({ isOpen, setIsOpen, adminName ,hasUserToggled,onToggleS
       //  {label:"➕",path:"/admin/add-class-section"},
       {label:"➕ Take Attendance",path:"/Take/Attendance"},
       {label:"👥 View Attendance",path:"/Admin/View/Attendance"},
-        {label:"🏫  Manage Class",path:"/admin/sections"},
+      {label:"🏫  Manage Class",path:"/admin/sections"},
+      {label:"➕ Manage TimeTable",path:"/admin/Add/Class-TimeTable"},
+      {label:"➕ Teacher Send Leave ",path:"/Admin/Send/Teacher/Leave"},
+      {label:"👥 View Today Leaves",path:"/Admin/View/Today/Leaves"},
+       {label:"👥 View All Leaves",path:"/Admin/View/Class/Leaves"}
       ],
     },
     {
@@ -1571,7 +1575,7 @@ export function Sidebar({ isOpen, setIsOpen, adminName ,hasUserToggled,onToggleS
   return (
     <>
       {/* Top Nav: Always visible */}
-      <div className="fixed top-0 left-0 right-0 flex items-center justify-between px-4 py-5 bg-white shadow z-50 md:px-6">
+      <div className="fixed top-0 left-0 right-0  flex items-center justify-between px-4 py-5 bg-white shadow z-50 md:px-6">
         {/* Hamburger */}
         {/* <button onClick={() => setIsOpen(!isOpen)} aria-label="Toggle Sidebar">
           <svg
@@ -1631,7 +1635,7 @@ export function Sidebar({ isOpen, setIsOpen, adminName ,hasUserToggled,onToggleS
   ${isOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0`}
 > */}
 <aside
-  className={`fixed top-[68px] left-0 z-40 h-[calc(100%-68px)] w-64 bg-[rgb(1,1,93)] text-white transform transition-transform duration-300 ease-in-out 
+  className={`fixed top-[68px] left-0 z-40 overflow-y-scroll scrollbar-thin custom-scrollbar scrollbar-track-sidebar h-[calc(100%-68px)] w-64 bg-[rgb(1,1,93)] text-white transform transition-transform duration-300 ease-in-out 
     ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
 >
 

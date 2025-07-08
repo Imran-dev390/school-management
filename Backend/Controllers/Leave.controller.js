@@ -201,8 +201,14 @@ const AddLeave = async (req, res) => {
         Class: student.Classs,
       });
 
-      student.leave.push(createdLeave._id);
-      await student.save();
+      // student.leave.push(createdLeave._id);
+      // await student.save();
+
+      await Student.updateOne(
+  { _id: student._id },
+  { $push: { leave: createdLeave._id } }
+);
+
 
       return res.status(200).json({
         message: "Leave successfully sent to the teacher.",

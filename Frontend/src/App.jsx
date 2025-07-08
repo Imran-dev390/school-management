@@ -817,6 +817,9 @@ import ViewAttendance from "./Components/TakeAttendance";
 import TakeAttendance from "./Components/TakeAttendance";
 import AdminViewAttendance from "./Components/AdminViewAttendance";
 import TDAddClassTimeTable from "./Components/TDAddClassTimeTable";
+import ViewAllLeaves from "./Components/ViewAllLeaves";
+import ViewClassLeaves from "./Components/ViewClassLeaves";
+import SentTeacherLeave from "./Components/SentTeacherLeave";
 
 // Lazy loaded components
 const Register = lazy(() => import("./Components/Register"));
@@ -1012,6 +1015,9 @@ function App() {
                <Route path="/admin/add-class-section" element={<AddClassSection/>}/>
                <Route path="/admin/Add/Class-TimeTable" element={<TDAddClassTimeTable/>}></Route>
                <Route path="/Admin/View/Attendance" element={<AdminViewAttendance/>}></Route>
+               <Route path="/Admin/View/Today/Leaves" element={<ViewAllLeaves/>}></Route>
+               <Route path="/Admin/View/Class/Leaves" element={<ViewClassLeaves/>}></Route>
+                <Route path="/Admin/Send/Teacher/Leave" element={<SentTeacherLeave/>}></Route>
             </>
           )}
 

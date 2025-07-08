@@ -8,13 +8,15 @@ import io from 'socket.io-client';
 import { authDataContext } from '../Context-Api/AuthContext';
 import StudentSidebar from './StudentSidebar';
 //import Sidebar from './Sidebar';
+import { useRef } from 'react';
 const StudentDashboard = () => {
   const {serverUrl} = useContext(authDataContext);
   const [showModal,setShowModal]= useState(false);
   const {userData} = useContext(userDataContext);
+  const socketRef = useRef(null);
   const [loading,setLoading] = useState(true);
   // Create socket connection (put this outside the component)
-const socket = io(serverUrl);
+//const socket = io(serverUrl);
   //console.log("userData",userData)
 const {Classs} = userData;
 const {teacher} = Classs;
@@ -65,23 +67,334 @@ const [notifications, setNotifications] = useState([
   }
 },[userData])*/
 
+// useEffect(() => {
+//   if (userData && userData?._id) {
+//     setLoading(false);
+//     socket.emit("register", userData._id); // ✅ Register with server
+//   }
+// }, [userData]);
+
+// useEffect(() => {
+//   // Register student to their room
+//   if (userData && userData._id) {
+//     socket.emit("register", userData._id);
+//   }
+
+//   // 🟢 Listen for new announcements
+//   socket.on('new-announcement', (data) => {
+//     const teacherName = data.teacherName || data.name || 'Unknown Teacher';
+//     setNotifications(prev => [
+//       {
+//         ...data,
+//         teacherName,
+//       },
+//       ...prev,
+//     ]);
+//   });
+
+//   // 🟢 Listen for leave status updates
+//   socket.on('leave-status-updated', (data) => {
+//     setNotifications(prev => [
+//       {
+//         title: data.title || 'Leave Status Updated',
+//         message: data.message || 'Your leave request has been updated.',
+//         teacherName: 'Admin', // or use leave.approvedBy if available
+//       },
+//       ...prev,
+//     ]);
+
+//     // Optional toast
+//     alert(data.message); // replace with toast or custom popup if preferred
+//   });
+
+//   return () => {
+//     socket.off('new-announcement');
+//     socket.off('leave-status-updated');
+//   };
+// }, [userData]);
+
 useEffect(() => {
-  if (userData && userData?._id) {
+  if (userData && userData._id) {
     setLoading(false);
-    socket.emit("register", userData._id); // ✅ Register with server
   }
 }, [userData]);
-useEffect(()=>{
-const teachers = Array.isArray(Classs?.teacher) ? Classs.teacher : [];
 
-  const allAnnouncements = teachers.flatMap((t) =>
-    (t.announcements || []).map((announcement) => ({
-      ...announcement,
-      teacherName: t.name || 'N/A',
-    }))
-  );
-  setNotifications(allAnnouncements);
-},[userData]);
+const handleNewAnnouncement = (data) => {
+  const teacherName = data.teacherName || data.name || 'Unknown Teacher';
+  setNotifications(prev => [{ ...data, teacherName }, ...prev]);
+};
+
+const handleLeaveStatusUpdated = (data) => {
+  setNotifications(prev => [
+    {
+      title: data.title || 'Leave Status Updated',
+      message: data.message || 'Your leave request has been updated.',
+      teacherName: 'Admin',
+    },
+    ...prev,
+  ]);
+  alert(data.message);
+};
+
+const handleAttendanceAlert = (data) => {
+  alert(data.message); // or use toast
+};
+
+
+
+
+// useEffect(() => {
+//   if (!userData?._id) return;
+
+//   if (!socketRef.current) {
+//     socketRef.current = io(serverUrl);
+//   }
+
+//   const socket = socketRef.current;
+
+//   socket.emit("register", userData._id);
+
+//   const handleNewAnnouncement = (data) => {
+//     console.log('Received new-announcement:', data);
+//     alert(`Announcement: ${data.title}\n${data.message}`);
+//     setNotifications(prev => [{ ...data, teacherName: data.teacherName || 'Unknown' }, ...prev]);
+//   };
+
+//   const handleLeaveStatusUpdated = (data) => {
+//     console.log('Received leave-status-updated:', data);
+//     alert(data.message);
+//     setNotifications(prev => [
+//       {
+//         title: data.title || 'Leave Status Updated',
+//         message: data.message || 'Your leave request has been updated.',
+//         teacherName: 'Admin',
+//       },
+//       ...prev,
+//     ]);
+//   };
+
+//   const handleAttendanceAlert = (data) => {
+//     console.log('Received attendance alert:', data);
+//     alert(data.message);
+//   };
+
+//   socket.on("new-announcement", handleNewAnnouncement);
+//   socket.on("leave-status-updated", handleLeaveStatusUpdated);
+//   socket.on(`attendance-${userData._id}`, handleAttendanceAlert);
+
+//   socket.onAny((event, ...args) => {
+//     console.log('Socket event:', event, args);
+//   });
+
+//   return () => {
+//     socket.off("new-announcement", handleNewAnnouncement);
+//     socket.off("leave-status-updated", handleLeaveStatusUpdated);
+//     socket.off(`attendance-${userData._id}`, handleAttendanceAlert);
+//   };
+// }, [userData._id]);
+
+
+
+// useEffect(() => {
+//   if (!userData?._id) return;
+
+//   if (!socketRef.current) {
+//     socketRef.current = io(serverUrl);
+//      console.log('Socket initialized');
+//   }
+
+//   const socket = socketRef.current;
+
+//   socket.emit("register", userData._id);
+
+//   const handleNewAnnouncement = (data) => {
+//     console.log('Received new-announcement:', data);
+//     alert(`Announcement: ${data.title}\n${data.message}`);
+//     setNotifications(prev => [{ ...data, teacherName: data.teacherName || 'Unknown' }, ...prev]);
+//   };
+
+//   const handleLeaveStatusUpdated = (data) => {
+//     console.log('Received leave-status-updated:', data);
+//     alert(data.message);
+//     setNotifications(prev => [
+//       {
+//         title: data.title || 'Leave Status Updated',
+//         message: data.message || 'Your leave request has been updated.',
+//         teacherName: 'Admin',
+//       },
+//       ...prev,
+//     ]);
+//   };
+
+//   const handleAttendanceAlert = (data) => {
+//     console.log('Received attendance alert:', data);
+//     alert(data.message);
+//   };
+
+//   socket.on("new-announcement", handleNewAnnouncement);
+//   socket.on("leave-status-updated", handleLeaveStatusUpdated);
+//   socket.on(`attendance-${userData._id}`, handleAttendanceAlert);
+
+//   socket.onAny((event, ...args) => {
+//     console.log('Socket event:', event, args);
+//   });
+
+//   return () => {
+//     socket.off("new-announcement", handleNewAnnouncement);
+//     socket.off("leave-status-updated", handleLeaveStatusUpdated);
+//     socket.off(`attendance-${userData._id}`, handleAttendanceAlert);
+//   };
+// }, [userData._id]);
+
+
+
+
+// useEffect(() => {
+//   if (!userData?._id) return;
+
+//   if (!socketRef.current) {
+//     socketRef.current = io(serverUrl);
+//     console.log('Socket initialized');
+//   }
+
+//   const socket = socketRef.current;
+
+//   socket.on('connect', () => {
+//     console.log('Socket connected with id:', socket.id);
+//     socket.emit("register", userData._id);
+//     console.log('Emitted register with:', userData._id);
+//   });
+
+//   socket.on("new-announcement", (data) => {
+//     console.log('Received new-announcement:', data);
+//     alert(`Announcement: ${data.title}\n${data.message}`);
+//     setNotifications(prev => [{ ...data, teacherName: data.teacherName || 'Unknown' }, ...prev]);
+//   });
+
+//   socket.on("leave-status-updated", (data) => {
+//     console.log('Received leave-status-updated:', data);
+//     alert(data.message);
+//     setNotifications(prev => [
+//       {
+//         title: data.title || 'Leave Status Updated',
+//         message: data.message || 'Your leave request has been updated.',
+//         teacherName: 'Admin',
+//       },
+//       ...prev,
+//     ]);
+//   });
+
+//   socket.on(`attendance-${userData._id}`, (data) => {
+//     console.log('Received attendance alert:', data);
+//     alert(data.message);
+//   });
+
+//   socket.onAny((event, ...args) => {
+//     console.log('Socket event:', event, args);
+//   });
+
+//   return () => {
+//     socket.off("new-announcement");
+//     socket.off("leave-status-updated");
+//     socket.off(`attendance-${userData._id}`);
+//   };
+// }, [userData._id]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+useEffect(() => {
+  if (!userData?._id) return;
+
+  if (!socketRef.current) {
+    socketRef.current = io(serverUrl, {
+      transports: ["websocket"],
+      reconnection: true,
+    });
+    console.log('🔌 Socket initialized');
+  }
+
+  const socket = socketRef.current;
+
+  const registerSocket = () => {
+    console.log('📡 Emitting register with:', userData._id);
+    socket.emit("register", userData._id);
+  };
+
+  socket.on('connect', () => {
+    console.log('✅ Socket connected with id:', socket.id);
+    registerSocket();
+  });
+
+  registerSocket(); // 👈 Emit once on first setup too
+
+
+  socket.on("new-announcement", (data) => {
+    console.log('Received new-announcement:', data);
+    alert(`Announcement: ${data.title}\n${data.message}`);
+    setNotifications(prev => [{ ...data, teacherName: data.teacherName || 'Unknown' }, ...prev]);
+  });
+
+  socket.on("leave-status-updated", (data) => {
+    console.log('📥 Received leave-status-updated:', data);
+    alert(data.message);
+    setNotifications(prev => [
+      {
+        title: data.title || 'Leave Status Updated',
+        message: data.message || 'Your leave request has been updated.',
+        teacherName: data.teacherName || 'Admin',
+      },
+      ...prev,
+    ]);
+  });
+   socket.on(`attendance-${userData._id}`, (data) => {
+    console.log('Received attendance alert:', data);
+    alert(data.message);
+  });
+
+  // Other listeners...
+
+  return () => {
+    socket.off("leave-status-updated");
+    // clean up others as well...
+     socket.off("new-announcement");
+   // socket.off("leave-status-updated");
+    socket.off(`attendance-${userData._id}`);
+  };
+}, [userData?._id]);
+
+
+
+
+
+
+useEffect(() => {
+  const saved = localStorage.getItem("notifications");
+  if (saved) {
+    setNotifications(JSON.parse(saved));
+  }
+}, []);
+
+useEffect(() => {
+  localStorage.setItem("notifications", JSON.stringify(notifications));
+}, [notifications]);
+
 
 const [attendanceData, setAttendanceData] = useState({
   studentId: "",
@@ -113,34 +426,34 @@ useEffect(() => {
   gettingPercentageAttendance();
 }, []);
 
-useEffect(() => {
+// useEffect(() => {
 
-// console.log("attendancePercent",AttendancePercentage)
-  // Listen for new real-time announcements
-  socket.on('new-announcement', (data) => {
-    // Add teacher name if missing
-    const teacherName = data.teacherName || data.name || 'Unknown Teacher';
+// // console.log("attendancePercent",AttendancePercentage)
+//   // Listen for new real-time announcements
+//   socket.on('new-announcement', (data) => {
+//     // Add teacher name if missing
+//     const teacherName = data.teacherName || data.name || 'Unknown Teacher';
 
-    // Append to notifications
-    setNotifications(prev => [
-      {
-        ...data,
-        teacherName: teacherName,
-      },
-      ...prev
-    ]);
-  });
-  socket.on(`attendance-${userData._id}`, (data) => {
-  alert(data.message); // or show in-app toast
-});
+//     // Append to notifications
+//     setNotifications(prev => [
+//       {
+//         ...data,
+//         teacherName: teacherName,
+//       },
+//       ...prev
+//     ]);
+//   });
+//   socket.on(`attendance-${userData._id}`, (data) => {
+//   alert(data.message); // or show in-app toast
+// });
 
 
 
-  // Clean up on component unmount
-  return () => {
-    socket.off('new-announcement');
-  };
-}, []);
+//   // Clean up on component unmount
+//   return () => {
+//     socket.off('new-announcement');
+//   };
+// }, []);
 
 const latestMonthData = [...attendanceData.monthlyAttendance]
   .sort((a, b) => new Date(b.month) - new Date(a.month))[0]; // Most recent month
@@ -465,6 +778,7 @@ if(loading) return <p>Loading Data...</p>
     </div>
   );
 };
+
 
 const Card = ({ title, value, color }) => (
   <div className={`p-4 rounded-lg shadow text-white ${color} hover:scale-105 transform transition-all duration-300`}>

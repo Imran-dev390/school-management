@@ -110,6 +110,7 @@ const getAdminProfile = async (req, res) => {
     // STEP 2: Manually fetch and populate students with Class
     const populatedStudents = await Student.find({ _id: { $in: admin.students } })
       .populate("Classs")
+      .populate("leave")
       .lean();
 
     // STEP 3: Manually fetch and populate teachers with teachSubject and assignedClass

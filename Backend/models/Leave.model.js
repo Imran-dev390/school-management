@@ -3,13 +3,21 @@ const mongoose = require("mongoose");
 const LeaveSchema = new mongoose.Schema({
     leave:{
         type:String,
-        minLength:10,
+        minLength:3,
         required:true,
     } ,
+    reason:{
+        type:String
+    },
     date:{
         type:Date,
         default:Date.now,
     },
+    status: {
+    type: String,
+    enum: ["Approved", "UnApproved"],
+    default: "UnApproved", // optional default
+  },
     student:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Student",

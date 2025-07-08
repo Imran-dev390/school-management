@@ -43,10 +43,10 @@ const AdminTeacherDashboardPage = () => {
       ],
     },
     {
-      title: 'Homework',
+      title: 'Leaves',
       actions: [
-        { label: 'Homework', href: '/admin/homework' },
-        { label: 'Assign Homework', href: '/admin/homework/new' },
+        { label: 'Teacher Send Leave', href: '/Admin/Send/Teacher/Leave' },
+        { label: 'View All Leaves', href: '/Admin/View/Class/Leaves' },
       ],
     },
     {

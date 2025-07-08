@@ -1,0 +1,112 @@
+import React, { useContext, useEffect, useState } from 'react'
+import { adminDataContext } from '../Context-Api/AdminContext'
+import { authDataContext } from '../Context-Api/AuthContext';
+import { toast, ToastContainer } from 'react-toastify';
+import AdminLayout from './AdminLayout';
+import AdminTeachDashboardHeader from './AdminTeachDashboardHeader';
+import axios from 'axios';
+const SentTeacherLeave = () => {
+  const { adminData, fetchAdminData } = useContext(adminDataContext);
+  const { serverUrl } = useContext(authDataContext);
+
+  const [leave, setLeave] = useState('');
+  const [date, setDate] = useState('');
+
+  useEffect(() => {
+    fetchAdminData();
+  }, [fetchAdminData]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!leave.trim() || !date) {
+      toast.error('Please fill in all fields.');
+      return;
+    }
+
+    try {
+      const res = await axios.post(
+        `${serverUrl}/api/leave/add`,
+        { leave, date },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            // Uncomment and insert token if auth is needed:
+            // Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true, // Important if you're using cookies for auth
+        }
+      );
+
+      const data = await res.json();
+
+      if (res.ok) {
+        toast.success(data.message || 'Leave request submitted successfully!');
+        setLeave('');
+        setDate('');
+      } else {
+        toast.error(data.message || 'Failed to submit leave request.');
+      }
+    } catch (error) {
+      toast.error('An error occurred. Please try again later.');
+      console.error('Submit leave error:', error);
+    }
+  };
+
+  return (
+    <AdminLayout adminName="Bright Future">
+      <div className="main w-full h-full flex flex-col gap-3 justify-center mt-3 px-4 ">
+        <AdminTeachDashboardHeader />
+        {/* Top Header*/}
+<div className="flex w-full text-white p-3 rounded-md bg-[rgb(1,1,93)] flex-col md:flex-row justify-center items-center border-b pb-3">
+     <div className="centerd flex items-center justify-center">
+      <h2 className="text-lg font-semibold  justify-center flex items-center gap-2">
+        <i className="fas fa-calendar-alt"></i> Submit Leave Request
+      </h2>
+      </div>
+      {/* <div className="mt-2 md:mt-0 flex gap-2">
+        <Link to="/Take/Attendance" className="text-sm px-4 py-1 border border-gray-300 rounded bg-[#C19703]">
+          <i className="fas fa-clock"></i>&nbsp;Add New Leave
+        </Link>
+      </div> */}
+    </div>
+{/* End */}
+<div className="wrapper border border-grey-300 mt-4 px-4 py-2">
+        <h2 className="text-2xl font-semibold mb-4">Send Leave By Teacher</h2>
+        <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-3">
+          <label className="flex flex-col text-sm font-medium">
+            Leave Reason
+            <textarea
+              value={leave}
+              onChange={(e) => setLeave(e.target.value)}
+              rows={4}
+              placeholder="Explain the reason for your leave"
+              className="border border-gray-300 rounded p-2 mt-1 resize-none"
+              required
+            />
+          </label>
+          <label className="flex flex-col text-sm font-medium">
+            Leave Date
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              className="border border-gray-300 rounded p-2 mt-1"
+              required
+            />
+          </label>
+          <button
+            type="submit"
+            className="bg-[#c19703]  text-white py-2 rounded  transition"
+          >
+            Submit Leave
+          </button>
+        </form>
+        </div>
+        <ToastContainer position="top-center" />
+      </div>
+    </AdminLayout>
+  );
+};
+
+export default SentTeacherLeave

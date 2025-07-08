@@ -9,6 +9,7 @@ const Session = require("../models/Session.model");
 const Staff = require("../models/addStaff.model");
 const Timetable = require('../models/timetable.model');
 const Admin = require("../models/admin.model");
+const Leave = require("../models/Leave.model");
 const updateClassGenderCount = require("../utils/updateClassGenderCount");
 const upload = require("../middlewares/upload");
 const Subjects = require("../models/Subjects.model");
@@ -1414,6 +1415,184 @@ const AddTimeTable = async (req, res) => {
 };
 
 
+
+// const LeaveAprroval = async (req,res)=>{ 
+//   const { id } = req.params;
+//   const { status, reason } = req.body;
+
+//   if (!['Approved', 'UnApproved'].includes(status)) {
+//     return res.status(400).json({ message: 'Invalid status value' });
+//   }
+
+//   try {
+//     const leave = await Leave.findById(id);
+//     if (!leave) return res.status(404).json({ message: 'Leave not found' });
+
+//     leave.status = status;
+//     leave.reason = reason || leave.reason;
+
+//     await leave.save();
+//     res.status(200).json({ message: 'Leave updated successfully' });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ message: 'Server error' });
+//   }
+// }
+
+
+
+
+
+
+
+
+
+
+
+const  LeaveAprroval = async (req, res) => {
+  const { id } = req.params;
+  const { status, reason } = req.body;
+
+  if (!['Approved', 'UnApproved'].includes(status)) {
+    return res.status(400).json({ message: 'Invalid status value' });
+  }
+
+  try {
+    const leave = await Leave.findById(id).populate('student');
+    console.log("Leave.students:", leave.student);
+    if (!leave) return res.status(404).json({ message: 'Leave not found' });
+
+    leave.status = status;
+    leave.reason = reason || leave.reason;
+
+    await leave.save();
+
+    // ✅ Real-time notification
+    // const io = req.app.get("io");
+
+    // if (leave.student && leave.student._id) {
+    //   const studentId = leave.student._id.toString();
+    //   console.log(`📡 Emitting leave-status-updated to student ID: ${studentId}`);
+
+    //   io.to(studentId).emit("leave-status-updated", {
+    //     title: `Leave ${status}`,
+    //     message: `Your leave on ${new Date(leave.date).toLocaleDateString()} was ${status}. Reason: ${reason || 'No reason provided.'}`,
+    //     teacherName: req.user?.name || req.username || "Admin",
+    //   });
+    // }
+
+
+
+
+
+
+
+
+    if (Array.isArray(leave.student) && leave.student.length > 0) {
+  const io = req.app.get("io");
+
+  leave.student.forEach(student => {
+    const studentId = student._id?.toString(); // Use optional chaining to avoid crash
+
+    if (studentId) {
+      console.log(`📡 Emitting leave-status-updated to student ID: ${studentId}`);
+
+      io.to(studentId).emit("leave-status-updated", {
+        title: `Leave ${status}`,
+        message: `Your leave on ${new Date(leave.date).toLocaleDateString()} was ${status}. Reason: ${reason || 'No reason provided.'}`,
+        teacherName: req.user?.name || req.username || "Admin",
+      });
+    } else {
+      console.warn("⚠️ student._id is missing or invalid:", student);
+    }
+  });
+} else {
+  console.warn("⚠️ leave.student is empty or not an array");
+}
+
+    res.status(200).json({ message: 'Leave updated successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
+// const  LeaveAprroval = async (req, res, next) => {
+//   const { id } = req.params;
+//   const { status, reason } = req.body;
+
+//   if (!['Approved', 'UnApproved'].includes(status)) {
+//     return res.status(400).json({ message: 'Invalid status value' });
+//   }
+
+//   try {
+//     const leave = await Leave.findById(id).populate('student'); // populate student info
+//     if (!leave) return res.status(404).json({ message: 'Leave not found' });
+
+//     leave.status = status;
+//     leave.reason = reason || leave.reason;
+
+//     await leave.save();
+
+//     // ✅ Send real-time notification to student
+//     // const io = req.app.get("io"); // get io instance
+//     // if (leave.student && leave.student.length > 0) {
+//     //   leave.student.forEach(student => {
+//     //     io.to(student._id.toString()).emit("leave-status-updated", {
+//     //       status,
+//     //       reason,
+//     //       date: leave.date,
+//     //     });
+//     //   });
+//     // }
+
+//     const io = req.app.get("io"); // get io instance
+//      if (Array.isArray(leave.student) && leave.student.length > 0) {
+//   leave.student.forEach(student => {
+//     const studentId = student._id.toString();
+//     console.log(`📡 Emitting to student ID: ${studentId}`);
+
+//     io.to(studentId).emit("leave-status-updated", {
+//       title: `Leave ${status}`,
+//       message: `Your leave on ${new Date(leave.date).toLocaleDateString()} was ${status}. Reason: ${reason || 'No reason provided.'}`,
+//       teacherName: req.user?.name || req.username || "Admin",
+//     });
+//   });
+// }
+
+
+// //     if (leave.student && leave.student._id) {
+// //       console.log(`📡 Emitting leave-status-updated to student ID: ${studentId}`);
+// //   const studentId = leave.student._id.toString();
+// //   io.to(studentId).emit("leave-status-updated", {
+// //     title: `Leave ${status}`,
+// //     message: `Your leave on ${new Date(leave.date).toLocaleDateString()} was ${status}. Reason: ${reason || 'No reason provided.'}`,
+// //     teacherName: req.user?.name || req.username || "Admin",
+// //   });
+// // }
+
+
+
+// // if (leave.student) {
+// //   const studentId = leave.student._id.toString();
+
+// //   io.to(studentId).emit("leave-status-updated", {
+// //     title: `Leave ${status}`,
+// //     message: `Your leave on ${new Date(leave.date).toLocaleDateString()} was ${status}. Reason: ${reason || 'No reason provided.'}`,
+// //     teacherName: req.user.name || req.username || "Admin" // or req.user.name if auth middleware is present
+// //   });
+// // }
+
+//     res.status(200).json({ message: 'Leave updated successfully' });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ message: 'Server error' });
+//   }
+// };
+
+
+
 const SignOut = async function (req, res, next) {
     try {
         res.clearCookie("token");
@@ -1431,6 +1610,7 @@ module.exports = {
     AddTeacher,
     AddStudent,
     SignupAdmin,
+    LeaveAprroval,
     AdminSignIn,
     AddClass,
     SignOut,
