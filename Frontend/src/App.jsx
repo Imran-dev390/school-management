@@ -820,6 +820,10 @@ import TDAddClassTimeTable from "./Components/TDAddClassTimeTable";
 import ViewAllLeaves from "./Components/ViewAllLeaves";
 import ViewClassLeaves from "./Components/ViewClassLeaves";
 import SentTeacherLeave from "./Components/SentTeacherLeave";
+import AdminStudentDashboard from "./Components/AdminStudentDashboard";
+import ViewStudents from "./Components/ViewStudents";
+import StudentPromotion from "./Components/StudentPromotion";
+import StudentPrintIdCard from "./Components/StudentPrintIdCard";
 
 // Lazy loaded components
 const Register = lazy(() => import("./Components/Register"));
@@ -1018,6 +1022,10 @@ function App() {
                <Route path="/Admin/View/Today/Leaves" element={<ViewAllLeaves/>}></Route>
                <Route path="/Admin/View/Class/Leaves" element={<ViewClassLeaves/>}></Route>
                 <Route path="/Admin/Send/Teacher/Leave" element={<SentTeacherLeave/>}></Route>
+                <Route path="/admin/student/dash" element={<AdminStudentDashboard/>}></Route>
+                <Route path="/admin/view/students" element={<ViewStudents/>}></Route>
+                <Route path="/admin/student/promotion" element={<StudentPromotion/>}></Route>
+                <Route path="/admin/Print/ID/Card" element={<StudentPrintIdCard/>}></Route>
             </>
           )}
 

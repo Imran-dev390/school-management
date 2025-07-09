@@ -1531,15 +1531,23 @@ export function Sidebar({ isOpen, setIsOpen, adminName ,hasUserToggled,onToggleS
     {
       label: "👨‍🎓 Students",
       path: "/admin/students",
-      children: [{ label: "➕ Add New Students", path: "/admin/add-student" }],
+      children: [
+         {label:"📊 Dashboard", path:"/admin/student/dash"},
+        {label: "➕ Add New Students", path: "/admin/add-student"},
+        // {label:"➕ Student Promotion",path:"/admin/student/promotion"},
+        // {label:"Print Id Card",path:"/admin/Print/ID/Card"}
+         { label: "🧑‍🎓 View Students", path: "/admin/view/students" },
+         { label: "🔁 Student Promotion", path: "/admin/student/promotion" },
+  { label: "🖨️ Print ID Card", path: "/admin/Print/ID/Card" }
+      ],
     },
     {
       label: "👩‍🏫 Teachers",
       path: "/admin/teachers",
       children: [
-          {label:"📊 Dashboard", path:"/admin/teacher/dash"},
-        { label: "➕ Add New Teacher", path:"/admin/add-teacher"},
-        {label:"➕ Subjects",path:"/admin/subjects"},
+      {label:"📊 Dashboard", path:"/admin/teacher/dash"},
+      { label: "➕ Add New Teacher", path:"/admin/add-teacher"},
+      {label:"➕ Subjects",path:"/admin/subjects"},
       //  {label:"➕",path:"/admin/add-class-section"},
       {label:"➕ Take Attendance",path:"/Take/Attendance"},
       {label:"👥 View Attendance",path:"/Admin/View/Attendance"},

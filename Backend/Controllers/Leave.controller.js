@@ -162,20 +162,27 @@ const Teacher = require("../models/teacher.model");
 
 const AddLeave = async (req, res) => {
   try {
-    const { leave, date } = req.body;
+    // const { leave, date} = req.body;
+    const { leave, date, EndDate } = req.body;
     const student = await Student.findOne({ _id: req.userId });
-
     if (student) {
       const today = new Date();
+      const normalizeDate = (d) => {
+  const date = new Date(d);
+  date.setHours(0, 0, 0, 0);
+  return date;
+};
+
       const startOfDay = new Date(today.setHours(0, 0, 0, 0));
       const endOfDay = new Date(today.setHours(23, 59, 59, 999));
+const start = normalizeDate(date);
+const end = normalizeDate(EndDate || date);
 
       // ✅ Check if student has already submitted a leave today
       const alreadySubmittedToday = await Leave.findOne({
         student: student._id,
         createdAt: { $gte: startOfDay, $lte: endOfDay },
       });
-
       if (alreadySubmittedToday) {
         return res.status(400).json({
           message: "You can only submit one leave request per day.",
@@ -183,23 +190,57 @@ const AddLeave = async (req, res) => {
       }
 
       // ✅ Check if a leave exists for the same leave *date*
-      const existingLeave = await Leave.findOne({
-        student: student._id,
-        date: new Date(date).toDateString(),
-      });
+      // const existingLeave = await Leave.findOne({
+      //   student: student._id,
+      //   date: new Date(date).toDateString(),
+      // });
 
-      if (existingLeave) {
-        return res.status(400).json({
-          message: "You have already submitted a leave for this date.",
-        });
-      }
+
+//      const start = new Date(date);
+//const end = new Date(EndDate || date); // if EndDate not given, treat as single-day
+
+// Find if any existing leave overlaps with the requested range
+const overlappingLeave = await Leave.findOne({
+  student: student._id,
+  $or: [
+    {
+      date: { $lte: end },
+      EndDate: { $gte: start },
+    },
+    {
+      date: { $lte: start },
+      EndDate: { $gte: start },
+    },
+  ],
+});
+if (overlappingLeave) {
+  return res.status(400).json({
+    message: "You have already submitted a leave in this date range.",
+  });
+}
+
+      // if (existingLeave) {
+      //   return res.status(400).json({
+      //     message: "You have already submitted a leave for this date.",
+      //   });
+      // }
       // ✅ Create the leave
+      // const createdLeave = await Leave.create({
+      //   leave,
+      //   date: new Date(date).toDateString(),
+      //   student: student._id,
+      //   Class: student.Classs,
+      // });
+
+
+
       const createdLeave = await Leave.create({
-        leave,
-        date: new Date(date).toDateString(),
-        student: student._id,
-        Class: student.Classs,
-      });
+  leave,
+  date: start, // start date
+  EndDate: end, // end date
+  student: student._id,
+  Class: student.Classs,
+});
 
       // student.leave.push(createdLeave._id);
       // await student.save();
@@ -218,9 +259,13 @@ const AddLeave = async (req, res) => {
     const teacher = await Teacher.findOne({ _id: req.userId });
 
     if (teacher) {
+      const start = normalizeDate(date);
+const end = normalizeDate(EndDate || date);
+
       const createdLeave = await Leave.create({
         leave,
-        date: new Date(date).toDateString(),
+        date:start,
+        EndDate: end,
         teacher: teacher._id,
         Class: teacher.assignedClass,
       });
