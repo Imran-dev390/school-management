@@ -8,7 +8,7 @@ const AdminStudentDashboard = () => {
     {
       title: 'Admission',
       actions: [
-        { label: 'Add New Admission', href: '/admin/sections' },
+        { label: 'Add New Admission', href: '/admin/students/admission' },
       ],
     },
     {
@@ -35,8 +35,8 @@ const AdminStudentDashboard = () => {
     {
       title: 'Transfer Student',
       actions: [
-        { label: 'View Students Transferred', href: '/Admin/Send/Teacher/Leave' },
-        { label: 'Transfer Student', href: '/Admin/View/Class/Leaves' },
+        { label: 'View Students Transferred', href: '/admin/students/transferred' },
+        { label: 'Transfer Student', href: '/admin/students/transferred' },
       ],
     },
     // {

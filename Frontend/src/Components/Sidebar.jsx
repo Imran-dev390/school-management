@@ -1533,9 +1533,11 @@ export function Sidebar({ isOpen, setIsOpen, adminName ,hasUserToggled,onToggleS
       path: "/admin/students",
       children: [
          {label:"📊 Dashboard", path:"/admin/student/dash"},
-        {label: "➕ Add New Students", path: "/admin/add-student"},
+        {label: "➕ Student Admission", path: "/admin/students/admission"},
+        {label:"➕ Transfer Students",path:"/admin/transfer/students"},
         // {label:"➕ Student Promotion",path:"/admin/student/promotion"},
         // {label:"Print Id Card",path:"/admin/Print/ID/Card"}
+        {label:"🧑‍🎓 View Transferred",path:"/admin/students/transferred"},
          { label: "🧑‍🎓 View Students", path: "/admin/view/students" },
          { label: "🔁 Student Promotion", path: "/admin/student/promotion" },
   { label: "🖨️ Print ID Card", path: "/admin/Print/ID/Card" }
