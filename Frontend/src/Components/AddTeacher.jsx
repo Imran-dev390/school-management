@@ -507,7 +507,7 @@ const [submitted,setSubmitted] = useState(false);
   <h2 className="text-3xl font-bold text-center text-[rgb(1,1,93)] mb-6">Add New Teacher 👩‍🏫</h2>
  {submitted ? (
           <div className="text-green-600 text-center text-lg font-medium">
-            ✅ Student registered successfully!
+            ✅ Teacher registered successfully!
           </div>
         ) : (
   <form className="space-y-5" onSubmit={handleSubmit} encType="multipart/form-data">
@@ -672,10 +672,12 @@ const [submitted,setSubmitted] = useState(false);
     <option value="" disabled>Select Session</option>
     {adminData?.admin?.sessions?.map((session) => (
       <option key={session._id} value={session._id}>
-  {session.name} (
-    {new Date(session.startDate).toLocaleDateString('en-GB', { timeZone: 'UTC' })} - 
+  {/* {session.name} (
+    {new Date(session.startDate).get('en-GB', { timeZone: 'UTC' })} - 
     {new Date(session.endDate).toLocaleDateString('en-GB', { timeZone: 'UTC' })}
-  )
+  ) */}
+  {(new Date(session.startDate).getFullYear())} - {(new Date(session.endDate).getFullYear())}
+  
 </option>
     ))}
   </select>

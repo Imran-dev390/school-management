@@ -186,14 +186,13 @@ console.log("currentSession",currentSession);
        <div className="main w-full h-full mt-4 flex flex-col gap-3 items-center">
          <AdminTeachDashboardHeader/>    
 <div className="w-full text-white  bg-[rgb(1,1,93)]  hover:bg-[#C19703] text-xl font-semibold flex items-center justify-center rounded-md py-3 shadow-md">
-            <i className="fas fa-graduation-cap mr-2"></i> New Admission for Session:{currentSession.map((s,id)=>{
-           return <span key={id}>
-     {s.name} ({new Date(s.startDate).toLocaleDateString()} - {new Date(s.endDate).toLocaleDateString()})</span>
+            <i className="fas fa-graduation-cap mr-2"></i> New Admission for Session:  
+             <span>{currentSession.map((s,id)=>{
+           return <span key={id} className='ml-2'>
+      {new Date(s.startDate).getFullYear()}-{new Date(s.endDate).getFullYear()}</span>
             })}
+            </span>
           </div>
-
-
-
 <form onSubmit={handleSubmit} encType="multipart/form-data" className='flex mt-4 border border-grey-300 p-3 w-full flex-col'>
   {/* Student Details Section */}
    <div className="mb-6">
@@ -213,7 +212,7 @@ console.log("currentSession",currentSession);
   onChange={handleChange}
   options={sessions.map(s => ({
     value: s._id,
-    label: `${s.name} (${new Date(s.startDate).toLocaleDateString()} - ${new Date(s.endDate).toLocaleDateString()})`
+    label: `${new Date(s.startDate).getFullYear()}-${new Date(s.endDate).getFullYear()}`
   }))}
 />
     {/* Profile Picture */}

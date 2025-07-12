@@ -35,6 +35,7 @@ const {fetchAdminData} = useContext(adminDataContext);
   
       if (api.status === 200 || api.status === 201) {
     //    console.log("Session created:", api.data);
+    alert("Session Created Successfully");
         setRecentActivity(prev => ({
           ...prev,
           SessionStarted: "Session Added Successfully"

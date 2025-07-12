@@ -1530,15 +1530,15 @@ export function Sidebar({ isOpen, setIsOpen, adminName ,hasUserToggled,onToggleS
     { label: "📊 Dashboard", path: "/admin/dash" },
     {
       label: "👨‍🎓 Students",
-      path: "/admin/students",
+      //path: "/admin/students",
       children: [
          {label:"📊 Dashboard", path:"/admin/student/dash"},
-        {label: "➕ Student Admission", path: "/admin/students/admission"},
+        {label: "➕ Admission", path: "/admin/students/admission"},
         {label:"➕ Transfer Students",path:"/admin/transfer/students"},
         // {label:"➕ Student Promotion",path:"/admin/student/promotion"},
         // {label:"Print Id Card",path:"/admin/Print/ID/Card"}
-        {label:"🧑‍🎓 View Transferred",path:"/admin/students/transferred"},
-         { label: "🧑‍🎓 View Students", path: "/admin/view/students" },
+     //   {label:"🧑‍🎓 View Transferred",path:"/admin/students/transferred"},
+         { label: "👨‍🎓 View Students", path: "/admin/view/students" },
          { label: "🔁 Student Promotion", path: "/admin/student/promotion" },
   { label: "🖨️ Print ID Card", path: "/admin/Print/ID/Card" }
       ],
@@ -1575,7 +1575,7 @@ export function Sidebar({ isOpen, setIsOpen, adminName ,hasUserToggled,onToggleS
     },
     {
       label: "⏰ Sessions",
-      path: "/admin/sessions",
+     // path: "/admin/sessions",
       children: [{ label: "➕ Add New Session", path: "/admin/add-session" }],
     },
     { label: "💬 Chat", path: "/admin/chat" },

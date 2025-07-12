@@ -4,15 +4,16 @@ const AdminTeachDashboardHeader = () => {
     const { fetchAdminData, adminData } = useContext(adminDataContext);
       const { sessions = [] } = adminData?.admin || {};
       const currentSession = sessions[0] || {};
+      console.log("currentSession",currentSession);
     
       useEffect(() => {
         fetchAdminData();
       }, [fetchAdminData]);
     
       const formatDate = (dateStr) => {
-        return dateStr ? new Date(dateStr).toLocaleDateString() : '';
+        return dateStr ? new Date(dateStr).getFullYear() : '';
       };
-
+        
   return (
     <div className="bg-slate-100 rounded-md p-6 mt-4 text-center shadow-md w-full">
             <h1 className="text-3xl font-bold uppercase">

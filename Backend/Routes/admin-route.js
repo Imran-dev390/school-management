@@ -3,7 +3,8 @@ const { AddStudent, AddTeacher, AddClass, AddSubjects, AddSession, AddStaff, Add
 const isAuth = require("../middlewares/isAuth");
 const {getAdminProfile,DeleteStudent, UpdateStudent, UpdateTeacher, DeleteTeacher, ExamTimetable, AssignTeacherSubject} = require("../Controllers/admin.controller");
 const getCurrentUser = require("../Controllers/user.controller");
-const upload = require('../middlewares/upload') // multer middleware
+const upload = require('../middlewares/upload'); // multer middleware
+const PromoteStudents = require("../Controllers/PromoteStudents.controller");
 const mern = "mern";
 const router =  expess.Router();
 
@@ -41,6 +42,7 @@ router.post("/Add/Teacher",isAuth,upload.fields([
   { name: 'profileImage', maxCount: 1 },
   { name: 'CnicFrontImage', maxCount: 1 },
   { name: 'CnicBackImage', maxCount: 1 }]),AddTeacher);
+  router.post("/promote/students",isAuth,PromoteStudents);
 router.post("/Add/Class",isAuth,AddClass);
 module.exports = router;
 
