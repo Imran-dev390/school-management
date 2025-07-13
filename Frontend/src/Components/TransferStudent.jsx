@@ -7,18 +7,95 @@ import { adminDataContext } from '../Context-Api/AdminContext'
 import AdminLayout from './AdminLayout'
 import AdminTeachDashboardHeader from './AdminTeachDashboardHeader'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 const TransferStudent = () => {
     const {adminData,fetchAdminData} = useContext(adminDataContext);
     const {classes = [],students = []} = adminData?.admin || {};
     const [sectionId,setSectionId] = useState('');
     const [classId,setClassId] = useState('');
     const [schoolId, setSchoolId] = useState('');
+    const [studentId,setStudentId]  = useState("");
   const [note, setNote] = useState('');
+  const [toClassId,setToClassId] = useState("");
+  const [toSectionId,setToSectionId] = useState("");
+  const {serverUrl} = useContext(authDataContext);
     useEffect(()=>{
       fetchAdminData();
     },[fetchAdminData]);
-    const sectionObj = classes.find((cls)=> cls._id === classId);
-    const sectionOptions = sectionObj ? [sectionObj.section] : [];
+   const sectionObj = classes.find((cls)=> cls._id === classId);
+//  const sectionOptions = sectionObj?.section || [];
+
+   const sectionOptions = sectionObj ? [sectionObj.section] : [];
+
+   const toClassObj = classes.find((cls) => cls._id === toClassId);
+const toSectionOptions = toClassObj ? [toClassObj.section] : [];
+
+//     const filteredStudents = students.filter(st => {
+//   // Check if student's class matches selected classId
+//   const classMatch = st.Classs === classId || (st.Classs?._id === classId);
+  
+//   // If sectionId is empty or "All Sections", don't filter by section
+//   const sectionMatch = !sectionId || sectionId === "" || sectionId === "All Sections" 
+//     ? true 
+//     : st.section === sectionId;
+// //: st.section.trim().toLowerCase() === sectionId.trim().toLowerCase();
+//   return classMatch && sectionMatch;
+// });
+
+
+
+
+
+
+
+console.log("students",students);
+const filteredStudents = students.filter(st => {
+  const classMatch = st.Classs === classId || (st.Classs?._id === classId);
+
+  // const sectionMatch = !sectionId || sectionId === "" || sectionId === "All Sections"
+  //   ? true
+  //   : st.Classs?.section === sectionId || st.section === sectionId;
+  const sectionMatch = !sectionId || sectionId === "" || sectionId === "All Sections"
+  ? true
+  : st.Classs?.section === sectionId;
+
+
+  return classMatch && sectionMatch;
+});
+console.log("filtered Students",filteredStudents);
+const handleTransfer = async (e) => {
+  e.preventDefault();
+
+  if (!studentId || !schoolId || !classId) {
+    alert("Please fill in all required fields");
+    return;
+  }
+
+  const payload = {
+    studentId,
+    toSchool: schoolId,
+    toClassId: classId,
+    toSection: sectionId,
+    note,
+  };
+  try {
+  const response = await axios.post(
+    `${serverUrl}/api/admin/student/transfer`,
+    payload,
+    {
+      withCredentials: true,
+    }
+  );
+  if(response.status === 200){
+    alert("Student Transferred Successfully!");
+  }
+}
+   catch (err) {  
+  console.error(err);
+    alert(err?.response?.data.message ||"Error transferring student");
+  }
+};
+
     console.log("optionsSec",sectionOptions);
   return (
     <AdminLayout adminName='Bright Futre'>
@@ -64,7 +141,7 @@ const TransferStudent = () => {
                 </form>
              </div> */}
 
-                     <form className="w-full mt-4 border border-grey-300 p-4 bg-white shadow-md rounded">
+                     <form onSubmit={handleTransfer} className="w-full mt-4 border border-grey-300 p-4 bg-white shadow-md rounded">
           {/* Select Student */}
           <div className="mb-4">
             <h3 className="font-semibold text-lg mb-2">Student</h3>
@@ -78,7 +155,7 @@ const TransferStudent = () => {
                 >
                   <option value="">Select Class</option>
                   {classes.map(cl => (
-                    <option key={cl._id} value={cl._id}>{cl.name}</option>
+                    <option key={cl._id} value={cl._id}>{`${cl.name}`}</option>
                   ))}
                 </select>
               </div>
@@ -98,10 +175,12 @@ const TransferStudent = () => {
               <div>
                 <label className="block font-semibold mb-1">Student:</label>
                 <select
+                value={studentId}
+                  onChange={(e) => setStudentId(e.target.value)}
                   className="w-full border border-gray-300 p-2 rounded"
                 >
                   <option value="">Select Student</option>
-                  {students.map(st => (
+                  {filteredStudents.map(st => (
                     <option key={st._id} value={st._id}>{st.name}</option>
                   ))}
                 </select>
@@ -115,7 +194,7 @@ const TransferStudent = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <label className="block font-semibold mb-1">School:</label>
-                <select
+                {/* <select
                   className="w-full border border-gray-300 p-2 rounded"
                   value={schoolId}
                   onChange={(e) => setSchoolId(e.target.value)}
@@ -124,23 +203,46 @@ const TransferStudent = () => {
                   {/* {schools.map(s => (
                     <option key={s._id} value={s._id}>{s.name}</option>
                   ))} */}
-                  <option value="mern">Bright Kids</option>
+                  {/* <option value="mern">Bright Kids</option>
                  <option value="mern">Bright Future</option>
-                </select>
+                </select> */} 
+                <input
+  type="text"
+  placeholder="Enter school name"
+  className="w-full border border-gray-300 p-2 rounded"
+  value={schoolId}
+  onChange={(e) => setSchoolId(e.target.value)}
+/>
+
             
               </div>
               <div>
                 <label className="block font-semibold mb-1">Class:</label>
-                <select className="w-full border border-gray-300 p-2 rounded">
-                  <option value="">Select Class</option>
-                  {/* Fetch based on schoolId, if needed */}
-                </select>
+               <select
+  className="w-full border border-gray-300 p-2 rounded"
+  value={toClassId}
+  onChange={(e) => setToClassId(e.target.value)}
+>
+  <option value="">Select Class</option>
+  {classes.map(cl => (
+    <option key={cl._id} value={cl._id}>{cl.name}</option>
+  ))}
+</select>
+
               </div>
               <div>
                 <label className="block font-semibold mb-1">Section:</label>
-                <select className="w-full border border-gray-300 p-2 rounded">
-                  <option value="">Select Section</option>
-                </select>
+             <select
+  className="w-full border border-gray-300 p-2 rounded"
+  value={toSectionId}
+  onChange={(e) => setToSectionId(e.target.value)}
+>
+  <option value="">Select Section</option>
+  {toSectionOptions.map((sec, i) => (
+    <option key={i} value={sec}>{sec}</option>
+  ))}
+</select>
+
               </div>
             </div>
           </div>

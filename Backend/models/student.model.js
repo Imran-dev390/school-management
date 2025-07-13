@@ -113,6 +113,25 @@ sessionHistory: [{
     default: Date.now,
   }
 }],
+// transferHistory: [{
+//   fromSchool: String,
+//   toSchool: String,
+//   fromClass: {
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref: 'class',
+//   },
+//   toClass: {
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref: 'class',
+//   },
+//   fromSection: String,  // e.g., 'A'
+//   toSection: String,    // e.g., 'B'
+//   note: String,
+//   transferredAt: {
+//     type: Date,
+//     default: Date.now,
+//   }
+// }],
   role:{
     type:String,
     default:"Student"

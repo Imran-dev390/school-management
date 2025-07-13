@@ -54,6 +54,10 @@ ref:"Announcement"
       ref: "class"
     }
   ],
+  transferredStudents:[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"TransferRecord"
+  }],
   sessions:[{
     type:mongoose.Schema.Types.ObjectId,
     ref:"Session"

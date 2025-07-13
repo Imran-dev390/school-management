@@ -5,6 +5,8 @@ const {getAdminProfile,DeleteStudent, UpdateStudent, UpdateTeacher, DeleteTeache
 const getCurrentUser = require("../Controllers/user.controller");
 const upload = require('../middlewares/upload'); // multer middleware
 const PromoteStudents = require("../Controllers/PromoteStudents.controller");
+const transferStudent = require("../Controllers/TransferStudent.Controller");
+const createTransferRecord = require("../Controllers/TransferStudent.Controller");
 const mern = "mern";
 const router =  expess.Router();
 
@@ -42,7 +44,8 @@ router.post("/Add/Teacher",isAuth,upload.fields([
   { name: 'profileImage', maxCount: 1 },
   { name: 'CnicFrontImage', maxCount: 1 },
   { name: 'CnicBackImage', maxCount: 1 }]),AddTeacher);
-  router.post("/promote/students",isAuth,PromoteStudents);
+router.post("/promote/students",isAuth,PromoteStudents);
+router.post('/student/transfer',isAuth,createTransferRecord);
 router.post("/Add/Class",isAuth,AddClass);
 module.exports = router;
 
