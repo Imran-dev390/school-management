@@ -13,6 +13,7 @@ const getCurrentUser = async function(req,res){
  // console.log("requeste User Id",req.userId);
 const user = await User.findOne({ _id: req.userId })
   .select("-password")
+  .populate("session")
   .populate({
     path: "Classs",
     populate: [
