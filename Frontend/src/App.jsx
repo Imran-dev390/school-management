@@ -827,6 +827,8 @@ import StudentPrintIdCard from "./Components/StudentPrintIdCard";
 import RegisterStudents from "./Components/RegisterStudents";
 import TransferStudent from "./Components/TransferStudent";
 import StudentTransfered from "./Components/StudentTransfered";
+import SentStudentLeave from "./Components/SentStudentLeave";
+import StudentMDashSendLeave from "./Components/StudentMDashSendLeave";
 
 // Lazy loaded components
 const Register = lazy(() => import("./Components/Register"));
@@ -950,7 +952,16 @@ function App() {
               )
             }
           />
-
+ <Route
+            path="/student/send/leave"
+            element={
+              userData ? (
+                role === "Student" ? <StudentMDashSendLeave/> : <Navigate to="/" />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
           {/* Teacher Routes */}
           <Route
             path="/teacher/dash"
@@ -1032,6 +1043,7 @@ function App() {
                 <Route path="/admin/students/admission" element={<RegisterStudents/>}></Route>
                 <Route path="/admin/transfer/students" element={<TransferStudent/>}></Route>
                 <Route path="/admin/students/transferred" element={<StudentTransfered/>}></Route>
+                <Route path="/Admin/Send/Student/Leave" element={<SentStudentLeave/>}></Route>
             </>
           )}
 

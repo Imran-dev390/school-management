@@ -863,7 +863,7 @@ useEffect(() => {
         <div className="grid grid-cols-1 lg:grid-cols-3 w-full gap-6">
           {/* Profile Card */}
           <div className="col-span-2 bg-white w-full shadow rounded-lg p-6">
-            <div className="flex bg-[#141414] p-8 rounded-lg text-white items-center flex-col justify-center space-x-4">
+            <div className="flex bg-[#444242] p-8 rounded-lg text-white items-center flex-col justify-center space-x-4">
               <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center text-2xl font-bold">
                 {photoInitial}
               </div>
@@ -875,11 +875,11 @@ useEffect(() => {
               </div>
             </div>
             <ul className="mt-6 space-y-4 text-md text-gray-700">
-              <li><span className="font-semibold">Admission Number:</span> {student.admissionNumber || "N/A"}</li>
+              <li><span className="font-semibold">Admission Number:</span> {student.AdmissionNum || "N/A"}</li>
               <li><span className="font-semibold">Session:</span> {new Date (student.session.startDate).getFullYear() || "N/A"} - {new Date(student.session.endDate).getFullYear() || "N/A"}</li>
               <li><span className="font-semibold">Class:</span> {cls.name}</li>
               <li><span className="font-semibold">Section:</span> {cls.section}</li>
-              <li><span className="font-semibold">Roll Number:</span> {student.rollNumber || 
+              <li><span className="font-semibold">Roll Number:</span> {student.Roll || 
               "N/A"}</li>
               <li><span className="font-semibold">Father's Name:</span> {student.parent}</li>
               <li><span className="font-semibold">Father's Phone:</span> {student.phone}</li>

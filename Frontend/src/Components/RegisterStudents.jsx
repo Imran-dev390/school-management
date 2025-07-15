@@ -10,6 +10,7 @@ import { authDataContext } from '../Context-Api/AuthContext'
 import imageCompression from 'browser-image-compression';
 import axios from 'axios'
 import { FaBars, FaUserCircle } from 'react-icons/fa';
+import { toast, ToastContainer } from 'react-toastify'
 
 
 const InputField = ({ label, name, type, value, onChange }) => (
@@ -68,6 +69,8 @@ const [formData, setFormData] = useState({
   gender: '',
   dob: '',
   password: '',
+  AdmissionNum:"",
+  Roll:"",
   prevClass:"",
   parent: '',
   adress: '',
@@ -76,7 +79,7 @@ const [formData, setFormData] = useState({
   prevSchoolAddress: '',
   bformNumber: '',
   CnicNumber: '',
-   sessionId: '', // 🔥 ADD THIS
+  sessionId: '', // 🔥 ADD THIS
 });
 const [images, setImages] = useState({
   profileImage: null,
@@ -135,6 +138,8 @@ const handleFileChange = async (e) => {
   // };
   const handleSubmit = async (e) => {
   e.preventDefault();
+  //alert("submitting");
+  //toast.success("Registering Student it will take few seconds...");
   // const form = new FormData();
   // for (const key in formData) {
   //   form.append(key, formData[key]);
@@ -156,17 +161,21 @@ for (const key in formData) {
   }
 
   try {
-    await axios.post(`${serverUrl}/api/admin/Add/Student`, form, {
+   const response =  await axios.post(`${serverUrl}/api/admin/Add/Student`, form, {
       withCredentials: true,
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
 //    console.log([...formData.entries()]);
+console.log("response",response);
+if(response.status === 201){
+//alert("✅ Student registered successfully!")
     toast.success("✅ Student registered successfully!");
     await fetchAdminData();
     navigate("/admin/dash");
     setSubmitted(true);
+}
   } catch (err) {
     toast.error(err?.response?.data?.message || "Something went wrong");
     console.log(formData);
@@ -177,20 +186,23 @@ for (const key in formData) {
           fetchAdminData();
     },[fetchAdminData])
 
-        const currentSession = sessions.map((session,idx)=>{
-        return session;
-});
-console.log("currentSession",currentSession);
+        const currentSession = sessions[0] || {};
+// const CurrentYear = new Date().getFullYear().toString();
+// const current = currentSession.filter((session)=>{
+//   if(session.startDate===currentYear){
+//      session = currentYear;
+//      console.log("true session is getting currenYear filtered Success",session);
+//      return session;
+//   }
+// })
+//console.log("currentSession",current);
   return (
     <AdminLayout adminName='Bright Future'>
        <div className="main w-full h-full mt-4 flex flex-col gap-3 items-center">
          <AdminTeachDashboardHeader/>    
-<div className="w-full text-white  bg-[rgb(1,1,93)]  hover:bg-[#C19703] text-xl font-semibold flex items-center justify-center rounded-md py-3 shadow-md">
-            <i className="fas fa-graduation-cap mr-2"></i> New Admission for Session:  
-             <span>{currentSession.map((s,id)=>{
-           return <span key={id} className='ml-2'>
-      {new Date(s.startDate).getFullYear()}-{new Date(s.endDate).getFullYear()}</span>
-            })}
+<div className="w-full text-white  bg-[rgb(1,1,93)]   hover:bg-[#C19703] text-xl font-semibold flex items-center justify-center rounded-md py-3 shadow-md">
+            <i className="fas fa-graduation-cap mr-2"></i> New Admission for Session :  
+              <span className='ml-2'>  {new Date(currentSession.startDate).getFullYear()} - {new Date(currentSession.endDate).getFullYear()}
             </span>
           </div>
 <form onSubmit={handleSubmit} encType="multipart/form-data" className='flex mt-4 border border-grey-300 p-3 w-full flex-col'>
@@ -198,6 +210,8 @@ console.log("currentSession",currentSession);
    <div className="mb-6">
     <h3 className="text-xl font-semibold text-[rgb(1,1,93)] border-b mb-4 pb-1">👤 Personal  Details</h3>
     <div className="grid  grid-cols-1 sm:grid-cols-3 gap-4">
+      <InputField label="Admission Number" name="AdmissionNum" type="text" value={formData.AdmissionNum} onChange={handleChange}/>
+      <InputField label="Roll No" name="Roll" type="text" value={formData.Roll} onChange={handleChange}/>
       <InputField label="Full Name" name="name" type="text" value={formData.name} onChange={handleChange}/>
       <InputField label="Email" name="email" type="email"value={formData.email}onChange={handleChange} />
       <InputField label="Date of Birth" name="dob" type="date" value={formData.dob} onChange={handleChange}/>
@@ -262,6 +276,7 @@ console.log("currentSession",currentSession);
     ➕ Add Student
   </button>
 </form>
+<ToastContainer position="top-right" autoClose={3000} />
        </div>
     </AdminLayout>
   )

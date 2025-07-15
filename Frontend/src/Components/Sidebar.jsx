@@ -1535,6 +1535,7 @@ export function Sidebar({ isOpen, setIsOpen, adminName ,hasUserToggled,onToggleS
          {label:"📊 Dashboard", path:"/admin/student/dash"},
         {label: "➕ Admission", path: "/admin/students/admission"},
         {label:"➕ Transfer Students",path:"/admin/transfer/students"},
+        {label:"➕ Send Leave",path:"/Admin/Send/Student/Leave"},
         // {label:"➕ Student Promotion",path:"/admin/student/promotion"},
         // {label:"Print Id Card",path:"/admin/Print/ID/Card"}
      //   {label:"🧑‍🎓 View Transferred",path:"/admin/students/transferred"},
@@ -1548,14 +1549,14 @@ export function Sidebar({ isOpen, setIsOpen, adminName ,hasUserToggled,onToggleS
       path: "/admin/teachers",
       children: [
       {label:"📊 Dashboard", path:"/admin/teacher/dash"},
-      { label: "➕ Add New Teacher", path:"/admin/add-teacher"},
+      { label: "➕ Register New", path:"/admin/add-teacher"},
       {label:"➕ Subjects",path:"/admin/subjects"},
       //  {label:"➕",path:"/admin/add-class-section"},
       {label:"➕ Take Attendance",path:"/Take/Attendance"},
       {label:"👥 View Attendance",path:"/Admin/View/Attendance"},
       {label:"🏫  Manage Class",path:"/admin/sections"},
       {label:"➕ Manage TimeTable",path:"/admin/Add/Class-TimeTable"},
-      {label:"➕ Teacher Send Leave ",path:"/Admin/Send/Teacher/Leave"},
+      {label:"➕ Send Leave ",path:"/Admin/Send/Teacher/Leave"},
       {label:"👥 View Today Leaves",path:"/Admin/View/Today/Leaves"},
        {label:"👥 View All Leaves",path:"/Admin/View/Class/Leaves"}
       ],

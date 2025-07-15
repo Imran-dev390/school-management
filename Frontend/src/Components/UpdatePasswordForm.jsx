@@ -205,6 +205,7 @@ import { Sidebar as AdminSidebar } from './Sidebar';
 import { userDataContext } from '../Context-Api/UserContext';
 import { adminDataContext } from '../Context-Api/AdminContext';
 import { authDataContext } from '../Context-Api/AuthContext';
+import AdminTeachDashboardHeader from './AdminTeachDashboardHeader';
 
 const UpdatePasswordForm = () => {
   const { userData } = useContext(userDataContext);
@@ -270,13 +271,14 @@ console.log("api",api.data);
   };
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-br from-zinc-800 to-gray-900 text-white">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-br bg-white">
       {userData.role === 'Teacher' && <TeacherSidebar />}
       {userData.role === 'Student' && <StudentSidebar />}
       {userData.role === 'Admin' &&
       <AdminSidebar/>
       }
-
+      <div className="wrapper flex flex-col w-full  ml-2">
+       <AdminTeachDashboardHeader/>
       <main className="flex-1 p-6 flex items-center justify-center">
         <div className="w-full max-w-xl bg-white rounded-2xl shadow-lg p-8 text-gray-900">
           <h2 className="text-2xl font-bold mb-6 text-center text-blue-700">Update Password</h2>
@@ -343,6 +345,7 @@ console.log("api",api.data);
           </form>
         </div>
       </main>
+      </div>
     </div>
   );
 };

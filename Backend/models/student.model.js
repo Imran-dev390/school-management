@@ -14,6 +14,14 @@ const studentSchema = new mongoose.Schema({
     type: String,
     required:true,
   },
+  AdmissionNum:{
+    type:String,
+    required:true,
+  },
+  Roll:{
+    type:String,
+    required:true,
+  },
   phone:{
     type:String,
     minLength:11,

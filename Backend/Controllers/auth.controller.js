@@ -88,7 +88,7 @@ const Subject = require("../models/Subjects.model");
 const AddStudent = async (req, res) => {
   const mongoose = require("mongoose");
   const { 
-    name, email, password, phone, gender, dob, adress, parent, 
+    name, email, password,AdmissionNum,Roll,phone, gender, dob, adress, parent, 
    Classs: classId, prevschoolName,prevClass,prevSchoolAddress, 
     bformNumber, CnicNumber, feesPaid ,sessionId
   } = req.body;
@@ -107,11 +107,21 @@ if (!session) {
     // Check if email or phone already exists
     // const existingEmail = await User.findOne({ email });
     const existingPhone = await User.findOne({ phone });
+    const existingRoll = await User.findOne({Roll});
+    const existingAdmissionNumber = await User.findOne({AdmissionNum});
      const isEmailTaken = require("../middlewares/checkisEmailUnique");
 if (await isEmailTaken(email)) {
   return res.status(401).json({ message: 'This email is already used by another user role' });
 }
-
+    if(!Roll | !AdmissionNum){
+      return res.status(401).json({message:"Roll No or Admission is Required!"})
+    }
+    if(existingRoll){
+      return res.status(401).json({message:"Roll is Already Taken!"})
+    }
+    if(existingAdmissionNumber){
+      return res.status(401).json({message:"AdmissionNumber is Already Taken!"})
+    }
     if (existingPhone) {
       return res.status(401).json({ message: 'User already registered with this Contact Number' });
     }
@@ -134,6 +144,8 @@ if (await isEmailTaken(email)) {
       name,
       email,
       password: hashedPass,
+      AdmissionNum,
+      Roll,
       phone,
       gender,
       dob,
@@ -182,12 +194,16 @@ if (await isEmailTaken(email)) {
      await session.save();
     admin.students.push(user._id);
     await admin.save();
-
     await updateClassGenderCount(classId);
     return res.status(201).json(user);
   } catch (err) {
     console.error("Signup error:", err.message);
-    return res.status(500).json({message:err.message});
+   // return res.status(500).json({message:err.message});
+   return res.status(500).json({ 
+  message: err.message,
+  ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+});
+
   }
 };
 

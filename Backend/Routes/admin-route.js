@@ -7,12 +7,13 @@ const upload = require('../middlewares/upload'); // multer middleware
 const PromoteStudents = require("../Controllers/PromoteStudents.controller");
 const transferStudent = require("../Controllers/TransferStudent.Controller");
 const createTransferRecord = require("../Controllers/TransferStudent.Controller");
+const AddLeave = require("../Controllers/Leave.controller");
 const mern = "mern";
 const router =  expess.Router();
 
 router.get("/",isAuth, getAdminProfile);
 router.post("/Add/subjects",isAuth,AddSubjects);
-
+router.post("/Add/Leave",isAuth,AddLeave);
 // Route to add staff with image upload and auth
 router.post('/Add/staff', isAuth, upload.single('profileImage'), AddStaff);
 router.post("/Add/timetable",isAuth,AddTimeTable);
@@ -47,6 +48,7 @@ router.post("/Add/Teacher",isAuth,upload.fields([
 router.post("/promote/students",isAuth,PromoteStudents);
 router.post('/student/transfer',isAuth,createTransferRecord);
 router.post("/Add/Class",isAuth,AddClass);
+
 module.exports = router;
 
 
@@ -152,40 +154,3 @@ module.exports = router;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-module.exports = router;

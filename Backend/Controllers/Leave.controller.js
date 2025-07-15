@@ -159,6 +159,7 @@
 const Leave = require("../models/Leave.model");
 const Student = require("../models/student.model");
 const Teacher = require("../models/teacher.model");
+const Admin = require("../models/admin.model");
 
 const AddLeave = async (req, res) => {
   try {
@@ -277,7 +278,27 @@ const end = normalizeDate(EndDate || date);
         message: "Leave successfully sent to the Admin.",
       });
     }
+ const admin = await Admin.findOne({ _id: req.userId });
+    if (admin) {
+       const normalizeDate = (d) => {
+  const date = new Date(d);
+  date.setHours(0, 0, 0, 0);
+  return date;
+};
+      const start = normalizeDate(date);
+const end = normalizeDate(EndDate || date);
+      const createdLeave = await Leave.create({
+        leave,
+        date: start,
+        EndDate: end,
+        admin: admin._id, // optional field
+        Class: "TestClass", // or admin.assignedClass if applicable
+      });
 
+      return res.status(200).json({
+        message: "Leave submitted by admin (test).",
+      });
+    }
     return res.status(400).json({
       message: "User not authorized to submit leave.",
     });

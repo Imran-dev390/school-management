@@ -254,7 +254,7 @@ const StudentSidebar = () => {
             <a href="#">📝 Assignments</a>
           </li> */ }
           <li className="active:text-[rgb(193,151,11)]">
-            <Link to ="/send/leave"> ✉️ Send Leave </Link>
+            <Link to ="/student/send/leave"> ✉️ Send Leave </Link>
           </li>
           <li className="active:text-[rgb(193,151,11)]">
             <a href="#">📈 Result </a>
