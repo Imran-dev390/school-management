@@ -829,6 +829,7 @@ import TransferStudent from "./Components/TransferStudent";
 import StudentTransfered from "./Components/StudentTransfered";
 import SentStudentLeave from "./Components/SentStudentLeave";
 import StudentMDashSendLeave from "./Components/StudentMDashSendLeave";
+import StudentMDAttendance from "./Components/StudentMDAttendance";
 
 // Lazy loaded components
 const Register = lazy(() => import("./Components/Register"));
@@ -957,6 +958,16 @@ function App() {
             element={
               userData ? (
                 role === "Student" ? <StudentMDashSendLeave/> : <Navigate to="/" />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+           <Route
+            path="/student/attendance"
+            element={
+              userData ? (
+                role === "Student" ? <StudentMDAttendance/> : <Navigate to="/" />
               ) : (
                 <Navigate to="/login" />
               )

@@ -250,28 +250,65 @@ const StudentSidebar = () => {
            📊 Dashboard
           </Link>
           </li>
+
+          <li className="active:text-[rgb(193,151,11)]">
+          <Link to='/student/attendance'>
+           📝 Attendance
+          </Link>
+          </li>
+           <li className="active:text-[rgb(193,151,11)]">
+            <Link to ="/student/send/leave"> ✉️ Send Leave </Link>
+          </li>
+           <li className="active:text-[rgb(193,151,11)]">
+          <Link to='/student/dash'>
+           📊 NoticeBoard
+          </Link>
+          </li>
+          <li className="active:text-[rgb(193,151,11)]">
+          <Link to='/student/dash'>
+           📊 Events
+          </Link>
+          </li>
+
+          <li className="active:text-[rgb(193,151,11)]">
+          <Link to='/student/dash'>
+           📊 Fee Voucher
+          </Link>
+          </li>
+          <li className="active:text-[rgb(193,151,11)]">
+          <Link to='/student/dash'>
+           📊 Payment History
+          </Link>
+          </li>
+           <li className="active:text-[rgb(193,151,11)]">
+          <Link to='/student/dash'>
+           📝 Class TimeTable
+          </Link>
+          </li>
+          <li className="active:text-[rgb(193,151,11)]">
+          <Link to='/student/dash'>
+           📝 Exam TimeTable
+          </Link>
+          </li>
           {/* <li className="active:text-[rgb(193,151,11)]">
             <a href="#">📝 Assignments</a>
           </li> */ }
           <li className="active:text-[rgb(193,151,11)]">
-            <Link to ="/student/send/leave"> ✉️ Send Leave </Link>
+            <a href="#">📈 Exam Result </a>
+          </li>
+           <li className="active:text-[rgb(193,151,11)]">
+            <Link to="/student/chat">💬 Chat</Link>
           </li>
           <li className="active:text-[rgb(193,151,11)]">
-            <a href="#">📈 Result </a>
+            <Link to="/student/profile">👤 Profile</Link>
           </li>
-          <li className="active:text-[rgb(193,151,11)]">
+           <li className="active:text-[rgb(193,151,11)]">
             <Link
               to={`/${userData.role}/${userData.name}/update/password`}
               className="block"
             >
               🔒 Reset Password
             </Link>
-          </li>
-          <li className="active:text-[rgb(193,151,11)]">
-            <Link to="/student/profile">👤 Profile</Link>
-          </li>
-          <li className="active:text-[rgb(193,151,11)]">
-            <Link to="/student/chat">💬 Chat</Link>
           </li>
           <li>
             <button

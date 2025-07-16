@@ -504,7 +504,7 @@ const [submitted,setSubmitted] = useState(false);
 
 
      <div className="bg-white rounded-2xl max-w-3xl shadow-2xl mt-32 sm:mt-8 mx-auto p-8 w-full sm:max-w-5xl transform transition-all duration-500 hover:scale-[1.02]">
-  <h2 className="text-3xl font-bold text-center text-[rgb(1,1,93)] mb-6">Add New Teacher 👩‍🏫</h2>
+  <h2 className="text-3xl font-bold text-center text-[rgb(1,1,93)] mb-6">Add New Teacheroo 👩‍🏫</h2>
  {submitted ? (
           <div className="text-green-600 text-center text-lg font-medium">
             ✅ Teacher registered successfully!

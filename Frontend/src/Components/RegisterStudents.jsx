@@ -13,25 +13,48 @@ import { FaBars, FaUserCircle } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify'
 
 
+// const InputField = ({ label, name, type, value, onChange }) => (
+//   <div className="relative">
+//     <input
+//       type={type}
+//       name={name}
+//       value={value}
+//       onChange={onChange}
+//       required
+//       className="peer w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
+//       placeholder=" "
+//     />
+//     {/* <label
+//       htmlFor={name}
+//        className="absolute left-3 top-3 text-gray-500 text-sm transition-all    peer-focus:top-0 peer-focus:text-sm peer-focus:text-green-600"
+//     >
+//       {label}
+//     </label> */}
+//     <label htmlFor={name} className="block mb-1 text-gray-700 text-sm">
+//   {label}
+// </label>
+//   </div>
+// );
+
+
+
 const InputField = ({ label, name, type, value, onChange }) => (
-  <div className="relative">
+  <div className="mb-4">
+    <label htmlFor={name} className="block mb-1 text-gray-700 text-sm">
+      {label}
+    </label>
     <input
       type={type}
       name={name}
+      id={name}
       value={value}
       onChange={onChange}
       required
-      className="peer w-full p-3 bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-green-500"
-      placeholder=" "
+      className="w-full px-3 py-2 border-b  border-gray-300 rounded-md focus:outline-none focus:border-green-500"
     />
-    <label
-      htmlFor={name}
-      className="absolute left-3 top-3 text-gray-500 text-sm transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-green-600"
-    >
-      {label}
-    </label>
   </div>
 );
+
 const SelectField = ({ label, name, value, onChange, options }) => (
   <div className="relative">
     <select
