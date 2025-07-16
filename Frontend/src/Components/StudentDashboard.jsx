@@ -751,6 +751,73 @@ const StudentDashboard = () => {
       }
     })();
   }, [serverUrl]);
+console.log("atten",attendanceData);
+
+const calculateAttendanceSummary = (records = []) => {
+  const summary = {
+    present: 0,
+    absent: 0,
+    late: 0,
+    holiday: 0
+  };
+
+  records.forEach(record => {
+    const status = record.status.toLowerCase();
+    if (status === "present") summary.present += 1;
+    else if (status === "absent") summary.absent += 1;
+    else if (status === "late") summary.late += 1;
+    else if (status === "holiday") summary.holiday += 1;
+  });
+
+  return summary;
+};
+
+const summary = calculateAttendanceSummary(attendanceData.attendanceRecords || []);
+const totalDays = summary.present + summary.absent + summary.late + summary.holiday;
+const attendancePercentage = totalDays > 0
+  ? ((summary.present / totalDays) * 100).toFixed(1)
+  : '—';
+useEffect(() => {
+  if (!chartRef.current) return;
+
+  if (chartInstance.current) {
+    chartInstance.current.destroy();
+  }
+
+  chartInstance.current = new Chart(chartRef.current, {
+    type: 'pie',
+    data: {
+      labels: ['Present', 'Absent', 'Late', 'Holiday'],
+      datasets: [{
+        data: [
+          summary.present || 0,
+          summary.absent || 0,
+          summary.late || 0,
+          summary.holiday || 0
+        ],
+        backgroundColor: ['#4caf50', '#ef5350', '#03a9f4', '#ff9800'],
+        borderColor: '#fff',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            padding: 20,
+            usePointStyle: true,
+            font: { size: 12 }
+          }
+        }
+      }
+    }
+  });
+
+  return () => chartInstance.current?.destroy();
+}, [attendanceData]);
 
   // const latest = [...attendanceData.monthlyAttendance]
   //   .sort((a, b) => new Date(b.month) - new Date(a.month))[0];
@@ -790,64 +857,63 @@ const StudentDashboard = () => {
   // }, [latest]);
 
 
-  const rawLatest = [...attendanceData.monthlyAttendance]
-  .sort((a, b) => new Date(b.month) - new Date(a.month))[0];
+  // const rawLatest = [...attendanceData.attendanceRecords]
+  // .sort((a, b) => new Date(b.month) - new Date(a.month))[0];
 
-const latest = rawLatest
-  ? {
-      present: rawLatest.presentDays,
-      absent: (rawLatest.totalClasses - rawLatest.presentDays),
-      late: 0, // You can update this if late data becomes available
-      holiday: 0 // Same for holiday
-    }
-  : {
-      present: 0,
-      absent: 0,
-      late: 0,
-      holiday: 0
-    };
+//  const latest = rawLatest
+//    ? {
+//        present: rawLatest.presentDays,
+//        absent: (rawLatest.totalClasses - rawLatest.presentDays),
+//        late: 0, // You can update this if late data becomes available
+//        holiday: 0 // Same for holiday
+//      }
+//    : {
+//        present: 0,
+//        absent: 0,
+//        late: 0,
+//        holiday: 0
+//      };
 
   const chartInstance = useRef(null);
 
-useEffect(() => {
-  if (!latest || !chartRef.current) return;
+// useEffect(() => {
+//   if (!chartRef.current) return;
 
-  // Destroy existing chart if re-rendering
-  if (chartInstance.current) {
-    chartInstance.current.destroy();
-  }
+//   // Destroy existing chart if re-rendering
+//   if (chartInstance.current) {
+//     chartInstance.current.destroy();
+//   }
+//   chartInstance.current = new Chart(chartRef.current, {
+//     type: 'pie',
+//     data: {
+//       labels: ['Present', 'Absent', 'Late', 'Holiday'],
+//       datasets: [{
+//         data: [latest.present || 0, latest.absent || 0, latest.late || 0, latest.holiday || 0],
+//         backgroundColor: ['#4caf50', '#ef5350', '#03a9f4', '#ff9800'],
+//         borderColor: '#fff',
+//         borderWidth: 1
+//       }]
+//     },
+//     options: {
+//       responsive: true,
+//       maintainAspectRatio: false,
+//       plugins: {
+//         legend: {
+//           position: 'bottom',
+//           labels: {
+//             padding: 20,
+//             usePointStyle: true,
+//             font: { size: 12 }
+//           }
+//         }
+//       }
+//     }
+//   });
 
-  chartInstance.current = new Chart(chartRef.current, {
-    type: 'pie',
-    data: {
-      labels: ['Present', 'Absent', 'Late', 'Holiday'],
-      datasets: [{
-        data: [latest.present || 0, latest.absent || 0, latest.late || 0, latest.holiday || 0],
-        backgroundColor: ['#4caf50', '#ef5350', '#03a9f4', '#ff9800'],
-        borderColor: '#fff',
-        borderWidth: 1
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'bottom',
-          labels: {
-            padding: 20,
-            usePointStyle: true,
-            font: { size: 12 }
-          }
-        }
-      }
-    }
-  });
-
-  return () => {
-    chartInstance.current?.destroy();
-  };
-}, [latest]);
+//   return () => {
+//     chartInstance.current?.destroy();
+//   };
+// }, []);
 
   if (loading) return <p className="p-4">Loading Data...</p>;
 
@@ -898,7 +964,8 @@ useEffect(() => {
               <h4 className="text-lg font-medium mb-4">Attendance</h4>
               <div className="flex items-center">
                 <div className="text-3xl font-bold text-gray-800 mr-6">
-                  {latest ? `${((latest.present / (latest.present + latest.absent + latest.late + latest.holiday)) * 100).toFixed(1)}%` : '—'}
+                  {/* {latest ? `${((latest.present / (latest.present + latest.absent + latest.late + latest.holiday)) * 100).toFixed(1)}%` : '—'} */}
+               {attendancePercentage !== '—' ? `${attendancePercentage}%` : '—'}
                 </div>
                 {/* <div className="w-48 h-48">
                   <canvas ref={chartRef} />
@@ -909,10 +976,10 @@ useEffect(() => {
 
               </div>
               <div className="mt-4 grid grid-cols-2 gap-4 text-sm text-gray-700">
-                <div className="flex items-center"><i className="fas fa-check-circle text-green-500 mr-2"></i> Present: {latest?.present || 0}</div>
-                <div className="flex items-center"><i className="fas fa-times-circle text-red-500 mr-2"></i> Absent: {latest?.absent || 0}</div>
-                <div className="flex items-center"><i className="fas fa-clock text-blue-500 mr-2"></i> Late: {latest?.late || 0}</div>
-                <div className="flex items-center"><i className="fas fa-umbrella-beach text-yellow-500 mr-2"></i> Holiday: {latest?.holiday || 0}</div>
+                <div className="flex items-center"><i className="fas fa-check-circle text-green-500 mr-2"></i> Present: {summary.present || 0}</div>
+                <div className="flex items-center"><i className="fas fa-times-circle text-red-500 mr-2"></i> Absent: {summary.absent || 0}</div>
+                <div className="flex items-center"><i className="fas fa-clock text-blue-500 mr-2"></i> Late: {summary.late || 0}</div>
+                <div className="flex items-center"><i className="fas fa-umbrella-beach text-yellow-500 mr-2"></i> Holiday: {summary.holiday || 0}</div>
               </div>
             </div>
 

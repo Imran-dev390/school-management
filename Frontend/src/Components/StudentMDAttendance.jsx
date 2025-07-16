@@ -47,14 +47,18 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 import StudentSidebar from './StudentSidebar';
 import { userDataContext } from '../Context-Api/UserContext';
 import AdminTeachDashboardHeader from './AdminTeachDashboardHeader';
+import axios from 'axios';
+import { authDataContext } from '../Context-Api/AuthContext';
 
 const StudentMDAttendance = () => {
+    const {serverUrl} = useContext(authDataContext);
   const { userData } = useContext(userDataContext);
   const [selectedMonth, setSelectedMonth] = useState('');
   const [daysInMonth, setDaysInMonth] = useState([]);
   const [attendanceByDay, setAttendanceByDay] = useState({});
   const [showAttendance,setshowAttendance] = useState(false);
   const printRef = useRef();
+const [attendanceData, setAttendanceData] = useState([]);
 
   // 1️⃣ Recompute days when month changes
   useEffect(() => {
@@ -65,24 +69,175 @@ const StudentMDAttendance = () => {
   }, [selectedMonth]);
 
   // 2️⃣ Load attendance from `userData.attendance` for chosen month
-  useEffect(() => {
-    if (userData?.attendance && selectedMonth) {
-      const [year, month] = selectedMonth.split('-').map(Number);
-      const monthRecords = userData.attendance.filter(rec => {
-        const d = new Date(rec.date);
-        return d.getFullYear() === year && d.getMonth() + 1 === month;
-      });
-      const map = {};
-      monthRecords.forEach(r => {
-        const day = new Date(r.date).getDate();
-        map[day] = r.status;
-      });
-      setAttendanceByDay(map);
+//   useEffect(() => {
+//     if (userData?.attendance && selectedMonth) {
+//       const [year, month] = selectedMonth.split('-').map(Number);
+//       const monthRecords = userData.attendance.filter(rec => {
+//         const d = new Date(rec.date);
+//         return d.getFullYear() === year && d.getMonth() + 1 === month;
+//       });
+//       const map = {};
+//       monthRecords.forEach(r => {
+//         const day = new Date(r.date).getDate();
+//         map[day] = r.status;
+//       });
+//       setAttendanceByDay(map);
+//     }
+//   }, [userData, selectedMonth]);
+
+
+
+// useEffect(() => {
+//   if (userData?.attendance && selectedMonth) {
+//     console.log("Attendance Records:", userData.attendance); // <-- ADD THIS
+
+//     const [year, month] = selectedMonth.split('-').map(Number);
+//     const monthRecords = userData.attendance.filter(rec => {
+//       const d = new Date(rec.date);
+//       return d.getFullYear() === year && d.getMonth() + 1 === month;
+//     });
+    
+//     console.log("Filtered Records for selectedMonth:", monthRecords); // <-- ADD THIS
+
+//     const map = {};
+//     monthRecords.forEach(r => {
+//       const day = new Date(r.date).getDate();
+//       map[day] = r.status;
+//     });
+
+//     setAttendanceByDay(map);
+//   }
+// }, [userData, selectedMonth]);
+useEffect(() => {
+  (async () => {
+    try {
+      const api = await axios.get(`${serverUrl}/api/student/percentage`, { withCredentials: true });
+      if (api.status === 200) {
+        setAttendanceData(api.data); // ⬅ set correct data
+      }
+    } catch (e) {
+      console.error(e);
     }
-  }, [userData, selectedMonth]);
+  })();
+}, []);
+
+useEffect(() => {
+  if (attendanceData?.attendanceRecords && selectedMonth) {
+    const [year, month] = selectedMonth.split('-').map(Number);
+
+    const monthRecords = attendanceData.attendanceRecords.filter(rec => {
+      const d = new Date(rec.date);
+      return d.getFullYear() === year && d.getMonth() + 1 === month;
+    });
+
+    const map = {};
+    monthRecords.forEach(r => {
+      const day = new Date(r.date).getDate();
+      map[day] = r.status;
+    });
+
+    setAttendanceByDay(map);
+  }
+}, [attendanceData, selectedMonth]);
+
+console.log("attendanceData",attendanceData);
+// useEffect(() => {
+//   if (attendanceData && selectedMonth) {
+//     const [year, month] = selectedMonth.split('-').map(Number);
+
+//     const monthRecords = attendanceData.filter(rec => {
+//       const d = new Date(rec.date);
+//       return d.getFullYear() === year && d.getMonth() + 1 === month;
+//     });
+
+//     const map = {};
+//     monthRecords.forEach(r => {
+//       const day = new Date(r.date).getDate();
+//       map[day] = r.status;
+//     });
+
+//     setAttendanceByDay(map);
+//   }
+// }, [attendanceData, selectedMonth]);
 
 
-  console.log("attendance",userData);
+
+// useEffect(() => {
+//   if (attendanceData && selectedMonth) {
+//     const monthRecords = attendanceData.monthlyAttendance.filter(rec => {
+//       return rec.month === selectedMonth;
+//     });
+
+//     // Example: Build a map or set state with this month's data
+//     if (monthRecords.length > 0) {
+//       const monthData = monthRecords[0];
+
+//       // Build a dummy map or whatever you need from this
+//       const map = {
+//         totalClasses: monthData.totalClasses,
+//         presentDays: monthData.presentDays,
+//         percentage: monthData.attendancePercentage
+//       };
+
+//       setAttendanceByDay(map);
+//     } else {
+//       setAttendanceByDay({});
+//     }
+//   }
+// }, [attendanceData, selectedMonth]);
+
+
+
+// useEffect(() => {
+//   console.log("selectedMonth:", selectedMonth);
+//   console.log("attendanceData:", attendanceData);
+  
+//   if (attendanceData && selectedMonth) {
+//     const monthRecords = attendanceData.monthlyAttendance.filter(rec => {
+//       return rec.month === selectedMonth;
+//     });
+
+//     console.log("monthRecords:", monthRecords); // Add this
+
+//     if (monthRecords.length > 0) {
+//       const monthData = monthRecords[0];
+
+//       const map = {
+//         totalClasses: monthData.totalClasses,
+//         presentDays: monthData.presentDays,
+//         percentage: monthData.attendancePercentage
+//       };
+
+//       setAttendanceByDay(map);
+//     } else {
+//       setAttendanceByDay({});
+//     }
+//   }
+// }, [attendanceData, selectedMonth]);
+
+
+
+// useEffect(() => {
+//   if (attendanceData && selectedMonth) {
+//     const [year, month] = selectedMonth.split('-').map(Number);
+
+//     const monthRecords = attendanceData.filter(rec => {
+//       const d = new Date(rec.date);
+//       return d.getFullYear() === year && d.getMonth() + 1 === month;
+//     });
+
+//     const map = {};
+//     monthRecords.forEach(r => {
+//       const day = new Date(r.date).getDate();
+//       map[day] = r.status;
+//     });
+
+//     setAttendanceByDay(map);
+//   }
+// }, [attendanceData, selectedMonth]);
+
+//console.log("userData",userData);
+  //console.log("attendance",userData);
   // 3️⃣ Print handler (same as Admin)
   const handlePrint = () => {
     if (!printRef.current) return;
