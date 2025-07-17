@@ -25,7 +25,7 @@ const sections = [
     {
       title: 'Fee Invoices',
       actions: [
-        { label: 'Fee Invoices', href: '/admin/accountant/fee/invoices' },
+        { label: 'Fee Invoices', href: '/admin/student/fee/invoice' },
          { label: 'Add New Fee Invoices', href: '/admin/accountant/fee/invoices' },
           { label: 'Payment History', href: '/admin/accountant/fee/invoices' },
       ],

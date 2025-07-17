@@ -831,6 +831,7 @@ import SentStudentLeave from "./Components/SentStudentLeave";
 import StudentMDashSendLeave from "./Components/StudentMDashSendLeave";
 import StudentMDAttendance from "./Components/StudentMDAttendance";
 import AdminAccountantDashboard from "./Components/AdminAccountantDashboard";
+import FeeInvoices from "./Components/FeeInvoices";
 
 // Lazy loaded components
 const Register = lazy(() => import("./Components/Register"));
@@ -1057,6 +1058,7 @@ function App() {
                 <Route path="/admin/students/transferred" element={<StudentTransfered/>}></Route>
                 <Route path="/Admin/Send/Student/Leave" element={<SentStudentLeave/>}></Route>
                 <Route path="/admin/accountant/dash" element={<AdminAccountantDashboard/>}></Route>
+                <Route path="/admin/student/fee/invoice" element={<FeeInvoices/>}></Route>
             </>
           )}
 
