@@ -38,21 +38,21 @@ const FeeInvoices = () => {
     </span>
     <span className="flex justify-around gap-4 items-center">
       <Link
-        to="/Admin/View/Attendance"
+        to="/admin/pending/payments"
         className="border border-white bg-[#C19703] text-white transition px-3 py-1 rounded text-sm"
       >
         <i className="fas fa-calendar-alt mr-1" />
         Verify Payements
       </Link>
        <Link
-        to="/Admin/View/Attendance"
+        to="/admin/payment/history"
         className="border border-white bg-[#C19703] text-white  transition px-3 py-1 rounded text-sm"
       >
         <i className="fas fa-calendar-alt mr-1" />
         Payement History
       </Link>
        <Link
-        to="/Admin/View/Attendance"
+        to="/admin/add/fee/invoices"
         className="border border-white bg-[#C19703] text-white transition px-3 py-1 rounded text-sm"
       >
         <i className="fas fa-calendar-alt mr-1" />

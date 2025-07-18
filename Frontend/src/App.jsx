@@ -832,6 +832,12 @@ import StudentMDashSendLeave from "./Components/StudentMDashSendLeave";
 import StudentMDAttendance from "./Components/StudentMDAttendance";
 import AdminAccountantDashboard from "./Components/AdminAccountantDashboard";
 import FeeInvoices from "./Components/FeeInvoices";
+import AddNewFeeInvoice from "./Components/AddNewFeeInvoice";
+import AdminPaymentHistory from "./Components/AdminPaymentHistory";
+import AdminPendingPayments from "./Components/AdminPendingPayments";
+import AdminViewExpense from "./Components/AdminViewExpense";
+import AdminAddNewExpense from "./Components/AdminAddNewExpense";
+import ExpenseCategories from "./Components/ExpenseCategories";
 
 // Lazy loaded components
 const Register = lazy(() => import("./Components/Register"));
@@ -1059,6 +1065,12 @@ function App() {
                 <Route path="/Admin/Send/Student/Leave" element={<SentStudentLeave/>}></Route>
                 <Route path="/admin/accountant/dash" element={<AdminAccountantDashboard/>}></Route>
                 <Route path="/admin/student/fee/invoice" element={<FeeInvoices/>}></Route>
+                <Route path="/admin/add/fee/invoices" element={<AddNewFeeInvoice/>}></Route>
+                <Route path="/admin/payment/history" element={<AdminPaymentHistory/>}></Route>
+                <Route path="/admin/pending/payments" element={<AdminPendingPayments/>}></Route>
+                <Route path="/admin/view/expense" element={<AdminViewExpense/>}></Route>
+                <Route path="/admin/add/expense" element={<AdminAddNewExpense/>}></Route>
+                <Route path="/admin/expense/categories" element={<ExpenseCategories/>}></Route>
             </>
           )}
 

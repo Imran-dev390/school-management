@@ -1572,7 +1572,7 @@ export function Sidebar({ isOpen, setIsOpen, adminName ,hasUserToggled,onToggleS
       {label:"💵 Collect Payment",path:"/admin/collect/payement"},
       {label:"📑 Invoices Report",path:"/admin/Invoices/Report"},
       {label:"💝 Donation",path:"/admin/donation"},
-      {label:"💰 Expenses",path:"/admin/expenses"},
+      {label:"💰 Expenses",path:"/admin/view/expense"},
       {label:"🖨️ Bulk Invoices Print ",path:"/admin/bulk/invoices/print"},
       // {label:"👥 View Today Leaves",path:"/Admin/View/Today/Leaves"},
       //  {label:"👥 View All Leaves",path:"/Admin/View/Class/Leaves"}

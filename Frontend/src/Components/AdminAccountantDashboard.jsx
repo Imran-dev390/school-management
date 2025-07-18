@@ -26,16 +26,16 @@ const sections = [
       title: 'Fee Invoices',
       actions: [
         { label: 'Fee Invoices', href: '/admin/student/fee/invoice' },
-         { label: 'Add New Fee Invoices', href: '/admin/accountant/fee/invoices' },
-          { label: 'Payment History', href: '/admin/accountant/fee/invoices' },
+         { label: 'Add New Fee Invoices', href: '/admin/add/fee/invoices' },
+          { label: 'Payment History', href: '/admin/payment/history' },
       ],
     },
     {
       title: 'Expense',
       actions: [
-        { label: 'View Expense', href: '/admin/subjects' },
-        { label: 'Add New Expense', href: '/Add/Subject/admin' },
-         { label: 'Expense Category', href: '/admin/accountant/fee/invoices' },
+        { label: 'View Expense', href: '/admin/view/expense' },
+        { label: 'Add New Expense', href: '/admin/add/expense' },
+         { label: 'Expense Category', href: '/admin/expense/categories' },
       ],
     },
     {
