@@ -15,6 +15,8 @@ const upload = require("../middlewares/upload");
 const Subjects = require("../models/Subjects.model");
 const Student = require("../models/student.model");
 const Subject = require("../models/Subjects.model");
+const FeeType = require("../models/FeeType.model");
+const FeeVoucher = require("../models/FeeVoucher.model");
 
 
 
@@ -84,128 +86,128 @@ const Subject = require("../models/Subjects.model");
 
 
 
+// const AddStudent = async (req, res) => {
+//   const mongoose = require("mongoose");
+//   const { 
+//     name, email, password,AdmissionNum,Roll,phone, gender, dob, adress, parent, 
+//    Classs: classId, prevschoolName,prevClass,prevSchoolAddress, 
+//     bformNumber, CnicNumber, feesPaid ,sessionId,concession
+//   } = req.body;
+//   try {
+//     if (!mongoose.Types.ObjectId.isValid(sessionId)) {
+//   return res.status(400).json({ message: "Invalid session ID format" });
+// }
 
-const AddStudent = async (req, res) => {
-  const mongoose = require("mongoose");
-  const { 
-    name, email, password,AdmissionNum,Roll,phone, gender, dob, adress, parent, 
-   Classs: classId, prevschoolName,prevClass,prevSchoolAddress, 
-    bformNumber, CnicNumber, feesPaid ,sessionId
-  } = req.body;
-  try {
-    if (!mongoose.Types.ObjectId.isValid(sessionId)) {
-  return res.status(400).json({ message: "Invalid session ID format" });
-}
-
-const session = await Session.findById(sessionId);
-if (!session) {
-  return res.status(404).json({ message: "Session Not Found" });
-}
-    if (!mongoose.Types.ObjectId.isValid(classId)) {
-      return res.status(400).json({ message: "Invalid class ID format" });
-    }
-    // Check if email or phone already exists
-    // const existingEmail = await User.findOne({ email });
-    const existingPhone = await User.findOne({ phone });
-    const existingRoll = await User.findOne({Roll});
-    const existingAdmissionNumber = await User.findOne({AdmissionNum});
-     const isEmailTaken = require("../middlewares/checkisEmailUnique");
-if (await isEmailTaken(email)) {
-  return res.status(401).json({ message: 'This email is already used by another user role' });
-}
-    if(!Roll | !AdmissionNum){
-      return res.status(401).json({message:"Roll No or Admission is Required!"})
-    }
-    if(existingRoll){
-      return res.status(401).json({message:"Roll is Already Taken!"})
-    }
-    if(existingAdmissionNumber){
-      return res.status(401).json({message:"AdmissionNumber is Already Taken!"})
-    }
-    if (existingPhone) {
-      return res.status(401).json({ message: 'User already registered with this Contact Number' });
-    }
-
-    // Check class existence
-    const enteredClassMatch = await Class.findById(classId);
-    if (!enteredClassMatch) {
-      return res.status(404).json({ message: "Entered Class Not Found in System." });
-    }
-
-    // Handle image buffers from multer (files are expected to have same field names)
-    const profileImage = req.files?.profileImage?.[0];
-    const CnicFrontImage = req.files?.CnicFrontImage?.[0];
-    const CnicBackImage = req.files?.CnicBackImage?.[0];
-    const bformImage = req.files?.bformImage?.[0];
-
-    const hashedPass = await bcrypt.hash(password, 10);
-
-    let user = await User.create({
-      name,
-      email,
-      password: hashedPass,
-      AdmissionNum,
-      Roll,
-      phone,
-      gender,
-      dob,
-      adress,
-      parent,
-      Classs: enteredClassMatch._id,
-      prevschoolName,
-      prevClass,
-      prevSchoolAddress,
-      bformNumber,
-      CnicNumber,
-      feesPaid: feesPaid || null,
-      session: session._id,
-
-      // Images as Buffer
-      profileImage: profileImage ? {
-        data: profileImage.buffer,
-        contentType: profileImage.mimetype,
-      } : undefined,
-
-      CnicFrontImage: CnicFrontImage ? {
-        data: CnicFrontImage.buffer,
-        contentType: CnicFrontImage.mimetype,
-      } : undefined,
-
-      CnicBackImage: CnicBackImage ? {
-        data: CnicBackImage.buffer,
-        contentType: CnicBackImage.mimetype,
-      } : undefined,
-
-      bformImage: bformImage ? {
-        data: bformImage.buffer,
-        contentType: bformImage.mimetype,
-      } : undefined,
-    });
-
-    await user.populate("Classs");
-    enteredClassMatch.students.push(user._id);
-    await enteredClassMatch.save();
-
-    const admin = await Admin.findById(req.userId);
-    if (!admin) {
-      return res.status(404).json({ message: "Admin Not Found" });
-    }
-     session.Students.push(user._id);
-     await session.save();
-    admin.students.push(user._id);
-    await admin.save();
-    await updateClassGenderCount(classId);
-    return res.status(201).json(user);
-  } catch (err) {
-    console.error("Signup error:", err.message);
-   // return res.status(500).json({message:err.message});
-   return res.status(500).json({ 
-  message: err.message,
-  ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
-});
-
-  }
-};
+// const session = await Session.findById(sessionId);
+// if (!session) {
+//   return res.status(404).json({ message: "Session Not Found" });
+// }
+//     if (!mongoose.Types.ObjectId.isValid(classId)) {
+//       return res.status(400).json({ message: "Invalid class ID format" });
+//     }
+//     // Check if email or phone already exists
+//     // const existingEmail = await User.findOne({ email });
+//     const existingPhone = await User.findOne({ phone });
+//     const existingRoll = await User.findOne({Roll});
+//     const existingAdmissionNumber = await User.findOne({AdmissionNum});
+//      const isEmailTaken = require("../middlewares/checkisEmailUnique");
+// if (await isEmailTaken(email)) {
+//   return res.status(401).json({ message: 'This email is already used by another user role' });
+// }
+//     if(!Roll | !AdmissionNum){
+//       return res.status(401).json({message:"Roll No or Admission is Required!"})
+//     }
+//     if(existingRoll){
+//       return res.status(401).json({message:"Roll is Already Taken!"})
+//     }
+//     if(existingAdmissionNumber){
+//       return res.status(401).json({message:"AdmissionNumber is Already Taken!"})
+//     }
+//     if (existingPhone) {
+//       return res.status(401).json({ message: 'User already registered with this Contact Number' });
+//     }
+
+//     // Check class existence
+//     const enteredClassMatch = await Class.findById(classId);
+//     if (!enteredClassMatch) {
+//       return res.status(404).json({ message: "Entered Class Not Found in System." });
+//     }
+
+//     // Handle image buffers from multer (files are expected to have same field names)
+//     const profileImage = req.files?.profileImage?.[0];
+//     const CnicFrontImage = req.files?.CnicFrontImage?.[0];
+//     const CnicBackImage = req.files?.CnicBackImage?.[0];
+//     const bformImage = req.files?.bformImage?.[0];
+
+//     const hashedPass = await bcrypt.hash(password, 10);
+
+//     let user = await User.create({
+//       name,
+//       email,
+//       password: hashedPass,
+//       AdmissionNum,
+//       Roll,
+//       phone,
+//       gender,
+//       dob,
+//       adress,
+//       parent,
+//       Classs: enteredClassMatch._id,
+//       prevschoolName,
+//       prevClass,
+//       prevSchoolAddress,
+//       bformNumber,
+//       CnicNumber,
+//       feesPaid: feesPaid || null,
+//       session: session._id,
+//       concession,
+
+//       // Images as Buffer
+//       profileImage: profileImage ? {
+//         data: profileImage.buffer,
+//         contentType: profileImage.mimetype,
+//       } : undefined,
+
+//       CnicFrontImage: CnicFrontImage ? {
+//         data: CnicFrontImage.buffer,
+//         contentType: CnicFrontImage.mimetype,
+//       } : undefined,
+
+//       CnicBackImage: CnicBackImage ? {
+//         data: CnicBackImage.buffer,
+//         contentType: CnicBackImage.mimetype,
+//       } : undefined,
+
+//       bformImage: bformImage ? {
+//         data: bformImage.buffer,
+//         contentType: bformImage.mimetype,
+//       } : undefined,
+//     });
+
+//     await user.populate("Classs");
+//     enteredClassMatch.students.push(user._id);
+//     await enteredClassMatch.save();
+
+//     const admin = await Admin.findById(req.userId);
+//     if (!admin) {
+//       return res.status(404).json({ message: "Admin Not Found" });
+//     }
+//      session.Students.push(user._id);
+//      await session.save();
+//     admin.students.push(user._id);
+//     await admin.save();
+//     await updateClassGenderCount(classId);
+//     return res.status(201).json(user);
+//   } catch (err) {
+//     console.error("Signup error:", err.message);
+//    // return res.status(500).json({message:err.message});
+//    return res.status(500).json({ 
+//   message: err.message,
+//   ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+// });
+
+//   }
+// };
 
 
 
@@ -776,6 +778,173 @@ if (await isEmailTaken(email)) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+const AddStudent = async (req, res) => {
+  const mongoose = require("mongoose");
+  const bcrypt = require("bcrypt");
+
+  const { 
+    name, email, password, AdmissionNum, Roll, phone, gender, dob, adress, parent, 
+    Classs: classId, prevschoolName, prevClass, prevSchoolAddress, 
+    bformNumber, CnicNumber, feesPaid , sessionId, concession = 0
+  } = req.body;
+
+  try {
+    if (!mongoose.Types.ObjectId.isValid(sessionId)) {
+      return res.status(400).json({ message: "Invalid session ID format" });
+    }
+    const session = await Session.findById(sessionId);
+    if (!session) {
+      return res.status(404).json({ message: "Session Not Found" });
+    }
+    if (!mongoose.Types.ObjectId.isValid(classId)) {
+      return res.status(400).json({ message: "Invalid class ID format" });
+    }
+
+    // Check existing users etc (your existing validations here) ...
+    // const existingEmail = await User.findOne({ email });
+    const existingPhone = await User.findOne({ phone });
+    const existingRoll = await User.findOne({Roll});
+    const existingAdmissionNumber = await User.findOne({AdmissionNum});
+     const isEmailTaken = require("../middlewares/checkisEmailUnique");
+if (await isEmailTaken(email)) {
+  return res.status(401).json({ message: 'This email is already used by another user role' });
+}
+    if(!Roll | !AdmissionNum){
+      return res.status(401).json({message:"Roll No or Admission is Required!"})
+    }
+    if(existingRoll){
+      return res.status(401).json({message:"Roll is Already Taken!"})
+    }
+    if(existingAdmissionNumber){
+      return res.status(401).json({message:"AdmissionNumber is Already Taken!"})
+    }
+    if (existingPhone) {
+      return res.status(401).json({ message: 'User already registered with this Contact Number' });
+    }
+
+    // Check class existence
+    // const enteredClassMatch = await Class.findById(classId);
+    // if (!enteredClassMatch) {
+    //   return res.status(404).json({ message: "Entered Class Not Found in System." });
+    // }
+    const profileImage = req.files?.profileImage?.[0];
+    const CnicFrontImage = req.files?.CnicFrontImage?.[0];
+    const CnicBackImage = req.files?.CnicBackImage?.[0];
+    const bformImage = req.files?.bformImage?.[0];
+
+    const hashedPass = await bcrypt.hash(password, 10);
+
+    let user = await User.create({
+      name,
+      email,
+      password: hashedPass,
+      AdmissionNum,
+      Roll,
+      phone,
+      gender,
+      dob,
+      adress,
+      parent,
+      Classs: classId,
+      prevschoolName,
+      prevClass,
+      prevSchoolAddress,
+      bformNumber,
+      CnicNumber,
+      feesPaid: feesPaid || null,
+      session: session._id,
+      concession,
+
+      profileImage: profileImage ? {
+        data: profileImage.buffer,
+        contentType: profileImage.mimetype,
+      } : undefined,
+
+      CnicFrontImage: CnicFrontImage ? {
+        data: CnicFrontImage.buffer,
+        contentType: CnicFrontImage.mimetype,
+      } : undefined,
+
+      CnicBackImage: CnicBackImage ? {
+        data: CnicBackImage.buffer,
+        contentType: CnicBackImage.mimetype,
+      } : undefined,
+
+      bformImage: bformImage ? {
+        data: bformImage.buffer,
+        contentType: bformImage.mimetype,
+      } : undefined,
+    });
+
+    await user.populate("Classs");
+    const enteredClassMatch = await Class.findById(classId);
+    enteredClassMatch.students.push(user._id);
+    await enteredClassMatch.save();
+
+    const admin = await Admin.findById(req.userId);
+    if (!admin) {
+      return res.status(404).json({ message: "Admin Not Found" });
+    }
+    session.Students.push(user._id);
+    await session.save();
+    admin.students.push(user._id);
+    await admin.save();
+
+    await updateClassGenderCount(classId);
+
+    // --- FEE VOUCHER CREATION ---
+
+    // Find fee types active on admission for student's class
+    const applicableFees = await FeeType.find({
+      activeOnAdmission: true,
+      classIds: user.Classs._id
+    });
+
+    const vouchers = applicableFees.map(fee => {
+      const base = fee.amount;
+      const discount = (base * (concession || 0)) / 100;
+      const finalAmount = Math.round(base - discount);
+      return {
+        student: user._id,
+        feeType: fee._id,
+        baseAmount: base,
+        concession: concession || 0,
+        finalAmount,
+        dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Due in 7 days
+        paid: false
+      };
+    });
+
+    await FeeVoucher.insertMany(vouchers);
+
+    // Return the student with fee vouchers info optionally
+    return res.status(201).json({
+      message: "Student registered successfully and fee vouchers created",
+      student: user,
+      vouchersCreated: vouchers.length
+    });
+
+  } catch (err) {
+    console.error("Signup error:", err.message);
+    return res.status(500).json({ 
+      message: err.message,
+      ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+    });
+  }
+};
 
 
   

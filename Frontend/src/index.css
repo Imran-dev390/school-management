@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.react-select-container {
+  @apply w-full;
+}
+
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background-color: rgb(1, 1, 93);
   border-radius: 4px;

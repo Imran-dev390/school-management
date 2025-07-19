@@ -61,6 +61,10 @@ ref:"Announcement"
   sessions:[{
     type:mongoose.Schema.Types.ObjectId,
     ref:"Session"
+  }],
+  FeeTypes:[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"FeeType"
   }]
 }, {
   timestamps: true // adds createdAt and updatedAt

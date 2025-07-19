@@ -14,6 +14,13 @@ const studentSchema = new mongoose.Schema({
     type: String,
     required:true,
   },
+  concession: {
+  type: Number,
+  default: 0,
+  min: 0,
+  max: 100
+
+},
   AdmissionNum:{
     type:String,
     required:true,

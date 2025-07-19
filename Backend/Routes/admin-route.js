@@ -8,6 +8,7 @@ const PromoteStudents = require("../Controllers/PromoteStudents.controller");
 const transferStudent = require("../Controllers/TransferStudent.Controller");
 const createTransferRecord = require("../Controllers/TransferStudent.Controller");
 const AddLeave = require("../Controllers/Leave.controller");
+const addFeeType = require("../Controllers/AddFeeType.controller");
 const mern = "mern";
 const router =  expess.Router();
 
@@ -48,7 +49,7 @@ router.post("/Add/Teacher",isAuth,upload.fields([
 router.post("/promote/students",isAuth,PromoteStudents);
 router.post('/student/transfer',isAuth,createTransferRecord);
 router.post("/Add/Class",isAuth,AddClass);
-
+router.post("/add/fee-types", isAuth,addFeeType);
 module.exports = router;
 
 

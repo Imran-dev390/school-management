@@ -95,6 +95,7 @@ const [formData, setFormData] = useState({
   AdmissionNum:"",
   Roll:"",
   prevClass:"",
+  concession:"",
   parent: '',
   adress: '',
   Class: '',
@@ -130,13 +131,21 @@ const handleFileChange = async (e) => {
   }
 };
   const [submitted, setSubmitted] = useState(false);
+  // const handleChange = (e) => {
+  //   setFormData(prev => ({
+  //     ...prev,
+  //     [e.target.name]: e.target.value
+  //   }));
+  // };
   const handleChange = (e) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-  };
-  
+  const { name, value, type } = e.target;
+
+  setFormData(prev => ({
+    ...prev,
+    [name]: type === 'number' ? Number(value) : value,
+  }));
+};
+
   //   e.preventDefault();
   //   try {
   //     await axios.post(`${serverUrl}/api/admin/Add/Student`, {
@@ -240,8 +249,12 @@ if(response.status === 201){
       <InputField label="Date of Birth" name="dob" type="date" value={formData.dob} onChange={handleChange}/>
       <InputField label="Password" name="password" type="password" value={formData.password} onChange={handleChange}/>
       <InputField label="B-Form Number" name="bformNumber"  type="text" value={formData.bformNumber} onChange={handleChange}/>
+     {/* <InputField label=" Concession %" name=" concession" type="Number" value={formData.concession} onChange={handleChange}/> */}
+  <InputField label="Fee Concession %" name="concession" type="number" value={formData.concession} onChange={handleChange} />
+
       <SelectField label="Gender" name="gender" value={formData.gender} onChange={handleChange} options={["Male", "Female"]} />
       <SelectField label="Class" name="Class" value={formData.Class} onChange={handleChange} options={classes.map(c => ({ value: c._id, label: `${c.name} - ${c.section}` }))} />
+   
        <SelectField
   label="Session"
   name="sessionId"

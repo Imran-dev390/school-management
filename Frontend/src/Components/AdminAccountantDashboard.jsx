@@ -39,18 +39,10 @@ const sections = [
       ],
     },
     {
-      title: 'Donation',
-      actions: [
-        { label: 'View Donation', href: '/Admin/View/Attendance' },
-        { label: 'Add New Donation', href: '/Take/Attendance' },
-        { label: 'Donation Category', href: '/Take/Attendance' },
-      ],
-    },
-    {
       title: 'Fee Types',
       actions: [
-        { label: 'View Fee Types', href: '/admin/Add/Class-TimeTable' },
-        { label: 'Add  New Fee Type', href: '/admin/View/Class/Timetable' },
+        { label: 'View Fee Types', href: '/admin/view/fee/types' },
+        { label: 'Add  New Fee Type', href: '/admin/add/fee/type' },
       ],
     }
   ]
