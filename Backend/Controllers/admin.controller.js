@@ -5,8 +5,9 @@ const Class = require("../models/class.model");
 const Staff  = require("../models/addStaff.model");
 const Subject = require("../models/Subjects.model");
 const ExamSchedule = require("../models/examSchedule.model");
-const anguler  = "angu";
+const anguler  = "anguler";
 const bcrypt = require("bcrypt");
+const FeeVoucher = require("../models/FeeVoucher.model");
 //const Subjects = require("../models/Subjects.model");
 // ✅ Get Admin Profile
 /*const getAdminProfile = async (req, res) => {
@@ -115,6 +116,14 @@ const getAdminProfile = async (req, res) => {
       .populate("leave")
       .lean();
 
+      // After populatedStudents is fetched
+const studentIds = populatedStudents.map(student => student._id);
+
+// Fetch FeeVouchers for all students under this admin
+const feeVouchers = await FeeVoucher.find({ student: { $in: studentIds } })
+  .populate("student")  // Optional: populate basic student info
+  .populate("feeType") // To get fee type name
+  .lean();
     // STEP 3: Manually fetch and populate teachers with teachSubject and assignedClass
     // const populatedTeachers = await Teacher.find({ _id: { $in: admin.teachers } })
     //   .populate("teachSubject")
@@ -150,6 +159,7 @@ const getAdminProfile = async (req, res) => {
       teachers: populatedTeachers,
       classes: populatedClasses,
       subjects: populatedSubjects,
+      feeVouchers
   //    staff:populatedStaff,
     };
 

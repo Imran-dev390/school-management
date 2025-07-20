@@ -106,6 +106,8 @@ app.set("userSocketMap", userSocketMap);
 // Connect to database
 db();
 
+require("./Controllers/CronMonthlyFeeGenerate");
+
 // Middleware
 //app.use(express.json());
 //app.use(express.urlencoded({ extended: true }));

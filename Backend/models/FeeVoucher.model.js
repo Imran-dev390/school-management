@@ -23,4 +23,6 @@ const feeVoucherSchema = new mongoose.Schema({
   paidAt: Date
 }, { timestamps: true });
 
+feeVoucherSchema.index({ student: 1, feeType: 1 }, { unique: true });
+
 module.exports = mongoose.model('FeeVoucher', feeVoucherSchema);

@@ -66,7 +66,6 @@ const studentSchema = new mongoose.Schema({
   type: mongoose.Schema.Types.ObjectId,
   ref: 'Session'
 },
-
   prevschoolName:{
     type:String,
     required:true,
@@ -122,6 +121,10 @@ sessionHistory: [{
   classId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "class",
+  },
+  generateAdmissionVoucher:{
+    type:Boolean,
+    default:false,
   },
   promotedAt: {
     type: Date,

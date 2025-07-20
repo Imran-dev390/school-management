@@ -104,6 +104,7 @@ const [formData, setFormData] = useState({
   bformNumber: '',
   CnicNumber: '',
   sessionId: '', // 🔥 ADD THIS
+  generateAdmissionVoucher: false,
 });
 const [images, setImages] = useState({
   profileImage: null,
@@ -178,13 +179,23 @@ const handleFileChange = async (e) => {
   // }
 // Before appending, rename the field expected by the backend
 const form = new FormData();
+// for (const key in formData) {
+//   if (key === 'Class') {
+//     form.append('Classs', formData[key]); // Backend expects 'Classs'
+//   } else {
+//     form.append(key, formData[key]);
+//   }
+// }
 for (const key in formData) {
   if (key === 'Class') {
-    form.append('Classs', formData[key]); // Backend expects 'Classs'
+    form.append('Classs', formData[key]);
+  } else if (key === 'generateAdmissionVoucher') {
+    form.append('generateAdmissionVoucher', formData[key] ? 'true' : 'false');
   } else {
     form.append(key, formData[key]);
   }
 }
+
   // Append image files
   for (const key in images) {
     if (images[key]) {
@@ -251,6 +262,23 @@ if(response.status === 201){
       <InputField label="B-Form Number" name="bformNumber"  type="text" value={formData.bformNumber} onChange={handleChange}/>
      {/* <InputField label=" Concession %" name=" concession" type="Number" value={formData.concession} onChange={handleChange}/> */}
   <InputField label="Fee Concession %" name="concession" type="number" value={formData.concession} onChange={handleChange} />
+<div className="flex items-center gap-2 mt-2">
+  <input
+    type="checkbox"
+    name="generateAdmissionVoucher"
+    checked={formData.generateAdmissionVoucher}
+    onChange={(e) =>
+      setFormData((prev) => ({
+        ...prev,
+        generateAdmissionVoucher: e.target.checked,
+      }))
+    }
+    className="w-4 h-4"
+  />
+  <label htmlFor="generateAdmissionVoucher" className="text-sm text-[rgb(1,1,93)]">
+    Generate Admission Fee Voucher
+  </label>
+</div>
 
       <SelectField label="Gender" name="gender" value={formData.gender} onChange={handleChange} options={["Male", "Female"]} />
       <SelectField label="Class" name="Class" value={formData.Class} onChange={handleChange} options={classes.map(c => ({ value: c._id, label: `${c.name} - ${c.section}` }))} />

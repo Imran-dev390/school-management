@@ -798,9 +798,11 @@ const AddStudent = async (req, res) => {
   const { 
     name, email, password, AdmissionNum, Roll, phone, gender, dob, adress, parent, 
     Classs: classId, prevschoolName, prevClass, prevSchoolAddress, 
-    bformNumber, CnicNumber, feesPaid , sessionId, concession = 0
+    bformNumber, CnicNumber, feesPaid , sessionId, concession = 0 ,
+   // generateAdmissionVoucher = false
   } = req.body;
-
+  //let generateAdmissionVoucher = req.body.generateAdmissionVoucher === 'true';
+  let generateAdmissionVoucher = req.body.generateAdmissionVoucher === 'true';
   try {
     if (!mongoose.Types.ObjectId.isValid(sessionId)) {
       return res.status(400).json({ message: "Invalid session ID format" });
@@ -817,11 +819,15 @@ const AddStudent = async (req, res) => {
     // const existingEmail = await User.findOne({ email });
     const existingPhone = await User.findOne({ phone });
     const existingRoll = await User.findOne({Roll});
+   // const existingStudent = await User.findOne({Classs:classId});
     const existingAdmissionNumber = await User.findOne({AdmissionNum});
      const isEmailTaken = require("../middlewares/checkisEmailUnique");
 if (await isEmailTaken(email)) {
   return res.status(401).json({ message: 'This email is already used by another user role' });
 }
+// if(existingStudent){
+//   return res.status(401).json({message:"Student Already Registered for that Class."});
+// }
     if(!Roll | !AdmissionNum){
       return res.status(401).json({message:"Roll No or Admission is Required!"})
     }
@@ -913,28 +919,143 @@ if (await isEmailTaken(email)) {
       classIds: user.Classs._id
     });
 
-    const vouchers = applicableFees.map(fee => {
+    // const vouchers = applicableFees.map(fee => {
+    //   const base = fee.amount;
+    //   const discount = (base * (concession || 0)) / 100;
+    //   const finalAmount = Math.round(base - discount);
+    //   return {
+    //     student: user._id,
+    //     feeType: fee._id,
+    //     baseAmount: base,
+    //     concession: concession || 0,
+    //     finalAmount,
+    //     dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Due in 7 days
+    //     paid: false
+    //   };
+    // });
+
+//   const vouchers = applicableFees.map(fee => {
+//   const base = fee.amount;
+//   const discount = (base * (concession || 0)) / 100;
+//   const finalAmount = Math.round(base - discount);
+
+//   // Replace this according to your FeeType schema
+//   const dueDate = fee.dueDate 
+//     ? fee.dueDate 
+//     : (fee.dueDays ? new Date(Date.now() + fee.dueDays * 24 * 60 * 60 * 1000) : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000));
+
+//   return {
+//     student: user._id,
+//     feeType: fee._id,
+//     baseAmount: base,
+//     concession: concession || 0,
+//     finalAmount,
+//     dueDate,
+//     paid: false
+//   };
+// });
+// const existingVouchers = await FeeVoucher.find({ student: user._id });
+
+// if (existingVouchers.length > 0) {
+//   console.warn("Vouchers already exist for this student, skipping creation.");
+// } else {
+//   await FeeVoucher.insertMany(vouchers);
+// }
+
+   // await FeeVoucher.insertMany(vouchers);
+
+
+//    const vouchersToInsert = [];
+
+// for (const fee of applicableFees) {
+//   const exists = await FeeVoucher.findOne({
+//     student: user._id,
+//     feeType: fee._id
+//   });
+
+//   if (!exists) {
+//     const base = fee.amount;
+//     const discount = (base * (concession || 0)) / 100;
+//     const finalAmount = Math.round(base - discount);
+
+//     const dueDate = fee.dueDate
+//       ? fee.dueDate
+//       : (fee.dueDays ? new Date(Date.now() + fee.dueDays * 24 * 60 * 60 * 1000) : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000));
+//     vouchersToInsert.push({
+//       student: user._id,
+//       feeType: fee._id,
+//       baseAmount: base,
+//       concession: concession || 0,
+//       finalAmount,
+//       dueDate,
+//       paid: false
+//     });
+//   }
+// }
+// if (vouchersToInsert.length > 0) {
+//   await FeeVoucher.insertMany(vouchersToInsert);
+//   console.log("Inserted new vouchers:", vouchersToInsert.length);
+// } else {
+//   console.warn("No new vouchers to insert for student:", user._id);
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+let vouchersToInsert = [];
+
+if (generateAdmissionVoucher) {
+  for (const fee of applicableFees) {
+    const exists = await FeeVoucher.findOne({
+      student: user._id,
+      feeType: fee._id
+    });
+
+    if (!exists) {
       const base = fee.amount;
       const discount = (base * (concession || 0)) / 100;
       const finalAmount = Math.round(base - discount);
-      return {
+
+      const dueDate = fee.dueDate
+        ? fee.dueDate
+        : (fee.dueDays ? new Date(Date.now() + fee.dueDays * 24 * 60 * 60 * 1000) : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000));
+
+      vouchersToInsert.push({
         student: user._id,
         feeType: fee._id,
         baseAmount: base,
         concession: concession || 0,
         finalAmount,
-        dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Due in 7 days
+        dueDate,
         paid: false
-      };
-    });
+      });
+    }
+  }
 
-    await FeeVoucher.insertMany(vouchers);
+  if (vouchersToInsert.length > 0) {
+    await FeeVoucher.insertMany(vouchersToInsert);
+    console.log("Inserted new vouchers:", vouchersToInsert.length);
+  } else {
+    console.warn("No new vouchers to insert for student:", user._id);
+  }
+} else {
+  console.log("Skipping admission voucher generation due to setting.");
+}
 
     // Return the student with fee vouchers info optionally
     return res.status(201).json({
       message: "Student registered successfully and fee vouchers created",
       student: user,
-      vouchersCreated: vouchers.length
+      vouchersCreated: vouchersToInsert.length
     });
 
   } catch (err) {

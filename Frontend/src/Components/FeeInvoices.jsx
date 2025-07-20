@@ -2,8 +2,13 @@ import React, { useState } from 'react'
 import AdminLayout from './AdminLayout'
 import AdminTeachDashboardHeader from './AdminTeachDashboardHeader'
 import { Link } from 'react-router-dom'
+import { useContext } from 'react'
+import { adminDataContext } from '../Context-Api/AdminContext'
+import { useEffect } from 'react'
 const FeeInvoices = () => {
      const [searchBy, setSearchBy] = useState("keyword");
+     const {adminData,fetchAdminData} = useContext(adminDataContext);
+     const {feeVouchers = []} = adminData?.admin || {};
   const [tableData, setTableData] = useState([
     {
       id: 19,
@@ -26,6 +31,10 @@ const FeeInvoices = () => {
       status: "Partially Paid",
     },
   ]);
+  useEffect(()=>{
+        fetchAdminData();
+  },[fetchAdminData])
+  console.log("students",feeVouchers);
   return (
     <AdminLayout adminName='Bright Future'>
        <div className="main w-full h-full flex flex-col gap-3">
@@ -334,25 +343,27 @@ const FeeInvoices = () => {
           <thead>
             <tr className="bg-blue-600 text-white">
               <th className="p-2 border"><input type="checkbox" /></th>
-              {["Student Name", "Father's Name", "Admission No.", "Invoice No.", "Title", "Payable", "Status", "Actions"].map(th => (
+              {["Student Name", "Father's Name", "Admission No.", "Concession.","Title","Total Amount", "Payable", "Status", "Actions"].map(th => (
                 <th key={th} className="p-2 border">{th}</th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {tableData.map(row => (
+            {feeVouchers.map(row => (
               <tr key={row.id} className="hover:bg-gray-50">
                 <td className="p-2 border text-center"><input type="checkbox" /></td>
-                <td className="p-2 border">{row.student}</td>
-                <td className="p-2 border">{row.father}</td>
-                <td className="p-2 border">{row.admission}</td>
-                <td className="p-2 border">{row.invoiceNum}</td>
-                <td className="p-2 border">{row.title}</td>
-                <td className="p-2 border">{row.payable}</td>
-                <td className="p-2 border">{row.status}</td>
-                <td className="p-2 border space-x-2">
-                  <button className="text-green-600"><i className="fas fa-print"></i></button>
-                  <button className="text-red-600"><i className="fas fa-trash"></i></button>
+                <td className="p-2 border">{row?.student?.name || "-"}</td>
+                <td className="p-2 border">{row?.student?.parent || "-"}</td>
+                <td className="p-2 border">{row?.student?.AdmissionNum || "-"}</td>
+                <td className="p-2 border">{row?.concession+"%" || "-"}</td>
+                <td className="p-2 border">{row?.feeType?.name || "-"}</td>
+                <td className='p-2 border'>{row?.baseAmount || "-"}</td>
+                <td className="p-2 border">{row?.finalAmount || "-"}</td>
+                <td className="p-2 border">{row?.paid === true ? "Paid" : "UnPaid"}</td>
+                <td className="p-2 border grid grid-cols-2 items-center justify-center text-sm space-x-2">
+                   <button className="text-green-600 underline"><i className="fas fa-print">Collect</i></button>
+                  <button className="text-blue-600 underline"><i className="fas fa-print">Edit</i></button>
+                  <button className="text-red-600 underline"><i className="fas fa-trash"></i>Delete</button>
                 </td>
               </tr>
             ))}
