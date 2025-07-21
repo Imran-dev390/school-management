@@ -21,6 +21,11 @@ const studentSchema = new mongoose.Schema({
   max: 100
 
 },
+feeVouchers: [{
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "FeeVoucher"
+}],
+
   AdmissionNum:{
     type:String,
     required:true,

@@ -107,6 +107,8 @@ app.set("userSocketMap", userSocketMap);
 db();
 
 require("./Controllers/CronMonthlyFeeGenerate");
+//app.use('/vouchers', express.static(path.join(__dirname, 'vouchers')));
+app.use('/vouchers', express.static(path.join(__dirname, 'public', 'vouchers')));
 
 // Middleware
 //app.use(express.json());

@@ -12,6 +12,11 @@ const feeVoucherSchema = new mongoose.Schema({
     ref: 'FeeType',
     required: true
   },
+  pdfPath: {
+  type: String,
+  required: false,
+},
+
   baseAmount: Number,
   concession: Number,  // percentage
   finalAmount: Number, // base - concession

@@ -271,7 +271,7 @@ const StudentSidebar = () => {
           </li>
 
           <li className="active:text-[rgb(193,151,11)]">
-          <Link to='/student/dash'>
+          <Link to='/student/dash/fee/invoice'>
            📊 Fee Voucher
           </Link>
           </li>

@@ -840,6 +840,7 @@ import AdminAddNewExpense from "./Components/AdminAddNewExpense";
 import ExpenseCategories from "./Components/ExpenseCategories";
 import AdminViewFeeTypes from "./Components/AdminViewFeeTypes";
 import AdminAddFeeType from "./Components/AdminAddFeeType";
+import StudentDashFeeInvoice from "./Components/StudentDashFeeInvoice";
 
 // Lazy loaded components
 const Register = lazy(() => import("./Components/Register"));
@@ -978,6 +979,17 @@ function App() {
             element={
               userData ? (
                 role === "Student" ? <StudentMDAttendance/> : <Navigate to="/" />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+
+           <Route
+            path="/student/dash/fee/invoice"
+            element={
+              userData ? (
+                role === "Student" ? <StudentDashFeeInvoice/> : <Navigate to="/" />
               ) : (
                 <Navigate to="/login" />
               )

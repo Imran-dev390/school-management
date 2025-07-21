@@ -17,12 +17,7 @@ const Student = require("../models/student.model");
 const Subject = require("../models/Subjects.model");
 const FeeType = require("../models/FeeType.model");
 const FeeVoucher = require("../models/FeeVoucher.model");
-
-
-
-
-
-
+const generateFeeVoucherPDF = require("../utils/pdfGenerator");
 
 
 
@@ -1041,14 +1036,30 @@ if (generateAdmissionVoucher) {
     }
   }
 
-  if (vouchersToInsert.length > 0) {
-    await FeeVoucher.insertMany(vouchersToInsert);
-    console.log("Inserted new vouchers:", vouchersToInsert.length);
-  } else {
-    console.warn("No new vouchers to insert for student:", user._id);
+//   if (vouchersToInsert.length > 0) {
+//     await FeeVoucher.insertMany(vouchersToInsert);
+//     console.log("Inserted new vouchers:", vouchersToInsert.length);
+//   } else {
+//     console.warn("No new vouchers to insert for student:", user._id);
+//   }
+// } else {
+//   console.log("Skipping admission voucher generation due to setting.");
+// }
+if (vouchersToInsert.length > 0) {
+  const insertedVouchers = await FeeVoucher.insertMany(vouchersToInsert);
+  console.log("Inserted new vouchers:", insertedVouchers.length);
+
+  for (const voucher of insertedVouchers) {
+    const fee = applicableFees.find(f => f._id.equals(voucher.feeType));
+    const pdfPath = await generateFeeVoucherPDF(user, fee, voucher.finalAmount, voucher.dueDate);
+    voucher.pdfPath = pdfPath;
+    await voucher.save();
+
+    // Optionally also push it into the user.feeVouchers array if using reference:
+    if (!user.feeVouchers) user.feeVouchers = [];
+    user.feeVouchers.push(voucher._id);
   }
-} else {
-  console.log("Skipping admission voucher generation due to setting.");
+  await user.save();
 }
 
     // Return the student with fee vouchers info optionally
@@ -1057,8 +1068,9 @@ if (generateAdmissionVoucher) {
       student: user,
       vouchersCreated: vouchersToInsert.length
     });
-
-  } catch (err) {
+  }
+}
+    catch (err) {
     console.error("Signup error:", err.message);
     return res.status(500).json({ 
       message: err.message,

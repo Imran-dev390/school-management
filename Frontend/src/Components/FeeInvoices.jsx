@@ -5,9 +5,11 @@ import { Link } from 'react-router-dom'
 import { useContext } from 'react'
 import { adminDataContext } from '../Context-Api/AdminContext'
 import { useEffect } from 'react'
+import { useMemo } from 'react';
 const FeeInvoices = () => {
      const [searchBy, setSearchBy] = useState("keyword");
      const {adminData,fetchAdminData} = useContext(adminDataContext);
+     const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
      const {feeVouchers = []} = adminData?.admin || {};
   const [tableData, setTableData] = useState([
     {
@@ -34,7 +36,26 @@ const FeeInvoices = () => {
   useEffect(()=>{
         fetchAdminData();
   },[fetchAdminData])
-  console.log("students",feeVouchers);
+//  console.log("students",feeVouchers);
+  const { paymentReceived, amountPending } = useMemo(() => {
+  let paymentReceived = 0;
+  let amountPending = 0;
+
+  feeVouchers.forEach(voucher => {
+    const amount = parseFloat(voucher.finalAmount?.toString().replace(/[^\d.-]/g, '')) || 0;
+
+    if (voucher.paid === true || voucher.status === 'Paid') {
+      paymentReceived += amount;
+    } else {
+      amountPending += amount;
+    }
+  });
+
+  return {
+    paymentReceived,
+    amountPending
+  };
+}, [feeVouchers]);
   return (
     <AdminLayout adminName='Bright Future'>
        <div className="main w-full h-full flex flex-col gap-3">
@@ -305,16 +326,17 @@ const FeeInvoices = () => {
     {/* Summary box */}
     <div className="w-full md:w-1/3 bg-gray-50 border rounded p-4 flex-shrink-0">
       <h4 className="text-lg font-semibold mb-4 border-b pb-1">Fee Invoices Summary</h4>
-      <ul className="space-y-2">
-        <li className="flex justify-between">
-          <span className="font-medium">Payment Received:</span>
-          <span>₹10,000.00</span>
-        </li>
-        <li className="flex justify-between">
-          <span className="font-medium">Amount Pending:</span>
-          <span>₹1,500.00</span>
-        </li>
-      </ul>
+     <ul className="space-y-2">
+  <li className="flex justify-between">
+    <span className="font-medium">Payment Received:</span>
+    <span>Rs:{paymentReceived.toLocaleString()}</span>
+  </li>
+  <li className="flex justify-between">
+    <span className="font-medium">Amount Pending:</span>
+    <span>Rs:{amountPending.toLocaleString()}</span>
+  </li>
+</ul>
+
     </div>
   </div>
 
@@ -360,11 +382,30 @@ const FeeInvoices = () => {
                 <td className='p-2 border'>{row?.baseAmount || "-"}</td>
                 <td className="p-2 border">{row?.finalAmount || "-"}</td>
                 <td className="p-2 border">{row?.paid === true ? "Paid" : "UnPaid"}</td>
-                <td className="p-2 border grid grid-cols-2 items-center justify-center text-sm space-x-2">
-                   <button className="text-green-600 underline"><i className="fas fa-print">Collect</i></button>
-                  <button className="text-blue-600 underline"><i className="fas fa-print">Edit</i></button>
-                  <button className="text-red-600 underline"><i className="fas fa-trash"></i>Delete</button>
-                </td>
+             <td className="p-2 border text-sm">
+  <div className="flex flex-col items-center space-y-1">
+    <a
+      href={`${baseURL}${row?.pdfPath}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-purple-600 underline"
+    >
+      View Voucher
+    </a>
+    <div className="flex space-x-2">
+      <button className="text-green-600 hover:underline">
+        <i className="fas fa-money-bill-wave mr-1"></i>Collect
+      </button>
+      <button className="text-blue-600 hover:underline">
+        <i className="fas fa-edit mr-1"></i>Edit
+      </button>
+      <button className="text-red-600 hover:underline">
+        <i className="fas fa-trash mr-1"></i>Delete
+      </button>
+    </div>
+  </div>
+</td>
+
               </tr>
             ))}
           </tbody>

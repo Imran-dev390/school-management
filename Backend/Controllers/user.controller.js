@@ -15,6 +15,13 @@ const user = await User.findOne({ _id: req.userId })
   .select("-password")
   .populate("session")
   .populate({
+    path: "feeVouchers",
+    populate: {
+      path: "feeType",
+      select: "name", // optional: only get the name field
+    },
+  })
+  .populate({
     path: "Classs",
     populate: [
       {
