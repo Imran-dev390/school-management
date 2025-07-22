@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useContext } from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
@@ -29,9 +29,45 @@ import AdminTeachDashboardHeader from './AdminTeachDashboardHeader'
 
 const StudentDashFeeInvoice = () => {
   const { userData } = useContext(userDataContext);
+   const [searchBy, setSearchBy] = useState("keyword");
   const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
   const { feeVouchers = [] } = userData || {};
-console.log("feevoucer",feeVouchers);
+const [showPaymentModal, setShowPaymentModal] = useState(false);
+const [selectedVoucher, setSelectedVoucher] = useState(null);
+const handlePayNow = (voucher) => {
+  setSelectedVoucher(voucher);
+  setShowPaymentModal(true);
+};
+
+const closeModal = () => {
+  setShowPaymentModal(false);
+  setSelectedVoucher(null);
+};
+
+
+//console.log("feevoucer",feeVouchers);
+useEffect(()=>{
+
+},[userData])
+  const { paymentReceived, amountPending } = useMemo(() => {
+  let paymentReceived = 0;
+  let amountPending = 0;
+
+  feeVouchers.forEach(voucher => {
+    const amount = parseFloat(voucher.finalAmount?.toString().replace(/[^\d.-]/g, '')) || 0;
+
+    if (voucher.paid === true || voucher.status === 'Paid') {
+      paymentReceived += amount;
+    } else {
+      amountPending += amount;
+    }
+  });
+
+  return {
+    paymentReceived,
+    amountPending
+  };
+}, [feeVouchers]);
   return (
     <div className='flex flex-col md:flex-row min-h-screen bg-white'>
       <StudentSidebar />
@@ -43,6 +79,118 @@ console.log("feevoucer",feeVouchers);
           </h2>
         </div>
 
+<div className="bg-white p-6 rounded flex flex-col shadow relative">
+  <h3 className="text-xl font-semibold border-b pb-2 mb-4">Search Fee Invoices</h3>
+  {/* Radio Group */}
+  <div className="flex gap-3 mb-6 flex-wrap">
+    {[
+      { value: "keyword", label: "By Keyword" },
+      { value: "date", label: "By Date" },
+    ].map(({ value, label }) => (
+      <label key={value} className="inline-flex items-center whitespace-nowrap">
+        <input
+          type="radio"
+          name="searchBy"
+          value={value}
+          checked={searchBy === value}
+          onChange={() => setSearchBy(value)}
+          className="form-radio text-blue-600"
+        />
+        <span className="ml-2 font-medium text-gray-700">Search {label}</span>
+      </label>
+    ))}
+  </div>
+
+  {/* Filters + Summary container */}
+  <div className="flex flex-col md:flex-row gap-6 mb-0 items-start">
+    {/* Filters container - takes full width on small, grows on md+ */}
+    <div className="flex-1 min-w-0">
+      {/* {searchBy === "keyword" && (
+        <div className="grid gap-4 md:grid-cols-2">
+          <div>
+            <label className="block font-medium mb-1">Search Field</label>
+            <select className="w-full border rounded px-3 py-2">
+              <option value="">Select Field</option>
+              {[
+                "invoice_number",
+                "invoice_title",
+                "date_issued",
+                "due_date",
+                "status",
+                "name",
+                "admission_number",
+                "enrollment_number",
+                "phone",
+                "email",
+                "father_name",
+                "father_phone",
+              ].map((opt) => (
+                <option key={opt} value={opt}>
+                  {opt.replace("_", " ")}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="block font-medium mb-1">Keyword</label>
+            <input
+              type="text"
+              placeholder="Enter keyword"
+              className="w-full border rounded px-3 py-2"
+            />
+          </div>
+        </div>
+      )} */}
+
+      {searchBy === "keyword" && (
+  <div className="grid gap-4 md:grid-cols-2">
+    <div>
+      <label className="block font-medium mb-1">Fee Type (e.g. Admission, Monthly)</label>
+      <input
+        type="text"
+        placeholder="Search by fee type"
+        className="w-full border rounded px-3 py-2"
+      />
+    </div>
+    <div>
+      <label className="block font-medium mb-1">Month</label>
+      <input
+        type="month"
+        className="w-full border rounded px-3 py-2"
+      />
+    </div>
+  </div>
+)}
+      {searchBy === "date" && (
+        <div className="grid gap-4 md:grid-cols-2">
+          <div>
+            <label className="block font-medium mb-1">Start Date</label>
+            <input type="date" className="w-full border rounded px-3 py-2" />
+          </div>
+          <div>
+            <label className="block font-medium mb-1">End Date</label>
+            <input type="date" className="w-full border rounded px-3 py-2" />
+          </div>
+        </div>
+      )}
+    </div>
+
+    {/* Summary box */}
+    <div className="w-full md:w-1/3 bg-gray-50 border rounded p-4 flex-shrink-0">
+      <h4 className="text-lg font-semibold mb-4 border-b pb-1">Fee Invoices Summary</h4>
+     <ul className="space-y-2">
+  <li className="flex justify-between">
+    <span className="font-medium">Payment Sent:</span>
+    <span>Rs:{paymentReceived.toLocaleString()}</span>
+  </li>
+  <li className="flex justify-between">
+    <span className="font-medium">Amount Pending:</span>
+    <span>Rs:{amountPending.toLocaleString()}</span>
+  </li>
+</ul>
+    </div>
+    </div>
+    </div>
         {/* Fee Invoices Table */}
         <div className="bg-white p-6 rounded shadow mt-4">
           <h3 className="text-lg font-semibold mb-4">My Fee Invoices</h3>
@@ -62,17 +210,18 @@ console.log("feevoucer",feeVouchers);
                   <td className="p-2 border">{row?.baseAmount || "-"}</td>
                   <td className="p-2 border">{row?.finalAmount || "-"}</td>
                   <td className="p-2 border">{row?.paid === true ? "Paid" : "UnPaid"}</td>
-                  <td className="p-2 border">
-                    {/* <a
-                      href={`${baseURL}${row?.pdfPath}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-purple-600 underline"
-                    >
-                      View Voucher
-                    </a> */}
-                     <a className='underline text-blue-500' href={`${baseURL}/api/admin/voucher/${row._id}/pdf`}>View Voucher</a>
-                  </td>
+                 <td className="p-2 border flex items-center flex-col gap-2">
+  <a className='underline text-blue-500' href={`${baseURL}/api/admin/voucher/${row._id}/pdf`} target="_blank">View</a>
+  {row.paid !== true && (
+    <button
+      className="bg-green-600 text-white text-sm rounded px-2 py-1 hover:bg-green-700"
+      onClick={() => handlePayNow(row)}
+    >
+      Pay Now
+    </button>
+  )}
+</td>
+
                 </tr>
               ))}
               {feeVouchers.length === 0 && (
@@ -86,6 +235,18 @@ console.log("feevoucer",feeVouchers);
           </table>
         </div>
       </div>
+      {showPaymentModal && selectedVoucher && (
+  <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+    <div className="bg-white p-6 rounded-lg w-[90%] max-w-md">
+      <h2 className="text-xl font-semibold mb-2 text-[rgb(1,1,93)]">Payment Instructions</h2>
+      <p className="mb-2">💳 Bank Account: <strong>1234567890</strong></p>
+      <p className="mb-2">📱 JazzCash: <strong>0300-1234567</strong></p>
+      <p className="mb-2">⚠️ Use Voucher No. <strong>{selectedVoucher._id}</strong> as payment reference.</p>
+      <button onClick={closeModal} className="mt-4 px-4 py-2 bg-[rgb(1,1,93)] text-white rounded-md hover:bg-[rgb(193,151,5)]">Close</button>
+    </div>
+  </div>
+)}
+
     </div>
   );
 };

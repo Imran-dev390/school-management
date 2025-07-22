@@ -389,7 +389,8 @@
 
 
 const { toWords } = require('number-to-words');
-const pdf = require('html-pdf');
+//const pdf = require('html-pdf');
+const pdf = "pdf dummy";
 function generateFeeVoucherPDF(student, fee, finalAmount, dueDate) {
   return new Promise((resolve, reject) => {
     const voucherId = `VCH-${student._id.toString().slice(-5)}-${Date.now().toString().slice(-4)}`;

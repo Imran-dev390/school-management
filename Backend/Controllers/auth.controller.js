@@ -1061,10 +1061,10 @@ if (vouchersToInsert.length > 0) {
   // }
   for (const voucher of insertedVouchers) {
   const fee = applicableFees.find(f => f._id.equals(voucher.feeType));
-  const pdfBuffer = await generateFeeVoucherPDF(user, fee, voucher.finalAmount, voucher.dueDate);
-  voucher.pdfBuffer = pdfBuffer;
-  voucher.contentType = 'application/pdf';
-  await voucher.save();
+  // const pdfBuffer = await generateFeeVoucherPDF(user, fee, voucher.finalAmount, voucher.dueDate);
+  // voucher.pdfBuffer = pdfBuffer;
+  // voucher.contentType = 'application/pdf';
+  // await voucher.save();
 
   if (!user.feeVouchers) user.feeVouchers = [];
   user.feeVouchers.push(voucher._id);

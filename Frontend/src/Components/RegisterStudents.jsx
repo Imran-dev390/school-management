@@ -80,9 +80,12 @@ const RegisterStudents = () => {
   const { fetchAdminData } = useContext(adminDataContext);
   const { adminData } = useContext(adminDataContext);
   const { serverUrl } = useContext(authDataContext);
-useEffect(()=>{
- fetchAdminData();
-},[adminData,fetchAdminData])
+// useEffect(()=>{
+//  fetchAdminData();
+// },[adminData,fetchAdminData])
+useEffect(() => {
+  fetchAdminData();
+}, [fetchAdminData]);
 const currentYear = new Date().getFullYear();
 const { classes = [], sessions = [] } = adminData?.admin || {};
 const [formData, setFormData] = useState({
@@ -131,7 +134,7 @@ const handleFileChange = async (e) => {
     toast.error("Failed to compress image. Please try a smaller file.");
   }
 };
-  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting,setIsSubmitting] = useState(false);
   // const handleChange = (e) => {
   //   setFormData(prev => ({
   //     ...prev,
@@ -169,34 +172,80 @@ const handleFileChange = async (e) => {
   //     toast.error(err?.response?.data?.message || "Something went wrong");
   //   }
   // };
-  const handleSubmit = async (e) => {
-  e.preventDefault();
-  //alert("submitting");
-  //toast.success("Registering Student it will take few seconds...");
-  // const form = new FormData();
-  // for (const key in formData) {
-  //   form.append(key, formData[key]);
-  // }
-// Before appending, rename the field expected by the backend
-const form = new FormData();
+//   const handleSubmit = async (e) => {
+//   e.preventDefault();
+//   //alert("submitting");
+//   //toast.success("Registering Student it will take few seconds...");
+//   // const form = new FormData();
+//   // for (const key in formData) {
+//   //   form.append(key, formData[key]);
+//   // }
+// // Before appending, rename the field expected by the backend
+// const form = new FormData();
+// // for (const key in formData) {
+// //   if (key === 'Class') {
+// //     form.append('Classs', formData[key]); // Backend expects 'Classs'
+// //   } else {
+// //     form.append(key, formData[key]);
+// //   }
+// // }
 // for (const key in formData) {
 //   if (key === 'Class') {
-//     form.append('Classs', formData[key]); // Backend expects 'Classs'
+//     form.append('Classs', formData[key]);
+//   } else if (key === 'generateAdmissionVoucher') {
+//     form.append('generateAdmissionVoucher', formData[key] ? 'true' : 'false');
 //   } else {
 //     form.append(key, formData[key]);
 //   }
 // }
-for (const key in formData) {
-  if (key === 'Class') {
-    form.append('Classs', formData[key]);
-  } else if (key === 'generateAdmissionVoucher') {
-    form.append('generateAdmissionVoucher', formData[key] ? 'true' : 'false');
-  } else {
-    form.append(key, formData[key]);
-  }
-}
 
-  // Append image files
+//   // Append image files
+//   for (const key in images) {
+//     if (images[key]) {
+//       form.append(key, images[key]);
+//     }
+//   }
+
+//   try {
+//    const response =  await axios.post(`${serverUrl}/api/admin/Add/Student`, form, {
+//       withCredentials: true,
+//       headers: {
+//         'Content-Type': 'multipart/form-data',
+//       },
+//     });
+// //    console.log([...formData.entries()]);
+// console.log("response",response);
+// if(response.status === 201){
+// //alert("✅ Student registered successfully!")
+//     toast.success("✅ Student registered successfully!");
+//     await fetchAdminData();
+//     navigate("/admin/dash");
+//     setSubmitted(true);
+// }
+//   } catch (err) {
+//     toast.error(err?.response?.data?.message || "Something went wrong");
+//     console.log(formData);
+//     console.log(err?.response?.data?.message || err.message || "erron when submiting");
+//   }
+// };
+
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsSubmitting(true); // 👈 Start loader
+
+  const form = new FormData();
+
+  for (const key in formData) {
+    if (key === 'Class') {
+      form.append('Classs', formData[key]);
+    } else if (key === 'generateAdmissionVoucher') {
+      form.append('generateAdmissionVoucher', formData[key] ? 'true' : 'false');
+    } else {
+      form.append(key, formData[key]);
+    }
+  }
+
   for (const key in images) {
     if (images[key]) {
       form.append(key, images[key]);
@@ -204,27 +253,34 @@ for (const key in formData) {
   }
 
   try {
-   const response =  await axios.post(`${serverUrl}/api/admin/Add/Student`, form, {
+    const response = await axios.post(`${serverUrl}/api/admin/Add/Student`, form, {
       withCredentials: true,
       headers: {
         'Content-Type': 'multipart/form-data',
       },
+      timeout: 30000, // 20 seconds
     });
-//    console.log([...formData.entries()]);
-console.log("response",response);
-if(response.status === 201){
-//alert("✅ Student registered successfully!")
-    toast.success("✅ Student registered successfully!");
-    await fetchAdminData();
-    navigate("/admin/dash");
-    setSubmitted(true);
-}
-  } catch (err) {
-    toast.error(err?.response?.data?.message || "Something went wrong");
-    console.log(formData);
-    console.log(err?.response?.data?.message || err.message || "erron when submiting");
+
+    if (response.status === 201) {
+      toast.success("✅ Student registered successfully!");
+      await fetchAdminData();
+      navigate("/admin/dash");
+    }
+    else {
+    toast.error(`Unexpected status: ${response.status}`);
   }
+  } catch (err) {
+    if (err.code === 'ECONNABORTED') {
+  toast.error("Request timed out. Please try again.");
+} else {
+  toast.error(err?.response?.data?.message || err.message || "Something went wrong");
+}
+  }
+finally {
+  setIsSubmitting(false); // ✅ Always reset the loader
+}
 };
+
     useEffect(()=>{
           fetchAdminData();
     },[fetchAdminData])
@@ -336,9 +392,18 @@ if(response.status === 201){
     </div>
   </div>
   {/* Submit Button */}
-  <button type="submit" className="w-[50%] mt-4 mx-auto py-3 bg-[rgb(193,151,5)] text-white rounded-xl shadow-lg  transition-transform hover:scale-105">
-    ➕ Add Student
-  </button>
+  <button
+  type="submit"
+  disabled={isSubmitting}
+  className={`w-[50%] mt-4 mx-auto py-3 rounded-xl shadow-lg transition-transform ${
+    isSubmitting
+      ? 'bg-gray-400 cursor-not-allowed'
+      : 'bg-[rgb(193,151,5)] hover:scale-105 text-white'
+  }`}
+>
+  {isSubmitting ? '⏳ Processing...' : '➕ Add Student'}
+</button>
+
 </form>
 <ToastContainer position="top-right" autoClose={3000} />
        </div>
