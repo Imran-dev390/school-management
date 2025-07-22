@@ -11,6 +11,11 @@ const FeeInvoices = () => {
      const {adminData,fetchAdminData} = useContext(adminDataContext);
      const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
      const {feeVouchers = []} = adminData?.admin || {};
+  //   /voucher/:id/pdf
+     const viewVoucher = (voucherId) => {
+  window.open(`/api/admin/voucher/${voucherId}/pdf`, '_blank');
+};
+
   const [tableData, setTableData] = useState([
     {
       id: 19,
@@ -36,7 +41,7 @@ const FeeInvoices = () => {
   useEffect(()=>{
         fetchAdminData();
   },[fetchAdminData])
-//  console.log("students",feeVouchers);
+  console.log("students",feeVouchers);
   const { paymentReceived, amountPending } = useMemo(() => {
   let paymentReceived = 0;
   let amountPending = 0;
@@ -384,14 +389,8 @@ const FeeInvoices = () => {
                 <td className="p-2 border">{row?.paid === true ? "Paid" : "UnPaid"}</td>
              <td className="p-2 border text-sm">
   <div className="flex flex-col items-center space-y-1">
-    <a
-      href={`${baseURL}${row?.pdfPath}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-purple-600 underline"
-    >
-      View Voucher
-    </a>
+   <a href={`${baseURL}/api/admin/voucher/${row._id}/pdf`}>View Voucher</a>
+
     <div className="flex space-x-2">
       <button className="text-green-600 hover:underline">
         <i className="fas fa-money-bill-wave mr-1"></i>Collect

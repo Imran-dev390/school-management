@@ -63,14 +63,15 @@ console.log("feevoucer",feeVouchers);
                   <td className="p-2 border">{row?.finalAmount || "-"}</td>
                   <td className="p-2 border">{row?.paid === true ? "Paid" : "UnPaid"}</td>
                   <td className="p-2 border">
-                    <a
+                    {/* <a
                       href={`${baseURL}${row?.pdfPath}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-purple-600 underline"
                     >
                       View Voucher
-                    </a>
+                    </a> */}
+                     <a className='underline text-blue-500' href={`${baseURL}/api/admin/voucher/${row._id}/pdf`}>View Voucher</a>
                   </td>
                 </tr>
               ))}

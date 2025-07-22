@@ -1049,17 +1049,29 @@ if (vouchersToInsert.length > 0) {
   const insertedVouchers = await FeeVoucher.insertMany(vouchersToInsert);
   console.log("Inserted new vouchers:", insertedVouchers.length);
 
-  for (const voucher of insertedVouchers) {
-    const fee = applicableFees.find(f => f._id.equals(voucher.feeType));
-    const pdfPath = await generateFeeVoucherPDF(user, fee, voucher.finalAmount, voucher.dueDate);
-    voucher.pdfPath = pdfPath;
-    await voucher.save();
+  // for (const voucher of insertedVouchers) {
+  //   const fee = applicableFees.find(f => f._id.equals(voucher.feeType));
+  //   const pdfPath = await generateFeeVoucherPDF(user, fee, voucher.finalAmount, voucher.dueDate);
+  //   voucher.pdfPath = pdfPath;
+  //   await voucher.save();
 
-    // Optionally also push it into the user.feeVouchers array if using reference:
-    if (!user.feeVouchers) user.feeVouchers = [];
-    user.feeVouchers.push(voucher._id);
-  }
-  await user.save();
+  //   // Optionally also push it into the user.feeVouchers array if using reference:
+  //   if (!user.feeVouchers) user.feeVouchers = [];
+  //   user.feeVouchers.push(voucher._id);
+  // }
+  for (const voucher of insertedVouchers) {
+  const fee = applicableFees.find(f => f._id.equals(voucher.feeType));
+  const pdfBuffer = await generateFeeVoucherPDF(user, fee, voucher.finalAmount, voucher.dueDate);
+  voucher.pdfBuffer = pdfBuffer;
+  voucher.contentType = 'application/pdf';
+  await voucher.save();
+
+  if (!user.feeVouchers) user.feeVouchers = [];
+  user.feeVouchers.push(voucher._id);
+}
+await user.save();
+
+//  await user.save();
 }
 
     // Return the student with fee vouchers info optionally
