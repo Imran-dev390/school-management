@@ -9,8 +9,12 @@ import { useMemo } from 'react';
 const FeeInvoices = () => {
      const [searchBy, setSearchBy] = useState("keyword");
      const {adminData,fetchAdminData} = useContext(adminDataContext);
-     const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
-     const {feeVouchers = []} = adminData?.admin || {};
+   //  const baseURL = import.meta.env.VITE_API_URL.VITE_SERVER2 || 'http://localhost:3000';
+const baseURL = import.meta.env.MODE === 'development'
+      ? import.meta.env.VITE_SERVER1
+      : import.meta.env.VITE_SERVER2;
+  
+   const {feeVouchers = []} = adminData?.admin || {};
   //   /voucher/:id/pdf
      const viewVoucher = (voucherId) => {
   window.open(`/api/admin/voucher/${voucherId}/pdf`, '_blank');
