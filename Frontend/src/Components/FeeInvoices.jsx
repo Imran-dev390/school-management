@@ -393,8 +393,7 @@ const baseURL = import.meta.env.MODE === 'development'
                 <td className="p-2 border">{row?.paid === true ? "Paid" : "UnPaid"}</td>
              <td className="p-2 border text-sm">
   <div className="flex flex-col items-center space-y-1">
-   <a href={`${baseURL}/api/admin/voucher/${row._id}/pdf`}>View Voucher</a>
-
+   <a className='underline text-blue-500' href={`${baseURL}/api/admin/voucher/${row._id}/pdf`}>View Voucher</a>
     <div className="flex space-x-2">
       <button className="text-green-600 hover:underline">
         <i className="fas fa-money-bill-wave mr-1"></i>Collect
