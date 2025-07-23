@@ -129,8 +129,8 @@ useEffect(() => {
           AdmissionNum: nextAdmissionNum.toString(),
           Roll: nextRoll.toString()
         }));
-        console.log("students",studentGrade2A);
-        alert(response);
+       // console.log("students",studentGrade2A);
+       // alert(response);
       } catch (err) {
         console.error("Error fetching next numbers:", err);
       }
