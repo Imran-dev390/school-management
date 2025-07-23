@@ -24,6 +24,16 @@ const feeVoucherSchema = new mongoose.Schema({
   concession: Number,  // percentage
   finalAmount: Number, // base - concession
   dueDate: Date,
+   // ✅ New fields for payment proof
+  paymentScreenshot: {
+    data: Buffer,
+    contentType: String,
+    uploadedAt: Date
+  },
+  proofSubmitted: {
+    type: Boolean,
+    default: false
+  },
   paid: {
     type: Boolean,
     default: false

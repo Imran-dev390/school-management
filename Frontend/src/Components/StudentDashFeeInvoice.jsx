@@ -5,6 +5,8 @@ import { useState } from 'react'
 import { userDataContext } from '../Context-Api/UserContext'
 import StudentSidebar from './StudentSidebar'
 import AdminTeachDashboardHeader from './AdminTeachDashboardHeader'
+import axios from 'axios'
+import { authDataContext } from '../Context-Api/AuthContext'
 
 // const StudentDashFeeInvoice = () => {
 //     const {userData} = useContext(userDataContext);
@@ -30,6 +32,7 @@ import AdminTeachDashboardHeader from './AdminTeachDashboardHeader'
 const StudentDashFeeInvoice = () => {
   const { userData } = useContext(userDataContext);
    const [searchBy, setSearchBy] = useState("keyword");
+   const {serverUrl} = useContext(authDataContext);
   const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
   const { feeVouchers = [] } = userData || {};
 const [showPaymentModal, setShowPaymentModal] = useState(false);
@@ -43,6 +46,8 @@ const closeModal = () => {
   setShowPaymentModal(false);
   setSelectedVoucher(null);
 };
+const [screenshot, setScreenshot] = useState(null);
+
 
 
 //console.log("feevoucer",feeVouchers);
@@ -68,6 +73,34 @@ useEffect(()=>{
     amountPending
   };
 }, [feeVouchers]);
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!screenshot) return alert("Please attach a screenshot.");
+
+  const formData = new FormData();
+  formData.append("voucherId", selectedVoucher._id);
+  formData.append("screenshot", screenshot);
+
+  try {
+   const res = await axios.post(`${serverUrl}/api/student/upload-payment-proof`,formData,
+    {
+    withCredentials:true,
+     headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+   });
+   if (res.status === 200) {
+  alert("Screenshot submitted successfully.");
+  closeModal();
+} else {
+  alert("Upload failed.");
+}
+  } catch (err) {
+    console.error(err);
+    alert(err?.response?.data.message || "Something Went Wrong");
+  }
+};
   return (
     <div className='flex flex-col md:flex-row min-h-screen bg-white'>
       <StudentSidebar />
@@ -197,7 +230,7 @@ useEffect(()=>{
           <table className="w-full overflow-x-auto table-auto border-collapse">
             <thead>
               <tr className="bg-blue-600 text-white">
-                {["Title", "Concession", "Total", "Payable", "Status", "Voucher"].map(th => (
+                {["Title", "Concession", "Total", "Payable", "Status","Month", "Voucher"].map(th => (
                   <th key={th} className="p-2 border">{th}</th>
                 ))}
               </tr>
@@ -210,6 +243,10 @@ useEffect(()=>{
                   <td className="p-2 border">{row?.baseAmount || "-"}</td>
                   <td className="p-2 border">{row?.finalAmount || "-"}</td>
                   <td className="p-2 border">{row?.paid === true ? "Paid" : "UnPaid"}</td>
+                  {/* <td className='p-2 border'>{new Date(row?.dueDate).getMonth()+1} {new Date(row?.dueDate).getFullYear()}</td> */}
+<td className='p-2 border'>
+  {new Date(row?.dueDate).toLocaleString('en-US', { month: 'long' })} {new Date(row?.dueDate).getFullYear()}
+</td>
                  <td className="p-2 border flex items-center flex-col gap-2">
   <a className='underline text-blue-500' href={`${baseURL}/api/admin/voucher/${row._id}/pdf`} target="_blank">View</a>
   {row.paid !== true && (
@@ -235,7 +272,7 @@ useEffect(()=>{
           </table>
         </div>
       </div>
-      {showPaymentModal && selectedVoucher && (
+      {/* {showPaymentModal && selectedVoucher && (
   <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
     <div className="bg-white p-6 rounded-lg w-[90%] max-w-md">
       <h2 className="text-xl font-semibold mb-2 text-[rgb(1,1,93)]">Payment Instructions</h2>
@@ -245,7 +282,47 @@ useEffect(()=>{
       <button onClick={closeModal} className="mt-4 px-4 py-2 bg-[rgb(1,1,93)] text-white rounded-md hover:bg-[rgb(193,151,5)]">Close</button>
     </div>
   </div>
+)} */}
+
+{showPaymentModal && selectedVoucher && (
+  <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+    <div className="bg-white rounded-lg w-[95%] max-w-2xl p-6 md:p-8 overflow-y-auto max-h-[90vh] shadow-lg">
+      <h2 className="text-2xl font-semibold text-[rgb(1,1,93)] mb-4">💳 Payment Instructions</h2>
+
+      <div className="space-y-2 text-sm md:text-base">
+        <p>Bank Account: <strong>1234567890</strong></p>
+        <p>JazzCash: <strong>0300-1234567</strong></p>
+        <p>Voucher No. to Use as Reference: <strong>{selectedVoucher._id}</strong></p>
+        <p className="text-red-600 font-semibold mt-4">📸 After payment, share a screenshot of the payment:</p>
+      </div>
+
+      <form className="mt-4 flex flex-col gap-4" encType="multipart/form-data" onSubmit={handleSubmit}>
+        <input
+          type="file"
+          accept="image/*"
+          required
+          className="border border-gray-300 p-2 rounded-md"
+          onChange={(e) => setScreenshot(e.target.files[0])}
+        />
+        <button
+          type="submit"
+          className="bg-[#c19703] text-white px-4 py-2 rounded-md"
+        >
+          Submit Screenshot
+        </button>
+      </form>
+
+      <button
+        onClick={closeModal}
+        className="mt-6 px-4 py-2 bg-[rgb(1,1,93)] text-white rounded-md hover:bg-yellow-500"
+      >
+        Close
+      </button>
+    </div>
+  </div>
 )}
+
+
 
     </div>
   );

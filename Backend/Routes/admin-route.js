@@ -1,7 +1,7 @@
 const expess = require("express");
 const { AddStudent, AddTeacher, AddClass, AddSubjects, AddSession, AddStaff, AddTimeTable, LeaveAprroval } = require("../Controllers/auth.controller");
 const isAuth = require("../middlewares/isAuth");
-const {getAdminProfile,DeleteStudent, UpdateStudent, UpdateTeacher, DeleteTeacher, ExamTimetable, AssignTeacherSubject} = require("../Controllers/admin.controller");
+const {getAdminProfile,DeleteStudent, UpdateStudent, UpdateTeacher, DeleteTeacher, ExamTimetable, AssignTeacherSubject, AdmissionNoRollNoSequance} = require("../Controllers/admin.controller");
 const getCurrentUser = require("../Controllers/user.controller");
 const upload = require('../middlewares/upload'); // multer middleware
 const PromoteStudents = require("../Controllers/PromoteStudents.controller");
@@ -51,6 +51,7 @@ router.post("/promote/students",isAuth,PromoteStudents);
 router.post('/student/transfer',isAuth,createTransferRecord);
 router.post("/Add/Class",isAuth,AddClass);
 router.post("/add/fee-types", isAuth,addFeeType);
+router.get("/students/next-numbers",isAuth,AdmissionNoRollNoSequance);
 // GET /api/voucher/:id/pdf
 router.get("/voucher/:id/pdf",isAuth,ShowGeneratedPdf);
 

@@ -263,12 +263,14 @@ useEffect(() => {
   return () => window.removeEventListener("resize", handleResize);
 }, []);
 
-  useEffect(() => {
-    if (!adminData) {
-      fetchAdminData();
-    }
-  }, [adminData,userData,fetchAdminData]);
-
+  // useEffect(() => {
+  //   // if (!adminData) {
+  //   //   fetchAdminData();
+  //   // }
+  // }, [adminData,userData,fetchAdminData]);
+useEffect(()=>{
+    fetchAdminData();
+},[fetchAdminData])
   // if (loading) {
   //   return (
   //     <div className="min-h-screen">

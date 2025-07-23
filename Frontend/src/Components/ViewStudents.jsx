@@ -592,6 +592,7 @@ const sectionOptions = selectedClassObj ? [selectedClassObj.section] : [];
                 <tr>
                   <th className="border p-2">#</th>
                   <th className="border p-2">Name</th>
+                  <th className='border p-2'>Roll</th>
                   <th className="border p-2">Gender</th>
                   <th className="border p-2">Phone</th>
                   <th className="border p-2">Email</th>
@@ -605,6 +606,7 @@ const sectionOptions = selectedClassObj ? [selectedClassObj.section] : [];
                   <tr key={student._id} className="odd:bg-white even:bg-gray-50">
                     <td className="border p-2">{(currentPage - 1) * itemsPerPage + index + 1}</td>
                     <td className="border p-2">{student.name}</td>
+                     <td className="border p-2">{student.Roll}</td>
                     <td className="border p-2">{student.gender}</td>
                     <td className="border p-2">{student.phone}</td>
                     <td className="border p-2">{student.email}</td>

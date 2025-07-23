@@ -202,6 +202,373 @@ const DeleteStudent = async (req, res) => {
 };
 
 
+// const AdmissionNoRollNoSequance = async (req, res) => {
+//   try {
+//     const { classId, sessionId } = req.query;
+
+//     const lastStudent = await Student.find({ Classs: classId, sessionId })
+//       .sort({ AdmissionNum: -1 }) // assuming AdmissionNum is numeric
+//       .limit(1);
+
+//     let nextAdmissionNum = 1;
+//     let nextRoll = 1;
+
+//     if (lastStudent.length > 0) {
+//       nextAdmissionNum = parseInt(lastStudent[0].AdmissionNum) + 1;
+//       nextRoll = parseInt(lastStudent[0].Roll) + 1;
+//     }
+
+//     res.status(200).json({
+//       nextAdmissionNum,
+//       nextRoll,
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Failed to fetch next numbers" });
+//   }
+// }
+
+
+// const AdmissionNoRollNoSequance = async (req, res) => {
+//   try {
+//     const { classId, sessionId } = req.query;
+
+//     // ✅ 1. Get the highest AdmissionNum from all students (global)
+//     const lastAdmission = await Student.find({})
+//       .sort({ AdmissionNum: -1 })
+//       .limit(1);
+
+//     let nextAdmissionNum = 1;
+//     if (lastAdmission.length > 0) {
+//       nextAdmissionNum = parseInt(lastAdmission[0].AdmissionNum) + 1;
+//     }
+
+//     // ✅ 2. Get the highest Roll from class + session only (per-class roll)
+//     const lastRoll = await Student.find({ Classs: classId, sessionId })
+//       .sort({ Roll: -1 })
+//       .limit(1);
+
+//     let nextRoll = 1;
+//     if (lastRoll.length > 0) {
+//       nextRoll = parseInt(lastRoll[0].Roll) + 1;
+//     }
+
+//     return res.status(200).json({
+//       nextAdmissionNum,
+//       nextRoll,
+//     });
+//   } catch (error) {
+//     console.error("Error fetching sequence numbers:", error);
+//     return res.status(500).json({ message: "Failed to fetch next numbers" });
+//   }
+// };
+
+
+//const mongoose = require("mongoose");
+
+// const AdmissionNoRollNoSequance = async (req, res) => {
+//   try {
+//     const { classId, sessionId } = req.query;
+
+//     // ✅ Get highest AdmissionNum (global)
+//     const lastAdmission = await Student.find({})
+//       .sort({ AdmissionNum: -1 })
+//       .limit(1);
+
+//     let nextAdmissionNum = 1;
+//     if (lastAdmission.length > 0) {
+//       nextAdmissionNum = parseInt(lastAdmission[0].AdmissionNum) + 1;
+//     }
+
+//     // ✅ Use aggregation to safely get max Roll for given class/session
+//     const rollAgg = await Student.aggregate([
+//       {
+//         $match: {
+//           Classs: new mongoose.Types.ObjectId(classId),
+//           sessionId: new mongoose.Types.ObjectId(sessionId),
+//         },
+//       },
+//       {
+//         $addFields: {
+//           rollNum: { $toInt: "$Roll" }, // convert string to int
+//         },
+//       },
+//       { $sort: { rollNum: -1 } },
+//       { $limit: 1 },
+//     ]);
+
+//     let nextRoll = 1;
+//     if (rollAgg.length > 0) {
+//       nextRoll = rollAgg[0].rollNum + 1;
+//     }
+
+//     return res.status(200).json({
+//       nextAdmissionNum,
+//       nextRoll,
+//     });
+//   } catch (error) {
+//     console.error("Error fetching sequence numbers:", error);
+//     return res.status(500).json({ message: "Failed to fetch next numbers" });
+//   }
+// };
+
+
+// const AdmissionNoRollNoSequance = async (req, res) => {
+//   try {
+//     const { classId, sessionId } = req.query;
+
+//     // ✅ Get all AdmissionNums and parse max
+//     const allAdmissions = await Student.find({}, { AdmissionNum: 1 });
+//     let nextAdmissionNum = 1;
+//     if (allAdmissions.length > 0) {
+//       const maxAdmission = Math.max(
+//         ...allAdmissions.map(s => parseInt(s.AdmissionNum)).filter(n => !isNaN(n))
+//       );
+//       nextAdmissionNum = maxAdmission + 1;
+//     }
+
+//     // ✅ Get all Roll numbers for the class+session and parse max
+//     const classRolls = await Student.find(
+//       { Classs: classId, sessionId },
+//       { Roll: 1 }
+//     );
+//     let nextRoll = 1;
+//     if (classRolls.length > 0) {
+//       const maxRoll = Math.max(
+//         ...classRolls.map(s => parseInt(s.Roll)).filter(n => !isNaN(n))
+//       );
+//       nextRoll = maxRoll + 1;
+//     }
+
+//     return res.status(200).json({
+//       nextAdmissionNum,
+//       nextRoll,
+//     });
+//   } catch (error) {
+//     console.error("Error fetching sequence numbers:", error);
+//     return res.status(500).json({ message: "Failed to fetch next numbers" });
+//   }
+// };
+
+
+const mongoose = require("mongoose");
+
+//const mongoose = require("mongoose");
+//const Student = require("../models/student.model");
+
+
+
+
+
+
+//const mongoose = require("mongoose");
+//const Student = require("../models/student.model");
+
+const AdmissionNoRollNoSequance = async (req, res) => {
+  try {
+    const { classId, sessionId } = req.query;
+
+    const classObjectId = new mongoose.Types.ObjectId(classId);
+    const sessionObjectId = new mongoose.Types.ObjectId(sessionId);
+
+    // ✅ 1. AdmissionNum → Count total students in this session
+    // const totalStudentsInSession = await Student.countDocuments({
+    //   sessionId: sessionObjectId,
+    // });
+      const totalStudentsInSession = await Student.find({session:sessionId});
+      //console.log("totalStudentsInSession",totalStudentsInSession);
+    const nextAdmissionNum = (totalStudentsInSession.length + 1).toString(); // keep as string
+
+    const sessionMatch = { session: sessionId};
+    // ✅ 2. Roll → Get highest roll in class+session
+    // const rollAgg = await Student.aggregate([
+    //   {
+    //     $match: {
+    //       Classs: classObjectId,
+    //       sessionId: sessionObjectId,
+    //       Roll: { $regex: "^[0-9]+$" }, // ensure numeric roll only
+    //     },
+    //   },
+    //   {
+    //     $addFields: {
+    //       rollNum: { $toInt: "$Roll" },
+    //     },
+    //   },
+    //   { $sort: { rollNum: -1 } },
+    //   { $limit: 1 },
+    // ]);
+
+
+    // Get Roll No
+// const rollAgg = await Student.aggregate([
+//   {
+//     $match: {
+//       ...sessionMatch,
+//       Classs: classObjectId,
+//       Roll: { $regex: "^[0-9]+$" },
+//     },
+//   },
+//   {
+//     $addFields: {
+//       rollNum: { $toInt: "$Roll" },
+//     },
+//   },
+//   { $sort: { rollNum: -1 } },
+//   { $limit: 1 },
+// ]);
+// const rollAgg = await Class.find().populate("students");
+// let nextRoll = "1";
+// if (rollAgg.length > 0 && rollAgg[0].rollNum) {
+//   nextRoll = (rollAgg[0].rollNum + 1).toString();
+// }
+
+ const rollAgg = await Student.aggregate([
+      {
+        $match: {
+          Classs: classObjectId,
+          session: sessionObjectId,
+          Roll: { $regex: "^[0-9]+$" }, // only numeric
+        },
+      },
+      {
+        $addFields: {
+          rollNum: { $toInt: "$Roll" },
+        },
+      },
+      {
+        $sort: { rollNum: -1 },
+      },
+      {
+        $limit: 1,
+      },
+    ]);
+
+    let nextRoll = "1";
+    if (rollAgg.length > 0) {
+      nextRoll = (rollAgg[0].rollNum + 1).toString();
+    }
+    // const previosRoll = await Class.findById(classId);
+    // console.log("previos class",previosRoll);
+    // let nextRoll = "1"; // default
+    // if (rollAgg.length > 0 && rollAgg[0].rollNum) {
+    //   nextRoll = (rollAgg[0].rollNum + 1).toString();
+    // }
+
+    return res.status(200).json({
+      nextAdmissionNum,
+      nextRoll,
+    });
+  } catch (error) {
+    console.error("Error fetching sequence numbers:", error);
+    return res.status(500).json({ message: "Failed to fetch next numbers" });
+  }
+};
+
+
+
+// const AdmissionNoRollNoSequance = async (req, res) => {
+//   try {
+//     const { classId, sessionId } = req.query;
+
+//     // Use raw string matching for sessionId (assuming it's a string in DB)
+//     const totalStudentsInSession = await Student.countDocuments({
+//       sessionId: sessionId, // NOT ObjectId
+//     });
+
+//     const nextAdmissionNum = totalStudentsInSession + 1;
+
+//     // Fix: Match by classId and sessionId (as strings)
+//     const rollAgg = await Student.aggregate([
+//       {
+//         $match: {
+//           Classs: new mongoose.Types.ObjectId(classId),
+//           sessionId: sessionId, // Keep string
+//           Roll: { $regex: "^[0-9]+$" }, // Only numeric Roll numbers
+//         },
+//       },
+//       {
+//         $addFields: {
+//           rollNum: { $toInt: "$Roll" },
+//         },
+//       },
+//       { $sort: { rollNum: -1 } },
+//       { $limit: 1 },
+//     ]);
+
+//     let nextRoll = 1;
+//     if (rollAgg.length > 0 && rollAgg[0].rollNum) {
+//       nextRoll = rollAgg[0].rollNum + 1;
+//     }
+
+//     return res.status(200).json({
+//       nextAdmissionNum,
+//       nextRoll,
+//     });
+//   } catch (error) {
+//     console.error("Error fetching sequence numbers:", error);
+//     return res.status(500).json({ message: "Failed to fetch next numbers" });
+//   }
+// };
+
+// const AdmissionNoRollNoSequance = async (req, res) => {
+//   try {
+//     const { classId, sessionId } = req.query;
+
+//     // Convert to ObjectId safely
+//     const classObjectId = new mongoose.Types.ObjectId(classId);
+//     const sessionObjectId = new mongoose.Types.ObjectId(sessionId);
+
+//     // ✅ 1. Get highest AdmissionNum (global)
+//     const lastAdmission = await Student.find({})
+//       .sort({ AdmissionNum: -1 })
+//       .limit(1);
+
+//     let nextAdmissionNum = 1;
+//     if (lastAdmission.length > 0) {
+//       nextAdmissionNum = parseInt(lastAdmission[0].AdmissionNum) + 1;
+//     }
+
+//     // ✅ 2. Get highest Roll for this class + session using $toInt
+//     const rollAgg = await Student.aggregate([
+//       {
+//         $match: {
+//           Classs: classObjectId,
+//           sessionId: sessionObjectId,
+//         },
+//       },
+//       {
+//         $addFields: {
+//           rollNum: { $toInt: "$Roll" },
+//         },
+//       },
+//       { $sort: { rollNum: -1 } },
+//       { $limit: 1 },
+//     ]);
+
+//     let nextRoll = 1;
+//     if (rollAgg.length > 0) {
+//       nextRoll = rollAgg[0].rollNum + 1;
+//     }
+
+//     // 🔍 Debug log (optional)
+//     console.log("Last Roll Aggregated:", rollAgg);
+//     console.log("Next AdmissionNum:", nextAdmissionNum);
+//     console.log("Next Roll:", nextRoll);
+
+//     return res.status(200).json({
+//       nextAdmissionNum,
+//       nextRoll,
+//     });
+//   } catch (error) {
+//     console.error("Error fetching sequence numbers:", error);
+//     return res.status(500).json({ message: "Failed to fetch next numbers" });
+//   }
+// };
+
+
+//const mongoose = require("mongoose");
+//const Student = require("../models/student.model");
+
 
 const DeleteTeacher = async (req, res) => {
   const { id } = req.params;
@@ -613,6 +980,7 @@ module.exports = {
   AssignTeacherSubject,
   DeleteStudent,
   UpdateTeacher,
+  AdmissionNoRollNoSequance,
   DeleteTeacher,
   getAdminProfile,
 };

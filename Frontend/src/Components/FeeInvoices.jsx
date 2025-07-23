@@ -9,6 +9,7 @@ import { useMemo } from 'react';
 const FeeInvoices = () => {
      const [searchBy, setSearchBy] = useState("keyword");
      const {adminData,fetchAdminData} = useContext(adminDataContext);
+     const {classes = []} = adminData?.admin || {};
    //  const baseURL = import.meta.env.VITE_API_URL.VITE_SERVER2 || 'http://localhost:3000';
 const baseURL = import.meta.env.MODE === 'development'
       ? import.meta.env.VITE_SERVER1
@@ -20,6 +21,8 @@ const baseURL = import.meta.env.MODE === 'development'
   window.open(`/api/admin/voucher/${voucherId}/pdf`, '_blank');
 };
 
+const [selectedProof, setSelectedProof] = useState(null);
+const [showProofModal, setShowProofModal] = useState(false);
   const [tableData, setTableData] = useState([
     {
       id: 19,
@@ -370,48 +373,97 @@ const baseURL = import.meta.env.MODE === 'development'
           <input type="search" placeholder="Search" className="border px-3 py-1 rounded" />
         </div>
 
-        <table className="w-full overflow-x-auto table-auto border-collapse">
+        <table className="w-full overflow-x-scroll  p-4  border-collapse">
           <thead>
-            <tr className="bg-blue-600 text-white">
+            <tr className="bg-[rgb(1,1,93)] text-white">
               <th className="p-2 border"><input type="checkbox" /></th>
-              {["Student Name", "Father's Name", "Admission No.", "Concession.","Title","Total Amount", "Payable", "Status", "Actions"].map(th => (
+              {["Student Name","Class", "Father's Name", "Admission No.", "Concession.","Title","Total Amount", "Payable", "Status","Month", "Actions"].map(th => (
                 <th key={th} className="p-2 border">{th}</th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {feeVouchers.map(row => (
-              <tr key={row.id} className="hover:bg-gray-50">
-                <td className="p-2 border text-center"><input type="checkbox" /></td>
-                <td className="p-2 border">{row?.student?.name || "-"}</td>
-                <td className="p-2 border">{row?.student?.parent || "-"}</td>
-                <td className="p-2 border">{row?.student?.AdmissionNum || "-"}</td>
-                <td className="p-2 border">{row?.concession+"%" || "-"}</td>
-                <td className="p-2 border">{row?.feeType?.name || "-"}</td>
-                <td className='p-2 border'>{row?.baseAmount || "-"}</td>
-                <td className="p-2 border">{row?.finalAmount || "-"}</td>
-                <td className="p-2 border">{row?.paid === true ? "Paid" : "UnPaid"}</td>
-             <td className="p-2 border text-sm">
-  <div className="flex flex-col items-center space-y-1">
-   <a className='underline text-blue-500' href={`${baseURL}/api/admin/voucher/${row._id}/pdf`}>View Voucher</a>
-    <div className="flex space-x-2">
-      <button className="text-green-600 hover:underline">
-        <i className="fas fa-money-bill-wave mr-1"></i>Collect
+           {feeVouchers.map(row => {
+  const className = classes.find(cls => cls._id === row?.student?.Classs)?.name || "-";
+const proofSubmited = row?.proofSubmitted && row?.paymentScreenshot;
+  return (
+    <tr key={row.id} className="hover:bg-gray-50">
+      <td className="p-2 border text-center"><input type="checkbox" /></td>
+      <td className="p-2 border">{row?.student?.name || "-"}</td>
+      <td className="p-2 border">{className}</td>
+      <td className="p-2 border">{row?.student?.parent || "-"}</td>
+      <td className="p-2 border">{row?.student?.AdmissionNum || "-"}</td>
+      <td className="p-2 border">{row?.concession + "%" || "-"}</td>
+      <td className="p-2 border">{row?.feeType?.name || "-"}</td>
+      <td className="p-2 border">{row?.baseAmount || "-"}</td>
+      <td className="p-2 border">{row?.finalAmount || "-"}</td>
+      <td className="p-2 border">{row?.paid === true ? "Paid" : "UnPaid"}</td>
+      <td className='p-2 border'>
+        {new Date(row?.dueDate).toLocaleString('en-US', { month: 'long' })} {new Date(row?.dueDate).getFullYear()}
+      </td>
+    <td className="p-2 border text-sm ">
+  <div className="grid grid-cols-1 items-center  space-y-2">
+    <a
+      className="underline text-blue-500"
+      href={`${baseURL}/api/admin/voucher/${row._id}/pdf`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+     Voucher
+    </a>
+
+    {proofSubmited && (
+      <button 
+       onClick={() => {
+      const base64 = row.paymentScreenshot?.data?.toString('base64'); // This won't work directly in frontend
+      const contentType = row.paymentScreenshot?.contentType || 'image/jpeg';
+      const imageUrl = `data:${contentType};base64,${row.paymentScreenshot?.data}`;
+
+      setSelectedProof(imageUrl);
+      setShowProofModal(true);
+    }}
+      className="text-red-600 underline"
+      >
+        <i className="fas fa-eye mr-1"></i>Proof
       </button>
-      <button className="text-blue-600 hover:underline">
-        <i className="fas fa-edit mr-1"></i>Edit
-      </button>
-      <button className="text-red-600 hover:underline">
-        <i className="fas fa-trash mr-1"></i>Delete
-      </button>
-    </div>
+    )}
+
+    <button className="text-green-600 hover:underline">
+      <i className="fas fa-money-bill-wave mr-1"></i>Collect
+    </button>
+
+    <button className="text-blue-600 hover:underline">
+      <i className="fas fa-edit mr-1"></i>Edit
+    </button>
+
+    <button className="text-red-600 hover:underline">
+      <i className="fas fa-trash mr-1"></i>Delete
+    </button>
   </div>
 </td>
 
-              </tr>
-            ))}
+    </tr>
+  );
+})}
           </tbody>
         </table>
+
+
+{showProofModal && selectedProof && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+    <div className="bg-white p-4 rounded shadow-lg max-w-md w-full relative">
+      <button
+        className="absolute top-1 right-2 text-red-500 text-lg"
+        onClick={() => setShowProofModal(false)}
+      >
+        ✕
+      </button>
+      <h2 className="text-lg font-semibold text-center mb-2">Payment Proof</h2>
+      <img src={selectedProof} alt="Proof Screenshot" className="w-full h-auto rounded" />
+    </div>
+  </div>
+)}
+
 
         {/* Pagination */}
         <div className="mt-4 flex justify-between items-center">

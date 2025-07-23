@@ -80,12 +80,14 @@ const RegisterStudents = () => {
   const { fetchAdminData } = useContext(adminDataContext);
   const { adminData } = useContext(adminDataContext);
   const { serverUrl } = useContext(authDataContext);
+  const {students = []} = adminData?.admin || {};
 // useEffect(()=>{
 //  fetchAdminData();
 // },[adminData,fetchAdminData])
 useEffect(() => {
   fetchAdminData();
 }, [fetchAdminData]);
+
 const currentYear = new Date().getFullYear();
 const { classes = [], sessions = [] } = adminData?.admin || {};
 const [formData, setFormData] = useState({
@@ -109,6 +111,34 @@ const [formData, setFormData] = useState({
   sessionId: '', // 🔥 ADD THIS
   generateAdmissionVoucher: false,
 });
+const studentGrade2A = students.filter((student)=>student?.Classs.name === "grade 2");
+useEffect(() => {
+  const fetchNextNumbers = async () => {
+    if (formData.Class && formData.sessionId) {
+      try {
+        const response = await axios.get(`${serverUrl}/api/admin/students/next-numbers`, {
+          params: {
+            classId: formData.Class,
+            sessionId: formData.sessionId,
+          },
+          withCredentials: true
+        });
+        const { nextAdmissionNum, nextRoll } = response.data;
+        setFormData(prev => ({
+          ...prev,
+          AdmissionNum: nextAdmissionNum.toString(),
+          Roll: nextRoll.toString()
+        }));
+        console.log("students",studentGrade2A);
+        alert(response);
+      } catch (err) {
+        console.error("Error fetching next numbers:", err);
+      }
+    }
+  };
+  fetchNextNumbers();
+}, [formData.Class, formData.sessionId]);
+
 const [images, setImages] = useState({
   profileImage: null,
   CnicFrontImage: null,
@@ -280,11 +310,6 @@ finally {
   setIsSubmitting(false); // ✅ Always reset the loader
 }
 };
-
-    useEffect(()=>{
-          fetchAdminData();
-    },[fetchAdminData])
-
         const currentSession = sessions[0] || {};
 // const CurrentYear = new Date().getFullYear().toString();
 // const current = currentSession.filter((session)=>{
@@ -309,8 +334,6 @@ finally {
    <div className="mb-6">
     <h3 className="text-xl font-semibold text-[rgb(1,1,93)] border-b mb-4 pb-1">👤 Personal  Details</h3>
     <div className="grid  grid-cols-1 sm:grid-cols-3 gap-4">
-      <InputField label="Admission Number" name="AdmissionNum" type="text" value={formData.AdmissionNum} onChange={handleChange}/>
-      <InputField label="Roll No" name="Roll" type="text" value={formData.Roll} onChange={handleChange}/>
       <InputField label="Full Name" name="name" type="text" value={formData.name} onChange={handleChange}/>
       <InputField label="Email" name="email" type="email"value={formData.email}onChange={handleChange} />
       <InputField label="Date of Birth" name="dob" type="date" value={formData.dob} onChange={handleChange}/>
@@ -349,6 +372,8 @@ finally {
     label: `${new Date(s.startDate).getFullYear()}-${new Date(s.endDate).getFullYear()}`
   }))}
 />
+ <InputField label="Admission Number" name="AdmissionNum"  type="text" value={formData.AdmissionNum} onChange={handleChange}  disabled/>
+      <InputField label="Roll No" name="Roll" type="text"  value={formData.Roll} onChange={handleChange}  disabled/>
     {/* Profile Picture */}
       <div className="sm:col-span-2 grid grid-cols-1">
         <label htmlFor="profileImage" className="cursor-pointer text-md  text-[rgb(1,1,93)] mt-2 relative group">
