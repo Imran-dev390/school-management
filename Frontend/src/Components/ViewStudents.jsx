@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import { adminDataContext } from '../Context-Api/AdminContext'
 import AdminLayout from './AdminLayout';
 import AdminTeachDashboardHeader from './AdminTeachDashboardHeader';
+import axios from 'axios';
+import { authDataContext } from '../Context-Api/AuthContext';
 
 // const ViewStudents = () => {
 //     const {adminData,fetchAdminData} = useContext(adminDataContext);
@@ -395,43 +397,65 @@ import AdminTeachDashboardHeader from './AdminTeachDashboardHeader';
 const ViewStudents = () => {
   const { adminData, fetchAdminData } = useContext(adminDataContext);
   const { students = [] , classes = []} = adminData?.admin || {};
-      
+  const [searchPerformed, setSearchPerformed] = useState(false);
   const [searchType, setSearchType] = useState("search_by_keyword");
   const [searchField, setSearchField] = useState("");
   const [searchKeyword, setSearchKeyword] = useState("");
   const [classId, setClassId] = useState("");
   const [sectionId, setSectionId] = useState("");
   const [filteredStudents, setFilteredStudents] = useState([]);
-
+  const {serverUrl} = useContext(authDataContext);
   const [nameSearch, setNameSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
 
   useEffect(() => {
     fetchAdminData();
   }, [fetchAdminData]);
 
   // 🔍 Main filter logic
-  const handleSearch = () => {
-    let result = [...students];
+  // const handleSearch = () => {
+  //   let result = [...students];
 
-    if (searchType === "search_by_keyword" && searchField && searchKeyword) {
-      result = result.filter((student) =>
-        student[searchField]?.toString().toLowerCase().includes(searchKeyword.toLowerCase())
-      );
-    } else if (searchType === "search_by_class" && classId) {
-      result = result.filter(
-        (student) =>
-          student.Classs?._id === classId && (!sectionId || student.Classs?.section === sectionId)
-      );
-    }
+  //   if (searchType === "search_by_keyword" && searchField && searchKeyword) {
+  //     result = result.filter((student) =>
+  //       student[searchField]?.toString().toLowerCase().includes(searchKeyword.toLowerCase())
+  //     );
+  //   } else if (searchType === "search_by_class" && classId) {
+  //     result = result.filter(
+  //       (student) =>
+  //         student.Classs?._id === classId && (!sectionId || student.Classs?.section === sectionId)
+  //     );
+  //   }
 
-    setFilteredStudents(result);
-    setCurrentPage(1);
-  };
+  //   setFilteredStudents(result);
+  //   setCurrentPage(1);
+  // };
+
+const handleSearch = () => {
+  let result = [...students];
+
+  if (searchType === "search_by_keyword" && searchField && searchKeyword) {
+    result = result.filter((student) =>
+      student[searchField]?.toString().toLowerCase().includes(searchKeyword.toLowerCase())
+    );
+  } else if (searchType === "search_by_class" && classId) {
+    result = result.filter(
+      (student) =>
+        student.Classs?._id === classId &&
+        (!sectionId || student.Classs?.section === sectionId)
+    );
+  }
+
+  setFilteredStudents(result);
+  setCurrentPage(1);
+  setSearchPerformed(true); // ✅ Mark search as performed
+};
+
 
   // 🔍 Filtered by name input (top-left)
-  const displayedStudents = filteredStudents.length > 0 ? filteredStudents : students;
+//  const displayedStudents = filteredStudents.length > 0 ? filteredStudents : students;
+const displayedStudents = searchPerformed ? filteredStudents : students;
 const nameFiltered = displayedStudents.filter((student) =>
   student.name.toLowerCase().includes(nameSearch.toLowerCase())
 );
@@ -447,7 +471,35 @@ const sectionOptions = selectedClassObj ? [selectedClassObj.section] : [];
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+  
+ const handleDeleteById = async (id) => {
+    // toast.success("Performing Action Wait for few Seconds")
+     try {
+      const response = await axios.delete(`${serverUrl}/api/admin/students/${id}`, {
+        withCredentials: true,
+      });
+      if (response.status === 200) {
+         alert("Student deleted successfully.");
+      // displayedStudents.filter(prev => prev._id !== id);
+         //setFilteredStudents(prev => prev.filter(t => t._id !== id));
+         //  setTotalStudents(prev => prev.filter(t => t._id !== id));
+          // Remove from filtered list
+      setFilteredStudents((prev) => prev.filter((student) => student._id !== id));
 
+      // Also update from full list if no search is performed
+      if (!searchPerformed) {
+        adminData.admin.students = adminData.admin.students.filter((student) => student._id !== id);
+      }
+
+      // Reset pagination if current page becomes empty
+      if (paginatedStudents.length === 1 && currentPage > 1) {
+        setCurrentPage(currentPage - 1);
+      }
+    }
+    } catch (err) {
+      alert(err?.response?.data?.message || "Delete failed.");
+    }
+  };
   return (
     <AdminLayout adminName="Bright Future">
       <div className="main w-full flex mt-4 flex-col gap-3 items-center">
@@ -614,7 +666,9 @@ const sectionOptions = selectedClassObj ? [selectedClassObj.section] : [];
                     <td className="border p-2">{student.Classs?.section || "-"}</td>
                     <td className="border p-2">
                       <button className="text-blue-500">View</button>
-                      <button className="text-red-500 ml-2">Delete</button>
+                      <button
+                     onClick={()=> handleDeleteById(student._id)}
+                      className="text-red-500 ml-2">Delete</button>
                     </td>
                   </tr>
                 ))}

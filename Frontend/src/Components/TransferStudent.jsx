@@ -6,7 +6,7 @@ import { authDataContext } from '../Context-Api/AuthContext'
 import { adminDataContext } from '../Context-Api/AdminContext'
 import AdminLayout from './AdminLayout'
 import AdminTeachDashboardHeader from './AdminTeachDashboardHeader'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 const TransferStudent = () => {
     const {adminData,fetchAdminData} = useContext(adminDataContext);
@@ -16,8 +16,7 @@ const TransferStudent = () => {
     const [schoolId, setSchoolId] = useState('');
     const [studentId,setStudentId]  = useState("");
   const [note, setNote] = useState('');
-  const [toClassId,setToClassId] = useState("");
-  const [toSectionId,setToSectionId] = useState("");
+  const [toClass,setToClass] = useState("");
   const {serverUrl} = useContext(authDataContext);
     useEffect(()=>{
       fetchAdminData();
@@ -27,8 +26,8 @@ const TransferStudent = () => {
 
    const sectionOptions = sectionObj ? [sectionObj.section] : [];
 
-   const toClassObj = classes.find((cls) => cls._id === toClassId);
-const toSectionOptions = toClassObj ? [toClassObj.section] : [];
+//   const toClassObj = classes.find((cls) => cls._id === toClassId);
+//const toSectionOptions = toClassObj ? [toClassObj.section] : [];
 
 //     const filteredStudents = students.filter(st => {
 //   // Check if student's class matches selected classId
@@ -47,7 +46,7 @@ const toSectionOptions = toClassObj ? [toClassObj.section] : [];
 
 
 
-
+const navigate = useNavigate();
 console.log("students",students);
 const filteredStudents = students.filter(st => {
   const classMatch = st.Classs === classId || (st.Classs?._id === classId);
@@ -74,8 +73,8 @@ const handleTransfer = async (e) => {
   const payload = {
     studentId,
     toSchool: schoolId,
-    toClassId: classId,
-    toSection: sectionId,
+    toClass,
+    //toSection: sectionId,
     note,
   };
   try {
@@ -88,6 +87,7 @@ const handleTransfer = async (e) => {
   );
   if(response.status === 200){
     alert("Student Transferred Successfully!");
+    navigate("/admin/students/transferred")
   }
 }
    catch (err) {  
@@ -218,31 +218,7 @@ const handleTransfer = async (e) => {
               </div>
               <div>
                 <label className="block font-semibold mb-1">Class:</label>
-               <select
-  className="w-full border border-gray-300 p-2 rounded"
-  value={toClassId}
-  onChange={(e) => setToClassId(e.target.value)}
->
-  <option value="">Select Class</option>
-  {classes.map(cl => (
-    <option key={cl._id} value={cl._id}>{cl.name}</option>
-  ))}
-</select>
-
-              </div>
-              <div>
-                <label className="block font-semibold mb-1">Section:</label>
-             <select
-  className="w-full border border-gray-300 p-2 rounded"
-  value={toSectionId}
-  onChange={(e) => setToSectionId(e.target.value)}
->
-  <option value="">Select Section</option>
-  {toSectionOptions.map((sec, i) => (
-    <option key={i} value={sec}>{sec}</option>
-  ))}
-</select>
-
+              <input type="text" value={toClass} onChange={(e)=>setToClass(e.target.value)} className='w-full p-2 rounded border borde-grey-300'/>
               </div>
             </div>
           </div>

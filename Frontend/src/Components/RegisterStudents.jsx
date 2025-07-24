@@ -38,7 +38,7 @@ import { toast, ToastContainer } from 'react-toastify'
 
 
 
-const InputField = ({ label, name, type, value, onChange }) => (
+const InputField = ({ label, name, type, value, onChange , required = false}) => (
   <div className="mb-4">
     <label htmlFor={name} className="block mb-1 text-gray-700 text-sm">
       {label}
@@ -49,7 +49,7 @@ const InputField = ({ label, name, type, value, onChange }) => (
       id={name}
       value={value}
       onChange={onChange}
-      required
+      required={required}
       className="w-full px-3 py-2 border-b  border-gray-300 rounded-md focus:outline-none focus:border-green-500"
     />
   </div>
@@ -281,20 +281,18 @@ const handleSubmit = async (e) => {
       form.append(key, images[key]);
     }
   }
-
   try {
     const response = await axios.post(`${serverUrl}/api/admin/Add/Student`, form, {
       withCredentials: true,
       headers: {
         'Content-Type': 'multipart/form-data',
       },
-      timeout: 30000, // 20 seconds
+      timeout: 120000, // 2 minute
     });
-
     if (response.status === 201) {
-      toast.success("✅ Student registered successfully!");
-      await fetchAdminData();
-      navigate("/admin/dash");
+      toast.success("Student registered successfully!");
+      setIsSubmitting(false);
+      navigate("/admin/view/students")
     }
     else {
     toast.error(`Unexpected status: ${response.status}`);
@@ -334,13 +332,25 @@ finally {
    <div className="mb-6">
     <h3 className="text-xl font-semibold text-[rgb(1,1,93)] border-b mb-4 pb-1">👤 Personal  Details</h3>
     <div className="grid  grid-cols-1 sm:grid-cols-3 gap-4">
-      <InputField label="Full Name" name="name" type="text" value={formData.name} onChange={handleChange}/>
-      <InputField label="Email" name="email" type="email"value={formData.email}onChange={handleChange} />
-      <InputField label="Date of Birth" name="dob" type="date" value={formData.dob} onChange={handleChange}/>
-      <InputField label="Password" name="password" type="password" value={formData.password} onChange={handleChange}/>
-      <InputField label="B-Form Number" name="bformNumber"  type="text" value={formData.bformNumber} onChange={handleChange}/>
+      <InputField label="Full Name" name="name" type="text" value={formData.name} 
+      required={true}
+     onChange={handleChange}/>
+      <InputField label="Email" name="email" type="email"value={formData.email} 
+       required={true}
+      onChange={handleChange} />
+      <InputField label="Date of Birth" name="dob" type="date" value={formData.dob} 
+      required={true}
+     onChange={handleChange}/>
+      <InputField label="Password" name="password" type="password" value={formData.password} 
+       required={true}
+      onChange={handleChange}/>
+      <InputField label="B-Form Number" name="bformNumber"  type="text" value={formData.bformNumber} 
+   required={true}
+  onChange={handleChange}/>
      {/* <InputField label=" Concession %" name=" concession" type="Number" value={formData.concession} onChange={handleChange}/> */}
-  <InputField label="Fee Concession %" name="concession" type="number" value={formData.concession} onChange={handleChange} />
+  <InputField label="Fee Concession %" name="concession" type="number" value={formData.concession} 
+   required={true}
+  onChange={handleChange} />
 <div className="flex items-center gap-2 mt-2">
   <input
     type="checkbox"
@@ -372,8 +382,8 @@ finally {
     label: `${new Date(s.startDate).getFullYear()}-${new Date(s.endDate).getFullYear()}`
   }))}
 />
- <InputField label="Admission Number" name="AdmissionNum"  type="text" value={formData.AdmissionNum} onChange={handleChange}  disabled/>
-      <InputField label="Roll No" name="Roll" type="text"  value={formData.Roll} onChange={handleChange}  disabled/>
+ <InputField  required={true} label="Admission Number" name="AdmissionNum"  type="text" value={formData.AdmissionNum} onChange={handleChange}  disabled/>
+      <InputField  required={true} label="Roll No" name="Roll" type="text"  value={formData.Roll} onChange={handleChange}  disabled/>
     {/* Profile Picture */}
       <div className="sm:col-span-2 grid grid-cols-1">
         <label htmlFor="profileImage" className="cursor-pointer text-md  text-[rgb(1,1,93)] mt-2 relative group">
@@ -393,8 +403,8 @@ finally {
   <div className="mb-6">
     <h3 className="text-xl font-semibold text-[rgb(1,1,93)] border-b mb-4 pb-1">👪 Parent Details</h3>
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <InputField label="Parent/Guardian Name" name="parent" type="text" value={formData.parent} onChange={handleChange}/>
-      <InputField label="CNIC Number" name="CnicNumber" type="text"value={formData.CnicNumber} onChange={handleChange}/>
+      <InputField  required={true} label="Parent/Guardian Name" name="parent" type="text" value={formData.parent} onChange={handleChange}/>
+      <InputField  required={true} label="CNIC Number" name="CnicNumber" type="text"value={formData.CnicNumber} onChange={handleChange}/>
       <div>
         <label className="block text-sm text-[rgb(1,1,93)] mb-1">CNIC Front Image</label>
         <input type="file" name="CnicFrontImage" accept="image/*" onChange={handleFileChange} required className="w-full p-2 border border-gray-300 rounded-md" />
@@ -403,17 +413,23 @@ finally {
         <label className="block text-sm text-[rgb(1,1,93)] mb-1">CNIC Back Image</label>
         <input type="file" name="CnicBackImage" accept="image/*" onChange={handleFileChange} required className="w-full p-2 border border-gray-300 rounded-md" />
       </div>
-      <InputField label="Contact No" name="phone" type="tel" value={formData.phone} onChange={handleChange}/>
-      <InputField label="Address" name="adress" type="text" value={formData.adress} onChange={handleChange}/>
+      <InputField  required={true} label="Contact No" name="phone" type="tel" value={formData.phone} onChange={handleChange}/>
+      <InputField  required={true} label="Address" name="adress" type="text" value={formData.adress} onChange={handleChange}/>
     </div>
   </div>
   {/* Previous School Section */}
   <div className="mb-6">
     <h3 className="text-xl font-semibold text-[rgb(1,1,93)] border-b mb-4 pb-1">🏫 Previous School</h3>
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <InputField label="School Name" name="prevschoolName" type="text" value={formData.prevschoolName} onChange={handleChange}/>
-      <InputField label="Class" name="prevClass" type="text" value={formData.prevClass} onChange={handleChange}/>
-      <InputField label="School Address" name="prevSchoolAddress" type="text" value={formData.prevSchoolAddress} onChange={handleChange}/>
+      <InputField label="School Name" name="prevschoolName" type="text" value={formData.prevschoolName} 
+       required={false}
+      onChange={handleChange}/>
+      <InputField label="Class" name="prevClass" type="text" value={formData.prevClass} 
+       required={false}
+      onChange={handleChange}/>
+      <InputField label="School Address" name="prevSchoolAddress" type="text" value={formData.prevSchoolAddress} 
+       required={false}
+      onChange={handleChange}/>
     </div>
   </div>
   {/* Submit Button */}

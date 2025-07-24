@@ -73,15 +73,15 @@ feeVouchers: [{
 },
   prevschoolName:{
     type:String,
-    required:true,
+    default:null,
   },
   prevClass:{
     type:String,
-    required:true,
+    default:null,
   },
   prevSchoolAddress:{
     type:String,
-    required:true,
+    default:null,
   },
    profileImage:{ 
     data:Buffer,

@@ -102,6 +102,7 @@ const getAdminProfile = async (req, res) => {
   try {
     // STEP 1: Get the admin
     const admin = await Admin.findOne({_id: req.userId}).populate("sessions")
+    .populate("transferredStudents")
     .populate("FeeTypes")
     .populate("staff") // Replace with dynamic `req.user.email` or `req.userId`
       .lean(); // use lean() to make the doc plain JS object

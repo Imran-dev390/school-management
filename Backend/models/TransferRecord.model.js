@@ -13,11 +13,10 @@ const transferRecordSchema = new mongoose.Schema({
     ref: "class",
   },
   toClass: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "class",
+   type:String,
+   required:true,
   },
   fromSection: String,
-  toSection: String,
   note: String,
   transferredAt: {
     type: Date,

@@ -89,7 +89,7 @@ const TransferRecord = require("../models/TransferRecord.model");
 
 
 const createTransferRecord = async (req, res) => {
-  const { studentId, toSchool, toClassId, toSection, note } = req.body;
+  const { studentId, toSchool, toClass, note } = req.body;
 
   try {
     const student = await Student.findById(studentId);
@@ -121,9 +121,8 @@ const createTransferRecord = async (req, res) => {
       fromSchool: student.prevschoolName,
       toSchool,
       fromClass: student.Classs,
-      toClass: toClassId,
+      toClass,
       fromSection: student.section,
-      toSection,
       note,
     });
 

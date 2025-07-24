@@ -1535,6 +1535,8 @@ export function Sidebar({ isOpen, setIsOpen, adminName ,hasUserToggled,onToggleS
          {label:"📊 Dashboard", path:"/admin/student/dash"},
         {label: "➕ Admission", path: "/admin/students/admission"},
         {label:"➕ Transfer Students",path:"/admin/transfer/students"},
+     //   {label:"🧑‍🎓 View Transferred",path:"/admin/students/transferred"},
+        {label:"👨‍🎓 View Leaves", path:"/admin/view/student/leaves"},
         {label:"➕ Send Leave",path:"/Admin/Send/Student/Leave"},
         // {label:"➕ Student Promotion",path:"/admin/student/promotion"},
         // {label:"Print Id Card",path:"/admin/Print/ID/Card"}

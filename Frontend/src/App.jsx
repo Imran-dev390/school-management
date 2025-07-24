@@ -841,6 +841,7 @@ import ExpenseCategories from "./Components/ExpenseCategories";
 import AdminViewFeeTypes from "./Components/AdminViewFeeTypes";
 import AdminAddFeeType from "./Components/AdminAddFeeType";
 import StudentDashFeeInvoice from "./Components/StudentDashFeeInvoice";
+import AdminViewLeaves from "./Components/AdminViewLeaves";
 
 // Lazy loaded components
 const Register = lazy(() => import("./Components/Register"));
@@ -1087,6 +1088,7 @@ function App() {
                 <Route path="/admin/expense/categories" element={<ExpenseCategories/>}></Route>
                 <Route path="/admin/view/fee/types" element={<AdminViewFeeTypes/>}></Route>
                 <Route path="/admin/add/fee/type" element={<AdminAddFeeType/>}></Route>
+                <Route path="/admin/view/student/leaves" element={<AdminViewLeaves/>}></Route>
             </>
           )}
 

@@ -813,7 +813,8 @@ const AddStudent = async (req, res) => {
     // Check existing users etc (your existing validations here) ...
     // const existingEmail = await User.findOne({ email });
     const existingPhone = await User.findOne({ phone });
-    const existingRoll = await User.findOne({Roll});
+    const existingRoll = await User.findOne({ Roll, Classs: classId });
+   // const existingRoll = await User.findOne({Roll});
    // const existingStudent = await User.findOne({Classs:classId});
     const existingAdmissionNumber = await User.findOne({AdmissionNum});
      const isEmailTaken = require("../middlewares/checkisEmailUnique");
@@ -1077,10 +1078,15 @@ await user.save();
     // Return the student with fee vouchers info optionally
     return res.status(201).json({
       message: "Student registered successfully and fee vouchers created",
-      student: user,
-      vouchersCreated: vouchersToInsert.length
+      // student: user,
+      // vouchersCreated: vouchersToInsert.length
     });
   }
+   return res.status(201).json({
+      message: "Student registered successfully and fee vouchers created",
+      // student: user,
+      // vouchersCreated: vouchersToInsert.length
+    });
 }
     catch (err) {
     console.error("Signup error:", err.message);
