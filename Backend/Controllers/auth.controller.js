@@ -1158,41 +1158,144 @@ const AddClass = async (req, res) => {
 
 
 
+// const AddSubjects = async (req, res) => {
+//   const { name, code, classes, department } = req.body; // `classes` is an array
+
+//   try {
+//     console.log("REQUEST COMING FROM FRONTEND");
+
+//     // 1. Validate all class IDs exist
+//     const classDocs = await Class.find({ _id: { $in: classes } });
+//     if (classDocs.length !== classes.length) {
+//       return res.status(404).json({ message: "One or more classes not found" });
+//     }
+
+//     // 2. Check if subject already exists with same name/code/department and assigned to any of these classes
+//     const existingSubject = await Subject.findOne({
+//       name,
+//       code,
+//       department,
+//       classes: { $in: classes }, // checks if any of the given classes already have this subject
+//     });
+
+//     if (existingSubject) {
+//       return res.status(409).json({ message: "Subject already exists for one or more selected classes" });
+//     }
+
+//     // 3. Create the new subject
+//     const newSubject = new Subject({
+//       name,
+//       code,
+//       department,
+//       classes, // store array of class IDs
+//     });
+
+//     await newSubject.save();
+
+//     // 4. Add subject to each class document
+//     await Promise.all(
+//       classDocs.map(async (cls) => {
+//         cls.subjects.push(newSubject._id);
+//         await cls.save();
+//       })
+//     );
+
+//     // 5. Associate with admin
+//     const admin = await Admin.findById(req.userId);
+//     if (admin) {
+//       admin.subjects.push(newSubject._id);
+//       await admin.save();
+//     }
+
+//     res.status(201).json({
+//       message: "Subject added successfully!",
+//       subject: newSubject,
+//     });
+//   } catch (err) {
+//     console.error("Error adding subject:", err);
+//     res.status(500).json({ message: "Server error while adding subject" });
+//   }
+// };
+
+
+
+
 const AddSubjects = async (req, res) => {
-  const { name, code, classes, department } = req.body; // `classes` is an array
+  const { name, code, classes, department } = req.body;
 
   try {
     console.log("REQUEST COMING FROM FRONTEND");
 
-    // 1. Validate all class IDs exist
     const classDocs = await Class.find({ _id: { $in: classes } });
+
     if (classDocs.length !== classes.length) {
       return res.status(404).json({ message: "One or more classes not found" });
     }
 
-    // 2. Check if subject already exists with same name/code/department and assigned to any of these classes
-    const existingSubject = await Subject.findOne({
-      name,
-      code,
-      department,
-      classes: { $in: classes }, // checks if any of the given classes already have this subject
-    });
+    // Check if subject exists (by name + code + department)
+    let subject = await Subject.findOne({ name, code, department });
 
-    if (existingSubject) {
-      return res.status(409).json({ message: "Subject already exists for one or more selected classes" });
+    if (subject) {
+      const updatedClassIds = [];
+      const skippedClassIds = [];
+
+      for (const classId of classes) {
+        const alreadyAdded = subject.classes.some(
+          existingId => existingId.toString() === classId
+        );
+
+        if (!alreadyAdded) {
+          subject.classes.push(classId);
+          updatedClassIds.push(classId);
+        } else {
+          skippedClassIds.push(classId);
+        }
+      }
+
+      if (updatedClassIds.length > 0) {
+        await subject.save();
+
+        await Promise.all(
+          classDocs.map(async (cls) => {
+            if (
+              updatedClassIds.includes(cls._id.toString()) &&
+              !cls.subjects.includes(subject._id)
+            ) {
+              cls.subjects.push(subject._id);
+              await cls.save();
+            }
+          })
+        );
+
+        const admin = await Admin.findById(req.userId);
+        if (admin && !admin.subjects.includes(subject._id)) {
+          admin.subjects.push(subject._id);
+          await admin.save();
+        }
+
+        return res.status(200).json({
+          message: "Subject updated for some new classes",
+          updatedClassIds,
+          skippedClassIds,
+          subject,
+        });
+      } else {
+        return res.status(409).json({
+          message: "Subject already exists for all selected classes",
+        });
+      }
     }
 
-    // 3. Create the new subject
+    // Create new subject if not exists
     const newSubject = new Subject({
       name,
       code,
       department,
-      classes, // store array of class IDs
+      classes,
     });
 
     await newSubject.save();
 
-    // 4. Add subject to each class document
     await Promise.all(
       classDocs.map(async (cls) => {
         cls.subjects.push(newSubject._id);
@@ -1200,7 +1303,6 @@ const AddSubjects = async (req, res) => {
       })
     );
 
-    // 5. Associate with admin
     const admin = await Admin.findById(req.userId);
     if (admin) {
       admin.subjects.push(newSubject._id);
@@ -1208,7 +1310,7 @@ const AddSubjects = async (req, res) => {
     }
 
     res.status(201).json({
-      message: "Subject added successfully!",
+      message: "New subject added successfully!",
       subject: newSubject,
     });
   } catch (err) {
@@ -1219,8 +1321,90 @@ const AddSubjects = async (req, res) => {
 
 
 
+// const AddSubjects = async (req, res) => {
+//   const { name, code, classes, department } = req.body;
 
+//   try {
+//     console.log("REQUEST COMING FROM FRONTEND");
 
+//     // 1. Validate class IDs
+//     const classDocs = await Class.find({ _id: { $in: classes } });
+//     if (classDocs.length !== classes.length) {
+//       return res.status(404).json({ message: "One or more classes not found" });
+//     }
+
+//     // 2. Find if subject already exists (regardless of classes)
+//     let subject = await Subject.findOne({ name, code, department });
+
+//     if (subject) {
+//       // 3. Filter new class IDs (avoid duplicates)
+//       const newClassIds = classes.filter(
+//         classId => !subject.classes.some(existingId => existingId.toString() === classId)
+//       );
+
+//       if (newClassIds.length === 0) {
+//         return res.status(409).json({ message: "Subject already exists for all selected classes" });
+//       }
+
+//       // 4. Add new classes to subject
+//       subject.classes.push(...newClassIds);
+//       await subject.save();
+
+//       // 5. Update each class to include this subject
+//       await Promise.all(
+//         classDocs.map(async (cls) => {
+//           if (!cls.subjects.includes(subject._id)) {
+//             cls.subjects.push(subject._id);
+//             await cls.save();
+//           }
+//         })
+//       );
+
+//       // 6. Add to admin
+//       const admin = await Admin.findById(req.userId);
+//       if (admin && !admin.subjects.includes(subject._id)) {
+//         admin.subjects.push(subject._id);
+//         await admin.save();
+//       }
+
+//       return res.status(200).json({
+//         message: "Subject updated with new classes",
+//         subject,
+//       });
+//     }
+
+//     // 7. If subject doesn't exist, create a new one
+//     const newSubject = new Subject({
+//       name,
+//       code,
+//       department,
+//       classes,
+//     });
+
+//     await newSubject.save();
+
+//     await Promise.all(
+//       classDocs.map(async (cls) => {
+//         cls.subjects.push(newSubject._id);
+//         await cls.save();
+//       })
+//     );
+
+//     const admin = await Admin.findById(req.userId);
+//     if (admin) {
+//       admin.subjects.push(newSubject._id);
+//       await admin.save();
+//     }
+
+//     res.status(201).json({
+//       message: "New subject added successfully!",
+//       subject: newSubject,
+//     });
+//   } catch (err) {
+//     console.error("Error adding subject:", err);
+//     res.status(500).json({ message: "Server error while adding subject" });
+//   }
+// };
 
 
 
@@ -1703,33 +1887,197 @@ if (await isEmailTaken(email)) {
     console.error(error);
     res.status(500).json({ message: 'Error registering staff', error });
   }
-};3
+};
+// const AddTimeTable = async (req, res) => {
+//   try {
+//     const { className, day, periods } = req.body;
+
+//     // Find the class by ID (since you're passing _id in frontend)
+//     const classDoc = await Class.findById(className);
+//     if (!classDoc) {
+//       return res.status(404).json({ message: 'Class not found' });
+//     }
+
+//     // Optional: Validate that each subject exists (useful but not required for MVP)
+//     // const validPeriods = await Promise.all(
+//     //   periods.map(async (p,i) => {
+//     //     const subjectDoc = await Subject.findById(p.subject);
+//     //     if (!subjectDoc) {
+//     //       throw new Error(`Subject with ID ${p.subject} not found`);
+//     //     }
+//     //     return {
+//     //       periodNumber: i + 1,
+//     //       subject: subjectDoc._id, // or full doc if needed
+//     //       time: p.time,
+//     //     };
+//     //   })
+//     // );
+
+
+//     const validPeriods = await Promise.all(
+//   periods.map(async (p, i) => {
+//     const subjectDoc = await Subject.findById(p.subject);
+//     if (!subjectDoc) {
+//       throw new Error(`Subject with ID ${p.subject} not found`);
+//     }
+
+//     return {
+//       periodNumber: i + 1,
+//       subject: subjectDoc._id,
+//       time: p.time,
+//       teacher: p.teacher || null  // ✅ include teacher
+//     };
+//   })
+// );
+
+//     // Save new timetable
+//     const timetable = new Timetable({
+//       className: classDoc._id,
+//       day,
+//       periods: validPeriods,
+//     });
+
+//     await timetable.save();
+
+//     // Link timetable to class
+//     classDoc.timeTable.push(timetable._id);
+//     await classDoc.save();
+
+//     res.status(201).json({ message: 'Timetable saved successfully' });
+
+//   } catch (error) {
+//     console.error('Timetable creation error:', error.message);
+//     res.status(500).json({ error: error.message || 'Error saving timetable' });
+//   }
+// };
+
+
+//const Timetable = require('../models/Timetable');
+//const Teacher = require('../models/Teacher');
+
+// const getAvailableTeachers = async (req, res) => {
+//   try {
+//     const { subjectId, timeSlot } = req.query;
+
+//     if (!subjectId || !timeSlot) {
+//       return res.status(400).json({ message: 'Missing subjectId or timeSlot' });
+//     }
+
+//     // Find teachers who teach the subject
+//     const allSubjectTeachers = await Teacher.find({
+//       teachSubject: subjectId
+//     });
+
+//     // Get all timetables where this time is already occupied
+//     const busyTimetables = await Timetable.find({
+//       "periods.time": timeSlot
+//     }).populate("periods.subject");
+
+//     // Get all busy teacher IDs at this time
+//     const busyTeacherIds = new Set();
+
+//     for (let tt of busyTimetables) {
+//       for (let p of tt.periods) {
+//         if (p.time === timeSlot) {
+//           const subjectId = p.subject?._id?.toString();
+//           if (!subjectId) continue;
+
+//           const teachers = await Teacher.find({ teachSubject: subjectId });
+//           teachers.forEach(t => busyTeacherIds.add(t._id.toString()));
+//         }
+//       }
+//     }
+
+//     // Filter out busy teachers
+//     const availableTeachers = allSubjectTeachers.filter(
+//       t => !busyTeacherIds.has(t._id.toString())
+//     );
+
+//     res.json({ availableTeachers });
+
+//   } catch (error) {
+//     console.error('Error fetching available teachers:', error.message);
+//     res.status(500).json({ message: 'Server error' });
+//   }
+// };
+
+
+
+
+// const getAvailableTeachers = async (req, res) => {
+//   try {
+//     const { subjectId, timeSlot } = req.query;
+
+//     if (!subjectId || !timeSlot) {
+//       return res.status(400).json({ message: 'Missing subjectId or timeSlot' });
+//     }
+
+//     // 1. Get all teachers who teach this subject
+//     const subjectTeachers = await Teacher.find({ teachSubject: subjectId });
+
+//     // 2. Get all timeTables where this timeSlot is used by any subject
+//     const timetables = await Timetable.find({ "periods.time": timeSlot });
+
+//     // 3. Find all teachers who are already teaching something at this time
+//     const busyTeacherIds = new Set();
+
+//     for (const timetable of timetables) {
+//       for (const period of timetable.periods) {
+//         if (period.time === timeSlot && period.teacher) {
+//           busyTeacherIds.add(period.teacher.toString());
+//         }
+//       }
+//     }
+
+//     // 4. Filter available teachers (not in busyTeacherIds)
+//     const availableTeachers = subjectTeachers.filter(
+//       t => !busyTeacherIds.has(t._id.toString())
+//     );
+
+//     res.json({ availableTeachers });
+
+//   } catch (error) {
+//     console.error('Error fetching available teachers:', error.message);
+//     res.status(500).json({ message: 'Server error' });
+//   }
+// };
+
+
+
+
 const AddTimeTable = async (req, res) => {
   try {
     const { className, day, periods } = req.body;
 
-    // Find the class by ID (since you're passing _id in frontend)
     const classDoc = await Class.findById(className);
     if (!classDoc) {
       return res.status(404).json({ message: 'Class not found' });
     }
 
-    // Optional: Validate that each subject exists (useful but not required for MVP)
+    // ✅ Check for missing teacher in any period
+    const periodWithMissingTeacher = periods.find(p => !p.teacher);
+    if (periodWithMissingTeacher) {
+      return res.status(400).json({ message: 'Please select a teacher for that period.' });
+    }
+
+    // ✅ Validate subject IDs and build periods
     const validPeriods = await Promise.all(
-      periods.map(async (p,i) => {
+      periods.map(async (p, i) => {
         const subjectDoc = await Subject.findById(p.subject);
         if (!subjectDoc) {
           throw new Error(`Subject with ID ${p.subject} not found`);
         }
+
         return {
           periodNumber: i + 1,
-          subject: subjectDoc._id, // or full doc if needed
+          subject: subjectDoc._id,
           time: p.time,
+          teacher: p.teacher
         };
       })
     );
 
-    // Save new timetable
+    // Save timetable
     const timetable = new Timetable({
       className: classDoc._id,
       day,
@@ -1738,7 +2086,6 @@ const AddTimeTable = async (req, res) => {
 
     await timetable.save();
 
-    // Link timetable to class
     classDoc.timeTable.push(timetable._id);
     await classDoc.save();
 
@@ -1750,7 +2097,58 @@ const AddTimeTable = async (req, res) => {
   }
 };
 
+// const getAvailableTeachers = async (req, res) => {
+//   try {
+//     const { subjectId, timeSlot, classId } = req.query;
 
+//     if (!subjectId || !timeSlot || !classId) {
+//       return res.status(400).json({ message: 'Missing subjectId, classId or timeSlot' });
+//     }
+
+//     // Get teachers who teach this subject
+//     const subjectTeachers = await Teacher.find({ teachSubject: subjectId });
+
+//     // 1. Check if this subject is already assigned in this class (regardless of time)
+//     const timetableForClass = await Timetable.findOne({ classId });
+
+//     let subjectAlreadyUsed = false;
+//     if (timetableForClass) {
+//       for (const period of timetableForClass.periods) {
+//         if (period.subject?.toString() === subjectId) {
+//           subjectAlreadyUsed = true;
+//           break;
+//         }
+//       }
+//     }
+
+//     if (subjectAlreadyUsed) {
+//       return res.status(200).json({ availableTeachers: [] }); // Subject already scheduled for class
+//     }
+
+//     // 2. Get all teachers already busy at this time slot
+//     const busyTimetables = await Timetable.find({ "periods.time": timeSlot });
+
+//     const busyTeacherIds = new Set();
+//     for (const timetable of busyTimetables) {
+//       for (const period of timetable.periods) {
+//         if (period.time === timeSlot && period.teacher) {
+//           busyTeacherIds.add(period.teacher.toString());
+//         }
+//       }
+//     }
+
+//     // 3. Filter out busy teachers
+//     const availableTeachers = subjectTeachers.filter(
+//       t => !busyTeacherIds.has(t._id.toString())
+//     );
+
+//     res.json({ availableTeachers });
+
+//   } catch (error) {
+//     console.error('Error fetching available teachers:', error.message);
+//     res.status(500).json({ message: 'Server error' });
+//   }
+// };
 
 // const LeaveAprroval = async (req,res)=>{ 
 //   const { id } = req.params;
@@ -1775,6 +2173,65 @@ const AddTimeTable = async (req, res) => {
 //   }
 // }
 
+
+
+
+
+
+
+
+const getAvailableTeachers = async (req, res) => {
+  try {
+    const { subjectId, timeSlot, classId } = req.query;
+
+    if (!subjectId || !timeSlot || !classId) {
+      return res.status(400).json({ message: 'Missing subjectId, classId or timeSlot' });
+    }
+
+    // Get teachers who teach this subject
+    const subjectTeachers = await Teacher.find({ teachSubject: subjectId });
+
+    // 1. Check if this subject is already assigned to this class
+    const timetableForClass = await Timetable.findOne({ className: classId });
+
+    let subjectAlreadyUsed = false;
+    if (timetableForClass) {
+      for (const period of timetableForClass.periods) {
+        if (period.subject?.toString() === subjectId) {
+          subjectAlreadyUsed = true;
+          break;
+        }
+      }
+    }
+
+    if (subjectAlreadyUsed) {
+      return res.status(200).json({ availableTeachers: [] }); // Subject already scheduled for this class
+    }
+
+    // 2. Find all teachers busy at this time
+    const busyTimetables = await Timetable.find({ "periods.time": timeSlot });
+
+    const busyTeacherIds = new Set();
+    for (const timetable of busyTimetables) {
+      for (const period of timetable.periods) {
+        if (period.time === timeSlot && period.teacher) {
+          busyTeacherIds.add(period.teacher.toString());
+        }
+      }
+    }
+
+    // 3. Return teachers who teach this subject and are free at this time
+    const availableTeachers = subjectTeachers.filter(
+      t => !busyTeacherIds.has(t._id.toString())
+    );
+
+    res.json({ availableTeachers });
+
+  } catch (error) {
+    console.error('Error fetching available teachers:', error.message);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
 
 
 
@@ -1947,6 +2404,7 @@ module.exports = {
     AddStudent,
     SignupAdmin,
     LeaveAprroval,
+    getAvailableTeachers,
     AdminSignIn,
     AddClass,
     SignOut,

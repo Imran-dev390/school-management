@@ -5,12 +5,12 @@ const subjectSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    unique: true, // Ensure subject names are unique
+   // unique: true, // Ensure subject names are unique
   },
   code: {
     type: String,
     required: true,
-    unique: true, // A unique code for each subject (e.g., "MATH101", "ENG102")
+ //   unique: true, // A unique code for each subject (e.g., "MATH101", "ENG102")
   },
   classes: [
     {

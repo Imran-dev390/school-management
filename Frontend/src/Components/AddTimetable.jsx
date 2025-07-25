@@ -598,6 +598,7 @@ import { authDataContext } from '../Context-Api/AuthContext';
 import { adminDataContext } from '../Context-Api/AdminContext';
 import { Sidebar } from './Sidebar';
 import AdminLayout from './AdminLayout';
+import AdminTeachDashboardHeader from './AdminTeachDashboardHeader';
 
 const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const timeSlots = [
@@ -610,6 +611,12 @@ const ClassTimeTable = () => {
   const { adminData } = useContext(adminDataContext);
   const {fetchAdminData} = useContext(adminDataContext);
   const { serverUrl } = useContext(authDataContext);
+  const {teachers = []} = adminData?.admin || {};
+  const [filteredTeachers, setFilteredTeachers] = useState([]);
+//  const [availableTeachers, setAvailableTeachers] = useState([]);
+const [availableTeachersMap, setAvailableTeachersMap] = useState({});
+
+
 
   const [classSubjects, setClassSubjects] = useState([]);
   const [formData, setFormData] = useState({
@@ -627,6 +634,8 @@ const ClassTimeTable = () => {
   useEffect(() => {
     fetchAdminData().finally(() => setIsLoading(false));
   }, [fetchAdminData]);
+
+  console.log("teachers",teachers);
   // When class changes, filter its subjects
   useEffect(() => {
     if (formData.className) {
@@ -636,6 +645,45 @@ const ClassTimeTable = () => {
       setClassSubjects([]);
     }
   }, [formData.className, adminData]);
+useEffect(() => {
+  const selectedSubjects = formData.periods.map(p => p.subject).filter(Boolean);
+  const selectedClassId = formData.className;
+
+  if (!selectedClassId && selectedSubjects.length === 0) {
+    setFilteredTeachers([]);
+    return;
+  }
+
+  const matchingTeachers = teachers.filter((teacher) => {
+    const teachesSubject = selectedSubjects.some((subId) =>
+      teacher.teachSubject?.some((ts) => ts._id === subId)
+    );
+
+    const assignedToClass = teacher.assignedClass?.some((ac) => ac.class?._id === selectedClassId);
+
+    // Match teacher if either subject or class is relevant
+    return teachesSubject || assignedToClass;
+  });
+
+  setFilteredTeachers(matchingTeachers);
+}, [formData.periods, formData.className, teachers]);
+
+//const fetchAvailableTeachers = async (subjectId, time) => {
+  const fetchAvailableTeachers = async (index, subjectId, time) => {
+  if (!subjectId || !time) return;
+  try {
+   const res = await axios.get(`${serverUrl}/api/admin/available-teachers`, {
+  params: { subjectId, timeSlot: time },
+  withCredentials: true,
+});
+setAvailableTeachersMap((prev) => ({
+  ...prev,
+  [index]: res.data.availableTeachers
+}));
+  } catch (err) {
+    console.error('Error fetching teachers:', err);
+  }
+};
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -645,14 +693,45 @@ const ClassTimeTable = () => {
     }));
   };
 
-  const handlePeriodChange = (index, field, value) => {
-    const updatedPeriods = [...formData.periods];
-    updatedPeriods[index][field] = value;
-    setFormData((prev) => ({
-      ...prev,
-      periods: updatedPeriods
-    }));
-  };
+  // const handlePeriodChange = (index, field, value) => {
+  //   const updatedPeriods = [...formData.periods];
+  //   updatedPeriods[index][field] = value;
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     periods: updatedPeriods
+  //   }));
+  // };
+
+//   const handlePeriodChange = (index, field, value) => {
+//   const updatedPeriods = [...formData.periods];
+//   updatedPeriods[index][field] = value;
+//   setFormData((prev) => ({ ...prev, periods: updatedPeriods }));
+
+//   const subject = field === 'subject' ? value : updatedPeriods[index].subject;
+//   const time = field === 'time' ? value : updatedPeriods[index].time;
+
+//   // if (subject && time) {
+//   //   fetchAvailableTeachers(subject, time);
+//   // }
+//   if (subject && time) {
+//   fetchAvailableTeachers(index, subject, time);
+// }
+
+// };
+
+
+const handlePeriodChange = (index, field, value) => {
+  const updatedPeriods = [...formData.periods];
+  updatedPeriods[index][field] = value;
+  setFormData((prev) => ({ ...prev, periods: updatedPeriods }));
+
+  const subject = field === 'subject' ? value : updatedPeriods[index].subject;
+  const time = field === 'time' ? value : updatedPeriods[index].time;
+
+  if (subject && time) {
+    fetchAvailableTeachers(index, subject, time);
+  }
+};
 
   const addPeriod = () => {
     setFormData((prev) => ({
@@ -672,8 +751,11 @@ const ClassTimeTable = () => {
     e.preventDefault();
     try {
       const res = await axios.post(`${serverUrl}/api/admin/Add/timetable`, formData,{withCredentials:true});
-      alert(res?.data?.message || 'Timetable created');
-      setFormData({ className: '',
+    if(res.status === 201){
+  alert(res?.data?.message || 'Timetable created');
+  // reset form
+  setFormData({
+    className: '',
     day: '',
     periods: [
       {
@@ -681,7 +763,11 @@ const ClassTimeTable = () => {
         subject: '',
         time: ''
       }
-    ]})
+    ]
+  });
+} else {
+  alert("Something went wrong");
+}
     } catch (error) {
      // console.error('Submit error:', error);
       alert(error?.response?.data.message);
@@ -690,14 +776,19 @@ const ClassTimeTable = () => {
 if(isLoading) return <p>Admin Data is Loading...</p>
   return (
     <AdminLayout adminName='Bright Future'>
-    <form onSubmit={handleSubmit} style={styles.form}>
-      <h1 className='text-center text-xl font-bold'>Add Classes TimeTable</h1>
-
+       <AdminTeachDashboardHeader/>
+       <div className="flex w-full text-white p-3 h-full  rounded-md bg-[rgb(1,1,93)] flex-col md:flex-row justify-center items-center border-b pb-3">
+          <h2 className="text-xl font-semibold flex items-center gap-2">
+            <i className="fas fa-calendar-alt"></i> Add TimeTable
+          </h2>
+          </div>
+    {/* <form onSubmit={handleSubmit} className='grid w-full grid-cols-2 items-center p-3 shadow-2xl'>
       <label style={styles.label}>Class:</label>
       <select
         name="className"
         value={formData.className}
         onChange={handleChange}
+        className='border border-black'
         style={styles.select}
       >
         <option value="">-- Select Class --</option>
@@ -753,7 +844,124 @@ if(isLoading) return <p>Admin Data is Loading...</p>
         ))}
       </div>
       <button type="submit"  style={styles.addButton}>Submit Timetable</button>
-    </form>
+    </form> */}
+    <form
+  onSubmit={handleSubmit}
+  className="grid w-full grid-cols-1 md:grid-cols-2 gap-4 p-6 bg-white rounded shadow-2xl"
+>
+  {/* Class */}
+  <div className="flex flex-col">
+    <label className="font-semibold text-gray-700 mb-1">Class:</label>
+    <select
+      name="className"
+      value={formData.className}
+      onChange={handleChange}
+      className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    >
+      <option value="">-- Select Class --</option>
+      {adminData?.admin?.classes?.map((cls) => (
+        <option key={cls._id} value={cls._id}>
+          {cls.name}{cls.section}
+        </option>
+      ))}
+    </select>
+  </div>
+
+  {/* Day */}
+  <div className="flex flex-col">
+    <label className="font-semibold text-gray-700 mb-1">Day:</label>
+    <select
+      name="day"
+      value={formData.day}
+      onChange={handleChange}
+      className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    >
+      <option value="">-- Select Day --</option>
+      {daysOfWeek.map((day, idx) => (
+        <option key={idx} value={day}>{day}</option>
+      ))}
+    </select>
+  </div>
+
+  {/* Subject-wise Periods */}
+  <div className="col-span-2">
+    <h4 className="font-bold mb-2 text-lg">Subject Wise Periods:</h4>
+    {formData.periods.map((period, index) => (
+      <div
+        key={index}
+        className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center mb-4 bg-gray-50 p-4 rounded"
+      >
+        {/* Subject */}
+        <div className="flex flex-col">
+          <label className="font-semibold text-gray-700 mb-1">Subject:</label>
+          <select
+            value={period.subject}
+            onChange={(e) => handlePeriodChange(index, 'subject', e.target.value)}
+            className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">-- Select Subject --</option>
+            {classSubjects.map((subj, i) => (
+              <option key={i} value={subj._id}>{subj.name}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* Time */}
+        <div className="flex flex-col">
+          <label className="font-semibold text-gray-700 mb-1">Period Time:</label>
+          <select
+            value={period.time}
+            onChange={(e) => handlePeriodChange(index, 'time', e.target.value)}
+            className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">-- Select Time --</option>
+            {timeSlots.map((time, i) => (
+              <option key={i} value={time}>{time}</option>
+            ))}
+          </select>
+        </div>
+       {availableTeachersMap[index]?.length > 0 && (
+  <div className="mt-2">
+    <label className="text-sm font-semibold text-gray-600">Available Teachers:</label>
+    {/* <select className="mt-1 border px-2 py-1 rounded">
+       {availableTeachersMap[index].map((teacher) => (
+        <option key={teacher._id} value={teacher._id}>
+          {teacher.name} ({teacher.email})
+        </option>
+      ))}
+    </select> */}
+    <select
+  className="mt-1 border px-2 py-1 rounded"
+  value={period.teacher}
+  onChange={(e) => handlePeriodChange(index, 'teacher', e.target.value)}
+>
+  <option value="">-- Select Teacher --</option>
+  {availableTeachersMap[index].map((teacher) => (
+    <option key={teacher._id} value={teacher._id}>
+      {teacher.name} ({teacher.email})
+    </option>
+  ))}
+</select>
+
+  </div>
+)}
+
+      </div>
+    ))}
+  </div>
+
+  {/* Submit Button */}
+  <div className="col-span-2 flex justify-end">
+    <button
+      type="submit"
+      className="bg-[#c19703] text-white px-6 py-2 rounded shadow transition duration-200"
+    >
+      Submit Timetable
+    </button>
+  </div>
+</form>
+
+
     </AdminLayout>
   );
 };

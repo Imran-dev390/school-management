@@ -5,6 +5,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import AdminTeachDashboardHeader from './AdminTeachDashboardHeader';
 import StudentSidebar from './StudentSidebar'
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 const StudentMDashSendLeave = () => {
      const { adminData, fetchAdminData } = useContext(adminDataContext);
       const { serverUrl } = useContext(authDataContext);
@@ -62,10 +63,15 @@ const StudentMDashSendLeave = () => {
          <StudentSidebar/>
        <div className="main w-full h-full flex flex-col gap-3 justify-center mt-3 px-4 ">
               <AdminTeachDashboardHeader />
-              <div className="flex w-full text-white p-3 rounded-md bg-[rgb(1,1,93)] flex-col md:flex-row justify-center items-center border-b pb-3">
+              <div className="flex w-full text-white justify-between p-3 rounded-md bg-[rgb(1,1,93)] flex-col md:flex-row  items-center border-b pb-3">
                 <h2 className="text-lg font-semibold flex items-center gap-2">
                   <i className="fas fa-calendar-alt"></i> Submit Leave Request
-                </h2>
+                </h2>       
+      <div className="flex justify-end  w-fit items-center">
+          <span className='text-white px-2 py-1 underline  rounded'>
+            <Link to="/student/view/leaves " className='bg-[rgb(#c19703)]'>View Leaves</Link>
+          </span>
+          </div> 
               </div>
               <div className="wrapper border border-grey-300 mt-4 px-4 py-2">
                 <h2 className="text-2xl font-semibold mb-4">Send Leave By Student</h2>

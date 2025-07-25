@@ -281,7 +281,7 @@ const StudentSidebar = () => {
           </Link>
           </li>
            <li className="active:text-[rgb(193,151,11)]">
-          <Link to='/student/dash'>
+          <Link to='/student/dash/class/timetable'>
            📝 Class TimeTable
           </Link>
           </li>

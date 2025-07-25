@@ -5,6 +5,7 @@ const PeriodSchema = new mongoose.Schema({
   periodNumber: Number,
   subject: { type: mongoose.Schema.Types.ObjectId, ref: 'Subject' },
   time: String,
+  teacher: { type: mongoose.Schema.Types.ObjectId, ref: "Teacher" }
 });
 
 const TimetableSchema = new mongoose.Schema({

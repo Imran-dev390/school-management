@@ -15,6 +15,13 @@ const user = await User.findOne({ _id: req.userId })
   .select("-password")
   .populate("session")
   .populate({
+    path:"leave",
+    populate:{
+      path:"Class",
+      select:"name section"
+    }
+  })
+  .populate({
     path: "feeVouchers",
     populate: {
       path: "feeType",

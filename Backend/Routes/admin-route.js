@@ -1,5 +1,5 @@
 const expess = require("express");
-const { AddStudent, AddTeacher, AddClass, AddSubjects, AddSession, AddStaff, AddTimeTable, LeaveAprroval } = require("../Controllers/auth.controller");
+const { AddStudent, AddTeacher, AddClass, AddSubjects, AddSession, AddStaff, AddTimeTable, LeaveAprroval, getAvailableTeachers } = require("../Controllers/auth.controller");
 const isAuth = require("../middlewares/isAuth");
 const {getAdminProfile,DeleteStudent, UpdateStudent, UpdateTeacher, DeleteTeacher, ExamTimetable, AssignTeacherSubject, AdmissionNoRollNoSequance} = require("../Controllers/admin.controller");
 const getCurrentUser = require("../Controllers/user.controller");
@@ -54,6 +54,8 @@ router.post("/add/fee-types", isAuth,addFeeType);
 router.get("/students/next-numbers",isAuth,AdmissionNoRollNoSequance);
 // GET /api/voucher/:id/pdf
 router.get("/voucher/:id/pdf",isAuth,ShowGeneratedPdf);
+router.get('/available-teachers',isAuth, getAvailableTeachers);
+
 
 module.exports = router;
 

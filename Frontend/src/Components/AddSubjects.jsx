@@ -75,7 +75,6 @@ const AddSubject = () => {
       toast.error(err?.response?.data.message);
     }
   };
-
   return (
     <AdminLayout adminName='Bright Future'>
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">

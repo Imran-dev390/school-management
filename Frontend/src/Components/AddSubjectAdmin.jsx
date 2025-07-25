@@ -9,6 +9,7 @@ import AdminTeachDashboardHeader from './AdminTeachDashboardHeader';
 import AdminLayout from './AdminLayout';
 import { Link, useNavigate } from 'react-router-dom';
 import React, { useState, useRef, useEffect } from "react";
+import axios from 'axios';
 // const AddSubjectAdmin = () => {
 //     const {serverUrl} = useContext(authDataContext);
 //     const {adminData,fetchAdminData} = useContext(adminDataContext);
@@ -803,7 +804,6 @@ console.log("classoption",classOptions);
       classes: selected,
     }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -818,13 +818,14 @@ console.log("classoption",classOptions);
         { withCredentials: true }
       );
 
-      if (response.status === 201) {
-        toast.success("Subject added successfully!");
+      if (response.statusText === 201) {
+        alert("Subject added successfully!");
+        subjectData({name:"",code:"",classes:[],department:""});
         // navigate("/admin/dash");
       }
     } catch (err) {
       console.error("Error adding subject:", err);
-      toast.error(err?.response?.data?.message || "Failed to add subject");
+      alert(err?.response?.data?.message || "Failed to add subject");
     }
   };
 

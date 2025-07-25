@@ -842,6 +842,8 @@ import AdminViewFeeTypes from "./Components/AdminViewFeeTypes";
 import AdminAddFeeType from "./Components/AdminAddFeeType";
 import StudentDashFeeInvoice from "./Components/StudentDashFeeInvoice";
 import AdminViewLeaves from "./Components/AdminViewLeaves";
+import StudentDBViewLeaves from "./Components/StudentDBViewLeaves";
+import StudentDBClassTimetable from "./Components/StudentDBClassTimetable";
 
 // Lazy loaded components
 const Register = lazy(() => import("./Components/Register"));
@@ -991,6 +993,26 @@ function App() {
             element={
               userData ? (
                 role === "Student" ? <StudentDashFeeInvoice/> : <Navigate to="/" />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+           <Route
+            path="/student/view/leaves"
+            element={
+              userData ? (
+                role === "Student" ? <StudentDBViewLeaves/> : <Navigate to="/" />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/student/dash/class/timetable"
+            element={
+              userData ? (
+                role === "Student" ? <StudentDBClassTimetable/> : <Navigate to="/" />
               ) : (
                 <Navigate to="/login" />
               )
