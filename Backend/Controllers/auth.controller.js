@@ -2180,6 +2180,61 @@ const AddTimeTable = async (req, res) => {
 
 
 
+// const getAvailableTeachers = async (req, res) => {
+//   try {
+//     const { subjectId, timeSlot, classId } = req.query;
+
+//     if (!subjectId || !timeSlot || !classId) {
+//       return res.status(400).json({ message: 'Missing subjectId, classId or timeSlot' });
+//     }
+
+//     // Get teachers who teach this subject
+//     const subjectTeachers = await Teacher.find({ teachSubject: subjectId });
+
+//     // 1. Check if this subject is already assigned to this class
+//     const timetableForClass = await Timetable.findOne({ className: classId });
+
+//     let subjectAlreadyUsed = false;
+//     if (timetableForClass) {
+//       for (const period of timetableForClass.periods) {
+//         if (period.subject?.toString() === subjectId) {
+//           subjectAlreadyUsed = true;
+//           break;
+//         }
+//       }
+//     }
+
+//     if (subjectAlreadyUsed) {
+//       return res.status(200).json({ availableTeachers: [] }); // Subject already scheduled for this class
+//     }
+
+//     // 2. Find all teachers busy at this time
+//     const busyTimetables = await Timetable.find({ "periods.time": timeSlot });
+
+//     const busyTeacherIds = new Set();
+//     for (const timetable of busyTimetables) {
+//       for (const period of timetable.periods) {
+//         if (period.time === timeSlot && period.teacher) {
+//           busyTeacherIds.add(period.teacher.toString());
+//         }
+//       }
+//     }
+
+//     // 3. Return teachers who teach this subject and are free at this time
+//     const availableTeachers = subjectTeachers.filter(
+//       t => !busyTeacherIds.has(t._id.toString())
+//     );
+
+//     res.json({ availableTeachers });
+
+//   } catch (error) {
+//     console.error('Error fetching available teachers:', error.message);
+//     res.status(500).json({ message: 'Server error' });
+//   }
+// };
+
+
+
 const getAvailableTeachers = async (req, res) => {
   try {
     const { subjectId, timeSlot, classId } = req.query;
@@ -2191,21 +2246,15 @@ const getAvailableTeachers = async (req, res) => {
     // Get teachers who teach this subject
     const subjectTeachers = await Teacher.find({ teachSubject: subjectId });
 
-    // 1. Check if this subject is already assigned to this class
-    const timetableForClass = await Timetable.findOne({ className: classId });
+    // 1. Check if this subject is already assigned to this class at the selected time
+    const conflictingTimetable = await Timetable.findOne({
+      className: classId,
+      "periods.subject": subjectId,
+      "periods.time": timeSlot
+    });
 
-    let subjectAlreadyUsed = false;
-    if (timetableForClass) {
-      for (const period of timetableForClass.periods) {
-        if (period.subject?.toString() === subjectId) {
-          subjectAlreadyUsed = true;
-          break;
-        }
-      }
-    }
-
-    if (subjectAlreadyUsed) {
-      return res.status(200).json({ availableTeachers: [] }); // Subject already scheduled for this class
+    if (conflictingTimetable) {
+      return res.status(200).json({ availableTeachers: [] }); // Subject already scheduled at this time
     }
 
     // 2. Find all teachers busy at this time
@@ -2220,7 +2269,7 @@ const getAvailableTeachers = async (req, res) => {
       }
     }
 
-    // 3. Return teachers who teach this subject and are free at this time
+    // 3. Return subject teachers who are not busy at that time
     const availableTeachers = subjectTeachers.filter(
       t => !busyTeacherIds.has(t._id.toString())
     );
@@ -2232,9 +2281,6 @@ const getAvailableTeachers = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
-
-
-
 
 
 

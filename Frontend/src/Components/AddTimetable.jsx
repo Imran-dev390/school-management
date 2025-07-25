@@ -670,10 +670,11 @@ useEffect(() => {
 
 //const fetchAvailableTeachers = async (subjectId, time) => {
   const fetchAvailableTeachers = async (index, subjectId, time) => {
+    const classId = formData.className;
   if (!subjectId || !time) return;
   try {
    const res = await axios.get(`${serverUrl}/api/admin/available-teachers`, {
-  params: { subjectId, timeSlot: time },
+  params: { subjectId, timeSlot: time,classId},
   withCredentials: true,
 });
 setAvailableTeachersMap((prev) => ({
