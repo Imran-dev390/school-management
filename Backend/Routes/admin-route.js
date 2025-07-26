@@ -10,6 +10,8 @@ const createTransferRecord = require("../Controllers/TransferStudent.Controller"
 const AddLeave = require("../Controllers/Leave.controller");
 const addFeeType = require("../Controllers/AddFeeType.controller");
 const ShowGeneratedPdf = require("../Controllers/ShowPdfVoucher");
+const AddEvents = require("../Controllers/AddEvents.controller");
+const AddNotice = require("../Controllers/AddNotice.controller");
 const mern = "mern";
 const router =  expess.Router();
 
@@ -55,6 +57,8 @@ router.get("/students/next-numbers",isAuth,AdmissionNoRollNoSequance);
 // GET /api/voucher/:id/pdf
 router.get("/voucher/:id/pdf",isAuth,ShowGeneratedPdf);
 router.get('/available-teachers',isAuth, getAvailableTeachers);
+router.post("/Add/Event",isAuth,upload.single("image"),AddEvents);
+router.post("/Add/Notice",isAuth,upload.single('attachment'),AddNotice);
 
 
 module.exports = router;

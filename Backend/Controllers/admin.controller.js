@@ -101,7 +101,14 @@ const FeeVoucher = require("../models/FeeVoucher.model");
 const getAdminProfile = async (req, res) => {
   try {
     // STEP 1: Get the admin
-    const admin = await Admin.findOne({_id: req.userId}).populate("sessions")
+    const admin = await Admin.findOne({_id: req.userId}).populate({
+  path: "sessions",
+  select: "startDate endDate Events",
+  populate: {
+    path: "Events", // make sure the field name is exactly this
+    model: "Event"  // match your actual model name
+  }
+})
     .populate("transferredStudents")
     .populate("FeeTypes")
     .populate("staff") // Replace with dynamic `req.user.email` or `req.userId`
@@ -140,7 +147,6 @@ const feeVouchers = await FeeVoucher.find({ student: { $in: studentIds } })
     select: 'name section'
   })
   .lean();
-
 //console.log("teachers at admin",populatedTeachers)
     // STEP 4: Populate classes and subjects
     const populatedClasses = await Class.find({ _id: { $in: admin.classes } })
@@ -167,7 +173,7 @@ const feeVouchers = await FeeVoucher.find({ student: { $in: studentIds } })
     res.status(200).json({ admin: fullAdminProfile });
 
   } catch (err) {
-  //  console.error("Error fetching admin profile:", err);
+    console.error("Error fetching admin profile:", err);
     res.status(500).json({ message: "Server error while fetching admin data" });
   }
 };

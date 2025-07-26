@@ -28,6 +28,10 @@ const sessionSchema = new mongoose.Schema({
     type:mongoose.Schema.Types.ObjectId,
     ref:"Staff"
   }],
+  Events:[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Event"
+  }],
   isActive: {
     type: Boolean,
     default: true,

@@ -52,15 +52,15 @@ const AdminTeacherDashboardPage = () => {
     {
       title: 'Noticeboard',
       actions: [
-        { label: 'Noticeboard', href: '/admin/notices' },
-        { label: 'Add New Notice', href: '/admin/notices/new' },
+        { label: 'Noticeboard', href: '/admin/view/notices' },
+        { label: 'Add New Notice', href: '/admin/add-new/notices' },
       ],
     },
     {
       title: 'Events',
       actions: [
-        { label: 'View Events', href: '/admin/events' },
-        { label: 'Add New Event', href: '/admin/events/new' },
+        { label: 'View Events', href: '/admin/view/events' },
+        { label: 'Add New Event', href: '/admin/add-events/new' },
       ],
     },
   ];

@@ -844,6 +844,10 @@ import StudentDashFeeInvoice from "./Components/StudentDashFeeInvoice";
 import AdminViewLeaves from "./Components/AdminViewLeaves";
 import StudentDBViewLeaves from "./Components/StudentDBViewLeaves";
 import StudentDBClassTimetable from "./Components/StudentDBClassTimetable";
+import AdminAddEvent from "./Components/AdminAddEvent";
+import AdminViewEvents from "./Components/AdminViewEvents";
+import StudentViewEvents from "./Components/StudentViewEvents";
+import AdminAddNoticeboard from "./Components/AdminAddNoticeboard";
 
 // Lazy loaded components
 const Register = lazy(() => import("./Components/Register"));
@@ -1008,11 +1012,23 @@ function App() {
               )
             }
           />
+          
           <Route
             path="/student/dash/class/timetable"
             element={
               userData ? (
                 role === "Student" ? <StudentDBClassTimetable/> : <Navigate to="/" />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+
+           <Route
+            path="/student/dash/events"
+            element={
+              userData ? (
+                role === "Student" ? <StudentViewEvents/> : <Navigate to="/" />
               ) : (
                 <Navigate to="/login" />
               )
@@ -1111,6 +1127,9 @@ function App() {
                 <Route path="/admin/view/fee/types" element={<AdminViewFeeTypes/>}></Route>
                 <Route path="/admin/add/fee/type" element={<AdminAddFeeType/>}></Route>
                 <Route path="/admin/view/student/leaves" element={<AdminViewLeaves/>}></Route>
+                <Route path="/admin/add-events/new" element={<AdminAddEvent/>}></Route>
+                <Route path="/admin/view/events" element={<AdminViewEvents/>}></Route>
+                <Route path="/admin/add-new/notices" element={<AdminAddNoticeboard/>}></Route>
             </>
           )}
 

@@ -1560,7 +1560,8 @@ export function Sidebar({ isOpen, setIsOpen, adminName ,hasUserToggled,onToggleS
       {label:"➕ Manage TimeTable",path:"/admin/Add/Class-TimeTable"},
       {label:"➕ Send Leave ",path:"/Admin/Send/Teacher/Leave"},
       {label:"👥 View Today Leaves",path:"/Admin/View/Today/Leaves"},
-       {label:"👥 View All Leaves",path:"/Admin/View/Class/Leaves"}
+      {label:"👥 View All Leaves",path:"/Admin/View/Class/Leaves"},
+      {label:"👥 View Events",path:"/admin/view/events"}
       ],
     },
         {
