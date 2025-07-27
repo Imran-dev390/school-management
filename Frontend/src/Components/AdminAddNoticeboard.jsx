@@ -93,7 +93,7 @@ const handleSubmit = async (e) => {
            </h2>
            <div className="flex justify-end">
              <span className="bg-[#c19703] px-3 py-2 rounded">
-               <Link to="/admin/view/events">View All</Link>
+               <Link to="/admin/view/notice">View All</Link>
              </span>
            </div>
          </div>

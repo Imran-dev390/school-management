@@ -1581,6 +1581,15 @@ export function Sidebar({ isOpen, setIsOpen, adminName ,hasUserToggled,onToggleS
       ],
     },
     {
+label: "👨‍💼 Administrater",
+     // path: "/admin/classes",
+      children: [
+        {label:"📊 Dashboard", path:"/admin/administrater/dash"},
+        { label: "👥 Roles ", path: "/admin/view/roles" },
+        // { label: "➕ Add Class TimeTable", path: "/Add/Class/Timetable" },
+      ],
+    },
+    {
       label: "🏫 Classes",
       path: "/admin/classes",
       children: [

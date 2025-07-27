@@ -13,6 +13,7 @@ const ShowGeneratedPdf = require("../Controllers/ShowPdfVoucher");
 const AddEvents = require("../Controllers/AddEvents.controller");
 const AddNotice = require("../Controllers/AddNotice.controller");
 const mern = "mern";
+const roleController = require("../Controllers/Role.controller");
 const router =  expess.Router();
 
 router.get("/",isAuth, getAdminProfile);
@@ -59,7 +60,8 @@ router.get("/voucher/:id/pdf",isAuth,ShowGeneratedPdf);
 router.get('/available-teachers',isAuth, getAvailableTeachers);
 router.post("/Add/Event",isAuth,upload.single("image"),AddEvents);
 router.post("/Add/Notice",isAuth,upload.single('attachment'),AddNotice);
-
+router.post("/create/roles",isAuth,roleController.createRole);
+router.get("/view/roles",isAuth,roleController.getAllRoles);
 
 module.exports = router;
 

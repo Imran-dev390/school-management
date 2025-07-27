@@ -32,6 +32,10 @@ const sessionSchema = new mongoose.Schema({
     type:mongoose.Schema.Types.ObjectId,
     ref:"Event"
   }],
+  Notices:[{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Notice"
+  }],
   isActive: {
     type: Boolean,
     default: true,

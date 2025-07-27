@@ -848,6 +848,11 @@ import AdminAddEvent from "./Components/AdminAddEvent";
 import AdminViewEvents from "./Components/AdminViewEvents";
 import StudentViewEvents from "./Components/StudentViewEvents";
 import AdminAddNoticeboard from "./Components/AdminAddNoticeboard";
+import AdminViewNotices from "./Components/AdminViewNotices";
+import StudentViewNotices from "./Components/StudentViewNotices";
+import AdminAdministraterDash from "./Components/AdminAdministraterDash";
+import AdminAddRoles from "./Components/AdminAddRoles";
+import AdminViewRoles from "./Components/AdminViewRoles";
 
 // Lazy loaded components
 const Register = lazy(() => import("./Components/Register"));
@@ -1034,6 +1039,18 @@ function App() {
               )
             }
           />
+
+
+           <Route
+            path="/student/dash/notices"
+            element={
+              userData ? (
+                role === "Student" ? <StudentViewNotices/> : <Navigate to="/" />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
           {/* Teacher Routes */}
           <Route
             path="/teacher/dash"
@@ -1130,6 +1147,10 @@ function App() {
                 <Route path="/admin/add-events/new" element={<AdminAddEvent/>}></Route>
                 <Route path="/admin/view/events" element={<AdminViewEvents/>}></Route>
                 <Route path="/admin/add-new/notices" element={<AdminAddNoticeboard/>}></Route>
+                <Route path="/admin/view/notice" element={<AdminViewNotices/>}></Route>
+                <Route path="/admin/administrater/dash" element={<AdminAdministraterDash/>}></Route>
+                <Route path="/admin/add/roles" element={<AdminAddRoles/>}></Route>
+                <Route path="/admin/view/roles" element={<AdminViewRoles/>}></Route>
             </>
           )}
 

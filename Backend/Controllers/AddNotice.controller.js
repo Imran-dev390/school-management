@@ -1,4 +1,5 @@
 const Notice = require("../models/Notice.model");
+const Session = require("../models/Session.model");
 const AddNotice =  async (req, res) => {
   try {
     const {
@@ -11,7 +12,15 @@ const AddNotice =  async (req, res) => {
       sectionIds,
       studentIds,
     } = req.body;
-
+       const today = new Date();
+      const currentSession = await Session.findOne({
+          startDate: { $lte: today },
+          endDate: { $gte: today },
+        });
+    
+        if (!currentSession) {
+          return res.status(404).json({ message: "No active session found" });
+        }
     const noticeData = {
       title,
       description,
@@ -30,8 +39,9 @@ const AddNotice =  async (req, res) => {
         filename: req.file.originalname,
       };
     }
-
     const savedNotice = await Notice.create(noticeData);
+    currentSession.Notices.push(savedNotice._id);
+    await currentSession.save();
     res.status(201).json({ message: 'Notice created', notice: savedNotice });
   } catch (err) {
     console.error('Error creating notice:', err);

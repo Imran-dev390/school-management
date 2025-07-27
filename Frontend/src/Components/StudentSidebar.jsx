@@ -260,7 +260,7 @@ const StudentSidebar = () => {
             <Link to ="/student/send/leave"> ✉️ Send Leave </Link>
           </li>
            <li className="active:text-[rgb(193,151,11)]">
-          <Link to='/student/dash'>
+          <Link to='/student/dash/notices'>
            📊 NoticeBoard
           </Link>
           </li>

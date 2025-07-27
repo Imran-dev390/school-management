@@ -107,6 +107,10 @@ const getAdminProfile = async (req, res) => {
   populate: {
     path: "Events", // make sure the field name is exactly this
     model: "Event"  // match your actual model name
+  },
+  populate:{
+    path:"Notices",
+    model:"Notice"
   }
 })
     .populate("transferredStudents")

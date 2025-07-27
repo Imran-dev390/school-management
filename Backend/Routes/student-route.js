@@ -7,6 +7,7 @@ const upload = require('../middlewares/upload'); // multer middleware
 const router = express.Router();
 const events = require("../models/events.model");
 const Teacher = require("../models/teacher.model")
+const Notices = require("../models/Notice.model");
 router.post("/Add/Leave",isAuth,AddLeave);
 // router.get('/percentage/:studentId', isAuth,getStudentAttendancePercentage);
 router.get('/percentage', isAuth, getStudentAttendancePercentage);
@@ -24,6 +25,16 @@ router.get("/events",isAuth,async(req,res)=>{
           const Events = await events.find();
           return res.status(201).json({message:"Events Received",
             Event:Events})
+  } catch(err){
+    console.log("error fetchingt events");
+    res.status(500).json({message:"Failed to fetch events"})
+  }
+})
+router.get("/notices",isAuth,async(req,res)=>{
+  try{
+          const Events = await Notices.find();
+          return res.status(201).json({message:"Events Received",
+            Notice:Events})
   } catch(err){
     console.log("error fetchingt events");
     res.status(500).json({message:"Failed to fetch events"})
