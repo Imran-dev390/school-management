@@ -14,9 +14,9 @@ const DashboardCard = ({ title, value, color }) => (
 
 const TeacherDashboard = () => {
   const { fetchAdminData } = useContext(adminDataContext);
-  const { userData } = useContext(userDataContext);
+  const { userData ,permissions} = useContext(userDataContext);
   const { serverUrl } = useContext(authDataContext);
-
+ 
   const [publishMarksModal, setPublishMarksModal] = useState(false);
   const [studentMarks, setStudentMarks] = useState({});
   const [selectedClassForMarks, setSelectedClassForMarks] = useState(null);
@@ -106,6 +106,7 @@ useEffect(()=>{
 //  alert("User data is ready to user")
  }
 },[userData])
+console.log("userData",permissions);
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
       {/* Sidebar */}

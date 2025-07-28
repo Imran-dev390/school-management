@@ -853,6 +853,7 @@ import StudentViewNotices from "./Components/StudentViewNotices";
 import AdminAdministraterDash from "./Components/AdminAdministraterDash";
 import AdminAddRoles from "./Components/AdminAddRoles";
 import AdminViewRoles from "./Components/AdminViewRoles";
+import AddSubjectRoleBased from "./Components/AddSubjectRoleBased";
 
 // Lazy loaded components
 const Register = lazy(() => import("./Components/Register"));
@@ -1067,6 +1068,17 @@ function App() {
             element={
               userData ? (
                 role === "Teacher" ? <TeacherProfile /> : <Navigate to="/" />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+
+            <Route
+            path="/teacher/subjects/add"
+            element={
+              userData ? (
+                role === "Teacher" ? <AddSubjectRoleBased/> : <Navigate to="/" />
               ) : (
                 <Navigate to="/login" />
               )

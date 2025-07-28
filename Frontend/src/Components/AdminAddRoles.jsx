@@ -9,29 +9,27 @@ import { authDataContext } from '../Context-Api/AuthContext'
 
 const AdminAddRoles = () => {
 const permissions = [
-  { id: 'wlsm_role_permission_add_subjects', value: 'add_subjects', label: 'Add Subjects' },
-  { id: 'wlsm_role_permission_view_subjects', value: 'view_subjects', label: 'View Subjects' },
-  { id: 'wlsm_role_permission_add_attendance', value: 'add_attendance', label: 'Add Student Attendance' },
-  { id: 'wlsm_role_permission_view_attendance', value: 'view_attendance', label: 'View Student Attendance' },
-  { id: 'wlsm_role_permission_add_timetable', value: 'add_timetable', label: 'Add Timetable' },
-  { id: 'wlsm_role_permission_view_timetable', value: 'view_timetable', label: 'View Timetable' },
-  { id: 'wlsm_role_permission_edit_timetable', value: 'edit_timetable', label: 'Edit Timetable' },
-  { id: 'wlsm_role_permission_edit_staff_leaves', value: 'edit_staff_leaves', label: 'Add/Edit Staff Leaves' },
-  { id: 'wlsm_role_permission_view_staff_leaves', value: 'view_staff_leaves', label: 'View Staff Leaves' },
-  { id: 'wlsm_role_permission_view_events', value: 'view_events', label: 'View Events' },
-  { id: 'wlsm_role_permission_manage_classes', value: 'manage_classes', label: 'Manage Classes & Sections' },
-  { id: 'wlsm_role_permission_delete_sections', value: 'delete_sections', label: 'Delete Class Sections' },
+  { id: 'wlsm_role_permission_add_subjects',        value: 'add_subjects', label: 'Add Subjects' },
+  { id: 'wlsm_role_permission_view_subjects',       value: 'view_subjects', label: 'View Subjects' },
+  { id: 'wlsm_role_permission_add_attendance',      value: 'add_attendance', label: 'Mark Student Attendance' },
+  { id: 'wlsm_role_permission_view_attendance',     value: 'view_attendance', label: 'View Student Attendance' },
+  { id: 'wlsm_role_permission_add_timetable',       value: 'add_timetable', label: 'Add Timetable' },
+  { id: 'wlsm_role_permission_view_timetable',      value: 'view_timetable', label: 'View Timetable' },
+  { id: 'wlsm_role_permission_View_Student',        value: 'view_students', label: 'View Students' },
+  { id: 'wlsm_role_permission_View_Student_Leaves', value: 'view_students_Leaves', label: 'View Students Leaves' },
+  { id: 'wlsm_role_permission_view_events',         value: 'view_events', label: 'View Events' },
+  { id: 'wlsm_role_permission_manage_classes',      value: 'manage_classes', label: 'Manage Classes & Sections' },
+  { id: 'wlsm_role_permission_view_notices',        value: 'view_notices', label: 'View Notice' },
+  { id: 'wlsm_role_permission_add_fees',            value: 'add_fees', label: 'Add Fee Types' },
+  { id: 'wlsm_role_permission_view_fees',           value: 'view_fees', label: 'View Fee Types' },
+  { id: 'wlsm_role_permission_view_invoices',       value: 'view_invoices', label: 'View Invoices' },
+  { id: 'wlsm_role_permission_stats_payments',      value: 'stats_payments', label: 'View Stats - Payments' },
 
-  { id: 'wlsm_role_permission_add_fees', value: 'add_fees', label: 'Add Fee Types' },
-  { id: 'wlsm_role_permission_view_fees', value: 'view_fees', label: 'View Fee Types' },
-  { id: 'wlsm_role_permission_edit_fees', value: 'edit_fees', label: 'Edit Fee Types' },
-  { id: 'wlsm_role_permission_add_invoices', value: 'add_invoices', label: 'Add Invoices' },
-  { id: 'wlsm_role_permission_view_invoices', value: 'view_invoices', label: 'View Invoices' },
-  { id: 'wlsm_role_permission_edit_invoices', value: 'edit_invoices', label: 'Edit Invoices' },
-  { id: 'wlsm_role_permission_stats_payments', value: 'stats_payments', label: 'View Stats - Payments' },
-  { id: 'wlsm_role_permission_add_expenses', value: 'add_expenses', label: 'Add Expenses' },
-  { id: 'wlsm_role_permission_view_expenses', value: 'view_expenses', label: 'View Expenses' },
-  { id: 'wlsm_role_permission_edit_expenses', value: 'edit_expenses', label: 'Edit Expenses' }
+  // 🆕 Added based on sidebarLinks
+  { id: 'wlsm_role_permission_publish_marks',       value: 'publish_marks', label: 'Publish Marks' },
+  { id: 'wlsm_role_permission_announcements',       value: 'announcements', label: 'View Announcements' },
+  { id: 'wlsm_role_permission_add_announcement',    value: 'add_announcement', label: 'Add Announcement' },
+  { id: 'wlsm_role_permission_chat',                value: 'chat', label: 'Chat' }
 ];
 
   const [roleName, setRoleName] = useState('');

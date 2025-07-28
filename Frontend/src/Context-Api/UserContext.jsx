@@ -51,6 +51,7 @@ const UserContext = ({ children }) => {
   const { serverUrl } = useContext(authDataContext); // Get server URL from AuthContext
   const [userData, setUserData] = useState(null);
 const [loadingUser, setLoadingUser] = useState(true);
+const [permissions,setPermissions] = useState([]);
   /*const getCurrentUser = async () => {
     try {
       const result = await axios.get(`${serverUrl}/api/user/home`, { withCredentials: true });
@@ -83,11 +84,22 @@ const getCurrentUser = async () => {
       getCurrentUser();
     }
   }, [serverUrl]);
+useEffect(()=>{
+    if (
+    userData?.role === "Teacher" || 
+    userData?.role === "Accountant"
+  ) {
+    setPermissions(userData.permissions || []);
+  } else {
+    setPermissions([]); // reset permissions for other roles
+  }
+},[userData])
 
   const value = {
     userData,
     setUserData,
     getCurrentUser,
+    permissions,
      loadingUser
   };
 

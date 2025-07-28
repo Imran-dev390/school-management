@@ -18,7 +18,7 @@ const Subject = require("../models/Subjects.model");
 const FeeType = require("../models/FeeType.model");
 const FeeVoucher = require("../models/FeeVoucher.model");
 const generateFeeVoucherPDF = require("../utils/pdfGenerator");
-
+const Role = require('../models/Role.model');
 
 
 
@@ -1273,7 +1273,7 @@ const AddSubjects = async (req, res) => {
           await admin.save();
         }
 
-        return res.status(200).json({
+        return res.status(201).json({
           message: "Subject updated for some new classes",
           updatedClassIds,
           skippedClassIds,
@@ -1621,6 +1621,7 @@ const AddTeacher = async (req, res) => {
       incharge,
       CnicNumber,
       sessionId,
+      role = "Teacher"
     } = req.body;
 
     // 🔒 Input Sanitization
@@ -1643,6 +1644,9 @@ if (!session) {
     const CnicBackImage = req.files?.CnicBackImage?.[0];
 
     // ✅ Class Lookup
+ const roleDoc = await Role.findOne({ name: role });
+  if (!roleDoc) return res.status(400).json({ message: "Invalid role" });
+
     const classDoc = await Class.findOne({ _id: assignedClass });
     if (!classDoc) {
       return res.status(400).json({ message: "Class not found with name: " + assignedClass });
@@ -1679,6 +1683,7 @@ if (!session) {
       address,
       CnicNumber,
       session:session._id,
+      role,
       profileImage: profileImage
         ? {
             data: profileImage.buffer,

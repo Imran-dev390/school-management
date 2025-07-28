@@ -3,9 +3,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import { userDataContext } from '../Context-Api/UserContext'
 import axios from 'axios';
 import { authDataContext } from '../Context-Api/AuthContext';
+import { hasPermission } from '../utils/permissionUtils';
+import { teacherSidebarLinks } from '../utils/teacherSidebarLinks';
 
 const TeacherSidebar = () => {
-  const {userData,setUserData} = useContext(userDataContext);
+  const {userData,setUserData, permissions} = useContext(userDataContext);
   const {serverUrl} = useContext(authDataContext);
   const [Incharge,setIncharge] = useState(false);
   const [isOpen,setIsOpen] = useState(false);
@@ -160,11 +162,45 @@ const TeacherSidebar = () => {
       <img src="/logo.jpg" alt="Logo" className="w-full h-8 object-cover" />
     </div>
     <ul className="p-4 space-y-3 font-medium">
-      <li className="active:text-[rgb(193,151,11)]">
+       <li className="active:text-[rgb(193,151,11)]">
         <Link to="/teacher/dash">📊 Dashboard</Link>
       </li>
+ {Incharge && permissions.includes("add_attendance") && (
+    <li>
+      <Link to="/Mark/Attendance">📝 Mark Attendance</Link>
+    </li>
+  )}
 
-      {Incharge && (
+  {/* Map permissions-based links */}
+  {permissions.map((key) => {
+    const item = teacherSidebarLinks[key];
+    return (
+      item && (
+        <li key={key}>
+          <Link to={item.to}>{item.label}</Link>
+        </li>
+      )
+    );
+  })}
+
+  {/* Common links */}
+  <li>
+    <Link to={`/${userData.role}/${userData.name}/update/password`}>
+      🔒 Reset Password
+    </Link>
+  </li>
+
+  <li>
+    <Link to="/teacher/profile">👤 Profile</Link>
+  </li>
+
+
+
+
+
+
+
+   {/*   {Incharge && (
         <li className="active:text-[rgb(193,151,11)]">
           <Link to="/Mark/Attendance">➕ Mark Attendance</Link>
         </li>
@@ -202,7 +238,7 @@ const TeacherSidebar = () => {
 </li>
 <li className="active:text-[rgb(193,151,11)]">
   <Link to="/teacher/chat">💬 Chat</Link>
-</li>
+</li> */}
 
       <li>
         <button
