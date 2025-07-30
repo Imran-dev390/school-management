@@ -1273,7 +1273,7 @@ const AddSubjects = async (req, res) => {
           await admin.save();
         }
 
-        return res.status(201).json({
+        return res.status(200).json({
           message: "Subject updated for some new classes",
           updatedClassIds,
           skippedClassIds,
@@ -1604,6 +1604,134 @@ const AddSession = async (req, res) => {
 //  };
 
 
+// const AddTeacher = async (req, res) => {
+//   try {
+//     let {
+//       name,
+//       email,
+//       password,
+//       phone,
+//       salary,
+//       dob,
+//       gender,
+//       qualifications,
+//       address,
+//       teachSubject,
+//       assignedClass,
+//       incharge,
+//       CnicNumber,
+//       sessionId,
+//       role = "Teacher"
+//     } = req.body;
+
+//     // 🔒 Input Sanitization
+//     email = email.trim().toLowerCase();
+//     name = name.trim();
+//     teachSubject = teachSubject.trim();
+// // Validate Session Id From Client_Side 
+// const session = await Session.findById(sessionId);
+// if (!session) {
+//   return res.status(404).json({ message: "Session Not Found" });
+// }
+//     // ✅ Validate Required Fields
+//     if (!CnicNumber || CnicNumber.length < 11) {
+//       return res.status(400).json({ message: "CNIC Number is required and must be at least 11 digits" });
+//     }
+//     // ✅ Handle Image Uploads (Requires multer setup)
+//     const profileImage = req.files?.profileImage?.[0];
+//     const CnicFrontImage = req.files?.CnicFrontImage?.[0];
+//     const CnicBackImage = req.files?.CnicBackImage?.[0];
+
+//     // ✅ Class Lookup
+//     const toTitleCase = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+// role = toTitleCase(role);
+// // Continue
+// const roleDoc = await Role.findOne({ name: role });
+// if (!roleDoc) return res.status(400).json({ message: "Invalid role" });
+
+// const classDoc = await Class.findOne({ _id: assignedClass });
+//     if (!classDoc) {
+//       return res.status(400).json({ message: "Class not found with name: " + assignedClass });
+//     }
+//     assignedClass = classDoc._id;
+
+//     const isEmailTaken = require("../middlewares/checkisEmailUnique");
+//     if (await isEmailTaken(email)) {
+//       return res.status(401).json({ message: 'This email is already used by another user role' });
+//     }
+
+//     const subjectDoc = await Subject.findById(teachSubject);
+//     if (!subjectDoc) {
+//       return res.status(400).json({ message: "Subject not found: " + teachSubject });
+//     }
+        
+//     const admin = await Admin.findById(req.userId);
+//     if (!admin) {
+//       return res.status(404).json({ message: "Admin not found" });
+//     }
+
+//     const hashedPassword = await bcrypt.hash(password, 10);
+
+//     // ✅ Create New Teacher with new fields
+//     const newTeacher = await Teacher.create({
+//       name,
+//       email,
+//       password: hashedPassword,
+//       phone,
+//       salary,
+//       dob,
+//       gender,
+//       qualifications,
+//       address,
+//       CnicNumber,
+//       session:session._id,
+//       role,
+//       profileImage: profileImage
+//         ? {
+//             data: profileImage.buffer,
+//             contentType: profileImage.mimetype
+//           }
+//         : undefined,
+//       CnicFrontImage: CnicFrontImage
+//         ? {
+//             data: CnicFrontImage.buffer,
+//             contentType: CnicFrontImage.mimetype
+//           }
+//         : undefined,
+//       CnicBackImage: CnicBackImage
+//         ? {
+//             data: CnicBackImage.buffer,
+//             contentType: CnicBackImage.mimetype
+//           }
+//         : undefined,
+//       teachSubject: subjectDoc._id,
+//       assignedClass: [
+//         {
+//           class: assignedClass,
+//           incharge: incharge || false,
+//         }
+//       ]
+//     });
+//     await newTeacher.save();
+//     session.Teachers.push(newTeacher._id);
+//     await session.save();
+//     classDoc.teacher.push(newTeacher._id);
+//     await classDoc.save();
+//     admin.teachers.push(newTeacher._id);
+//     await admin.save();
+
+//     return res.status(201).json({
+//       message: "Teacher registered successfully",
+//       teacher: newTeacher
+//     });
+//   } catch (err) {
+//     console.error("Signup error:", err);
+//     return res.status(500).json({error: err.message });
+//   }
+// };
+
+
+
 const AddTeacher = async (req, res) => {
   try {
     let {
@@ -1625,52 +1753,80 @@ const AddTeacher = async (req, res) => {
     } = req.body;
 
     // 🔒 Input Sanitization
+    if (!email || !name || !password || !teachSubject || !assignedClass || !sessionId) {
+      return res.status(400).json({ message: "Required fields are missing." });
+    }
+    if(CnicNumber.length < 13){
+      return res.status(400).json({message:"Cnic must contain 13 digits."})
+    }
+    if(email.length < 11){
+      return res.status(400).json({message:"Email must contain 11 characters."})
+    }
+     if(address.length < 8){
+      return res.status(401).json({message:"Adress must be 8 characters."})
+     }
+      if(phone.length < 11){
+        return res.status(401).json({message:"Phone number is allowed 11 digits."})
+      }
+      if(password.length < 8){
+        return res.status(401).json({message:"Password must contain 8 characters."})
+      }
     email = email.trim().toLowerCase();
     name = name.trim();
     teachSubject = teachSubject.trim();
-// Validate Session Id From Client_Side 
-const session = await Session.findById(sessionId);
-if (!session) {
-  return res.status(404).json({ message: "Session Not Found" });
-}
-    // ✅ Validate Required Fields
+
+    // 🔁 Normalize role casing
+  
+    // 🧠 Validate Session
+    const session = await Session.findById(sessionId);
+    if (!session) {
+      return res.status(404).json({ message: "Session Not Found" });
+    }
+
+    // 🧠 Validate CNIC
     if (!CnicNumber || CnicNumber.length < 11) {
-      return res.status(400).json({ message: "CNIC Number is required and must be at least 11 digits" });
+      return res.status(400).json({ message: "CNIC Number must be at least 11 digits" });
     }
 
-    // ✅ Handle Image Uploads (Requires multer setup)
-    const profileImage = req.files?.profileImage?.[0];
-    const CnicFrontImage = req.files?.CnicFrontImage?.[0];
-    const CnicBackImage = req.files?.CnicBackImage?.[0];
+    // 🧠 Validate Role
+    const roleDoc = await Role.findOne({ name: { $regex: new RegExp(`^${role}$`, 'i') } });
+//    const roleDoc = await Role.findOne({ name: role });
+console.log("roleDoc",roleDoc);
+    if (!roleDoc) return res.status(400).json({ message: "Invalid role" });
 
-    // ✅ Class Lookup
- const roleDoc = await Role.findOne({ name: role });
-  if (!roleDoc) return res.status(400).json({ message: "Invalid role" });
-
-    const classDoc = await Class.findOne({ _id: assignedClass });
+    // 🧠 Validate Class
+    const classDoc = await Class.findById(assignedClass);
     if (!classDoc) {
-      return res.status(400).json({ message: "Class not found with name: " + assignedClass });
+      return res.status(400).json({ message: "Class not found: " + assignedClass });
     }
-    assignedClass = classDoc._id;
 
+    // 🧠 Check email uniqueness
     const isEmailTaken = require("../middlewares/checkisEmailUnique");
     if (await isEmailTaken(email)) {
       return res.status(401).json({ message: 'This email is already used by another user role' });
     }
 
+    // 🧠 Validate Subject
     const subjectDoc = await Subject.findById(teachSubject);
     if (!subjectDoc) {
       return res.status(400).json({ message: "Subject not found: " + teachSubject });
     }
-        
+
+    // 🧠 Validate Admin
     const admin = await Admin.findById(req.userId);
     if (!admin) {
       return res.status(404).json({ message: "Admin not found" });
     }
 
+    // 🔐 Hash Password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // ✅ Create New Teacher with new fields
+    // 📷 Handle Images
+    const profileImage = req.files?.profileImage?.[0];
+    const CnicFrontImage = req.files?.CnicFrontImage?.[0];
+    const CnicBackImage = req.files?.CnicBackImage?.[0];
+
+    // ✍️ Create Teacher
     const newTeacher = await Teacher.create({
       name,
       email,
@@ -1682,7 +1838,7 @@ if (!session) {
       qualifications,
       address,
       CnicNumber,
-      session:session._id,
+      session: session._id,
       role,
       profileImage: profileImage
         ? {
@@ -1705,17 +1861,19 @@ if (!session) {
       teachSubject: subjectDoc._id,
       assignedClass: [
         {
-          class: assignedClass,
+          class: classDoc._id,
           incharge: incharge || false,
         }
       ]
-      
     });
-    await newTeacher.save();
+
+    // 🔁 Save references
     session.Teachers.push(newTeacher._id);
     await session.save();
+
     classDoc.teacher.push(newTeacher._id);
     await classDoc.save();
+
     admin.teachers.push(newTeacher._id);
     await admin.save();
 
@@ -1723,9 +1881,10 @@ if (!session) {
       message: "Teacher registered successfully",
       teacher: newTeacher
     });
+
   } catch (err) {
     console.error("Signup error:", err);
-    return res.status(500).json({ message: "Server error on signup", error: err.message });
+    return res.status(500).json({ message: "Server error", error: err.message });
   }
 };
 
@@ -1840,8 +1999,9 @@ const AddStaff  = async (req,res)=>{
    try {
     const { name, role, email, password, phone,address,sessionId } = req.body;
     const file = req.file;
-const session = await Session.findById(sessionId);
+const session = await Session.findOne({_id:sessionId});
 if (!session) {
+  console.log("session",session);
   return res.status(404).json({ message: "Session Not Found" });
 }
     // Validate required fields

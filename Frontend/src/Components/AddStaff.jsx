@@ -70,7 +70,7 @@ const handleSubmit = async (e) => {
   data.append('role', formData.role);
   data.append('phone', formData.phone);
   data.append('address', formData.address);
-  
+   data.append('sessionId', formData.sessionId);
   if (formData.role === 'Accountant') {
     data.append('email', formData.email);
     data.append('password', formData.password);
@@ -91,13 +91,13 @@ const handleSubmit = async (e) => {
         },
       }
     );
-
     if (api.status === 201) {
       alert(`registered Successfully...`)
       navigate("/admin/dash");
     }
   } catch (err) {
     console.error(err);
+    console.log("formData",formData)
     alert('Error adding staff.');
   }
 };
@@ -223,11 +223,9 @@ const handleSubmit = async (e) => {
   >
     <option value="" disabled>Select Session</option>
     {adminData?.admin?.sessions?.map((session) => (
-      <option key={session._id} value={session._id}>
-  {session.name} (
-    {new Date(session.startDate).toLocaleDateString('en-GB', { timeZone: 'UTC' })} - 
-    {new Date(session.endDate).toLocaleDateString('en-GB', { timeZone: 'UTC' })}
-  )
+      <option key={session._id} value={session._id}> 
+    {new Date(session.startDate).getFullYear()} - 
+    {new Date(session.endDate).getFullYear()}
 </option>
     ))}
   </select>

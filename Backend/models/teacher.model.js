@@ -24,7 +24,6 @@ const TeacherSchema = new mongoose.Schema({
     type: String,
     minLength:8,
     required: true,
-    minlength: 3,
   },
   phone: {
     type: String,
@@ -54,7 +53,7 @@ const TeacherSchema = new mongoose.Schema({
     CnicNumber:{
     type:String,
     required:true,
-    minLength:11,
+    minLength:13,
    },
   salary: {
     type: Number,

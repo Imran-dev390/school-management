@@ -5,13 +5,16 @@ import { userDataContext } from '../Context-Api/UserContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaMoneyBillWave, FaFileInvoice, FaUserTie, FaChartBar } from "react-icons/fa";
 import { NavLink } from 'react-router-dom';
+import { teacherSidebarLinks } from '../utils/teacherSidebarLinks';
+import { accountantSidebarLinks } from '../utils/accountantSidebarLinks';
 //import { FaMoneyBillWave, FaFileInvoice, FaUserTie, FaChartBar } from 'react-icons/fa';
 
 const AccountantSidebar = () => {
     const {serverUrl} = useContext(authDataContext);
-    const {userData,setUserData} = useContext(userDataContext);
+    const {userData,setUserData,permissions} = useContext(userDataContext);
     const [isOpen,setIsOpen] = useState(false);
     const navigate = useNavigate();
+    const [Incharge,setIncharge] = useState(false);
      const handleLogout = async () => {
           try {
             await axios.get(serverUrl + "/api/auth/signout", { withCredentials: true });
@@ -27,6 +30,7 @@ const AccountantSidebar = () => {
             //toast.error("Logout failed");
           }
         };
+        console.log("accountant permissions = ",permissions);
   return (
     // <>
     // {/* Hamburger Button (Mobile Only) */}
@@ -128,7 +132,7 @@ const AccountantSidebar = () => {
       <img src="/logo.jpg" alt="Logo" className="w-full h-8 object-cover" />
     </div>
     <ul className="p-4 space-y-3 font-medium text-white">
-      <li className="active:text-[rgb(193,151,11)] rounded-xl p-2 flex items-center space-x-2">
+      {/* <li className="active:text-[rgb(193,151,11)] rounded-xl p-2 flex items-center space-x-2">
         <FaMoneyBillWave />
         <a href="#">Fees</a>
       </li>
@@ -146,7 +150,33 @@ const AccountantSidebar = () => {
       </li>
        <li className="active:text-[rgb(193,151,11)] p-2 rounded-xl">
             <Link to="/student/chat">💬 Chat</Link>
-          </li>
+          </li> */}
+          <li className="active:text-[rgb(193,151,11)]">
+                  <Link to="/accountant/dash">📊 Dashboard</Link>
+                </li>
+                {Incharge && permissions.includes("add_attendance") && (
+                    <li>
+                      <Link to="/Mark/Attendance">📝 Mark Attendance</Link>
+                    </li>
+                  )}
+           {permissions.map((key) => {
+              const item = accountantSidebarLinks[key];
+              return (
+                item && (
+                  <li key={key}>
+                    <Link to={item.to}>{item.label}</Link>
+                  </li>
+                )
+              );
+            })}
+             <li>
+                <Link to={`/${userData.role}/${userData.name}/update/password`}>
+                  🔒 Reset Password
+                </Link>
+              </li>
+              <li>
+                <Link to="/teacher/profile">👤 Profile</Link>
+              </li>
       <li>
         <button
           onClick={handleLogout}

@@ -295,7 +295,7 @@ if(loading) return <p>Loading...</p>
               value={
                 userData?.assignedClass
                   ?.flatMap((a) =>
-                    a.class.map((c) => `${c.name} (${c.section})`)
+                    a.class[0].map((c) => `${c.name} (${c.section})`)
                   )
                   .join(', ') || "N/A"
               }

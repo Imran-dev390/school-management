@@ -10,7 +10,12 @@ const MarkAttendance = () => {
   const { userData } = useContext(userDataContext);
   const { serverUrl } = useContext(authDataContext);
   //const classes = userData?.assignedClass?.class || []
-  const classes = userData?.assignedClass?.flatMap(ac => ac.class) || [];
+  //const classes = userData?.assignedClass?.flatMap(ac => ac.class) || [];
+const allAssignedClasses = userData?.assignedClass?.flatMap(ac => ac.class) || [];
+
+const inChargeClasses = allAssignedClasses.filter(cls =>
+  cls.students?.some(student => student.Classs?._id === cls._id)
+);
 
   const [date, setDate] = useState(() => new Date().toISOString().split('T')[0]);
   const [attendanceData, setAttendanceData] = useState({});
@@ -32,21 +37,21 @@ const MarkAttendance = () => {
 
 
 
-  useEffect(() => {
-  if (Object.keys(attendanceData).length === 0 && classes.length > 0) {
-    const initial = {};
-    classes.forEach((cls) => {
-      if (cls?.students?.length) {
-        initial[cls._id] = cls.students.map((student) => ({
-          id: String(student._id),
-          name: student.name,
-          status: 'Present',
-        }));
-      }
-    });
-    setAttendanceData(initial);
-  }
-}, [classes, attendanceData]);
+//   useEffect(() => {
+//   if (Object.keys(attendanceData).length === 0 && classes.length > 0) {
+//     const initial = {};
+//     classes.forEach((cls) => {
+//       if (cls?.students?.length) {
+//         initial[cls._id] = cls.students.map((student) => ({
+//           id: String(student._id),
+//           name: student.name,
+//           status: 'Present',
+//         }));
+//       }
+//     });
+//     setAttendanceData(initial);
+//   }
+// }, [classes, attendanceData]);
 
   /*const handleStatusChange = (classId, studentId, status) => {
     setAttendanceData((prev) => ({
@@ -56,6 +61,25 @@ const MarkAttendance = () => {
       ),
     }));
    };*/
+
+
+   useEffect(() => {
+  if (Object.keys(attendanceData).length === 0 && inChargeClasses.length > 0) {
+    const initial = {};
+    inChargeClasses.forEach((cls) => {
+      if (cls?.students?.length) {
+        initial[cls._id] = cls.students
+          .filter(st => st.Classs?._id === cls._id)  // double-check
+          .map((student) => ({
+            id: String(student._id),
+            name: student.name,
+            status: 'Present',
+          }));
+      }
+    });
+    setAttendanceData(initial);
+  }
+}, [inChargeClasses, attendanceData]);
 
    const handleStatusChange = (classId, studentId, status) => {
   //console.log(`Updating status of ${studentId} in class ${classId} to ${status}`);
@@ -130,40 +154,45 @@ const MarkAttendance = () => {
               />
             </div>
 
-            {classes.map((cls) => (
-              <div key={cls._id} className="mb-8">
-                <h2 className="text-xl font-bold mb-2 text-gray-700">
-                  Class: {cls.name} - Section: {cls.section}
-                </h2>
-                <table className="w-full border border-gray-300 text-center">
-                  <thead className="bg-[rgb(1,1,93)] text-white">
-                    <tr>
-                      <th className="py-2 px-4 border">Student Name</th>
-                      <th className="py-2 px-4 border">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {attendanceData[cls._id]?.map((student) => (
-                      <tr key={`${cls._id}-${student.id}`}>
-                        <td className="py-2 px-4 border">{student.name}</td>
-                        <td className="py-2 px-4 border">
-                          <select
-                            value={student.status}
-                            onChange={(e) =>
-                              handleStatusChange(cls._id, student.id, e.target.value)
-                            }
-                             className={student.status === "Absent" ? " text-red-500 border rounded px-2 py-1":" text-black border rounded px-2 py-1"}
-                          >
-                            <option value="Present">Present</option>
-                            <option value="Absent">Absent</option>
-                          </select>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            ))}
+           {inChargeClasses.map((cls) => (
+  <div key={cls._id} className="mb-8">
+    <h2 className="text-xl font-bold mb-2 text-gray-700">
+      Class: {cls.name} - Section: {cls.section}
+    </h2>
+    <table className="w-full border border-gray-300 text-center">
+      <thead className="bg-[rgb(1,1,93)] text-white">
+        <tr>
+          <th className="py-2 px-4 border">Student Name</th>
+          <th className="py-2 px-4 border">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {attendanceData[cls._id]?.map((student) => (
+          <tr key={`${cls._id}-${student.id}`}>
+            <td className="py-2 px-4 border">{student.name}</td>
+            <td className="py-2 px-4 border">
+              <select
+                value={student.status}
+                onChange={(e) =>
+                  handleStatusChange(cls._id, student.id, e.target.value)
+                }
+                className={
+                  student.status === "Absent"
+                    ? " text-red-500 border rounded px-2 py-1"
+                    : " text-black border rounded px-2 py-1"
+                }
+              >
+                <option value="Present">Present</option>
+                <option value="Absent">Absent</option>
+              </select>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+))}
+
 <div className="flex items-center justify-center">
 <button
               type="submit"

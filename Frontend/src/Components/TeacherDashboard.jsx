@@ -13,7 +13,6 @@ const DashboardCard = ({ title, value, color }) => (
 );
 
 const TeacherDashboard = () => {
-  const { fetchAdminData } = useContext(adminDataContext);
   const { userData ,permissions} = useContext(userDataContext);
   const { serverUrl } = useContext(authDataContext);
  
@@ -25,11 +24,23 @@ const TeacherDashboard = () => {
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [announcement, setAnnouncement] = useState({ title: "", message: "", classes: [] });
  //const assignedClass = userData?.assignedClass?.class || [];
- const assignedClass = userData?.assignedClass?.flatMap(ac => ac.class) || [];
-const allStudents = assignedClass.flatMap(cls => cls.students || []);
+//  const assignedClass = userData?.assignedClass?.flatMap(ac => ac.class) || [];
 // const allStudents = assignedClass.flatMap(cls => cls.students || []);
+// // const allStudents = assignedClass.flatMap(cls => cls.students || []);
  // console.log("assginecLASS", assignedClass);
    //console.log("all students",allStudents)
+
+   const assignedClass = userData?.assignedClass?.flatMap(ac => ac.class) || [];
+
+const inChargeClass = assignedClass.find(cls =>
+  cls.students?.some(student => student.Classs?._id === cls._id)
+);
+
+// Optional: fallback if no in-charge class is found
+const filteredStudents = inChargeClass
+  ? inChargeClass.students?.filter(student => student.Classs?._id === inChargeClass._id) || []
+  : [];
+
   const notifications = ["Meeting at 3PM", "Grade submissions due", "New resources uploaded"];
 
   const handlePublishMarks = (cls) => {
@@ -159,7 +170,7 @@ console.log("userData",permissions);
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           <DashboardCard title="Total Classes" value={assignedClass.length} color="bg-blue-500" />
           <DashboardCard title="Assignments Given" value="14" color="bg-green-500" />
-          <DashboardCard title="Students" value={allStudents.length} color="bg-yellow-500" />
+          <DashboardCard title="Students" value={filteredStudents.length} color="bg-yellow-500" />
           <DashboardCard title="Messages" value="5 New" color="bg-purple-500" />
         </div>
 
@@ -188,8 +199,7 @@ console.log("userData",permissions);
                 <th className="py-2">Subjects</th>
               </tr>
             </thead>
-            <tbody>
-              {assignedClass.map((cls, classIndex) =>
+              {/* {assignedClass.map((cls, classIndex) =>
                 (cls.students || []).map((student, studentIndex) => (
                   <tr key={`${classIndex}-${studentIndex}`} className="border-t">
                     <td className="py-2">{student.name}</td>
@@ -210,7 +220,38 @@ console.log("userData",permissions);
                     </td>
                   </tr>
                 ))
-              )}
+              )} */}
+
+              <tbody>
+  {filteredStudents.length === 0 ? (
+    <tr>
+      <td colSpan="4" className="text-center text-gray-500 py-4">
+        No students found for your in-charge class.
+      </td>
+    </tr>
+  ) : (
+    filteredStudents.map((student, index) => (
+      <tr key={student._id} className="border-t">
+        <td className="py-2">{student.name}</td>
+        <td className="py-2">
+          {student.leave?.length || 0}
+          <button
+            onClick={() => handleLeaveDetails(student)}
+            className="ml-2 text-blue-600 hover:underline"
+          >
+            View Leaves
+          </button>
+        </td>
+        <td className="py-2">{inChargeClass?.name || "N/A"}</td>
+        <td className="py-2">
+          {Array.isArray(userData.teachSubject) && userData.teachSubject.length > 0
+            ? userData.teachSubject.map(sub => sub.name).join(", ")
+            : "Not Assigned"}
+        </td>
+      </tr>
+    ))
+  )}
+
             </tbody>
           </table>
         </div>

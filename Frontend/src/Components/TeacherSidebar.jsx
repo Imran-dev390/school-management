@@ -143,7 +143,6 @@ const TeacherSidebar = () => {
       </svg>
     </button>
   </div>
-
   {/* Overlay (Mobile) */}
   {isOpen && (
     <div
@@ -151,7 +150,6 @@ const TeacherSidebar = () => {
       onClick={() => setIsOpen(false)}
     ></div>
   )}
-
   {/* Sidebar */}
   <aside
     className={`fixed z-40 top-0 left-0 h-full w-64 bg-[rgb(1,1,93)] text-white transform  ${
@@ -170,7 +168,6 @@ const TeacherSidebar = () => {
       <Link to="/Mark/Attendance">📝 Mark Attendance</Link>
     </li>
   )}
-
   {/* Map permissions-based links */}
   {permissions.map((key) => {
     const item = teacherSidebarLinks[key];
@@ -182,30 +179,20 @@ const TeacherSidebar = () => {
       )
     );
   })}
-
   {/* Common links */}
   <li>
     <Link to={`/${userData.role}/${userData.name}/update/password`}>
       🔒 Reset Password
     </Link>
   </li>
-
   <li>
     <Link to="/teacher/profile">👤 Profile</Link>
   </li>
-
-
-
-
-
-
-
    {/*   {Incharge && (
         <li className="active:text-[rgb(193,151,11)]">
           <Link to="/Mark/Attendance">➕ Mark Attendance</Link>
         </li>
       )}
-
       <li className="active:text-[rgb(193,151,11)]">
         <Link to="#">📚 My Classes</Link>
       </li>
@@ -239,7 +226,6 @@ const TeacherSidebar = () => {
 <li className="active:text-[rgb(193,151,11)]">
   <Link to="/teacher/chat">💬 Chat</Link>
 </li> */}
-
       <li>
         <button
           onClick={handleLogout}
@@ -253,5 +239,4 @@ const TeacherSidebar = () => {
 </>
   )
 }
-
 export default TeacherSidebar

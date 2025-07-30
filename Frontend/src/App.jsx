@@ -854,6 +854,12 @@ import AdminAdministraterDash from "./Components/AdminAdministraterDash";
 import AdminAddRoles from "./Components/AdminAddRoles";
 import AdminViewRoles from "./Components/AdminViewRoles";
 import AddSubjectRoleBased from "./Components/AddSubjectRoleBased";
+import ViewSubjectsRoleBased from "./Components/ViewSubjectsRoleBased";
+import ViewAttendanceRoleBased from "./Components/ViewAttendanceRoleBased";
+import ViewStudentsRolebased from "./Components/VIewStudentsRolebased";
+import TeacherViewStudentsLeave from "./Components/TeacherViewStudentsLeave";
+import TeacherViewTimetable from "./Components/TeacherViewTimetable";
+import TeacherAddTimetable from "./Components/TeacherAddTimetable";
 
 // Lazy loaded components
 const Register = lazy(() => import("./Components/Register"));
@@ -1073,12 +1079,73 @@ function App() {
               )
             }
           />
-
+           <Route
+            path="/teacher/view/students/leave"
+            element={
+              userData ? (
+                role === "Teacher" ? <TeacherViewStudentsLeave /> : <Navigate to="/" />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+         
+           <Route
+            path="/teacher/timetable"
+            element={
+              userData ? (
+                role === "Teacher" ? <TeacherViewTimetable/> : <Navigate to="/" />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+           <Route
+            path="/teacher/timetable/add"
+            element={
+              userData ? (
+                role === "Teacher" ? <TeacherAddTimetable/> : <Navigate to="/" />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
             <Route
-            path="/teacher/subjects/add"
+            path={`/teacher/subjects/add`}
             element={
               userData ? (
                 role === "Teacher" ? <AddSubjectRoleBased/> : <Navigate to="/" />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          /> 
+           <Route
+            path="/teacher/subjects"
+            element={
+              userData ? (
+                role === "Teacher" ? <ViewSubjectsRoleBased/> : <Navigate to="/" />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+
+           <Route
+            path="/teacher/attendance/view"
+            element={
+              userData ? (
+                role === "Teacher" ? <ViewAttendanceRoleBased/> : <Navigate to="/" />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+           <Route
+            path="/teacher/students"
+            element={
+              userData ? (
+                role === "Teacher" ? <ViewStudentsRolebased/> : <Navigate to="/" />
               ) : (
                 <Navigate to="/login" />
               )

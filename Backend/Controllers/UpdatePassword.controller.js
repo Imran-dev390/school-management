@@ -3,11 +3,13 @@ const bcrypt = require('bcrypt');
 const Admin = require('../models/admin.model');
 const Teacher = require('../models/teacher.model');
 const Student = require('../models/student.model');
+const Accountant = require("../models/addStaff.model");
 
 const models = {
   admin: Admin,
   teacher: Teacher,
   student: Student,
+  accountant:Accountant
 };
 
 const UpdatePassword = async (req, res) => {

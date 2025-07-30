@@ -206,6 +206,7 @@ import { userDataContext } from '../Context-Api/UserContext';
 import { adminDataContext } from '../Context-Api/AdminContext';
 import { authDataContext } from '../Context-Api/AuthContext';
 import AdminTeachDashboardHeader from './AdminTeachDashboardHeader';
+import AccountantSidebar from './AccountantSidebar';
 
 const UpdatePasswordForm = () => {
   const { userData } = useContext(userDataContext);
@@ -274,15 +275,22 @@ console.log("api",api.data);
     <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-br bg-white">
       {userData.role === 'Teacher' && <TeacherSidebar />}
       {userData.role === 'Student' && <StudentSidebar />}
+       {userData.role === 'Accountant' && <AccountantSidebar />}
       {userData.role === 'Admin' &&
       <AdminSidebar/>
       }
-      <div className="wrapper flex flex-col w-full  ml-2">
+      <div className="wrapper flex flex-col w-full gap-3 px-4">
        <AdminTeachDashboardHeader/>
-      <main className="flex-1 p-6 flex items-center justify-center">
-        <div className="w-full max-w-xl bg-white rounded-2xl shadow-lg p-8 text-gray-900">
-          <h2 className="text-2xl font-bold mb-6 text-center text-blue-700">Update Password</h2>
-
+         <div className="flex w-full text-white p-3 pb-3 justify-center   rounded-md bg-[rgb(1,1,93)] flex-col md:flex-row  items-center border-b ">
+                  <div className="flex ">
+        <h2 className="text-xl font-bold  flex justify-center items-center gap-2">
+                      <i className="fas fa-calendar-alt"></i> Update Password
+                    </h2>
+                  </div>
+                  </div>
+       
+      <main className="p-1 flex  items-center  justify-center">
+        <div className="w-full  bg-white border border-grey-300 rounded-2xl shadow-lg p-8 text-gray-900">
           {status && (
             <p
               className={`mb-4 text-sm text-center ${
@@ -293,7 +301,7 @@ console.log("api",api.data);
             </p>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5 grid-cols-1 md:grid-cols-2 grid gap-3  items-center">
             <div>
               <label className="block text-sm font-medium mb-1">
                 Current Password
@@ -332,16 +340,17 @@ console.log("api",api.data);
                 value={form.confirmPassword}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:outline-none"
+                className="w-full  px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:outline-none"
               />
             </div>
-
+<div className="flex items-center justify-center ">
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-150"
+              className="w-fit bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-150"
             >
               Save Changes
             </button>
+            </div>
           </form>
         </div>
       </main>

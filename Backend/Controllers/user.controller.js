@@ -372,29 +372,78 @@ const getCurrentUser = async function(req, res) {
 
     const accountant = await Staff.findOne({ _id: userId, role: "Accountant" }).select("-password");
 
+    // const teacher = await Teacher.findOne({ _id: userId })
+    //   .select("-password")
+    //   .populate("teachSubject")
+    //   .populate({
+    //     path: "assignedClass.class",
+    //     populate:{
+    //       path:"attendance",
+    //       select:"date status",
+    //     },
+    //     populate: [
+    //       {
+    //         path: "students",
+    //         select: "name phone leave Classs gender email Roll parent",
+    //         populate:{
+    //           path:"Classs",
+    //           select:"name section"
+    //         },
+    //         populate: {
+    //           path: "leave",
+    //           select: "date leave"
+    //         }
+    //       },
+    //       {
+    //         path: "timeTable"
+    //       },
+    //       {
+    //         path: "subjects",
+    //         select: "name"
+    //       }
+    //     ]
+    //   });
+
+
     const teacher = await Teacher.findOne({ _id: userId })
-      .select("-password")
-      .populate("teachSubject")
-      .populate({
-        path: "assignedClass.class",
+  .select("-password")
+  .populate("teachSubject")
+  .populate({
+    path: "assignedClass.class",
+    populate: [
+      {
+        path: "attendance",
+        select: "date status"
+      },
+      {
+        path: "students",
+        select: "name phone leave Classs gender email Roll parent",
         populate: [
           {
-            path: "students",
-            select: "name phone leave",
-            populate: {
-              path: "leave",
-              select: "date leave"
-            }
+            path: "Classs",
+            select: "name section"
           },
           {
-            path: "timeTable"
-          },
-          {
-            path: "subjects",
-            select: "name"
+            path: "leave",
+            select: "date leave"
           }
         ]
-      });
+      },
+     {
+  path: "timeTable",
+  populate: {
+    path: "periods.teacher periods.subject",
+    select: "name email gender"
+  }
+},
+
+      {
+        path: "subjects",
+        select: "name"
+      }
+    ]
+  });
+
 
     // Now determine which user matched
     let currentUser = null;
@@ -417,18 +466,39 @@ const getCurrentUser = async function(req, res) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Now check permissions only for Teacher or Accountant
-    let rolePermissions = [];
-    if (["Teacher", "Accountant"].includes(roleName)) {
-      const roleDoc = await Role.findOne({ name: roleName });
-      rolePermissions = roleDoc?.permissions || [];
-    }
+   // Now check permissions only for Teacher or Accountant
+    // let rolePermissions = [];
+    // if (["Teacher", "Accountant"].includes(roleName)) {
+    //   const roleDoc = await Role.findOne({ name: roleName });
+    //   rolePermissions = roleDoc?.permissions || [];
+    // }
 
-    return res.status(200).json({
-      ...currentUser.toObject(),
-      role: roleName,
-      permissions: rolePermissions
-    });
+    // return res.status(200).json({
+    //   ...currentUser.toObject(),
+    //   role: roleName,
+    //   permissions: rolePermissions
+    // });
+    let rolePermissions = [];
+
+// Make check case-insensitive
+const normalizedRoleName = roleName?.toLowerCase();
+if (["teacher", "accountant"].includes(normalizedRoleName)) {
+  // Find role in DB regardless of casing
+  const roleDoc = await Role.findOne({
+    name: { $regex: new RegExp(`^${roleName}$`, 'i') }
+  });
+  rolePermissions = roleDoc?.permissions || [];
+
+  // Optional: normalize to DB casing if you want consistency
+  //roleName = roleDoc?.name || roleName;
+}
+
+return res.status(200).json({
+  ...currentUser.toObject(),
+  role: roleName, // Capitalized as stored in DB
+  permissions: rolePermissions
+});
+
 
   } catch (err) {
     console.log("User Controller Error", err);

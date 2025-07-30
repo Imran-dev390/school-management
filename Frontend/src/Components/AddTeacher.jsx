@@ -131,12 +131,13 @@ const [submitted,setSubmitted] = useState(false);
         headers: { 'Content-Type': 'multipart/form-data' },
       }
     );
+    if(result.status === 201 ){
   toast.success('Teacher Successfully Registered');
-    await fetchAdminData();
     navigate('/admin/dash');
     setSubmitted(true);
+    }
   } catch (err) {
-    toast.error(err?.response?.data?.message || 'Error registering teacher');
+    toast.error(err?.response?.data.message || 'Error registering teacher');
     console.error(err);
   }
 };
@@ -440,69 +441,6 @@ const [submitted,setSubmitted] = useState(false);
  {/* <ToastContainer position="top-right" autoClose={4000} hideProgressBar={false} theme="colored" />
 </div> */}
      {/* </div> */}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
      <div className="bg-white rounded-2xl max-w-3xl shadow-2xl mt-32 sm:mt-8 mx-auto p-8 w-full sm:max-w-5xl transform transition-all duration-500 hover:scale-[1.02]">
   <h2 className="text-3xl font-bold text-center text-[rgb(1,1,93)] mb-6">Add New Teacheroo 👩‍🏫</h2>
  {submitted ? (
@@ -552,8 +490,6 @@ const [submitted,setSubmitted] = useState(false);
           Full Name
         </label>
       </div>
-
-
       {/* Email */}
       <div className="relative w-full">
         <input
@@ -569,7 +505,6 @@ const [submitted,setSubmitted] = useState(false);
           Email
         </label>
       </div>
-
       {/* Password */}
       <div className="relative w-full">
         <input
@@ -585,7 +520,6 @@ const [submitted,setSubmitted] = useState(false);
           Password
         </label>
       </div>
-
       {/* Gender */}
       <div className="relative w-full">
         <select
@@ -616,7 +550,6 @@ const [submitted,setSubmitted] = useState(false);
     Date of Birth
   </label>
 </div>
-
       {/* Phone Number */}
       <div className="relative w-full">
         <input
@@ -646,7 +579,6 @@ const [submitted,setSubmitted] = useState(false);
           Address
         </label>
       </div>
-
         <div className="relative w-full">
         <input
           type="text"
@@ -677,7 +609,6 @@ const [submitted,setSubmitted] = useState(false);
     {new Date(session.endDate).toLocaleDateString('en-GB', { timeZone: 'UTC' })}
   ) */}
   {(new Date(session.startDate).getFullYear())} - {(new Date(session.endDate).getFullYear())}
-  
 </option>
     ))}
   </select>
@@ -698,7 +629,6 @@ const [submitted,setSubmitted] = useState(false);
           CNIC Number
         </label>
       </div>
-
       {/* CNIC Front Image */}
       <div className="relative w-full">
         <label className="block mb-1 text-sm font-medium text-gray-700">CNIC Front Image</label>
@@ -710,7 +640,6 @@ const [submitted,setSubmitted] = useState(false);
           className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:border file:border-gray-300 file:rounded-lg file:text-sm file:bg-white file:text-gray-700 hover:file:bg-gray-100"
         />
       </div>
-
       {/* CNIC Back Image */}
       <div className="relative w-full">
         <label className="block mb-1 text-sm font-medium text-gray-700">CNIC Back Image</label>
@@ -722,7 +651,6 @@ const [submitted,setSubmitted] = useState(false);
           className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:border file:border-gray-300 file:rounded-lg file:text-sm file:bg-white file:text-gray-700 hover:file:bg-gray-100"
         />
       </div>
-
       {/* Salary */}
       <div className="relative w-full">
         <input
@@ -738,7 +666,6 @@ const [submitted,setSubmitted] = useState(false);
           Salary
         </label>
       </div>
-
       {/* Assigned Class */}
       <div className="relative w-full">
         <select
@@ -757,7 +684,6 @@ const [submitted,setSubmitted] = useState(false);
         </select>
         <label className="absolute left-3 -top-2 text-sm  text-[rgb(1,1,93)] bg-white px-1">Class</label>
       </div>
-
       {/* Subject */}
       <div className="relative w-full">
         <select
@@ -777,7 +703,6 @@ const [submitted,setSubmitted] = useState(false);
         <label className="absolute left-3 -top-2 text-sm  text-[rgb(1,1,93)] bg-white px-1">Subject</label>
       </div>
     </div>
-
     {/* InCharge Checkbox */}
     <div className="flex items-center space-x-3">
       <input
@@ -792,7 +717,6 @@ const [submitted,setSubmitted] = useState(false);
         Is In-Charge of the Class?
       </label>
     </div>
-
     {/* Submit */}
     <button
       type="submit"

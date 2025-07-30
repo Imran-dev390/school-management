@@ -9,15 +9,21 @@ exports.createRole = async (req, res) => {
     if (!name || !Array.isArray(permissions)) {
       return res.status(400).json({ message: 'Role name and permissions are required.' });
     }
+      // 🔠 Normalize input
+    const normalizedName = name.trim().toLowerCase();
 
+    // ✅ Allowed role names (lowercase only)
+    const allowedRoles = ['teacher', 'accountant', 'vice principal'];
+
+    if (!allowedRoles.includes(normalizedName)) {
+      return res.status(400).json({ message: 'Invalid role. Please check the spelling.' });
+    }
     const existing = await Role.findOne({ name });
     if (existing) {
       return res.status(409).json({ message: 'Role name already exists.' });
     }
-
     const newRole = new Role({ name, permissions });
     await newRole.save();
-
     res.status(201).json({ message: 'Role created successfully.', role: newRole });
   } catch (err) {
     console.error('Create role error:', err);

@@ -10,6 +10,8 @@ import AdminLayout from './AdminLayout';
 import { useRef } from 'react';
 import TeacherSidebar from './TeacherSidebar';
 import AdminTeachDashboardHeader from './AdminTeachDashboardHeader';
+import AccountantSidebar from './AccountantSidebar';
+import { userDataContext } from '../Context-Api/UserContext';
 
 
 const MultiSelectDropdown = ({ options, selectedValues, onChange, placeholder = "Select classes" }) => {
@@ -127,7 +129,7 @@ const MultiSelectDropdown = ({ options, selectedValues, onChange, placeholder = 
 const AddSubjectRoleBased = () => {
 const { serverUrl } = useContext(authDataContext);
 const [classes,setClasses] = useState([]); 
-
+const {userData} = useContext(userDataContext);
   const [subjectData, setSubjectData] = useState({
     name: "",
     code: "",
@@ -193,7 +195,10 @@ console.log("classoption",classOptions);
 
       if (response.status === 201 || response.status === 200) {
         alert("Subject added successfully!");
-        subjectData({name:"",code:"",classes:[],department:""});
+       subjectData.name="";
+       subjectData.classes=[];
+       subjectData.code="";
+       subjectData.department="";
         // navigate("/admin/dash");
       }
     } catch (err) {
@@ -203,7 +208,9 @@ console.log("classoption",classOptions);
   };
      return (
        <div className="flex flex-col md:flex-row min-h-screen bg-white gap-3">
+        {userData.role==="Teacher" &&
         <TeacherSidebar/>
+}
     <div className="flex h-full w-full flex-col gap-3 px-4">
         <AdminTeachDashboardHeader/>
          <div className="flex w-full p-2  bg-[rgb(1,1,93)] text-white justify-between items-center mb-4">
