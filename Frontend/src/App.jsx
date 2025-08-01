@@ -860,6 +860,7 @@ import ViewStudentsRolebased from "./Components/VIewStudentsRolebased";
 import TeacherViewStudentsLeave from "./Components/TeacherViewStudentsLeave";
 import TeacherViewTimetable from "./Components/TeacherViewTimetable";
 import TeacherAddTimetable from "./Components/TeacherAddTimetable";
+import Landing from "./Components/Landing";
 
 // Lazy loaded components
 const Register = lazy(() => import("./Components/Register"));
@@ -1100,6 +1101,7 @@ function App() {
               )
             }
           />
+          <Route path="/home" element={<Landing/>}></Route>
            <Route
             path="/teacher/timetable/add"
             element={
