@@ -217,6 +217,7 @@ import AdminTeachDashboardHeader from './AdminTeachDashboardHeader';
 import { Link } from 'react-router-dom';
 
 const AddClassManage = () => {
+  const mern = "Mern Stack";
   const { adminData, fetchAdminData } = useContext(adminDataContext);
   const { classes = [], sessions = [], current_session_id } = adminData?.admin || {};
   const [searchTerm, setSearchTerm] = useState('');

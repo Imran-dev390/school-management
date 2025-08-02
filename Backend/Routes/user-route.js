@@ -10,7 +10,7 @@ const { AddSubjects } = require("../Controllers/auth.controller");
 const router = express.Router();
 const Student = require('../models/student.model');
 const Subject = require("../models/Subjects.model");
-const UpdatePassword = require('../controllers/UpdatePassword');
+//const UpdatePassword = require('../controllers/UpdatePassword');
 router.get("/home",isAuth,getCurrentUser);
 // PUT /api/:role/update-password
 router.put('/:role/update-password',isAuth,UpdatePassword);
