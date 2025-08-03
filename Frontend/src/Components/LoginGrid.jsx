@@ -399,8 +399,9 @@ const loginItems = [
     intro: 'Trace Student Fees Expenses all at a Place.',
   },
   {
-    img: 'https://cdn-icons-png.flaticon.com/512/847/847969.png', // Student
-    link: 'https://wpschool.weblizar.com/',
+  //  img: 'https://cdn-icons-png.flaticon.com/512/847/847969.png', // Student
+   img: 'https://cdn-icons-png.flaticon.com/512/3135/3135755.png', // Student  
+  link: 'https://wpschool.weblizar.com/',
     role: 'Student',
     intro: 'Collaborate With School Teacher , Exam , Classes Activities at all.',
   },

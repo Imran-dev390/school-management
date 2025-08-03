@@ -69,10 +69,10 @@ const Landing = () => {
 
 <span className='text-white text-lg'>Home /
 School Management - Education & Learning Management</span>
-<div className="flex items-center justify-center">
+<div className="flex items-center  justify-center">
           <a
-            href="https://app.awferalms.com/"
-            className="inline-block w-fit justify-center items-center bg-gradient-to-r from-[rgb(1,1,93)] to-yellow-400 font-bold rounded-full hover:bg-blue-600 text-white  px-6 py-3  shadow transition text-xl"
+            href=""
+            className="inline-block mt-6 w-fit justify-center items-center bg-gradient-to-r from-[rgb(1,1,93)] to-yellow-400 font-bold rounded-full hover:bg-blue-600 text-white  px-6 py-3  shadow transition text-xl"
           >
             Request for a Demo
           </a>

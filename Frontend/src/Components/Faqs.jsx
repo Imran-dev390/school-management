@@ -64,7 +64,7 @@ const accordionData = [
   }
 ];
 const Faqs = () => {
-      const [activeAccordion, setActiveAccordion] = useState(0);
+      const [activeAccordion, setActiveAccordion] = useState(null);
 
   const toggleAccordion = (index) => {
     setActiveAccordion(activeAccordion === index ? null : index);

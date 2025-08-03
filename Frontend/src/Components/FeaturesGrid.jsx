@@ -20,7 +20,7 @@ import {
 
 const sectionData = [
   {
-    title: "Academic",
+    title: "Teacher",
     items: [
       ["Classes and Sections", "Create Classes and Sections in a School", <FaChalkboardTeacher />],
       ["Subjects", "Add Different Types of Subjects", <FaBookOpen />],
@@ -35,6 +35,9 @@ const sectionData = [
       ["Student Admission", "Add new admissions to a class", <FaUserPlus />],
       ["Student Promotion", "Promote student from one class to another", <FaArrowUp />],
       ["Student Transfer", "Transfer student from one school to another", <FaExchangeAlt />],
+      ["Send Leave", "Student can Send Leave to Class Teacher", <FaExchangeAlt />],
+      ["Payment History", "Student Can View Details of Payment History", <FaExchangeAlt />],
+      ["Fee Voucher", "Student Fee Voucher Generation", <FaExchangeAlt />],
     ],
   },
   {

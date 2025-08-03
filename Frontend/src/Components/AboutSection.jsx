@@ -120,7 +120,7 @@ const AboutSection = () => {
         <button className="bg-red-600 text-white px-4 ml-8 py-1 rounded-md text-2xl">
             About Us
           </button>
-      <div className="flex flex-col lg:flex-row  gap-12">
+      <div className="flex flex-col lg:flex-row items-center gap-12">
         {/* Left Content Area */}
         <div className="w-full lg:w-1/2 text-white rounded-xl  p-6 md:p-8 space-y-4">
           {/* <button className="bg-red-600 text-white px-4 py-1 rounded-md text-sm">

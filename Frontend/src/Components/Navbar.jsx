@@ -14,7 +14,7 @@ const Navbar = () => {
           <img
             src="logo.jpg"
             alt="Logo"
-            className="w-44 h-16 object-cover rounded-full"
+            className="w-60 h-16 object-cover rounded-full"
           />
           {/* <span className="text-2xl font-bold text-emerald-600 hidden sm:inline">MeriTaleem</span> */}
         </div>

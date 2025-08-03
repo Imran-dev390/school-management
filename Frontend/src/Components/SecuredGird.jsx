@@ -21,7 +21,7 @@ const SecuredGrid = () => {
       {/* Right Section */}
       <div className="space-y-4">
         <h1 className="text-3xl font-bold text-white">
-          Your Data, <span className="text-blue-600">Exclusively Yours</span>
+          Your Data, <span className="text-[#c19703]">Exclusively Yours</span>
         </h1>
         <p className="text-white">🔒 Fully Encrypted and Confidential</p>
         <p className="text-white">🚫 No Third Party Access or Control</p>
