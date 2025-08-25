@@ -3,7 +3,7 @@ import React from 'react';
 const SecuredGrid = () => {
   return (
     <div className="wrapper h-full w-full">
-    <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-2  gap-10 p-10 bg-[#000]  shadow-md">
+    <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-2  gap-10 p-10 bg-[rgb(1,1,93)]  shadow-md">
       {/* Left Section */}
       <div className="flex flex-col items-center  space-y-6">
         <div className=" rounded-lg w-full h-full overflow-hidden shadow-md">

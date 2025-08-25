@@ -104,7 +104,7 @@ const handleSubmit = async (e) => {
   return (
     <div className='flex flex-col md:flex-row min-h-screen bg-white'>
       <StudentSidebar />
-      <div className="main w-full h-full flex flex-col gap-3 mt-3 px-4">
+     <div className="main w-full h-full flex flex-col gap-3 mt-3 px-4">
         <AdminTeachDashboardHeader />
         <div className="flex w-full text-white p-3 rounded-md bg-[rgb(1,1,93)] flex-col md:flex-row justify-center items-center border-b pb-3">
           <h2 className="text-lg font-semibold flex items-center gap-2">

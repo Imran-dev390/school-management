@@ -33,7 +33,7 @@ export default function AccountantDashboard() {
     }
   },[userData])
   if(loading) return <p>Loading Data...</p>
-  console.log("Accoutant Role",userData.role);
+  //console.log("Accoutant Role",userData.role);
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
       {/* Sidebar */}

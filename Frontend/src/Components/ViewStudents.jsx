@@ -485,12 +485,10 @@ const sectionOptions = selectedClassObj ? [selectedClassObj.section] : [];
          //  setTotalStudents(prev => prev.filter(t => t._id !== id));
           // Remove from filtered list
       setFilteredStudents((prev) => prev.filter((student) => student._id !== id));
-
       // Also update from full list if no search is performed
       if (!searchPerformed) {
         adminData.admin.students = adminData.admin.students.filter((student) => student._id !== id);
       }
-
       // Reset pagination if current page becomes empty
       if (paginatedStudents.length === 1 && currentPage > 1) {
         setCurrentPage(currentPage - 1);

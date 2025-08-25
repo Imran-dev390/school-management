@@ -90,7 +90,6 @@ const TransferRecord = require("../models/TransferRecord.model");
 
 const createTransferRecord = async (req, res) => {
   const { studentId, toSchool, toClass, note } = req.body;
-
   try {
     const student = await Student.findById(studentId);
     const admin = await Admin.findById(req.userId);

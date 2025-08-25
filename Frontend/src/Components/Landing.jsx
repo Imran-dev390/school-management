@@ -6,7 +6,7 @@ import Navbar from './Navbar'
 import FeaturesGrid from './FeaturesGrid'
 import SecuredGird from './SecuredGird'
 import Faqs from './Faqs'
-
+import Typewriter from 'typewriter-effect';
 const Landing = () => {
   return (
     <div className='w-full min-h-screen  bg-white'>
@@ -62,7 +62,14 @@ const Landing = () => {
             Education Solution
           </span>
           <h1 className="text-3xl md:text-5xl lg:text-6xl 2xl:text-7xl leading-tight text-white font-bold mb-6">
-           Versatile - <span className='text-white'>AI-Powered</span> ERP System For <span className='text-[#c19703]'>School</span>
+       <Typewriter
+        options={{
+          strings: [' Versatile AI-Powered' , 'ERP System For School'],
+          autoStart: true,
+          loop: true,
+        }}
+      />
+           {/* Versatile - <span className='text-white'>AI-Powered</span> ERP System For <span className='text-[#c19703]'>School</span> */}
           </h1>
           <p className='text-2xl tracking-tighter md:text-3xl lg:text-4xl text-white'>Meri Taleem ERP system is the best to manage complete school operations. The system has different access rights for School Admin, Teacher, Student and Accountant
 </p>
@@ -80,10 +87,10 @@ School Management - Education & Learning Management</span>
         </div>
       </div>
     </section>
-    <section className="px-6 bg-[rgb(12,14,43)] flex items-center justify-center h-full w-full">
+    <section className="px-6 bg-[rgb(1,1,93)] flex items-center justify-center h-full w-full">
          <AboutSection/>
     </section>
-    <section className="bg-[rgb(23,15,47)]">
+    <section className="bg-[rgb(1,1,93)]">
         <div className="p-8">
         <h1 className="text-xl text-white sm:text-2xl md:text-3xl lg:text-4xl font-semibold ">Simply Your Workflow and Save Time</h1>
         <LoginGrid/>

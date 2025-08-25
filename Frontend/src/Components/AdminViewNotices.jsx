@@ -37,6 +37,7 @@ const AdminViewNotices = () => {
     setCurrentPage((prev) => Math.max(prev - 1, 1));
   };
 
+
   const handleNextPage = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   };
@@ -84,7 +85,7 @@ const AdminViewNotices = () => {
                 <tr key={event._id} className="border-b hover:bg-gray-100">
                   <td className="p-2 px-3 font-semibold border border-grey-300">{event.title} : <span className='font-light'>{event.description}</span></td>
                   <td className="p-2 px-3 border border-grey-300">{event.
-linkTo==="url" ? <a href={event.url} className='underline text-blue-400'>URL</a> : <a>{event.linkTo}</a>}</td>
+linkTo==="url" ? <a href={event.url} className='underline text-blue-400'>URL</a> :  event.linkTo==="attachment" ? <a href={event.attachment}>{event.linkTo}</a> : <a className='text-blue-500'>{event.linkTo}</a>}</td>
                   <td className="p-2 px-3 border border-grey-300 text-blue-600 hover:underline cursor-pointer">
                     {event.isActive ? "Active" : "UnActive"}
                   </td>

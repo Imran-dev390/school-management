@@ -64,7 +64,7 @@ const sectionData = [
 
 export default function FeaturesGrid() {
   return (
-    <div className="p-8 bg-gradient-to-b from-[rgb(23,15,47)] to-[rgb(12,14,43)] text-white">
+    <div className="p-8 bg-gradient-to-b bg-[rgb(1,1,93)] text-white">
       <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-center tracking-tight">
         Manage Your School with Ease, Anytime, Anywhere
       </h1>

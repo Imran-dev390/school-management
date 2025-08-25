@@ -810,7 +810,7 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+ // 0326-8808826
   const { serverUrl } = useContext(authDataContext);
   const { setUserData, getCurrentUser } = useContext(userDataContext);
   const { fetchAdminData } = useContext(adminDataContext);
@@ -1079,6 +1079,7 @@ function Login() {
               type={showPassword ? 'text' : 'password'}
               name="password"
               value={form.password}
+              autoComplete='off'
               onChange={handleChange}
               required
               className="w-full mt-1 px-2 py-3 border rounded-xl bg-slate-300 shadow-sm pr-10 focus:ring-2 focus:ring-indigo-400 focus:outline-none"
@@ -1110,10 +1111,10 @@ function Login() {
       {/* Contact Info */}
       <div className="text-center text-md space-y-1">
         <p className="font-semibold flex items-center justify-center gap-2">
-          CS Help: <FiPhone className="text-indigo-600" /> <span className="font-bold">0326-8808826</span>
+          CS Help: <FiPhone className="text-indigo-600" /> <span className="font-bold">0326-8818825</span>
         </p>
         <p className="font-semibold flex items-center justify-center gap-2">
-          Sale: <FiPhone className="text-green-600" /> <span className="font-bold">0326-8808826</span>
+          Sale: <FiPhone className="text-green-600" /> <span className="font-bold">0326-8818825</span>
         </p>
       </div>
       {/* Role Cards */}
