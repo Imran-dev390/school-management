@@ -1111,10 +1111,10 @@ function Login() {
       {/* Contact Info */}
       <div className="text-center text-md space-y-1">
         <p className="font-semibold flex items-center justify-center gap-2">
-          CS Help: <FiPhone className="text-indigo-600" /> <span className="font-bold">0326-8818825</span>
+          CS Help: <FiPhone className="text-indigo-600" /> <span className="font-bold">0326-8808826</span>
         </p>
         <p className="font-semibold flex items-center justify-center gap-2">
-          Sale: <FiPhone className="text-green-600" /> <span className="font-bold">0326-8818825</span>
+          Sale: <FiPhone className="text-green-600" /> <span className="font-bold">0326-8808826</span>
         </p>
       </div>
       {/* Role Cards */}
