@@ -14,7 +14,7 @@ const AddEvents = require("../Controllers/AddEvents.controller");
 const AddNotice = require("../Controllers/AddNotice.controller");
 const admin = require("../models/admin.model");
 const roleController = require("../Controllers/Role.controller");
-//const roleController = require("../Controller/Role.controller");
+const roleController = require("../Controller/Role.controller");
 const router =  expess.Router();
 
 router.get("/",isAuth, getAdminProfile);
