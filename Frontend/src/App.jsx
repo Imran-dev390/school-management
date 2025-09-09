@@ -1101,7 +1101,7 @@ function App() {
               )
             }
           />
-          <Route path="/home" element={<Landing/>}></Route>
+          {/* <Route path="/home" element={<Landing/>}></Route> */}
            <Route
             path="/teacher/timetable/add"
             element={

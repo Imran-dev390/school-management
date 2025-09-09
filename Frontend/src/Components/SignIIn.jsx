@@ -838,7 +838,7 @@ function Login() {
       toast.success('Logged in Successfully');
       navigate('/');
     } catch (err) {
-      const message = err.response?.data?.message || 'Login Failed';
+      const message = err.response?.data?.message || 'Developer imran has been access denied !';
       toast.error(message);
       setError(message);
     } finally {
